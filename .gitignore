@@ -1,0 +1,8 @@
+
+/Kitty.pro.user
+/Makefile*
+/bin/Kitty.exe
+/src/Makefile*
+/src/ui_*.h
+/src/*/moc_*.cpp
+/src/*/qrc_res.cpp
