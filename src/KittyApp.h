@@ -12,7 +12,8 @@ class KittyApp: public QApplication
 
   signals:
 
-  public slots:
+  private slots:
+    void slotCleanUp();
 
 };
 

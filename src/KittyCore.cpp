@@ -1,5 +1,6 @@
 #include "KittyCore.h"
 #include "wndMain.h"
+#include "wndDebug.h"
 
 #include <QtCore/QMutex>
 
@@ -15,6 +16,8 @@ KittyCore::~KittyCore()
   if(m_wndMain) {
     delete m_wndMain;
   }
+
+  wndDebug::destroy();
 }
 
 KittyCore* KittyCore::inst()
@@ -34,10 +37,12 @@ void KittyCore::destroy()
 {
   static QMutex mutex;
 
-  mutex.lock();
-  delete m_inst;
-  m_inst = 0;
-  mutex.unlock();
+  if(m_inst) {
+    mutex.lock();
+    delete m_inst;
+    m_inst = 0;
+    mutex.unlock();
+  }
 }
 
 wndMain *KittyCore::getWndMain()

@@ -9,7 +9,7 @@ class KittyCore
     ~KittyCore();
 
     static KittyCore *inst();
-    void destroy();
+    static void destroy();
 
     wndMain *getWndMain();
     void showWndMain();
