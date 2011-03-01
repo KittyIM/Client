@@ -18,6 +18,10 @@ void KittyActionMngr::loadDefaults()
   addAction(Actions::QUIT, new QAction(core->getIcon(Icons::QUIT), tr("Quit"), this));
   connect(getAction(Actions::QUIT), SIGNAL(triggered()), qApp, SLOT(quit()));
 
+  addAction(Actions::RESTART, new QAction(core->getIcon(Icons::REFRESH), tr("Restart"), this));
+  addAction(Actions::OPEN_PROFILE_FOLDER, new QAction(core->getIcon(Icons::FOLDER), tr("Profile folder"), this));
+  addAction(Actions::OPEN_KITTY_FOLDER, new QAction(core->getIcon(Icons::FOLDER_KITTY), tr("Kitty's folder"), this));
+
   addAction(Actions::SETTINGS, new QAction(core->getIcon(Icons::SETTINGS), tr("Settings"), this));
   addAction(Actions::SHOW_HIDE, new QAction(QIcon(), tr("Show / Hide"), this));
 }

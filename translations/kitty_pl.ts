@@ -19,7 +19,7 @@
         <location filename="../src/wndDebug.ui"/>
         <location filename="../src/ui_wndDebug.h" line="89"/>
         <source>Execute</source>
-        <translation type="unfinished"></translation>
+        <translation>Wykonaj</translation>
     </message>
     <message>
         <location filename="../src/wndDebug.ui"/>
@@ -29,20 +29,61 @@
     </message>
 </context>
 <context>
-    <name>wndMain</name>
+    <name>KittyActionMngr</name>
     <message>
-        <location filename="../src/wndMain.ui"/>
-        <location filename="../src/ui_wndMain.h" line="44"/>
-        <source>MainWindow</source>
-        <translation type="unfinished"></translation>
+        <location filename="../src/KittyActionMngr.cpp" line="18"/>
+        <source>Quit</source>
+        <translation>Zakończ</translation>
+    </message>
+    <message>
+        <location filename="../src/KittyActionMngr.cpp" line="21"/>
+        <source>Restart</source>
+        <translation>Uruchom ponownie</translation>
+    </message>
+    <message>
+        <location filename="../src/KittyActionMngr.cpp" line="22"/>
+        <source>Profile folder</source>
+        <translation>Folder profili</translation>
+    </message>
+    <message>
+        <location filename="../src/KittyActionMngr.cpp" line="23"/>
+        <source>Kitty&apos;s folder</source>
+        <translation>Folder Kitty</translation>
+    </message>
+    <message>
+        <location filename="../src/KittyActionMngr.cpp" line="25"/>
+        <source>Settings</source>
+        <translation>Ustawienia</translation>
+    </message>
+    <message>
+        <location filename="../src/KittyActionMngr.cpp" line="26"/>
+        <source>Show / Hide</source>
+        <translation>Pokaż / Ukryj</translation>
     </message>
 </context>
 <context>
-    <name>KittyActionMngr</name>
+    <name>wndMain</name>
     <message>
-        <location filename="../src/KittyActionMngr.cpp" line="13"/>
-        <source>Quit</source>
+        <location filename="../src/wndMain.ui"/>
+        <location filename="../src/ui_wndMain.h" line="60"/>
+        <source>toolBar</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/wndMain.ui"/>
+        <location filename="../src/ui_wndMain.h" line="61"/>
+        <source>toolBar_2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/wndMain.cpp" line="52"/>
+        <source>User</source>
+        <translation>Użytkownik</translation>
+    </message>
+    <message>
+        <location filename="../src/wndMain.cpp" line="62"/>
+        <source>Settings</source>
+        <translation>Ustawienia</translation>
     </message>
 </context>
 </TS>

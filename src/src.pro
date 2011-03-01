@@ -10,7 +10,7 @@ SOURCES    += main.cpp \
               KittyCore.cpp \
               wndDebug.cpp \
               KittyActionMngr.cpp \
-    KittyIconMngr.cpp
+              KittyIconMngr.cpp
 
 HEADERS    += KittyApp.h \
               wndMain.h \
@@ -19,7 +19,7 @@ HEADERS    += KittyApp.h \
               constants.h \
               SDK/constants.h \
               KittyActionMngr.h \
-    KittyIconMngr.h
+              KittyIconMngr.h
 
 FORMS      += wndMain.ui \
               wndDebug.ui

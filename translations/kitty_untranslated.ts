@@ -29,19 +29,60 @@
     </message>
 </context>
 <context>
-    <name>wndMain</name>
+    <name>KittyActionMngr</name>
     <message>
-        <location filename="../src/wndMain.ui"/>
-        <location filename="../src/ui_wndMain.h" line="44"/>
-        <source>MainWindow</source>
+        <location filename="../src/KittyActionMngr.cpp" line="18"/>
+        <source>Quit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/KittyActionMngr.cpp" line="21"/>
+        <source>Restart</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/KittyActionMngr.cpp" line="22"/>
+        <source>Profile folder</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/KittyActionMngr.cpp" line="23"/>
+        <source>Kitty&apos;s folder</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/KittyActionMngr.cpp" line="25"/>
+        <source>Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/KittyActionMngr.cpp" line="26"/>
+        <source>Show / Hide</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>KittyActionMngr</name>
+    <name>wndMain</name>
     <message>
-        <location filename="../src/KittyActionMngr.cpp" line="13"/>
-        <source>Quit</source>
+        <location filename="../src/wndMain.ui"/>
+        <location filename="../src/ui_wndMain.h" line="60"/>
+        <source>toolBar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/wndMain.ui"/>
+        <location filename="../src/ui_wndMain.h" line="61"/>
+        <source>toolBar_2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/wndMain.cpp" line="52"/>
+        <source>User</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/wndMain.cpp" line="62"/>
+        <source>Settings</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

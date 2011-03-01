@@ -7,10 +7,17 @@ namespace KittySDK
   {
     enum
     {
-      QUIT = 1,
+      KITTY = 1,
+      QUIT,
       SETTINGS,
       PLUGIN,
-
+      INFO,
+      PROFILE,
+      USER,
+      FOLDER,
+      FOLDER_KITTY,
+      REFRESH,
+      CONSOLE,
 
       LAST
     };
@@ -23,6 +30,9 @@ namespace KittySDK
       QUIT = 1,
       SHOW_HIDE,
       SETTINGS,
+      RESTART,
+      OPEN_KITTY_FOLDER,
+      OPEN_PROFILE_FOLDER,
 
 
       LAST

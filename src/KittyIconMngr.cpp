@@ -10,9 +10,25 @@ KittyIconMngr::KittyIconMngr(QObject *parent): QObject(parent)
 
 void KittyIconMngr::loadDefaults()
 {
-  addIcon(Icons::QUIT, QPixmap(":/glyphs/quit.png"), false);
-  addIcon(Icons::SETTINGS, QPixmap(":/glyphs/settings.png"), false);
-  addIcon(Icons::PLUGIN, QPixmap(":/glyphs/plugin.png"), false);
+  QMap<int, QString> defaults;
+  defaults.insert(Icons::KITTY, ":/icons/main.ico");
+  defaults.insert(Icons::QUIT, ":/glyphs/quit.png");
+  defaults.insert(Icons::SETTINGS, ":/glyphs/settings.png");
+  defaults.insert(Icons::PLUGIN, ":/glyphs/plugin.png");
+  defaults.insert(Icons::INFO, ":/glyphs/info.png");
+  defaults.insert(Icons::PROFILE, ":/glyphs/profile.png");
+  defaults.insert(Icons::USER, ":/glyphs/user.png");
+  defaults.insert(Icons::FOLDER, ":/glyphs/folder.png");
+  defaults.insert(Icons::FOLDER_KITTY, ":/glyphs/folder_kitty.png");
+  defaults.insert(Icons::REFRESH, ":/glyphs/refresh.png");
+  defaults.insert(Icons::CONSOLE, ":/glyphs/console.png");
+  //defaults.insert(Icons::, ":/glyphs/.png");
+
+  QMapIterator<int, QString> i(defaults);
+  while(i.hasNext()) {
+    i.next();
+    addIcon(i.key(), QPixmap(i.value()), false);
+  }
 
 }
 

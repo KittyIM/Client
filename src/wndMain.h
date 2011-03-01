@@ -16,6 +16,8 @@ class wndMain: public QMainWindow
     explicit wndMain(QWidget *parent = 0);
     ~wndMain();
 
+    void initToolbars();
+
   private:
     Ui::wndMain *m_ui;
 };

@@ -91,7 +91,7 @@ void KittyCore::showWndMain()
 QSystemTrayIcon *KittyCore::getTrayIcon()
 {
   if(!m_trayIcon) {
-    m_trayIcon = new QSystemTrayIcon(QIcon(":/icons/main.ico"));
+    m_trayIcon = new QSystemTrayIcon(getIcon(KittySDK::Icons::KITTY));
     m_trayIcon->setToolTip(QString("KittyIM v%1").arg(Constants::VERSION));
 
     QMenu *menu = new QMenu();
