@@ -10,7 +10,7 @@ namespace Ui
 
 class wndMain: public QMainWindow
 {
-    Q_OBJECT
+  Q_OBJECT
 
   public:
     explicit wndMain(QWidget *parent = 0);

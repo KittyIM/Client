@@ -9,9 +9,9 @@ wndMain::wndMain(QWidget *parent): QMainWindow(parent), m_ui(new Ui::wndMain)
 {
   m_ui->setupUi(this);
 
-  qDebug() << "Debug";
-  qWarning() << "Warning";
-  qCritical() << "Critical";
+  setWindowFlags(windowFlags() | Qt::Tool);
+
+  KittyCore::inst()->showTrayIcon();
 }
 
 wndMain::~wndMain()

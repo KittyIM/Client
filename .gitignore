@@ -6,3 +6,4 @@
 /src/ui_*.h
 /src/*/moc_*.cpp
 /src/*/qrc_res.cpp
+/src/object_script.Kitty.*

@@ -1,8 +1,9 @@
 #include "wndDebug.h"
 #include "ui_wndDebug.h"
 
-#include <QtCore/QDateTime>
+#include <QtCore/QDebug>
 #include <QtCore/QMutex>
+#include <QtCore/QDateTime>
 #include <QtGui/QMessageBox>
 #include <QtWebKit/QWebView>
 #include <QtWebKit/QWebFrame>
@@ -15,6 +16,8 @@ wndDebug::wndDebug(): QWidget(0), m_ui(new Ui::wndDebug)
   m_ui->setupUi(this);
 
   m_wvLog = new QWebView(this);
+  m_wvLog->setHtml("<html><head><style type=\"text/css\">body { font-family: Tahoma; font-size: 11px; }</style></head><body></body></html>");
+
   m_ui->verticalLayout->insertWidget(0, m_wvLog);
 }
 
@@ -27,22 +30,22 @@ void wndDebug::addMessage(QtMsgType type, const char *msg)
 {
   wndDebug::inst();
 
-  QString color = "white";
+  QString color = "#ffffff";
   switch(type) {
     case QtDebugMsg:
-      color = "#CCFFCC";
+      color = "#ccffcc";
     break;
 
     case QtWarningMsg:
-      color = "#FFFFCC";
+      color = "#ffffcc";
     break;
 
     case QtCriticalMsg:
-      color = "#FFCC99";
+      color = "#ffcc99";
     break;
 
     case QtFatalMsg:
-      color = "#FFCCCC";
+      color = "#ffcccc";
     break;
   }
 

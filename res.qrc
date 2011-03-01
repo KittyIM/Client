@@ -2,4 +2,9 @@
     <qresource prefix="/icons">
         <file alias="main.ico">res/icons/main.ico</file>
     </qresource>
+    <qresource prefix="/glyphs">
+        <file alias="quit.png">res/glyphs/quit.png</file>
+        <file alias="plugin.png">res/glyphs/plugin.png</file>
+        <file alias="settings.png">res/glyphs/settings.png</file>
+    </qresource>
 </RCC>
