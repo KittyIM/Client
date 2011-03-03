@@ -3,6 +3,7 @@
 
 #include <QtGui/QWidget>
 
+class QStringList;
 class QWebView;
 
 namespace Ui
@@ -22,13 +23,22 @@ class wndDebug: public QWidget
 
     static void addMessage(QtMsgType type, const char *msg);
 
-  private:
+  protected:
+    void showEvent(QShowEvent *event);
+
+  private slots:
+    void execCommand();
+
+    void on_refreshActionsButton_clicked();
+
+private:
     explicit wndDebug();
     wndDebug(const wndDebug &);
     void operator=(const wndDebug &);
 
   private:
     Ui::wndDebug *m_ui;
+    QStringList m_history;
     static wndDebug *m_inst;
     static QWebView *m_wvLog;
 };

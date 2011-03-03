@@ -25,18 +25,15 @@ namespace KittySDK
 
   namespace Actions
   {
-    enum
-    {
-      QUIT = 1,
-      SHOW_HIDE,
-      SETTINGS,
-      RESTART,
-      OPEN_KITTY_FOLDER,
-      OPEN_PROFILE_FOLDER,
-
-
-      LAST
-    };
+    const char * const QUIT = "Kitty.Quit";
+    const char * const SHOW_HIDE = "Kitty.ShowHide";
+    const char * const SETTINGS = "Kitty.Settings";
+    const char * const RESTART = "Kitty.Restart";
+    const char * const OPEN_KITTY_FOLDER = "Kitty.OpenKittyFolder";
+    const char * const OPEN_PROFILE_FOLDER = "Kitty.OpenProfileFolder";
+    const char * const ABOUT = "Kitty.About";
+    const char * const DEBUG = "Kitty.Debug";
+    const char * const PLUGINS = "Kitty.Plugins";
   }
 }
 

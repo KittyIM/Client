@@ -14,7 +14,7 @@
    <string notr="true">KittyIM</string>
   </property>
   <widget class="QWidget" name="centralwidget"/>
-  <widget class="QToolBar" name="tbMain">
+  <widget class="QToolBar" name="mainToolBar">
    <property name="windowTitle">
     <string>toolBar</string>
    </property>
@@ -25,7 +25,7 @@
     <bool>false</bool>
    </attribute>
   </widget>
-  <widget class="QToolBar" name="tbPlugins">
+  <widget class="QToolBar" name="pluginsToolBar">
    <property name="windowTitle">
     <string>toolBar_2</string>
    </property>
@@ -36,7 +36,7 @@
     <bool>false</bool>
    </attribute>
   </widget>
-  <widget class="QToolBar" name="tbNetworks">
+  <widget class="QToolBar" name="networksToolBar">
    <property name="windowTitle">
     <string notr="true">KittyIM</string>
    </property>

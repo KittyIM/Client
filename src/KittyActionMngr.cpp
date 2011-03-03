@@ -1,8 +1,9 @@
 #include "KittyActionMngr.h"
 #include "KittyCore.h"
+#include "wndDebug.h"
 #include "SDK/constants.h"
 
-#include <QtGui/QAction>
+#include <QtCore/QDebug>
 #include <QtGui/QApplication>
 
 using namespace KittySDK;
@@ -15,23 +16,20 @@ void KittyActionMngr::loadDefaults()
 {
   KittyCore *core = KittyCore::inst();
 
-  addAction(Actions::QUIT, new QAction(core->getIcon(Icons::QUIT), tr("Quit"), this));
-  connect(getAction(Actions::QUIT), SIGNAL(triggered()), qApp, SLOT(quit()));
+  insert(Actions::QUIT, new QAction(core->icon(Icons::QUIT), tr("Quit"), this));
+  connect(action(Actions::QUIT), SIGNAL(triggered()), qApp, SLOT(quit()));
 
-  addAction(Actions::RESTART, new QAction(core->getIcon(Icons::REFRESH), tr("Restart"), this));
-  addAction(Actions::OPEN_PROFILE_FOLDER, new QAction(core->getIcon(Icons::FOLDER), tr("Profile folder"), this));
-  addAction(Actions::OPEN_KITTY_FOLDER, new QAction(core->getIcon(Icons::FOLDER_KITTY), tr("Kitty's folder"), this));
+  insert(Actions::RESTART, new QAction(core->icon(Icons::REFRESH), tr("Restart"), this));
+  connect(action(Actions::RESTART), SIGNAL(triggered()), core, SLOT(restart()));
 
-  addAction(Actions::SETTINGS, new QAction(core->getIcon(Icons::SETTINGS), tr("Settings"), this));
-  addAction(Actions::SHOW_HIDE, new QAction(QIcon(), tr("Show / Hide"), this));
-}
+  insert(Actions::OPEN_PROFILE_FOLDER, new QAction(core->icon(Icons::FOLDER), tr("Profile folder"), this));
+  insert(Actions::OPEN_KITTY_FOLDER, new QAction(core->icon(Icons::FOLDER_KITTY), tr("Kitty's folder"), this));
 
-void KittyActionMngr::addAction(const int &id, QAction *action)
-{
-  m_actions.insert(id, action);
-}
+  insert(Actions::ABOUT, new QAction(core->icon(Icons::INFO), tr("About..."), this));
+  insert(Actions::DEBUG, new QAction(core->icon(Icons::CONSOLE), tr("Debug console"), this));
+  connect(action(Actions::DEBUG), SIGNAL(triggered()), wndDebug::inst(), SLOT(show()));
 
-QAction *KittyActionMngr::getAction(const int &id)
-{
-  return m_actions.value(id);
+  insert(Actions::SETTINGS, new QAction(core->icon(Icons::SETTINGS), tr("Settings"), this));
+  insert(Actions::SHOW_HIDE, new QAction(QIcon(), tr("Show / Hide"), this));
+  connect(action(Actions::SHOW_HIDE), SIGNAL(triggered()), core, SLOT(toggleMainWindow()));
 }

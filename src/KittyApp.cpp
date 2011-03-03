@@ -1,8 +1,11 @@
 #include "KittyApp.h"
+
 #include "KittyCore.h"
+#include "KittyProfile.h"
 #include "wndDebug.h"
 
 #include <QtCore/QDebug>
+#include <QtCore/QProcess>
 #include <QtCore/QTextCodec>
 
 KittyApp::KittyApp(int &argc, char **argv): QApplication(argc, argv)
@@ -13,7 +16,7 @@ KittyApp::KittyApp(int &argc, char **argv): QApplication(argc, argv)
   qInstallMsgHandler(wndDebug::addMessage);
   setQuitOnLastWindowClosed(false);
 
-  connect(this, SIGNAL(aboutToQuit()), this, SLOT(slotCleanUp()));
+  connect(this, SIGNAL(aboutToQuit()), this, SLOT(cleanUp()));
 
   KittyCore *core = KittyCore::inst();
   wndDebug::inst();
@@ -26,15 +29,25 @@ KittyApp::KittyApp(int &argc, char **argv): QApplication(argc, argv)
     } else if(arg == "-profile") {
       if(it.hasNext()) {
         QString profile = it.next();
-        qDebug() << profile;
+        core->loadProfile(profile);
       }
     }
   }
 
-  core->showWndMain();
+  if(core->profile()->isLoaded()) {
+    core->showMainWindow();
+  } else {
+    core->showProfilesWindow();
+  }
 }
 
-void KittyApp::slotCleanUp()
+void KittyApp::cleanUp()
 {
+  KittyCore *core = KittyCore::inst();
+
+  if(core->hasToRestart()) {
+    QProcess::startDetached(qApp->applicationFilePath());
+  }
+
   KittyCore::destroy();
 }

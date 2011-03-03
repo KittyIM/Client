@@ -7,6 +7,7 @@
 #include <QtCore/QDebug>
 #include <QtGui/QMenu>
 #include <QtGui/QToolButton>
+#include <QtWebKit>
 
 wndMain::wndMain(QWidget *parent): QMainWindow(parent), m_ui(new Ui::wndMain)
 {
@@ -29,20 +30,22 @@ void wndMain::initToolbars()
   KittyCore *core = KittyCore::inst();
 
   QMenu *mnuMain = new QMenu();
-  mnuMain->addAction(core->getAction(KittySDK::Actions::OPEN_KITTY_FOLDER));
-  mnuMain->addAction(core->getAction(KittySDK::Actions::OPEN_PROFILE_FOLDER));
-  //mnuMain->addAction(core->getAction(KittySDK::Actions::));
-  //mnuMain->addAction(core->getAction(KittySDK::Actions::));
+  mnuMain->addAction(core->action(KittySDK::Actions::ABOUT));
+  mnuMain->addAction(core->action(KittySDK::Actions::DEBUG));
   mnuMain->addSeparator();
-  mnuMain->addAction(core->getAction(KittySDK::Actions::RESTART));
-  mnuMain->addAction(core->getAction(KittySDK::Actions::QUIT));
+  mnuMain->addAction(core->action(KittySDK::Actions::OPEN_KITTY_FOLDER));
+  mnuMain->addAction(core->action(KittySDK::Actions::OPEN_PROFILE_FOLDER));
+  mnuMain->addSeparator();
+  mnuMain->addAction(core->action(KittySDK::Actions::RESTART));
+  mnuMain->addAction(core->action(KittySDK::Actions::QUIT));
 
   QToolButton *btnMain = new QToolButton();
   btnMain->setText("KittyIM");
-  btnMain->setIcon(core->getIcon(KittySDK::Icons::INFO));
+  btnMain->setIcon(core->icon(KittySDK::Icons::INFO));
   btnMain->setMenu(mnuMain);
   btnMain->setPopupMode(QToolButton::MenuButtonPopup);
-  m_ui->tbMain->addWidget(btnMain);
+  connect(btnMain, SIGNAL(clicked()), core->action(KittySDK::Actions::ABOUT), SIGNAL(triggered()));
+  m_ui->mainToolBar->addWidget(btnMain);
 
 
   QMenu *mnuUser = new QMenu();
@@ -50,18 +53,19 @@ void wndMain::initToolbars()
 
   QToolButton *btnUser = new QToolButton();
   btnUser->setText(tr("User"));
-  btnUser->setIcon(core->getIcon(KittySDK::Icons::USER));
+  btnUser->setIcon(core->icon(KittySDK::Icons::USER));
   btnUser->setMenu(mnuUser);
   btnUser->setPopupMode(QToolButton::MenuButtonPopup);
-  m_ui->tbMain->addWidget(btnUser);
+  m_ui->mainToolBar->addWidget(btnUser);
 
 
   QMenu *mnuSettings = new QMenu();
+  mnuSettings->addAction(core->action(KittySDK::Actions::SETTINGS));
 
   QToolButton *btnSettings = new QToolButton();
   btnSettings->setText(tr("Settings"));
-  btnSettings->setIcon(core->getIcon(KittySDK::Icons::SETTINGS));
+  btnSettings->setIcon(core->icon(KittySDK::Icons::SETTINGS));
   btnSettings->setMenu(mnuSettings);
   btnSettings->setPopupMode(QToolButton::MenuButtonPopup);
-  m_ui->tbMain->addWidget(btnSettings);
+  m_ui->mainToolBar->addWidget(btnSettings);
 }

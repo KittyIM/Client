@@ -2,7 +2,7 @@
 #define KITTYICONMNGR_H
 
 #include <QtCore/QObject>
-#include <QtCore/QMap>
+#include <QtCore/QHash>
 #include <QtGui/QPixmap>
 
 class QPixmap;
@@ -16,11 +16,11 @@ class KittyIconMngr: public QObject
 
     void loadDefaults();
 
-    void addIcon(const int &id, const QPixmap &pixmap, bool replace = true);
-    QPixmap getIcon(const int &id);
+    void insert(const int &id, const QPixmap &pixmap, bool replace = true);
+    QPixmap icon(const int &id);
 
   private:
-    QMap<int, QPixmap> m_icons;
+    QHash<int, QPixmap> m_icons;
 };
 
 #endif // KITTYICONMNGR_H

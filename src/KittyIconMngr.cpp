@@ -1,6 +1,8 @@
 #include "KittyIconMngr.h"
 #include "SDK/constants.h"
 
+#include <QtCore/QMap>
+
 using namespace KittySDK;
 
 KittyIconMngr::KittyIconMngr(QObject *parent): QObject(parent)
@@ -27,12 +29,12 @@ void KittyIconMngr::loadDefaults()
   QMapIterator<int, QString> i(defaults);
   while(i.hasNext()) {
     i.next();
-    addIcon(i.key(), QPixmap(i.value()), false);
+    insert(i.key(), QPixmap(i.value()), false);
   }
 
 }
 
-void KittyIconMngr::addIcon(const int &id, const QPixmap &pixmap, bool replace)
+void KittyIconMngr::insert(const int &id, const QPixmap &pixmap, bool replace)
 {
   if(m_icons.contains(id) && !replace) {
     return;
@@ -41,7 +43,7 @@ void KittyIconMngr::addIcon(const int &id, const QPixmap &pixmap, bool replace)
   m_icons.insert(id, pixmap);
 }
 
-QPixmap KittyIconMngr::getIcon(const int &id)
+QPixmap KittyIconMngr::icon(const int &id)
 {
   return m_icons.value(id);
 }

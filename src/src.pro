@@ -10,7 +10,10 @@ SOURCES    += main.cpp \
               KittyCore.cpp \
               wndDebug.cpp \
               KittyActionMngr.cpp \
-              KittyIconMngr.cpp
+              KittyIconMngr.cpp \
+    wndProfiles.cpp \
+    qtwin/qtwin.cpp \
+    KittyProfile.cpp
 
 HEADERS    += KittyApp.h \
               wndMain.h \
@@ -19,10 +22,14 @@ HEADERS    += KittyApp.h \
               constants.h \
               SDK/constants.h \
               KittyActionMngr.h \
-              KittyIconMngr.h
+              KittyIconMngr.h \
+    wndProfiles.h \
+    qtwin/qtwin.h \
+    KittyProfile.h
 
 FORMS      += wndMain.ui \
-              wndDebug.ui
+              wndDebug.ui \
+    wndProfiles.ui
 
 RESOURCES  += ../res.qrc
 RC_FILE     = ../res.rc

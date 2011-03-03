@@ -1,6 +1,7 @@
 <RCC>
     <qresource prefix="/icons">
         <file alias="main.ico">res/icons/main.ico</file>
+        <file alias="console.ico">res/icons/console.ico</file>
     </qresource>
     <qresource prefix="/glyphs">
         <file alias="quit.png">res/glyphs/quit.png</file>
@@ -13,5 +14,8 @@
         <file alias="refresh.png">res/glyphs/refresh.png</file>
         <file alias="user.png">res/glyphs/user.png</file>
         <file alias="folder_kitty.png">res/glyphs/folder_kitty.png</file>
+    </qresource>
+    <qresource prefix="/images">
+        <file alias="kitty_logo.png">res/images/kitty_logo.png</file>
     </qresource>
 </RCC>

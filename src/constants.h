@@ -3,7 +3,7 @@
 
 namespace Constants
 {
-  const char *VERSION = "0.0.1 alpha";
+  const char * const VERSION = "0.0.1 alpha";
 }
 
 #endif // CONSTANTS_H
