@@ -5,34 +5,33 @@ TEMPLATE    = app
 QT         += core gui xml network webkit
 
 SOURCES    += main.cpp \
-              KittyApp.cpp \
-              wndMain.cpp \
-              KittyCore.cpp \
-              wndDebug.cpp \
-              KittyActionMngr.cpp \
-              KittyIconMngr.cpp \
-    wndProfiles.cpp \
-    qtwin/qtwin.cpp \
-    KittyProfile.cpp
+              qtwin/qtwin.cpp \
+              App.cpp \
+              ActionManager.cpp \
+              Core.cpp \
+              IconManager.cpp \
+              Profile.cpp \
+              widgets/DebugWindow.cpp \
+              widgets/MainWindow.cpp \
+              widgets/ProfilesWindow.cpp \
+    XmlSettings.cpp
 
-HEADERS    += KittyApp.h \
-              wndMain.h \
-              KittyCore.h \
-              wndDebug.h \
-              constants.h \
+HEADERS    += constants.h \
               SDK/constants.h \
-              KittyActionMngr.h \
-              KittyIconMngr.h \
-    wndProfiles.h \
-    qtwin/qtwin.h \
-    KittyProfile.h
+              qtwin/qtwin.h \
+              App.h \
+              ActionManager.h \
+              Core.h \
+              IconManager.h \
+              Profile.h \
+              widgets/DebugWindow.h \
+              widgets/MainWindow.h \
+              widgets/ProfilesWindow.h \
+    XmlSettings.h
 
-FORMS      += wndMain.ui \
-              wndDebug.ui \
-    wndProfiles.ui
+FORMS      += widgets/DebugWindow.ui \
+              widgets/MainWindow.ui \
+              widgets/ProfilesWindow.ui
 
 RESOURCES  += ../res.qrc
 RC_FILE     = ../res.rc
-LANGUAGES   = untranslated pl
-
-include(translations.pri)

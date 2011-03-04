@@ -1,31 +1,33 @@
-#include "KittyApp.h"
+#include "App.h"
 
-#include "KittyCore.h"
-#include "KittyProfile.h"
-#include "wndDebug.h"
+#include "widgets/DebugWindow.h"
+#include "Profile.h"
+#include "Core.h"
 
-#include <QtCore/QDebug>
-#include <QtCore/QProcess>
 #include <QtCore/QTextCodec>
+#include <QtCore/QProcess>
+#include <QtCore/QDebug>
 
-KittyApp::KittyApp(int &argc, char **argv): QApplication(argc, argv)
+using namespace Kitty;
+
+App::App(int &argc, char **argv): QApplication(argc, argv)
 {
   QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
   QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
 
-  qInstallMsgHandler(wndDebug::addMessage);
+  qInstallMsgHandler(DebugWindow::addMessage);
   setQuitOnLastWindowClosed(false);
 
   connect(this, SIGNAL(aboutToQuit()), this, SLOT(cleanUp()));
 
-  KittyCore *core = KittyCore::inst();
-  wndDebug::inst();
+  Core *core = Core::inst();
+  DebugWindow::inst();
 
   QListIterator<QString> it(arguments());
   while(it.hasNext()) {
     QString arg = it.next();
     if(arg == "-debug") {
-      wndDebug::inst()->show();
+      DebugWindow::inst()->show();
     } else if(arg == "-profile") {
       if(it.hasNext()) {
         QString profile = it.next();
@@ -34,20 +36,18 @@ KittyApp::KittyApp(int &argc, char **argv): QApplication(argc, argv)
     }
   }
 
-  if(core->profile()->isLoaded()) {
-    core->showMainWindow();
-  } else {
+  if(!core->profile()->isLoaded()) {
     core->showProfilesWindow();
   }
 }
 
-void KittyApp::cleanUp()
+void App::cleanUp()
 {
-  KittyCore *core = KittyCore::inst();
+  Core *core = Core::inst();
 
   if(core->hasToRestart()) {
     QProcess::startDetached(qApp->applicationFilePath());
   }
 
-  KittyCore::destroy();
+  Core::destroy();
 }

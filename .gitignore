@@ -2,6 +2,7 @@
 /Kitty.pro.user
 /Makefile*
 /bin/Kitty.exe
+/bin/profiles/*
 /src/Makefile*
 /src/ui_*.h
 /src/*/moc_*.cpp

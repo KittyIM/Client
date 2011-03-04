@@ -1,6 +1,6 @@
-#include "KittyApp.h"
+#include "App.h"
 
 int main(int argc, char *argv[])
 {
-  return (new KittyApp(argc, argv))->exec();
+  return (new Kitty::App(argc, argv))->exec();
 }
