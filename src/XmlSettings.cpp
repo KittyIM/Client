@@ -10,7 +10,7 @@
 
 using namespace Kitty;
 
-QSettings::Format XmlSettings::xmlFormat = QSettings::registerFormat("xml", XmlSettings::xmlRead, XmlSettings::xmlWrite, Qt::CaseInsensitive);
+QSettings::Format XmlSettings::xmlFormat = QSettings::registerFormat("xml", XmlSettings::xmlRead, XmlSettings::xmlWrite);
 
 XmlSettings::XmlSettings(const QString &fileName, QObject *parent): QSettings(fileName, XmlSettings::xmlFormat, parent)
 {

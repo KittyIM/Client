@@ -2,6 +2,8 @@
 #include "ui_MainWindow.h"
 
 #include "SDK/constants.h"
+#include "constants.h"
+#include "Profile.h"
 #include "Core.h"
 
 #include <QtCore/QDebug>
@@ -22,12 +24,12 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), m_ui(new Ui::MainW
 
   initToolbars();
 
-  restoreState(core->setting("Kitty.MainWindow.State").toByteArray());
-  restoreGeometry(core->setting("Kitty.MainWindow.Geometry").toByteArray());
+  restoreState(core->setting(KittySDK::Settings::S_MAINWINDOW_STATE).toByteArray());
+  restoreGeometry(core->setting(KittySDK::Settings::S_MAINWINDOW_GEOMETRY).toByteArray());
 
   applySettings();
 
-  if(!core->setting("Kitty.MainWindow.StartHidden").toBool()) {
+  if(!core->setting(KittySDK::Settings::S_MAINWINDOW_STARTHIDDEN).toBool()) {
     show();
   }
 }
@@ -36,8 +38,8 @@ MainWindow::~MainWindow()
 {
   Core *core = Core::inst();
 
-  core->setSetting("Kitty.MainWindow.State", saveState());
-  core->setSetting("Kitty.MainWindow.Geometry", saveGeometry());
+  core->setSetting(KittySDK::Settings::S_MAINWINDOW_STATE, saveState());
+  core->setSetting(KittySDK::Settings::S_MAINWINDOW_GEOMETRY, saveGeometry());
 
 
   delete m_ui;
@@ -93,9 +95,14 @@ void MainWindow::applySettings()
   Core *core = Core::inst();
 
   if(core->setting(KittySDK::Settings::S_MAINWINDOW_TRANSPARENCY, false).toBool()) {
-    qDebug() << core->setting(KittySDK::Settings::S_MAINWINDOW_TRANSPARENCY_VALUE, 80).toReal() / 100.0;
     setWindowOpacity(core->setting(KittySDK::Settings::S_MAINWINDOW_TRANSPARENCY_VALUE, 80).toReal() / 100.0);
   } else {
     setWindowOpacity(1.0);
   }
+
+  core->setSetting(KittySDK::Settings::S_CAPTIONS_MAINWINDOW, "KittyIM %version% [%profile%]");
+  QString title = core->setting(KittySDK::Settings::S_CAPTIONS_MAINWINDOW, "KittyIM %version% [%profile%]").toString();
+  title.replace("%version%", Constants::VERSION);
+  title.replace("%profile%", core->profile()->name());
+  setWindowTitle(title);
 }

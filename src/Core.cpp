@@ -2,6 +2,7 @@
 
 #include "widgets/ProfilesWindow.h"
 #include "widgets/DebugWindow.h"
+#include "widgets/AboutWindow.h"
 #include "widgets/MainWindow.h"
 #include "ActionManager.h"
 #include "SDK/constants.h"
@@ -17,6 +18,7 @@
 
 #include <QtCore/QDebug>
 #include <QtCore/QMutex>
+#include <QtGui/QDesktopServices>
 #include <QtGui/QSystemTrayIcon>
 #include <QtGui/QApplication>
 #include <QtGui/QMenu>
@@ -27,23 +29,25 @@ Core *Core::m_inst = 0;
 
 Core::Core()
 {
-  m_wndMain = 0;
-  m_wndProfiles = 0;
+  m_mainWindow = 0;
+  m_profilesWindow = 0;
+  m_aboutWindow = 0;
   m_trayIcon = 0;
   m_profile = 0;
-  m_mngrIcon = new IconManager(this);
-  m_mngrAct = new ActionManager(this);
+  m_iconManager = new IconManager(this);
+  m_actionManager = new ActionManager(this);
   m_restart = false;
+  m_portable = false;
 }
 
 Core::~Core()
 {
-  if(m_wndMain) {
-    delete m_wndMain;
+  if(m_mainWindow) {
+    delete m_mainWindow;
   }
 
-  if(m_wndProfiles) {
-    delete m_wndProfiles;
+  if(m_profilesWindow) {
+    delete m_profilesWindow;
   }
 
   if(m_trayIcon) {
@@ -51,8 +55,8 @@ Core::~Core()
     delete m_trayIcon;
   }
 
-  delete m_mngrAct;
-  delete m_mngrIcon;
+  delete m_actionManager;
+  delete m_iconManager;
 
   if(m_profile) {
     delete m_profile;
@@ -88,12 +92,12 @@ void Core::destroy()
 
 QAction *Core::action(const QString &id)
 {
-  return m_mngrAct->action(id);
+  return m_actionManager->action(id);
 }
 
 QPixmap Core::icon(const QString &id)
 {
-  return m_mngrIcon->icon(id);
+  return m_iconManager->icon(id);
 }
 
 QVariant Core::setting(const QString &key, const QVariant &defaultValue)
@@ -106,11 +110,11 @@ void Core::setSetting(const QString &key, const QVariant &value)
   return settings()->setValue(key, value);
 }
 
-void Core::loadProfile(QString name)
+void Core::loadProfile(const QString &name)
 {
   profile()->load(name);
 
-  DebugWindow::inst()->restoreGeometry(setting("Kitty.DebugWindow.Geometry").toByteArray());
+  DebugWindow::inst()->restoreGeometry(setting(KittySDK::Settings::S_DEBUGWINDOW_GEOMETRY).toByteArray());
 
   mainWindow();
 
@@ -119,21 +123,31 @@ void Core::loadProfile(QString name)
 
 MainWindow *Core::mainWindow()
 {
-  if(!m_wndMain) {
-    m_mngrAct->loadDefaults();
-    m_wndMain = new MainWindow();
+  if(!m_mainWindow) {
+    m_actionManager->loadDefaults();
+    m_mainWindow = new MainWindow();
   }
 
-  return m_wndMain;
+  return m_mainWindow;
+}
+
+AboutWindow *Core::aboutWindow()
+{
+  if(!m_aboutWindow) {
+    //m_mngrAct->loadDefaults();
+    m_aboutWindow = new AboutWindow();
+  }
+
+  return m_aboutWindow;
 }
 
 ProfilesWindow *Core::profilesWindow()
 {
-  if(!m_wndProfiles) {
-    m_wndProfiles = new ProfilesWindow();
+  if(!m_profilesWindow) {
+    m_profilesWindow = new ProfilesWindow();
   }
 
-  return m_wndProfiles;
+  return m_profilesWindow;
 }
 
 void Core::showMainWindow()
@@ -180,14 +194,21 @@ XmlSettings *Core::settings()
 
 QString Core::profilesDir()
 {
-  if(true /*isPortable()*/) {
+  if(isPortable()) {
     return qApp->applicationDirPath() + "/profiles/";
+  } else {
+    return QDesktopServices::storageLocation(QDesktopServices::DataLocation) + "/profiles/";
   }
 }
 
 void Core::showTrayIcon()
 {
   trayIcon()->show();
+}
+
+void Core::showAboutWindow()
+{
+  aboutWindow()->show();
 }
 
 void Core::restart()

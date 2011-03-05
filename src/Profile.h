@@ -16,12 +16,15 @@ namespace Kitty
       explicit Profile(QObject *parent = 0);
       ~Profile();
 
-      void load(const QString &name);
+      void load(const QString &name, bool settingsOnly = false);
 
       QString name() { return m_name; }
       XmlSettings *settings() { return m_settings; }
       bool isLoaded() { return !m_name.isEmpty(); }
       bool hasPassword();
+
+    private:
+      void loadIconTheme(const QString &name);
 
     private:
       QString m_name;

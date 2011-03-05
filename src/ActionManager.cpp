@@ -29,6 +29,8 @@ void ActionManager::loadDefaults()
   insert(Actions::A_KITTY_FOLDER, new QAction(core->icon(Icons::I_FOLDER_KITTY), tr("Kitty's folder"), this));
 
   insert(Actions::A_ABOUT, new QAction(core->icon(Icons::I_INFO), tr("About..."), this));
+  connect(action(Actions::A_ABOUT), SIGNAL(triggered()), core, SLOT(showAboutWindow()));
+
   insert(Actions::A_DEBUG, new QAction(core->icon(Icons::I_CONSOLE), tr("Debug console"), this));
   connect(action(Actions::A_DEBUG), SIGNAL(triggered()), DebugWindow::inst(), SLOT(show()));
 

@@ -71,42 +71,42 @@
 <context>
     <name>Kitty::ActionManager</name>
     <message>
-        <location filename="../src/ActionManager.cpp" line="20"/>
+        <location filename="../src/ActionManager.cpp" line="22"/>
         <source>Quit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ActionManager.cpp" line="23"/>
+        <location filename="../src/ActionManager.cpp" line="25"/>
         <source>Restart</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ActionManager.cpp" line="26"/>
+        <location filename="../src/ActionManager.cpp" line="28"/>
         <source>Profile folder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ActionManager.cpp" line="27"/>
+        <location filename="../src/ActionManager.cpp" line="29"/>
         <source>Kitty&apos;s folder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ActionManager.cpp" line="29"/>
+        <location filename="../src/ActionManager.cpp" line="31"/>
         <source>About...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ActionManager.cpp" line="30"/>
+        <location filename="../src/ActionManager.cpp" line="34"/>
         <source>Debug console</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ActionManager.cpp" line="33"/>
+        <location filename="../src/ActionManager.cpp" line="37"/>
         <source>Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ActionManager.cpp" line="34"/>
+        <location filename="../src/ActionManager.cpp" line="38"/>
         <source>Show / Hide</source>
         <translation type="unfinished"></translation>
     </message>
@@ -127,13 +127,49 @@
 <context>
     <name>Kitty::MainWindow</name>
     <message>
-        <location filename="../src/widgets/MainWindow.cpp" line="57"/>
+        <location filename="../src/widgets/MainWindow.cpp" line="75"/>
         <source>User</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/MainWindow.cpp" line="68"/>
+        <location filename="../src/widgets/MainWindow.cpp" line="86"/>
         <source>Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Kitty::ProfilesWindow</name>
+    <message>
+        <location filename="../src/widgets/ProfilesWindow.cpp" line="104"/>
+        <source>Wrong password</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/ProfilesWindow.cpp" line="104"/>
+        <source>The password you supplied is wrong.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>AboutWindow</name>
+    <message>
+        <location filename="../src/widgets/AboutWindow.ui"/>
+        <location filename="../src/ui_AboutWindow.h" line="79"/>
+        <source>Dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/AboutWindow.ui"/>
+        <location filename="../src/ui_AboutWindow.h" line="81"/>
+        <source>OK</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Kitty::AboutWindow</name>
+    <message>
+        <location filename="../src/widgets/AboutWindow.cpp" line="24"/>
+        <source>Programming:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

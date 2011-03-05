@@ -1,6 +1,7 @@
 #include "ProfilesWindow.h"
 #include "ui_ProfilesWindow.h"
 
+#include "SDK/constants.h"
 #include "qtwin/qtwin.h"
 #include "XmlSettings.h"
 #include "constants.h"
@@ -42,20 +43,20 @@ void ProfilesWindow::showEvent(QShowEvent *event)
   m_ui->profilesWidget->clear();
 
   QDir dir(Core::inst()->profilesDir());
-  QFileInfoList profiles = dir.entryInfoList(QDir::Dirs | QDir::NoDotAndDotDot, QDir::Name);
-  foreach(QFileInfo info, profiles) {
-    QTreeWidgetItem *item = new QTreeWidgetItem();
-    item->setText(0, info.baseName());
-    item->setIcon(0, QIcon(":/icons/main.ico"));
+  if(dir.exists()) {
+    QFileInfoList profiles = dir.entryInfoList(QDir::Dirs | QDir::NoDotAndDotDot, QDir::Name);
+    foreach(QFileInfo info, profiles) {
+      QTreeWidgetItem *item = new QTreeWidgetItem();
+      item->setText(0, info.baseName());
+      item->setIcon(0, QIcon(":/icons/main.ico"));
 
-    if(QFile::exists(info.absoluteFilePath() + "/avatar.png")) {
-      item->setIcon(0, QIcon(info.absoluteFilePath() + "/avatar.png"));
+      if(QFile::exists(info.absoluteFilePath() + "/avatar.png")) {
+        item->setIcon(0, QIcon(info.absoluteFilePath() + "/avatar.png"));
+      }
+
+      m_ui->profilesWidget->addTopLevelItem(item);
     }
-
-    m_ui->profilesWidget->addTopLevelItem(item);
   }
-
-  m_ui->profilesWidget->clearSelection();
 }
 
 void ProfilesWindow::keyPressEvent(QKeyEvent *event)
@@ -96,7 +97,7 @@ void Kitty::ProfilesWindow::on_profilesWidget_itemDoubleClicked(QTreeWidgetItem 
     Profile pro;
     pro.load(item->text(0));
 
-    if(!pro.hasPassword() || (pro.hasPassword() && pro.settings()->value("Profile.Password").toString() == QCryptographicHash::hash(m_ui->passwordEdit->text().toLocal8Bit(), QCryptographicHash::Sha1).toHex())) {
+    if(!pro.hasPassword() || (pro.hasPassword() && pro.settings()->value(KittySDK::Settings::S_PROFILE_PASSWORD).toString() == QCryptographicHash::hash(m_ui->passwordEdit->text().toLocal8Bit(), QCryptographicHash::Sha1).toHex())) {
       Core::inst()->loadProfile(item->text(0));
       close();
     } else {

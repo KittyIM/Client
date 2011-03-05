@@ -12,6 +12,7 @@ namespace Kitty
   class ProfilesWindow;
   class ActionManager;
   class IconManager;
+  class AboutWindow;
   class XmlSettings;
   class MainWindow;
   class Profile;
@@ -34,15 +35,16 @@ namespace Kitty
       QVariant setting(const QString &key, const QVariant &defaultValue = QVariant());
 
       void setSetting(const QString &key, const QVariant &value);
-      void loadProfile(QString name);
+      void loadProfile(const QString &name);
 
       MainWindow *mainWindow();
+      AboutWindow *aboutWindow();
       ProfilesWindow *profilesWindow();
       QSystemTrayIcon *trayIcon();
       Profile *profile();
       XmlSettings *settings();
-      ActionManager *actionManager() { return m_mngrAct; }
-      IconManager *iconManager() { return m_mngrIcon; }
+      ActionManager *actionManager() { return m_actionManager; }
+      IconManager *iconManager() { return m_iconManager; }
 
       QString profilesDir();
 
@@ -55,6 +57,7 @@ namespace Kitty
     public slots:
       void restart();
       void showTrayIcon();
+      void showAboutWindow();
       void showMainWindow();
       void showProfilesWindow();
       void toggleMainWindow();
@@ -71,11 +74,12 @@ namespace Kitty
       static Core *m_inst;
       bool m_restart;
       bool m_portable;
-      MainWindow *m_wndMain;
-      ProfilesWindow *m_wndProfiles;
+      MainWindow *m_mainWindow;
+      AboutWindow *m_aboutWindow;
+      ProfilesWindow *m_profilesWindow;
       Profile *m_profile;
-      ActionManager *m_mngrAct;
-      IconManager *m_mngrIcon;
+      ActionManager *m_actionManager;
+      IconManager *m_iconManager;
       QSystemTrayIcon *m_trayIcon;
   };
 }

@@ -7,6 +7,7 @@
 #include <QtCore/QTextCodec>
 #include <QtCore/QProcess>
 #include <QtCore/QDebug>
+#include <QtCore/QFile>
 
 using namespace Kitty;
 
@@ -14,6 +15,8 @@ App::App(int &argc, char **argv): QApplication(argc, argv)
 {
   QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
   QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
+
+  QCoreApplication::setApplicationName("KittyIM");
 
   qInstallMsgHandler(DebugWindow::addMessage);
   setQuitOnLastWindowClosed(false);
@@ -23,6 +26,7 @@ App::App(int &argc, char **argv): QApplication(argc, argv)
   Core *core = Core::inst();
   DebugWindow::inst();
 
+  QString profile;
   QListIterator<QString> it(arguments());
   while(it.hasNext()) {
     QString arg = it.next();
@@ -30,9 +34,27 @@ App::App(int &argc, char **argv): QApplication(argc, argv)
       DebugWindow::inst()->show();
     } else if(arg == "-profile") {
       if(it.hasNext()) {
-        QString profile = it.next();
-        core->loadProfile(profile);
+        profile = it.next();
       }
+    } else if(arg == "-portable") {
+      core->setPortable(true);
+    }
+  }
+
+  if(!core->isPortable()) {
+    if(QFile::exists(applicationDirPath() + "/data/portable")) {
+      core->setPortable(true);
+    }
+  }
+
+  if(!profile.isEmpty()) {
+    Profile pro;
+    pro.load(profile, true);
+
+    if(!pro.hasPassword()) {
+      core->loadProfile(profile);
+    } else {
+      qDebug() << "Wanted to load profile " + profile + " but it's password protected!";
     }
   }
 

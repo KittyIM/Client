@@ -35,6 +35,16 @@ namespace KittySDK
   {
     const char * const S_MAINWINDOW_TRANSPARENCY       = "Kitty.MainWindow.Transparency.Enabled";
     const char * const S_MAINWINDOW_TRANSPARENCY_VALUE = "Kitty.MainWindow.Transparency.Value";
+    const char * const S_MAINWINDOW_GEOMETRY           = "Kitty.MainWindow.Geometry";
+    const char * const S_MAINWINDOW_STATE              = "Kitty.MainWindow.State";
+    const char * const S_MAINWINDOW_STARTHIDDEN        = "Kitty.MainWindow.StartHidden";
+
+    const char * const S_DEBUGWINDOW_GEOMETRY          = "Kitty.DebugWindow.Geometry";
+
+    const char * const S_CAPTIONS_MAINWINDOW           = "Kitty.Display.Captions.MainWindow";
+
+    const char * const S_PROFILE_PASSWORD              = "Profile.Password";
+    const char * const S_PROFILE_THEMES_ICON           = "Profile.Themes.Icon";
 
   }
 }
