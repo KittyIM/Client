@@ -35,7 +35,6 @@ void IconManager::loadDefaults()
   defaults.insert(Icons::I_SMILIE, ":/glyphs/smilie.png");
   defaults.insert(Icons::I_TAB, ":/glyphs/tab.png");
 
-
   QMapIterator<QString, QString> i(defaults);
   while(i.hasNext()) {
     i.next();

@@ -45,25 +45,25 @@
     <name>ProfilesWindow</name>
     <message>
         <location filename="../src/widgets/ProfilesWindow.ui"/>
-        <location filename="../src/ui_ProfilesWindow.h" line="143"/>
+        <location filename="../src/ui_ProfilesWindow.h" line="146"/>
         <source>Choose profile</source>
         <translation>Wybierz profil</translation>
     </message>
     <message>
         <location filename="../src/widgets/ProfilesWindow.ui"/>
-        <location filename="../src/ui_ProfilesWindow.h" line="146"/>
+        <location filename="../src/ui_ProfilesWindow.h" line="149"/>
         <source>Password:</source>
         <translation>Hasło:</translation>
     </message>
     <message>
         <location filename="../src/widgets/ProfilesWindow.ui"/>
-        <location filename="../src/ui_ProfilesWindow.h" line="147"/>
+        <location filename="../src/ui_ProfilesWindow.h" line="150"/>
         <source>Login</source>
         <translation>Zaloguj</translation>
     </message>
     <message>
         <location filename="../src/widgets/ProfilesWindow.ui"/>
-        <location filename="../src/ui_ProfilesWindow.h" line="148"/>
+        <location filename="../src/ui_ProfilesWindow.h" line="151"/>
         <source>Delete</source>
         <translation>Usuń</translation>
     </message>
@@ -106,7 +106,7 @@
         <translation>Ustawienia</translation>
     </message>
     <message>
-        <location filename="../src/ActionManager.cpp" line="38"/>
+        <location filename="../src/ActionManager.cpp" line="40"/>
         <source>Show / Hide</source>
         <translation>Pokaż / Ukryj</translation>
     </message>
@@ -114,12 +114,12 @@
 <context>
     <name>Kitty::DebugWindow</name>
     <message>
-        <location filename="../src/widgets/DebugWindow.cpp" line="75"/>
+        <location filename="../src/widgets/DebugWindow.cpp" line="77"/>
         <source>Unknown command, type &lt;i&gt;help&lt;/i&gt; for list of commands.</source>
         <translation>Nieznana komenda, wpisz &lt;i&gt;help&lt;/i&gt; by uzyskać listę komend.</translation>
     </message>
     <message>
-        <location filename="../src/widgets/DebugWindow.cpp" line="79"/>
+        <location filename="../src/widgets/DebugWindow.cpp" line="81"/>
         <source>Commands:&lt;br&gt;&lt;i&gt;help&lt;/i&gt; - prints this text&lt;br&gt;&lt;i&gt;quit&lt;/i&gt; - quit KittyIM</source>
         <translation>Komendy&lt;br&gt;&lt;i&gt;help&lt;/i&gt; - wypisz ten tekst&lt;br&gt;&lt;i&gt;quit&lt;/i&gt; - wyłącz KittyIM</translation>
     </message>
@@ -127,12 +127,12 @@
 <context>
     <name>Kitty::MainWindow</name>
     <message>
-        <location filename="../src/widgets/MainWindow.cpp" line="75"/>
+        <location filename="../src/widgets/MainWindow.cpp" line="77"/>
         <source>User</source>
         <translation>Użytkownik</translation>
     </message>
     <message>
-        <location filename="../src/widgets/MainWindow.cpp" line="86"/>
+        <location filename="../src/widgets/MainWindow.cpp" line="88"/>
         <source>Settings</source>
         <translation>Ustawienia</translation>
     </message>
@@ -154,15 +154,15 @@
     <name>AboutWindow</name>
     <message>
         <location filename="../src/widgets/AboutWindow.ui"/>
-        <location filename="../src/ui_AboutWindow.h" line="79"/>
-        <source>Dialog</source>
-        <translation type="unfinished"></translation>
+        <location filename="../src/ui_AboutWindow.h" line="84"/>
+        <source>OK</source>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/widgets/AboutWindow.ui"/>
-        <location filename="../src/ui_AboutWindow.h" line="81"/>
-        <source>OK</source>
-        <translation type="unfinished"></translation>
+        <location filename="../src/ui_AboutWindow.h" line="82"/>
+        <source>About</source>
+        <translation>O</translation>
     </message>
 </context>
 <context>
@@ -170,7 +170,107 @@
     <message>
         <location filename="../src/widgets/AboutWindow.cpp" line="27"/>
         <source>Programming:</source>
-        <translation type="unfinished"></translation>
+        <translation>Programowanie:</translation>
+    </message>
+</context>
+<context>
+    <name>SettingsWindow</name>
+    <message>
+        <location filename="../src/widgets/SettingsWindow.ui"/>
+        <location filename="../src/ui_SettingsWindow.h" line="208"/>
+        <location filename="../src/ui_SettingsWindow.h" line="213"/>
+        <source>Settings</source>
+        <translation>Ustawienia</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/SettingsWindow.ui"/>
+        <location filename="../src/ui_SettingsWindow.h" line="215"/>
+        <source>Startup</source>
+        <translation>Uruchamianie</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/SettingsWindow.ui"/>
+        <location filename="../src/ui_SettingsWindow.h" line="217"/>
+        <source>Connection</source>
+        <translation>Połączenie</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/SettingsWindow.ui"/>
+        <location filename="../src/ui_SettingsWindow.h" line="219"/>
+        <source>User</source>
+        <translation>Użytkownik</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/SettingsWindow.ui"/>
+        <location filename="../src/ui_SettingsWindow.h" line="221"/>
+        <source>Accounts</source>
+        <translation>Konta</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/SettingsWindow.ui"/>
+        <location filename="../src/ui_SettingsWindow.h" line="223"/>
+        <source>Display</source>
+        <translation>Wygląd</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/SettingsWindow.ui"/>
+        <location filename="../src/ui_SettingsWindow.h" line="225"/>
+        <source>Themes</source>
+        <translation>Skórki</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/SettingsWindow.ui"/>
+        <location filename="../src/ui_SettingsWindow.h" line="227"/>
+        <source>Roster</source>
+        <translation>Lista kontaktów</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/SettingsWindow.ui"/>
+        <location filename="../src/ui_SettingsWindow.h" line="229"/>
+        <source>History</source>
+        <translation>Historia</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/SettingsWindow.ui"/>
+        <location filename="../src/ui_SettingsWindow.h" line="231"/>
+        <source>Chat window</source>
+        <translation>Okno rozmowy</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/SettingsWindow.ui"/>
+        <location filename="../src/ui_SettingsWindow.h" line="233"/>
+        <source>Tabs</source>
+        <translation>Zakładki</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/SettingsWindow.ui"/>
+        <location filename="../src/ui_SettingsWindow.h" line="235"/>
+        <source>Smilies</source>
+        <translation>Emotikonki</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/SettingsWindow.ui"/>
+        <location filename="../src/ui_SettingsWindow.h" line="237"/>
+        <source>Plugins</source>
+        <translation>Wtyczki</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/SettingsWindow.ui"/>
+        <location filename="../src/ui_SettingsWindow.h" line="241"/>
+        <source>OK</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/SettingsWindow.ui"/>
+        <location filename="../src/ui_SettingsWindow.h" line="242"/>
+        <source>Cancel</source>
+        <translation>Anuluj</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/SettingsWindow.ui"/>
+        <location filename="../src/ui_SettingsWindow.h" line="243"/>
+        <source>Apply</source>
+        <translation>Zastosuj</translation>
     </message>
 </context>
 </TS>
