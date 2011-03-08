@@ -21,6 +21,8 @@ DebugWindow::DebugWindow(): QWidget(0), m_ui(new Ui::DebugWindow)
 {
   m_ui->setupUi(this);
 
+  setWindowFlags(windowFlags() & ~Qt::WindowMinMaxButtonsHint);
+
   m_wvLog = new QWebView(this);
   m_wvLog->setHtml("<html><head><style type=\"text/css\">body { font-family: Tahoma; font-size: 11px; }</style></head><body></body></html>");
 

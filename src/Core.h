@@ -10,6 +10,7 @@ class QAction;
 namespace Kitty
 {
   class ProfilesWindow;
+  class SettingsWindow;
   class ActionManager;
   class IconManager;
   class AboutWindow;
@@ -40,6 +41,7 @@ namespace Kitty
       MainWindow *mainWindow();
       AboutWindow *aboutWindow();
       ProfilesWindow *profilesWindow();
+      SettingsWindow *settingsWindow();
       QSystemTrayIcon *trayIcon();
       Profile *profile();
       XmlSettings *settings();
@@ -60,6 +62,7 @@ namespace Kitty
       void showAboutWindow();
       void showMainWindow();
       void showProfilesWindow();
+      void showSettingsWindow();
       void toggleMainWindow();
 
     private slots:
@@ -74,13 +77,14 @@ namespace Kitty
       static Core *m_inst;
       bool m_restart;
       bool m_portable;
-      MainWindow *m_mainWindow;
-      AboutWindow *m_aboutWindow;
       ProfilesWindow *m_profilesWindow;
-      Profile *m_profile;
+      SettingsWindow *m_settingsWindow;
       ActionManager *m_actionManager;
-      IconManager *m_iconManager;
       QSystemTrayIcon *m_trayIcon;
+      IconManager *m_iconManager;
+      AboutWindow *m_aboutWindow;
+      MainWindow *m_mainWindow;
+      Profile *m_profile;
   };
 }
 

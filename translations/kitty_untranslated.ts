@@ -168,7 +168,7 @@
 <context>
     <name>Kitty::AboutWindow</name>
     <message>
-        <location filename="../src/widgets/AboutWindow.cpp" line="24"/>
+        <location filename="../src/widgets/AboutWindow.cpp" line="27"/>
         <source>Programming:</source>
         <translation type="unfinished"></translation>
     </message>

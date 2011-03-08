@@ -26,7 +26,15 @@ void IconManager::loadDefaults()
   defaults.insert(Icons::I_FOLDER_KITTY, ":/glyphs/folder_kitty.png");
   defaults.insert(Icons::I_REFRESH, ":/glyphs/refresh.png");
   defaults.insert(Icons::I_CONSOLE, ":/glyphs/console.png");
-  //defaults.insert(Icons::I_, ":/glyphs/.png");
+  defaults.insert(Icons::I_BULLET, ":/glyphs/bullet.png");
+  defaults.insert(Icons::I_CONNECT, ":/glyphs/connect.png");
+  defaults.insert(Icons::I_HISTORY, ":/glyphs/history.png");
+  defaults.insert(Icons::I_KEY, ":/glyphs/key.png");
+  defaults.insert(Icons::I_MESSAGE, ":/glyphs/message.png");
+  defaults.insert(Icons::I_PALETTE, ":/glyphs/palette.png");
+  defaults.insert(Icons::I_SMILIE, ":/glyphs/smilie.png");
+  defaults.insert(Icons::I_TAB, ":/glyphs/tab.png");
+
 
   QMapIterator<QString, QString> i(defaults);
   while(i.hasNext()) {

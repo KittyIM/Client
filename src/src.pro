@@ -16,7 +16,8 @@ SOURCES    += main.cpp \
               widgets/ProfilesWindow.cpp \
               XmlSettings.cpp \
               widgets/AboutWindow.cpp \
-    IconTheme.cpp
+    IconTheme.cpp \
+    widgets/SettingsWindow.cpp
 
 HEADERS    += constants.h \
               SDK/constants.h \
@@ -31,12 +32,14 @@ HEADERS    += constants.h \
               widgets/ProfilesWindow.h \
               XmlSettings.h \
               widgets/AboutWindow.h \
-    IconTheme.h
+    IconTheme.h \
+    widgets/SettingsWindow.h
 
 FORMS      += widgets/DebugWindow.ui \
               widgets/MainWindow.ui \
               widgets/ProfilesWindow.ui \
-              widgets/AboutWindow.ui
+              widgets/AboutWindow.ui \
+    widgets/SettingsWindow.ui
 
 RESOURCES  += ../res.qrc
 RC_FILE     = ../res.rc

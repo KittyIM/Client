@@ -35,6 +35,8 @@ void ActionManager::loadDefaults()
   connect(action(Actions::A_DEBUG), SIGNAL(triggered()), DebugWindow::inst(), SLOT(show()));
 
   insert(Actions::A_SETTINGS, new QAction(core->icon(Icons::I_SETTINGS), tr("Settings"), this));
+  connect(action(Actions::A_SETTINGS), SIGNAL(triggered()), core, SLOT(showSettingsWindow()));
+
   insert(Actions::A_SHOW_HIDE, new QAction(QIcon(), tr("Show / Hide"), this));
   connect(action(Actions::A_SHOW_HIDE), SIGNAL(triggered()), core, SLOT(toggleMainWindow()));
 }

@@ -1,6 +1,7 @@
 #include "Core.h"
 
 #include "widgets/ProfilesWindow.h"
+#include "widgets/SettingsWindow.h"
 #include "widgets/DebugWindow.h"
 #include "widgets/AboutWindow.h"
 #include "widgets/MainWindow.h"
@@ -29,13 +30,16 @@ Core *Core::m_inst = 0;
 
 Core::Core()
 {
-  m_mainWindow = 0;
-  m_profilesWindow = 0;
-  m_aboutWindow = 0;
-  m_trayIcon = 0;
-  m_profile = 0;
   m_iconManager = new IconManager(this);
   m_actionManager = new ActionManager(this);
+
+  m_profilesWindow = 0;
+  m_settingsWindow = 0;
+  m_aboutWindow = 0;
+  m_mainWindow = 0;
+  m_trayIcon = 0;
+  m_profile = 0;
+
   m_restart = false;
   m_portable = false;
 }
@@ -44,6 +48,10 @@ Core::~Core()
 {
   if(m_mainWindow) {
     delete m_mainWindow;
+  }
+
+  if(m_settingsWindow) {
+    delete m_settingsWindow;
   }
 
   if(m_profilesWindow) {
@@ -150,6 +158,15 @@ ProfilesWindow *Core::profilesWindow()
   return m_profilesWindow;
 }
 
+SettingsWindow *Core::settingsWindow()
+{
+  if(!m_settingsWindow) {
+    m_settingsWindow = new SettingsWindow();
+  }
+
+  return m_settingsWindow;
+}
+
 void Core::showMainWindow()
 {
   mainWindow()->show();
@@ -158,6 +175,11 @@ void Core::showMainWindow()
 void Core::showProfilesWindow()
 {
   profilesWindow()->show();
+}
+
+void Core::showSettingsWindow()
+{
+  settingsWindow()->show();
 }
 
 QSystemTrayIcon *Core::trayIcon()
