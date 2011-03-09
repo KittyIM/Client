@@ -3,6 +3,7 @@
 
 #include "ActionManager.h"
 #include "IconManager.h"
+#include "MainWindow.h"
 #include "Core.h"
 
 #include <QtCore/QDateTime>
@@ -61,6 +62,7 @@ void DebugWindow::addMessage(QtMsgType type, const char *msg)
   }
 
   m_wvLog->setHtml(m_wvLog->page()->mainFrame()->toHtml() + QString("<div style='background-color: %1;'>[%2] %3</div>").arg(color).arg(QDateTime::currentDateTime().toString("hh:mm:ss")).arg(msg));
+  m_wvLog->page()->mainFrame()->setScrollBarValue(Qt::Vertical, m_wvLog->page()->mainFrame()->scrollBarMaximum(Qt::Vertical));
 }
 
 void DebugWindow::showEvent(QShowEvent *event)

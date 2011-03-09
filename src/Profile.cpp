@@ -44,7 +44,7 @@ void Profile::load(const QString &name, bool settingsOnly)
   m_name = name;
 }
 
-bool Profile::hasPassword()
+bool Profile::hasPassword() const
 {
   return !settings()->value(Settings::S_PROFILE_PASSWORD).toString().isEmpty();
 }

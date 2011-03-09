@@ -6,9 +6,14 @@
 #include "Profile.h"
 #include "Core.h"
 
+#ifdef Q_WS_WIN32
+#include <windows.h>
+#endif
+
 #include <QtCore/QDebug>
 #include <QtGui/QToolButton>
 #include <QtGui/QMenu>
+#include <QtCore/QTimer>
 
 using namespace Kitty;
 using namespace KittySDK;
@@ -42,7 +47,44 @@ MainWindow::~MainWindow()
   core->setSetting(Settings::S_MAINWINDOW_STATE, saveState());
   core->setSetting(Settings::S_MAINWINDOW_GEOMETRY, saveGeometry());
 
+  qDebug() << "deleting MainWindow";
+
   delete m_ui;
+}
+
+bool MainWindow::isObscured()
+{
+#ifdef Q_WS_WIN32
+  QList<HWND> visited;
+
+  RECT rect;
+  GetWindowRect(winId(), &rect);
+
+  HWND hWnd = GetWindow(winId(), GW_HWNDPREV);
+  while(hWnd) {
+    if(visited.contains(hWnd)) {
+      break;
+    }
+
+    visited.append(hWnd);
+
+    if(IsWindowVisible(hWnd)) {
+      RECT rect2;
+
+      if(GetWindowRect(hWnd, &rect2)) {
+        RECT intersect;
+
+        if(IntersectRect(&intersect, &rect, &rect2)) {
+          return true;
+        }
+      }
+    }
+
+    hWnd = GetWindow(hWnd, GW_HWNDPREV);
+  }
+#endif
+
+  return false;
 }
 
 void MainWindow::initToolbars()

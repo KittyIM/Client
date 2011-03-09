@@ -16,10 +16,10 @@ namespace Kitty
       explicit ActionManager(QObject *parent = 0);
 
       void loadDefaults();
-      QStringList keys() { return m_actions.keys(); }
+      QStringList keys() const { return m_actions.keys(); }
 
       void insert(const QString &id, QAction *action) { m_actions.insert(id, action); }
-      QAction *action(const QString &id) { return m_actions.value(id); }
+      QAction *action(const QString &id) const { return m_actions.value(id); }
 
     private:
       QHash<QString, QPointer<QAction> > m_actions;

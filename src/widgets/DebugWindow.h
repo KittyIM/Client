@@ -3,6 +3,8 @@
 
 #include <QtGui/QWidget>
 
+#include <windows.h>
+
 class QStringList;
 class QWebView;
 
@@ -30,9 +32,7 @@ namespace Kitty
 
     private slots:
       void execCommand();
-
       void on_refreshActionsButton_clicked();
-
       void on_refreshIconsButton_clicked();
 
     private:

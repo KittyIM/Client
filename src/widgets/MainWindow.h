@@ -18,6 +18,8 @@ namespace Kitty
       explicit MainWindow(QWidget *parent = 0);
       ~MainWindow();
 
+      bool isObscured();
+
       void initToolbars();
 
     public slots:

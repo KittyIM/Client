@@ -69,7 +69,7 @@ void Kitty::SettingsWindow::on_treeWidget_currentItemChanged(QTreeWidgetItem *cu
     m_ui->groupBox->setTitle(current->text(0));
 
     for(int i = 0; i < m_ui->stackedWidget->count(); i++) {
-      if(m_ui->stackedWidget->widget(i)->property("settingPage").toString() == current->text(1)) {
+      if(m_ui->stackedWidget->widget(i)->property("name").toString() == current->text(1)) {
         m_ui->stackedWidget->setCurrentIndex(i);
         return;
       }

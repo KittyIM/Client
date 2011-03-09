@@ -31,8 +31,8 @@ namespace Kitty
       static Core *inst();
       static void destroy();
 
-      QAction *action(const QString &id);
-      QPixmap icon(const QString &id);
+      QAction *action(const QString &id) const;
+      QPixmap icon(const QString &id) const;
       QVariant setting(const QString &key, const QVariant &defaultValue = QVariant());
 
       void setSetting(const QString &key, const QVariant &value);
@@ -45,16 +45,16 @@ namespace Kitty
       QSystemTrayIcon *trayIcon();
       Profile *profile();
       XmlSettings *settings();
-      ActionManager *actionManager() { return m_actionManager; }
-      IconManager *iconManager() { return m_iconManager; }
+      ActionManager *actionManager() const { return m_actionManager; }
+      IconManager *iconManager() const { return m_iconManager; }
 
-      QString profilesDir();
+      QString profilesDir() const;
 
       void setRestart(bool restart) { m_restart = restart; }
-      bool hasToRestart() { return m_restart; }
+      bool hasToRestart() const { return m_restart; }
 
       void setPortable(bool portable) { m_portable = portable; }
-      bool isPortable() { return m_portable; }
+      bool isPortable() const { return m_portable; }
 
     public slots:
       void restart();

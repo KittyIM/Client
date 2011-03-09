@@ -33,7 +33,8 @@ HEADERS    += constants.h \
               XmlSettings.h \
               widgets/AboutWindow.h \
     IconTheme.h \
-    widgets/SettingsWindow.h
+    widgets/SettingsWindow.h \
+    SDK/SettingPage.h
 
 FORMS      += widgets/DebugWindow.ui \
               widgets/MainWindow.ui \

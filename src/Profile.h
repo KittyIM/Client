@@ -18,10 +18,10 @@ namespace Kitty
 
       void load(const QString &name, bool settingsOnly = false);
 
-      QString name() { return m_name; }
-      XmlSettings *settings() { return m_settings; }
-      bool isLoaded() { return !m_name.isEmpty(); }
-      bool hasPassword();
+      QString name() const { return m_name; }
+      XmlSettings *settings() const { return m_settings; }
+      bool isLoaded() const { return !m_name.isEmpty(); }
+      bool hasPassword() const;
 
     private:
       void loadIconTheme(const QString &name);

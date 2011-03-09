@@ -46,6 +46,7 @@ Core::Core()
 
 Core::~Core()
 {
+  //TODO!
   if(m_mainWindow) {
     delete m_mainWindow;
   }
@@ -98,12 +99,12 @@ void Core::destroy()
   }
 }
 
-QAction *Core::action(const QString &id)
+QAction *Core::action(const QString &id) const
 {
   return m_actionManager->action(id);
 }
 
-QPixmap Core::icon(const QString &id)
+QPixmap Core::icon(const QString &id) const
 {
   return m_iconManager->icon(id);
 }
@@ -214,7 +215,7 @@ XmlSettings *Core::settings()
   return profile()->settings();
 }
 
-QString Core::profilesDir()
+QString Core::profilesDir() const
 {
   if(isPortable()) {
     return qApp->applicationDirPath() + "/profiles/";
@@ -249,10 +250,15 @@ void Core::trayIconActivated(QSystemTrayIcon::ActivationReason reason)
 void Core::toggleMainWindow()
 {
   if(mainWindow()->isVisible()) {
+    if(mainWindow()->isObscured()) {
+      mainWindow()->activateWindow();
+      mainWindow()->raise();
+    } else {
     mainWindow()->hide();
-    mainWindow()->activateWindow();
-    mainWindow()->raise();
+    }
   } else {
     mainWindow()->show();
+    mainWindow()->activateWindow();
+    mainWindow()->raise();
   }
 }

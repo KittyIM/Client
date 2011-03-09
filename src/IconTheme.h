@@ -11,11 +11,10 @@ namespace Kitty
     public:
       IconTheme(const QString &name);
 
-      QString name() { return m_name; }
-      QString author() { return m_author; }
-      QString email() { return m_email; }
-      QMap<QString, QString> icons() { return m_icons; }
-
+      QString name() const { return m_name; }
+      QString author() const { return m_author; }
+      QString email() const { return m_email; }
+      QMap<QString, QString> icons() const { return m_icons; }
 
     private:
       QString m_name;
