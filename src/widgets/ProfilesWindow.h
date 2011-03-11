@@ -22,6 +22,7 @@ namespace Kitty
 
     protected:
       void showEvent(QShowEvent *event);
+      void paintEvent(QPaintEvent *event);
       void keyPressEvent(QKeyEvent *event);
       void closeEvent(QCloseEvent *event);
 

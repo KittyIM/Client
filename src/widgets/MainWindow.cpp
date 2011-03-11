@@ -7,7 +7,7 @@
 #include "Core.h"
 
 #ifdef Q_WS_WIN32
-#include <windows.h>
+#include <qt_windows.h>
 #endif
 
 #include <QtCore/QDebug>
@@ -15,10 +15,9 @@
 #include <QtGui/QMenu>
 #include <QtCore/QTimer>
 
-using namespace Kitty;
 using namespace KittySDK;
 
-MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), m_ui(new Ui::MainWindow)
+Kitty::MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), m_ui(new Ui::MainWindow)
 {
   m_ui->setupUi(this);
 
@@ -40,7 +39,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), m_ui(new Ui::MainW
   }
 }
 
-MainWindow::~MainWindow()
+Kitty::MainWindow::~MainWindow()
 {
   Core *core = Core::inst();
 
@@ -52,7 +51,7 @@ MainWindow::~MainWindow()
   delete m_ui;
 }
 
-bool MainWindow::isObscured()
+bool Kitty::MainWindow::isObscured()
 {
 #ifdef Q_WS_WIN32
   QList<HWND> visited;
@@ -87,7 +86,7 @@ bool MainWindow::isObscured()
   return false;
 }
 
-void MainWindow::initToolbars()
+void Kitty::MainWindow::initToolbars()
 {
   Core *core = Core::inst();
 
@@ -134,7 +133,7 @@ void MainWindow::initToolbars()
   m_ui->mainToolBar->addWidget(btnSettings);
 }
 
-void MainWindow::applySettings()
+void Kitty::MainWindow::applySettings()
 {
   Core *core = Core::inst();
 
@@ -142,13 +141,21 @@ void MainWindow::applySettings()
   m_ui->mainToolBar->findChild<QToolButton*>("userButton")->setIcon(core->icon(Icons::I_USER));
   m_ui->mainToolBar->findChild<QToolButton*>("settingsButton")->setIcon(core->icon(Icons::I_SETTINGS));
 
-  if(core->setting(Settings::S_MAINWINDOW_TRANSPARENCY, false).toBool()) {
+  if(core->setting(Settings::S_MAINWINDOW_TRANSPARENCY).toBool()) {
     setWindowOpacity(core->setting(Settings::S_MAINWINDOW_TRANSPARENCY_VALUE, 80).toReal() / 100.0);
   } else {
     setWindowOpacity(1.0);
   }
 
-  core->setSetting(Settings::S_MAINWINDOW_CAPTION, "KittyIM %version% [%profile%]");
+  if(core->setting(Settings::S_MAINWINDOW_ALWAYS_ON_TOP).toBool()) {
+    setWindowFlags(windowFlags() | Qt::WindowStaysOnTopHint);
+    show();
+  } else {
+    bool visible = isVisible();
+    setWindowFlags(windowFlags() & ~Qt::WindowStaysOnTopHint);
+    setVisible(visible);
+  }
+
   QString title = core->setting(Settings::S_MAINWINDOW_CAPTION, "KittyIM %version% [%profile%]").toString();
   title.replace("%version%", Constants::VERSION);
   title.replace("%profile%", core->profile()->name());

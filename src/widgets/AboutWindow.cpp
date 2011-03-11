@@ -3,19 +3,19 @@
 
 #include "constants.h"
 
-using namespace Kitty;
-
-AboutWindow::AboutWindow(QWidget *parent): QDialog(parent), m_ui(new Ui::AboutWindow)
+Kitty::AboutWindow::AboutWindow(QWidget *parent): QDialog(parent), m_ui(new Ui::AboutWindow)
 {
   m_ui->setupUi(this);
+
+  setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
 }
 
-AboutWindow::~AboutWindow()
+Kitty::AboutWindow::~AboutWindow()
 {
   delete m_ui;
 }
 
-void AboutWindow::showEvent(QShowEvent *event)
+void Kitty::AboutWindow::showEvent(QShowEvent *event)
 {
   QDialog::showEvent(event);
 

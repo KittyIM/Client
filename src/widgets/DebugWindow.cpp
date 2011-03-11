@@ -13,12 +13,11 @@
 #include <QtWebKit/QWebFrame>
 #include <QtWebKit/QWebView>
 
-using namespace Kitty;
 
-DebugWindow *DebugWindow::m_inst = 0;
-QWebView *DebugWindow::m_wvLog = 0;
+Kitty::DebugWindow *Kitty::DebugWindow::m_inst = 0;
+QWebView *Kitty::DebugWindow::m_wvLog = 0;
 
-DebugWindow::DebugWindow(): QWidget(0), m_ui(new Ui::DebugWindow)
+Kitty::DebugWindow::DebugWindow(): QWidget(0), m_ui(new Ui::DebugWindow)
 {
   m_ui->setupUi(this);
 
@@ -33,12 +32,12 @@ DebugWindow::DebugWindow(): QWidget(0), m_ui(new Ui::DebugWindow)
   connect(m_ui->commandEdit, SIGNAL(returnPressed()), m_ui->execButton, SLOT(click()));
 }
 
-DebugWindow::~DebugWindow()
+Kitty::DebugWindow::~DebugWindow()
 {
   delete m_ui;
 }
 
-void DebugWindow::addMessage(QtMsgType type, const char *msg)
+void Kitty::DebugWindow::addMessage(QtMsgType type, const char *msg)
 {
   DebugWindow::inst();
 
@@ -65,7 +64,7 @@ void DebugWindow::addMessage(QtMsgType type, const char *msg)
   m_wvLog->page()->mainFrame()->setScrollBarValue(Qt::Vertical, m_wvLog->page()->mainFrame()->scrollBarMaximum(Qt::Vertical));
 }
 
-void DebugWindow::showEvent(QShowEvent *event)
+void Kitty::DebugWindow::showEvent(QShowEvent *event)
 {
   QWidget::showEvent(event);
 
@@ -73,7 +72,7 @@ void DebugWindow::showEvent(QShowEvent *event)
   m_ui->refreshActionsButton->click();
 }
 
-void DebugWindow::execCommand()
+void Kitty::DebugWindow::execCommand()
 {
   QStringList commands = m_ui->commandEdit->text().split(" ");
   QString msg = QString("<div>%1</div>").arg(tr("Unknown command, type <i>help</i> for list of commands."));
@@ -93,7 +92,7 @@ void DebugWindow::execCommand()
   m_ui->commandEdit->clear();
 }
 
-DebugWindow *DebugWindow::inst()
+Kitty::DebugWindow *Kitty::DebugWindow::inst()
 {
   static QMutex mutex;
 
@@ -106,7 +105,7 @@ DebugWindow *DebugWindow::inst()
   return m_inst;
 }
 
-void DebugWindow::destroy()
+void Kitty::DebugWindow::destroy()
 {
   static QMutex mutex;
 
@@ -118,7 +117,7 @@ void DebugWindow::destroy()
   }
 }
 
-void DebugWindow::on_refreshActionsButton_clicked()
+void Kitty::DebugWindow::on_refreshActionsButton_clicked()
 {
   m_ui->actionsWidget->clear();
 
@@ -152,7 +151,7 @@ void DebugWindow::on_refreshActionsButton_clicked()
   }
 }
 
-void DebugWindow::on_refreshIconsButton_clicked()
+void Kitty::DebugWindow::on_refreshIconsButton_clicked()
 {
   m_ui->iconsWidget->clear();
 

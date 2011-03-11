@@ -13,26 +13,27 @@
 #include <QtCore/QDir>
 #include <QtGui/QMessageBox>
 #include <QtGui/QKeyEvent>
+#include <QtGui/QPainter>
 
-using namespace Kitty;
-
-ProfilesWindow::ProfilesWindow(QWidget *parent): QDialog(parent), m_ui(new Ui::ProfilesWindow)
+Kitty::ProfilesWindow::ProfilesWindow(QWidget *parent): QDialog(parent), m_ui(new Ui::ProfilesWindow)
 {
   m_ui->setupUi(this);
   m_ui->versionLabel->setText(QString("KittyIM v%1").arg(Constants::VERSION));
 
+  setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
+
   if(QtWin::isCompositionEnabled()) {
-    //QtWin::extendFrameIntoClientArea(this);
-    //setContentsMargins(0, 0, 0, 0);
+    QtWin::extendFrameIntoClientArea(this);
+    setContentsMargins(0, 0, 0, 0);
   }
 }
 
-ProfilesWindow::~ProfilesWindow()
+Kitty::ProfilesWindow::~ProfilesWindow()
 {
   delete m_ui;
 }
 
-void ProfilesWindow::showEvent(QShowEvent *event)
+void Kitty::ProfilesWindow::showEvent(QShowEvent *event)
 {
   QDialog::showEvent(event);
 
@@ -59,7 +60,21 @@ void ProfilesWindow::showEvent(QShowEvent *event)
   }
 }
 
-void ProfilesWindow::keyPressEvent(QKeyEvent *event)
+void Kitty::ProfilesWindow::paintEvent(QPaintEvent *event)
+{
+#ifdef Q_WS_WIN32
+  if(QtWin::isCompositionEnabled()) {
+    QPainter p(this);
+    p.setPen(palette().midlight().color());
+    p.setBrush(palette().window());
+    p.drawRoundedRect(m_ui->groupBox->geometry(), 2, 2);
+  }
+#endif
+
+  QDialog::paintEvent(event);
+}
+
+void Kitty::ProfilesWindow::keyPressEvent(QKeyEvent *event)
 {
   if(event->key() == Qt::Key_Escape) {
     event->ignore();
@@ -68,7 +83,7 @@ void ProfilesWindow::keyPressEvent(QKeyEvent *event)
   }
 }
 
-void ProfilesWindow::closeEvent(QCloseEvent *event)
+void Kitty::ProfilesWindow::closeEvent(QCloseEvent *event)
 {
   if(!Core::inst()->profile()->isLoaded()) {
     qApp->quit();
@@ -77,7 +92,7 @@ void ProfilesWindow::closeEvent(QCloseEvent *event)
   QDialog::closeEvent(event);
 }
 
-void ProfilesWindow::on_profilesWidget_currentItemChanged(QTreeWidgetItem* current, QTreeWidgetItem* previous)
+void Kitty::ProfilesWindow::on_profilesWidget_currentItemChanged(QTreeWidgetItem* current, QTreeWidgetItem* previous)
 {
   if(current) {
     Profile pro;

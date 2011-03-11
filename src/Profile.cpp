@@ -14,22 +14,21 @@
 #include <QtXml/QDomDocument>
 #include <QtXml/QDomElement>
 
-using namespace Kitty;
 using namespace KittySDK;
 
-Profile::Profile(QObject *parent): QObject(parent)
+Kitty::Profile::Profile(QObject *parent): QObject(parent)
 {
   m_settings = 0;
 }
 
-Profile::~Profile()
+Kitty::Profile::~Profile()
 {
   if(isLoaded()) {
     settings()->setValue(Settings::S_DEBUGWINDOW_GEOMETRY, DebugWindow::inst()->saveGeometry());
   }
 }
 
-void Profile::load(const QString &name, bool settingsOnly)
+void Kitty::Profile::load(const QString &name, bool settingsOnly)
 {
   Core *core = Core::inst();
 
@@ -44,12 +43,12 @@ void Profile::load(const QString &name, bool settingsOnly)
   m_name = name;
 }
 
-bool Profile::hasPassword() const
+bool Kitty::Profile::hasPassword() const
 {
   return !settings()->value(Settings::S_PROFILE_PASSWORD).toString().isEmpty();
 }
 
-void Profile::loadIconTheme(const QString &name)
+void Kitty::Profile::loadIconTheme(const QString &name)
 {
   qDebug() << "Loading icon theme " + name;
 

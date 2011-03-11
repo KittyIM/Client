@@ -9,9 +9,7 @@
 #include <QtCore/QDebug>
 #include <QtCore/QFile>
 
-using namespace Kitty;
-
-App::App(int &argc, char **argv): QApplication(argc, argv)
+Kitty::App::App(int &argc, char **argv): QApplication(argc, argv)
 {
   QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
   QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
@@ -63,7 +61,7 @@ App::App(int &argc, char **argv): QApplication(argc, argv)
   }
 }
 
-void App::cleanUp()
+void Kitty::App::cleanUp()
 {
   Core *core = Core::inst();
 

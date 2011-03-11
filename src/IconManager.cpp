@@ -4,15 +4,14 @@
 
 #include <QtCore/QMap>
 
-using namespace Kitty;
 using namespace KittySDK;
 
-IconManager::IconManager(QObject *parent): QObject(parent)
+Kitty::IconManager::IconManager(QObject *parent): QObject(parent)
 {
   loadDefaults();
 }
 
-void IconManager::loadDefaults()
+void Kitty::IconManager::loadDefaults()
 {
   QMap<QString, QString> defaults;
   defaults.insert(Icons::I_KITTY, ":/icons/main.ico");
@@ -43,7 +42,7 @@ void IconManager::loadDefaults()
 
 }
 
-void IconManager::insert(const QString &id, const QPixmap &pixmap, bool replace)
+void Kitty::IconManager::insert(const QString &id, const QPixmap &pixmap, bool replace)
 {
   if(m_icons.contains(id) && !replace) {
     return;

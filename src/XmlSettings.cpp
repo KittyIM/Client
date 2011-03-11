@@ -8,16 +8,14 @@
 #include <QtXml/QDomDocument>
 #include <QtXml/QDomElement>
 
-using namespace Kitty;
+QSettings::Format Kitty::XmlSettings::xmlFormat = QSettings::registerFormat("xml", XmlSettings::xmlRead, XmlSettings::xmlWrite);
 
-QSettings::Format XmlSettings::xmlFormat = QSettings::registerFormat("xml", XmlSettings::xmlRead, XmlSettings::xmlWrite);
-
-XmlSettings::XmlSettings(const QString &fileName, QObject *parent): QSettings(fileName, XmlSettings::xmlFormat, parent)
+Kitty::XmlSettings::XmlSettings(const QString &fileName, QObject *parent): QSettings(fileName, XmlSettings::xmlFormat, parent)
 {
 
 }
 
-void XmlSettings::readElement(SettingsMap &map, const QDomElement &root, const QString &name)
+void Kitty::XmlSettings::readElement(SettingsMap &map, const QDomElement &root, const QString &name)
 {
   QDomNodeList children = root.childNodes();
   for(int i = 0; i < children.count(); i++) {
@@ -37,7 +35,7 @@ void XmlSettings::readElement(SettingsMap &map, const QDomElement &root, const Q
   }
 }
 
-bool XmlSettings::xmlRead(QIODevice &device, SettingsMap &map)
+bool Kitty::XmlSettings::xmlRead(QIODevice &device, SettingsMap &map)
 {
   QDomDocument doc;
   doc.setContent(&device);
@@ -52,7 +50,7 @@ bool XmlSettings::xmlRead(QIODevice &device, SettingsMap &map)
   return true;
 }
 
-bool XmlSettings::xmlWrite(QIODevice &device, const SettingsMap &map)
+bool Kitty::XmlSettings::xmlWrite(QIODevice &device, const SettingsMap &map)
 {
   QDomDocument doc;
 
@@ -86,7 +84,7 @@ bool XmlSettings::xmlWrite(QIODevice &device, const SettingsMap &map)
 }
 
 // This function is taken from Qt's qsettings.cpp (except QByteArrays are saved in Base64)
-QString XmlSettings::variantToString(const QVariant &v)
+QString Kitty::XmlSettings::variantToString(const QVariant &v)
 {
   QString result;
 
@@ -179,7 +177,7 @@ QString XmlSettings::variantToString(const QVariant &v)
 }
 
 // This function is taken from Qt's qsettings.cpp (except QByteArrays are saved in Base64)
-QVariant XmlSettings::stringToVariant(const QString &s)
+QVariant Kitty::XmlSettings::stringToVariant(const QString &s)
 {
   if(s.startsWith(QLatin1Char('@'))) {
     if(s.endsWith(QLatin1Char(')'))) {
@@ -226,7 +224,7 @@ QVariant XmlSettings::stringToVariant(const QString &s)
 }
 
 // This function is taken from Qt's qsettings.cpp
-QStringList XmlSettings::splitArgs(const QString &s, int idx)
+QStringList Kitty::XmlSettings::splitArgs(const QString &s, int idx)
 {
   int l = s.length();
   QStringList result;

@@ -11,7 +11,7 @@
 
 using namespace Kitty;
 
-IconTheme::IconTheme(const QString &name)
+Kitty::IconTheme::IconTheme(const QString &name)
 {
   if(QDir(qApp->applicationDirPath() + "/themes/icon/" + name).exists()) {
     QFile file(qApp->applicationDirPath() + "/themes/icon/" + name + "/theme.xml");

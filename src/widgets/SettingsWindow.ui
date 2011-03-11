@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>598</width>
-    <height>458</height>
+    <height>517</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -169,7 +169,7 @@
      </item>
     </widget>
    </item>
-   <item row="0" column="2">
+   <item row="0" column="1">
     <widget class="QGroupBox" name="groupBox">
      <property name="title">
       <string/>
@@ -178,10 +178,10 @@
       <property name="margin">
        <number>6</number>
       </property>
-      <item row="0" column="0">
+      <item row="1" column="0">
        <widget class="QStackedWidget" name="stackedWidget">
         <property name="currentIndex">
-         <number>2</number>
+         <number>8</number>
         </property>
         <widget class="KittySDK::SettingPage" name="settingsPage">
          <property name="name" stdset="0">
@@ -192,7 +192,7 @@
            <number>0</number>
           </property>
           <item>
-           <widget class="QGroupBox" name="settingsBox">
+           <widget class="QGroupBox" name="settingsGroupBox">
             <property name="title">
              <string/>
             </property>
@@ -242,7 +242,7 @@
            <number>0</number>
           </property>
           <item>
-           <widget class="QGroupBox" name="proxyBox">
+           <widget class="QGroupBox" name="proxyGroupBox">
             <property name="title">
              <string>Proxy</string>
             </property>
@@ -251,7 +251,7 @@
               <enum>QFormLayout::ExpandingFieldsGrow</enum>
              </property>
              <item row="0" column="0" colspan="2">
-              <widget class="QCheckBox" name="proxyCheckbox">
+              <widget class="QCheckBox" name="proxyCheckBox">
                <property name="text">
                 <string>Use proxy</string>
                </property>
@@ -267,35 +267,74 @@
              <item row="1" column="1">
               <layout class="QHBoxLayout">
                <item>
-                <widget class="QLineEdit" name="proxyHostEdit"/>
+                <widget class="QLineEdit" name="proxyServerEdit">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="proxyPortEdit">
-                 <property name="maximumSize">
+                <widget class="QSpinBox" name="proxyPortEdit">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                 <property name="minimumSize">
                   <size>
                    <width>40</width>
-                   <height>16777215</height>
+                   <height>0</height>
                   </size>
                  </property>
-                 <property name="text">
-                  <string>8080</string>
+                 <property name="inputMethodHints">
+                  <set>Qt::ImhNone</set>
+                 </property>
+                 <property name="wrapping">
+                  <bool>true</bool>
+                 </property>
+                 <property name="buttonSymbols">
+                  <enum>QAbstractSpinBox::NoButtons</enum>
+                 </property>
+                 <property name="keyboardTracking">
+                  <bool>false</bool>
+                 </property>
+                 <property name="minimum">
+                  <number>0</number>
+                 </property>
+                 <property name="maximum">
+                  <number>65535</number>
+                 </property>
+                 <property name="singleStep">
+                  <number>10</number>
+                 </property>
+                 <property name="value">
+                  <number>8080</number>
                  </property>
                 </widget>
                </item>
               </layout>
              </item>
              <item row="2" column="0" colspan="2">
-              <widget class="QCheckBox" name="proxyAuthCheckbox">
+              <widget class="QCheckBox" name="proxyAuthCheckBox">
                <property name="text">
                 <string>Server requires authentication:</string>
                </property>
               </widget>
              </item>
              <item row="3" column="1">
-              <widget class="QLineEdit" name="proxyUsernameEdit"/>
+              <widget class="QLineEdit" name="proxyUsernameEdit">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+              </widget>
              </item>
-             <item row="5" column="1">
-              <widget class="QLineEdit" name="proxyPasswordEdit"/>
+             <item row="6" column="1">
+              <widget class="QLineEdit" name="proxyPasswordEdit">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="echoMode">
+                <enum>QLineEdit::Password</enum>
+               </property>
+              </widget>
              </item>
              <item row="3" column="0">
               <widget class="QLabel" name="proxyUsernameLabel">
@@ -304,7 +343,7 @@
                </property>
               </widget>
              </item>
-             <item row="5" column="0">
+             <item row="6" column="0">
               <widget class="QLabel" name="proxyPasswordLabel">
                <property name="text">
                 <string>Password:</string>
@@ -348,7 +387,7 @@
            <number>0</number>
           </property>
           <item>
-           <widget class="QGroupBox" name="mainWindowDisplayBox">
+           <widget class="QGroupBox" name="mainWindowDisplayGroupBox">
             <property name="title">
              <string>Main window</string>
             </property>
@@ -357,37 +396,110 @@
               <enum>QFormLayout::ExpandingFieldsGrow</enum>
              </property>
              <item row="0" column="0" colspan="2">
-              <widget class="QCheckBox" name="alwaysOnTopCheckbox">
+              <widget class="QCheckBox" name="alwaysOnTopCheckBox">
                <property name="text">
                 <string>Always on top</string>
                </property>
               </widget>
              </item>
-             <item row="1" column="0">
-              <widget class="QLabel" name="opacityLabel">
+             <item row="4" column="0">
+              <widget class="QCheckBox" name="transparencyCheckBox">
                <property name="text">
-                <string>Opacity:</string>
+                <string>Transparency:</string>
                </property>
               </widget>
              </item>
-             <item row="2" column="0">
-              <widget class="QLabel" name="autohideLabel">
+             <item row="1" column="0">
+              <widget class="QCheckBox" name="autoHideCheckBox">
                <property name="text">
                 <string>Autohide after:</string>
                </property>
               </widget>
              </item>
-             <item row="1" column="1">
-              <widget class="QSpinBox" name="opacitySpinbox">
-               <property name="suffix">
-                <string> %</string>
+             <item row="2" column="0" colspan="2">
+              <widget class="QSlider" name="autoHideSlider">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="maximum">
+                <number>120</number>
+               </property>
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="tickPosition">
+                <enum>QSlider::TicksBelow</enum>
+               </property>
+               <property name="tickInterval">
+                <number>10</number>
                </property>
               </widget>
              </item>
-             <item row="2" column="1">
-              <widget class="QSpinBox" name="autohideSpinbox">
-               <property name="suffix">
-                <string> sec</string>
+             <item row="6" column="0">
+              <widget class="QLabel" name="transparencyMinLabel">
+               <property name="text">
+                <string>10%</string>
+               </property>
+              </widget>
+             </item>
+             <item row="5" column="0" colspan="2">
+              <widget class="QSlider" name="transparencySlider">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="minimum">
+                <number>10</number>
+               </property>
+               <property name="maximum">
+                <number>100</number>
+               </property>
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="tickPosition">
+                <enum>QSlider::TicksBelow</enum>
+               </property>
+               <property name="tickInterval">
+                <number>10</number>
+               </property>
+              </widget>
+             </item>
+             <item row="6" column="1">
+              <widget class="QLabel" name="transparencyMaxLabel">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="text">
+                <string>100%</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="0">
+              <widget class="QLabel" name="autoHideMinLabel">
+               <property name="text">
+                <string>0 sec</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="1">
+              <widget class="QLabel" name="autoHideMaxLabel">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="text">
+                <string>120 sec</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
                </property>
               </widget>
              </item>
@@ -395,7 +507,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QGroupBox" name="dockingBox">
+           <widget class="QGroupBox" name="dockingGroupBox">
             <property name="title">
              <string>Docking</string>
             </property>
@@ -411,10 +523,14 @@
               </widget>
              </item>
              <item row="2" column="1">
-              <widget class="QSpinBox" name="dockDistanceSpinbox"/>
+              <widget class="QSpinBox" name="dockDistanceSpinBox">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+              </widget>
              </item>
              <item row="1" column="0" colspan="2">
-              <widget class="QCheckBox" name="dockToEdgesCheckbox">
+              <widget class="QCheckBox" name="dockToEdgesCheckBox">
                <property name="text">
                 <string>Dock to desktop edges</string>
                </property>
@@ -424,7 +540,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QGroupBox" name="captionsBox">
+           <widget class="QGroupBox" name="captionsGroupBox">
             <property name="title">
              <string>Captions</string>
             </property>
@@ -512,27 +628,27 @@
            <number>0</number>
           </property>
           <item>
-           <widget class="QGroupBox" name="rosterBox">
+           <widget class="QGroupBox" name="rosterGroupBox">
             <property name="title">
              <string/>
             </property>
             <layout class="QFormLayout">
              <item row="0" column="0" colspan="2">
-              <widget class="QCheckBox" name="displayRosterDescriptionCheckbox">
+              <widget class="QCheckBox" name="displayRosterDescriptionCheckBox">
                <property name="text">
                 <string>Display status description</string>
                </property>
               </widget>
              </item>
              <item row="1" column="0" colspan="2">
-              <widget class="QCheckBox" name="displayRosterAvatarsCheckbox">
+              <widget class="QCheckBox" name="displayRosterAvatarsCheckBox">
                <property name="text">
                 <string>Display avatars</string>
                </property>
               </widget>
              </item>
              <item row="2" column="0" colspan="2">
-              <widget class="QCheckBox" name="hideOfflineContactsCheckbox">
+              <widget class="QCheckBox" name="hideOfflineContactsCheckBox">
                <property name="text">
                 <string>Hide offline contacts</string>
                </property>
@@ -542,20 +658,20 @@
            </widget>
           </item>
           <item>
-           <widget class="QGroupBox" name="rosterGroupsBox">
+           <widget class="QGroupBox" name="rosterGroupsGroupBox">
             <property name="title">
              <string>Groups</string>
             </property>
             <layout class="QFormLayout">
              <item row="0" column="0" colspan="2">
-              <widget class="QCheckBox" name="rosterGroupsAsTabsCheckbox">
+              <widget class="QCheckBox" name="rosterGroupsAsTabsCheckBox">
                <property name="text">
                 <string>Display groups as tabs</string>
                </property>
               </widget>
              </item>
              <item row="1" column="0" colspan="2">
-              <widget class="QCheckBox" name="rosterGroupsOnMainCheckbox">
+              <widget class="QCheckBox" name="rosterGroupsOnMainCheckBox">
                <property name="text">
                 <string>Display groups on main tab</string>
                </property>
@@ -565,20 +681,20 @@
            </widget>
           </item>
           <item>
-           <widget class="QGroupBox" name="rosterIconsBox">
+           <widget class="QGroupBox" name="rosterIconsGroupBox">
             <property name="title">
              <string>Icons</string>
             </property>
             <layout class="QFormLayout">
              <item row="0" column="0" colspan="2">
-              <widget class="QCheckBox" name="rosterPhoneIconCheckbox">
+              <widget class="QCheckBox" name="rosterPhoneIconCheckBox">
                <property name="text">
                 <string>Display phone icon</string>
                </property>
               </widget>
              </item>
              <item row="1" column="0" colspan="2">
-              <widget class="QCheckBox" name="rosterEmailIconCheckbox">
+              <widget class="QCheckBox" name="rosterEmailIconCheckBox">
                <property name="text">
                 <string>Display email icon</string>
                </property>
@@ -588,7 +704,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QGroupBox" name="rosterTipsBox">
+           <widget class="QGroupBox" name="rosterTipsGroupBox">
             <property name="title">
              <string>Tips</string>
             </property>
@@ -604,23 +720,26 @@
               </widget>
              </item>
              <item row="0" column="0" colspan="2">
-              <widget class="QCheckBox" name="rosterTipsCheckbox">
+              <widget class="QCheckBox" name="rosterTipsCheckBox">
                <property name="text">
                 <string>Enable tips</string>
                </property>
               </widget>
              </item>
              <item row="2" column="0" colspan="2">
-              <widget class="QCheckBox" name="displayRosterTipsIPCheckbox">
+              <widget class="QCheckBox" name="displayRosterTipsIPCheckBox">
                <property name="text">
                 <string>Display IP</string>
                </property>
               </widget>
              </item>
              <item row="1" column="1">
-              <widget class="QSpinBox" name="rosterTipDelaySpinbox">
+              <widget class="QSpinBox" name="rosterTipDelaySpinBox">
                <property name="suffix">
                 <string> ms</string>
+               </property>
+               <property name="maximum">
+                <number>2000</number>
                </property>
               </widget>
              </item>
@@ -651,13 +770,13 @@
            <number>0</number>
           </property>
           <item>
-           <widget class="QGroupBox" name="historyBox">
+           <widget class="QGroupBox" name="historyGroupBox">
             <property name="title">
              <string/>
             </property>
             <layout class="QFormLayout">
              <item row="0" column="0" colspan="2">
-              <widget class="QCheckBox" name="historyCheckbox">
+              <widget class="QCheckBox" name="historyCheckBox">
                <property name="text">
                 <string>Enable history</string>
                </property>
@@ -671,28 +790,28 @@
               </widget>
              </item>
              <item row="1" column="1">
-              <widget class="QSpinBox" name="historyExpireSpinbox">
+              <widget class="QSpinBox" name="historyExpireSpinBox">
                <property name="suffix">
                 <string> days</string>
                </property>
               </widget>
              </item>
              <item row="3" column="0">
-              <widget class="QCheckBox" name="underlineHistoryLinksCheckbox">
+              <widget class="QCheckBox" name="underlineHistoryLinksCheckBox">
                <property name="text">
                 <string>Underline links</string>
                </property>
               </widget>
              </item>
              <item row="2" column="0">
-              <widget class="QCheckBox" name="saveStrangerHistoryCheckbox">
+              <widget class="QCheckBox" name="saveStrangerHistoryCheckBox">
                <property name="text">
                 <string>Save messages from strangers</string>
                </property>
               </widget>
              </item>
              <item row="4" column="0">
-              <widget class="QCheckBox" name="displayHistoryFormattingCheckbox">
+              <widget class="QCheckBox" name="displayHistoryFormattingCheckBox">
                <property name="text">
                 <string>Display message format</string>
                </property>
@@ -725,7 +844,7 @@
            <number>0</number>
           </property>
           <item>
-           <widget class="QGroupBox" name="chatWindowBox">
+           <widget class="QGroupBox" name="chatWindowGroupGroupBox">
             <property name="title">
              <string/>
             </property>
@@ -734,14 +853,14 @@
               <enum>QFormLayout::ExpandingFieldsGrow</enum>
              </property>
              <item row="1" column="0" colspan="2">
-              <widget class="QCheckBox" name="sentMessagesHistoryCheckbox">
+              <widget class="QCheckBox" name="sentMessagesHistoryCheckBox">
                <property name="text">
                 <string>Enable sent message history (Ctrl+Up and Ctrl+Down)</string>
                </property>
               </widget>
              </item>
              <item row="0" column="0" colspan="2">
-              <widget class="QCheckBox" name="copySelectionToClipboardCheckbox">
+              <widget class="QCheckBox" name="copySelectionToClipboardCheckBox">
                <property name="text">
                 <string>Copy selection to clipboard</string>
                </property>
@@ -755,7 +874,7 @@
               </widget>
              </item>
              <item row="2" column="1">
-              <widget class="QSpinBox" name="loadMessagesAmountSpinbox">
+              <widget class="QSpinBox" name="loadMessagesAmountSpinBox">
                <property name="suffix">
                 <string> messages</string>
                </property>
@@ -765,20 +884,20 @@
            </widget>
           </item>
           <item>
-           <widget class="QGroupBox" name="chatWindowGroupingBox">
+           <widget class="QGroupBox" name="chatWindowGroupingGroupBox">
             <property name="title">
              <string>Grouping</string>
             </property>
             <layout class="QFormLayout">
              <item row="0" column="0" colspan="2">
-              <widget class="QCheckBox" name="groupIncomingMessagesCheckbox">
+              <widget class="QCheckBox" name="groupIncomingMessagesCheckBox">
                <property name="text">
                 <string>Group incoming messages</string>
                </property>
               </widget>
              </item>
              <item row="1" column="0" colspan="2">
-              <widget class="QCheckBox" name="groupMyMessagesCheckbox">
+              <widget class="QCheckBox" name="groupMyMessagesCheckBox">
                <property name="text">
                 <string>Group my messages</string>
                </property>
@@ -788,41 +907,41 @@
            </widget>
           </item>
           <item>
-           <widget class="QGroupBox" name="chatWindowDisplayBox">
+           <widget class="QGroupBox" name="chatWindowDisplayGroupBox">
             <property name="title">
              <string>Display</string>
             </property>
             <layout class="QFormLayout">
              <item row="0" column="0" colspan="2">
-              <widget class="QCheckBox" name="displayMessageTimestampCheckbox">
+              <widget class="QCheckBox" name="displayMessageTimestampCheckBox">
                <property name="text">
                 <string>Display message timestamp</string>
                </property>
               </widget>
              </item>
              <item row="1" column="0" colspan="2">
-              <widget class="QCheckBox" name="displayChatWindowStatusChangessCheckbox">
+              <widget class="QCheckBox" name="displayChatWindowStatusChangessCheckBox">
                <property name="text">
                 <string>Display status changes</string>
                </property>
               </widget>
              </item>
              <item row="2" column="0" colspan="2">
-              <widget class="QCheckBox" name="displayYouTubeMessagesCheckbox">
+              <widget class="QCheckBox" name="displayYouTubeMessagesCheckBox">
                <property name="text">
                 <string>Display YouTube movies</string>
                </property>
               </widget>
              </item>
              <item row="3" column="0" colspan="2">
-              <widget class="QCheckBox" name="displayMessageFormattingCheckbox">
+              <widget class="QCheckBox" name="displayMessageFormattingCheckBox">
                <property name="text">
                 <string>Display message formatting</string>
                </property>
               </widget>
              </item>
              <item row="4" column="0" colspan="2">
-              <widget class="QCheckBox" name="underlineMessageLinksCheckbox">
+              <widget class="QCheckBox" name="underlineMessageLinksCheckBox">
                <property name="text">
                 <string>Underline links</string>
                </property>
@@ -855,14 +974,14 @@
               </widget>
              </item>
              <item row="0" column="1">
-              <widget class="QSpinBox" name="cleanChatWindowMessagesAmountSpinbox">
+              <widget class="QSpinBox" name="cleanChatWindowMessagesAmountSpinBox">
                <property name="suffix">
                 <string> messages</string>
                </property>
               </widget>
              </item>
              <item row="1" column="1">
-              <widget class="QSpinBox" name="cleanChatWindowMinutesAmountSpinbox">
+              <widget class="QSpinBox" name="cleanChatWindowMinutesAmountSpinBox">
                <property name="suffix">
                 <string> min</string>
                </property>
@@ -895,7 +1014,7 @@
            <number>0</number>
           </property>
           <item>
-           <widget class="QGroupBox" name="chatWindowTabsBox">
+           <widget class="QGroupBox" name="chatWindowTabsGroupBox">
             <property name="title">
              <string/>
             </property>
@@ -904,21 +1023,21 @@
               <enum>QFormLayout::ExpandingFieldsGrow</enum>
              </property>
              <item row="0" column="0" colspan="2">
-              <widget class="QCheckBox" name="hideTabBarOnSingleTabCheckbox">
+              <widget class="QCheckBox" name="hideTabBarOnSingleTabCheckBox">
                <property name="text">
                 <string>Hide tab bar if only one tab is opened</string>
                </property>
               </widget>
              </item>
              <item row="1" column="0" colspan="2">
-              <widget class="QCheckBox" name="closeTabsWhenClosingChatWindowCheckbox">
+              <widget class="QCheckBox" name="closeTabsWhenClosingChatWindowCheckBox">
                <property name="text">
                 <string>Close all tabs when closing window</string>
                </property>
               </widget>
              </item>
              <item row="2" column="0" colspan="2">
-              <widget class="QCheckBox" name="enableChatWindowFKeysCheckbox">
+              <widget class="QCheckBox" name="enableChatWindowFKeysCheckBox">
                <property name="text">
                 <string>Enable switching tabs with F-keys</string>
                </property>
@@ -1004,43 +1123,12 @@
      </layout>
     </widget>
    </item>
-   <item row="1" column="0" colspan="3">
-    <layout class="QHBoxLayout">
-     <item>
-      <spacer>
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="QPushButton" name="okButton">
-       <property name="text">
-        <string>OK</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="cancelButton">
-       <property name="text">
-        <string>Cancel</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="applyButton">
-       <property name="text">
-        <string>Apply</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
+   <item row="2" column="0" colspan="2">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Apply|QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>
@@ -1052,8 +1140,268 @@
    <container>1</container>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>treeWidget</tabstop>
+  <tabstop>buttonBox</tabstop>
+  <tabstop>languageCombo</tabstop>
+  <tabstop>proxyCheckBox</tabstop>
+  <tabstop>proxyServerEdit</tabstop>
+  <tabstop>proxyAuthCheckBox</tabstop>
+  <tabstop>proxyUsernameEdit</tabstop>
+  <tabstop>proxyPasswordEdit</tabstop>
+  <tabstop>alwaysOnTopCheckBox</tabstop>
+  <tabstop>dockDistanceSpinBox</tabstop>
+  <tabstop>dockToEdgesCheckBox</tabstop>
+  <tabstop>mainWindowCaptionEdit</tabstop>
+  <tabstop>mainWindowCaptionHelpButton</tabstop>
+  <tabstop>chatWindowCaptionEdit</tabstop>
+  <tabstop>chatWindowCaptionHelpButton</tabstop>
+  <tabstop>chatTabCaptionEdit</tabstop>
+  <tabstop>chatTabCaptionHelpButton</tabstop>
+  <tabstop>displayRosterDescriptionCheckBox</tabstop>
+  <tabstop>displayRosterAvatarsCheckBox</tabstop>
+  <tabstop>hideOfflineContactsCheckBox</tabstop>
+  <tabstop>rosterGroupsAsTabsCheckBox</tabstop>
+  <tabstop>rosterGroupsOnMainCheckBox</tabstop>
+  <tabstop>rosterPhoneIconCheckBox</tabstop>
+  <tabstop>rosterEmailIconCheckBox</tabstop>
+  <tabstop>rosterTipsCheckBox</tabstop>
+  <tabstop>displayRosterTipsIPCheckBox</tabstop>
+  <tabstop>rosterTipDelaySpinBox</tabstop>
+  <tabstop>historyCheckBox</tabstop>
+  <tabstop>historyExpireSpinBox</tabstop>
+  <tabstop>underlineHistoryLinksCheckBox</tabstop>
+  <tabstop>saveStrangerHistoryCheckBox</tabstop>
+  <tabstop>displayHistoryFormattingCheckBox</tabstop>
+  <tabstop>sentMessagesHistoryCheckBox</tabstop>
+  <tabstop>copySelectionToClipboardCheckBox</tabstop>
+  <tabstop>loadMessagesAmountSpinBox</tabstop>
+  <tabstop>groupIncomingMessagesCheckBox</tabstop>
+  <tabstop>groupMyMessagesCheckBox</tabstop>
+  <tabstop>displayMessageTimestampCheckBox</tabstop>
+  <tabstop>displayChatWindowStatusChangessCheckBox</tabstop>
+  <tabstop>displayYouTubeMessagesCheckBox</tabstop>
+  <tabstop>displayMessageFormattingCheckBox</tabstop>
+  <tabstop>underlineMessageLinksCheckBox</tabstop>
+  <tabstop>cleanChatWindowMessagesAmountSpinBox</tabstop>
+  <tabstop>cleanChatWindowMinutesAmountSpinBox</tabstop>
+  <tabstop>hideTabBarOnSingleTabCheckBox</tabstop>
+  <tabstop>closeTabsWhenClosingChatWindowCheckBox</tabstop>
+  <tabstop>enableChatWindowFKeysCheckBox</tabstop>
+  <tabstop>chatTabBarPositionCombo</tabstop>
+  <tabstop>firstMessageActionCombo</tabstop>
+ </tabstops>
  <resources>
   <include location="../../res.qrc"/>
  </resources>
- <connections/>
+ <connections>
+  <connection>
+   <sender>proxyAuthCheckBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>proxyUsernameEdit</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>290</x>
+     <y>93</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>325</x>
+     <y>116</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>proxyAuthCheckBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>proxyPasswordEdit</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>274</x>
+     <y>94</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>321</x>
+     <y>155</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>dockToEdgesCheckBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>dockDistanceSpinBox</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>574</x>
+     <y>258</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>341</x>
+     <y>284</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>rosterTipsCheckBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>rosterTipDelaySpinBox</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>491</x>
+     <y>299</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>340</x>
+     <y>325</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>rosterTipsCheckBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>displayRosterTipsIPCheckBox</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>491</x>
+     <y>299</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>491</x>
+     <y>348</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>historyCheckBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>historyExpireSpinBox</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>491</x>
+     <y>39</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>574</x>
+     <y>65</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>historyCheckBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>saveStrangerHistoryCheckBox</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>491</x>
+     <y>39</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>376</x>
+     <y>88</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>historyCheckBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>underlineHistoryLinksCheckBox</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>491</x>
+     <y>39</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>296</x>
+     <y>111</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>historyCheckBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>displayHistoryFormattingCheckBox</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>491</x>
+     <y>39</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>342</x>
+     <y>134</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>transparencyCheckBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>transparencySlider</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>297</x>
+     <y>147</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>446</x>
+     <y>177</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>autoHideCheckBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>autoHideSlider</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>280</x>
+     <y>68</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>298</x>
+     <y>91</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>proxyCheckBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>proxyServerEdit</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>245</x>
+     <y>44</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>378</x>
+     <y>66</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>proxyCheckBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>proxyPortEdit</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>445</x>
+     <y>41</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>555</x>
+     <y>67</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

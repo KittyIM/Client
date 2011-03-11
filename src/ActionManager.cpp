@@ -9,13 +9,12 @@
 #include <QtGui/QApplication>
 
 using namespace KittySDK;
-using namespace Kitty;
 
-ActionManager::ActionManager(QObject *parent): QObject(parent)
+Kitty::ActionManager::ActionManager(QObject *parent): QObject(parent)
 {
 }
 
-void ActionManager::loadDefaults()
+void Kitty::ActionManager::loadDefaults()
 {
   Core *core = Core::inst();
 

@@ -47,13 +47,42 @@ namespace KittySDK
     const char * const S_MAINWINDOW_STATE              = "Kitty.MainWindow.State";
     const char * const S_MAINWINDOW_STARTHIDDEN        = "Kitty.MainWindow.StartHidden";
     const char * const S_MAINWINDOW_CAPTION            = "Kitty.Display.Captions.MainWindow";
+    const char * const S_MAINWINDOW_ALWAYS_ON_TOP      = "Kitty.MainWindow.AlwaysOnTop";
+    const char * const S_MAINWINDOW_AUTOHIDE           = "Kitty.MainWindow.AutoHide.Enabled";
+    const char * const S_MAINWINDOW_AUTOHIDE_DELAY     = "Kitty.MainWindow.AutoHide.Delay";
+    const char * const S_MAINWINDOW_DOCKING            = "Kitty.MainWindow.Docking.Enabled";
+    const char * const S_MAINWINDOW_DOCKING_DISTANCE   = "Kitty.MainWindow.Docking.Distance";
 
     const char * const S_DEBUGWINDOW_GEOMETRY          = "Kitty.Geometries.DebugWindow";
+
     const char * const S_SETTINGSWINDOW_GEOMETRY       = "Kitty.Geometries.SettingsWindow";
+
+    const char * const S_CHATWINDOW_CAPTION            = "Kitty.Display.Captions.ChatWindow";
+
+    const char * const S_CHATTAB_CAPTION               = "Kitty.Display.Captions.ChatTab";
 
     const char * const S_PROFILE_PASSWORD              = "Profile.Password";
     const char * const S_PROFILE_THEMES_ICON           = "Profile.Themes.Icon";
 
+    const char * const S_PROXY_ENABLED                 = "Kitty.Proxy.Enabled";
+    const char * const S_PROXY_SERVER                  = "Kitty.Proxy.Server";
+    const char * const S_PROXY_PORT                    = "Kitty.Proxy.Port";
+    const char * const S_PROXY_AUTH                    = "Kitty.Proxy.Auth.Enabled";
+    const char * const S_PROXY_USERNAME                = "Kitty.Proxy.Auth.Username";
+    const char * const S_PROXY_PASSWORD                = "Kitty.Proxy.Auth.Password";
+
+    const char * const S_ROSTER_STATUS_DESCRIPTION     = "Kitty.Roster.StatusDescription";
+    const char * const S_ROSTER_AVATARS                = "Kitty.Roster.Avatars";
+    const char * const S_ROSTER_HIDE_OFFLINE           = "Kitty.Roster.HideOffline";
+    const char * const S_ROSTER_GROUPS_AS_TABS         = "Kitty.Roster.GroupsAsTabs";
+    const char * const S_ROSTER_GROUPS_ON_MAIN         = "Kitty.Roster.GroupsOnMain";
+    const char * const S_ROSTER_PHONE_ICON             = "Kitty.Roster.Icons.Phone";
+    const char * const S_ROSTER_EMAIL_ICON             = "Kitty.Roster.Icons.Email";
+    const char * const S_ROSTER_TIPS                   = "Kitty.Roster.Tips.Enabled";
+    const char * const S_ROSTER_TIPS_DELAY             = "Kitty.Roster.Tips.Delay";
+    const char * const S_ROSTER_TIPS_IP                = "Kitty.Roster.Tips.IP";
+
+    //const char * const S_                = "Kitty.";
   }
 
   namespace SettingPages

@@ -10,6 +10,11 @@ namespace Ui
   class SettingsWindow;
 }
 
+namespace KittySDK
+{
+  class SettingPage;
+}
+
 namespace Kitty
 {
   class SettingsWindow: public QDialog
@@ -23,15 +28,25 @@ namespace Kitty
       QTreeWidgetItem *itemById(const QString &id);
 
       void updateIcons();
+      void resetSettings();
 
     signals:
       void settingsApplied();
 
+    protected:
+      void showEvent(QShowEvent *event);
+
     private slots:
       void on_treeWidget_currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous);
+      void applySettings();
 
-    private:
+      void on_buttonBox_accepted();
+
+      void on_buttonBox_rejected();
+
+  private:
       Ui::SettingsWindow *m_ui;
+      QList<KittySDK::SettingPage*> m_pages;
   };
 }
 
