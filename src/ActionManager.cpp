@@ -10,10 +10,6 @@
 
 using namespace KittySDK;
 
-Kitty::ActionManager::ActionManager(QObject *parent): QObject(parent)
-{
-}
-
 void Kitty::ActionManager::loadDefaults()
 {
   Core *core = Core::inst();

@@ -23,7 +23,7 @@ Kitty::Profile::Profile(QObject *parent): QObject(parent)
 
 Kitty::Profile::~Profile()
 {
-  if(isLoaded()) {
+  if(isLoaded() && !m_settingsOnly) {
     settings()->setValue(Settings::S_DEBUGWINDOW_GEOMETRY, DebugWindow::inst()->saveGeometry());
   }
 }
@@ -34,7 +34,8 @@ void Kitty::Profile::load(const QString &name, bool settingsOnly)
 
   m_settings = new XmlSettings(core->profilesDir() + name + "/settings.xml", this);
 
-  if(!settingsOnly) {
+  m_settingsOnly = settingsOnly;
+  if(!m_settingsOnly) {
     if(settings()->contains(Settings::S_PROFILE_THEMES_ICON)) {
       loadIconTheme(settings()->value(Settings::S_PROFILE_THEMES_ICON).toString());
     }
@@ -52,13 +53,11 @@ void Kitty::Profile::loadIconTheme(const QString &name)
 {
   qDebug() << "Loading icon theme " + name;
 
-  Core *core = Core::inst();
-
   IconTheme theme(name);
   QMapIterator<QString, QString> i(theme.icons());
   while(i.hasNext()) {
     i.next();
 
-    core->iconManager()->insert(i.key(), QPixmap(i.value()));
+    IconManager::inst()->insert(i.key(), QPixmap(i.value()));
   }
 }

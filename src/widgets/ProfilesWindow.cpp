@@ -58,6 +58,12 @@ void Kitty::ProfilesWindow::showEvent(QShowEvent *event)
       m_ui->profilesWidget->addTopLevelItem(item);
     }
   }
+
+  QTreeWidgetItem *item = new QTreeWidgetItem();
+  item->setText(0, tr("Add new profile"));
+  item->setIcon(0, QIcon(":/icons/main.ico"));
+  item->setData(0, Qt::UserRole, true);
+  m_ui->profilesWidget->addTopLevelItem(item);
 }
 
 void Kitty::ProfilesWindow::paintEvent(QPaintEvent *event)
@@ -94,13 +100,21 @@ void Kitty::ProfilesWindow::closeEvent(QCloseEvent *event)
 
 void Kitty::ProfilesWindow::on_profilesWidget_currentItemChanged(QTreeWidgetItem* current, QTreeWidgetItem* previous)
 {
-  if(current) {
-    Profile pro;
-    pro.load(current->text(0));
+  m_ui->loginButton->setEnabled(false);
+  m_ui->deleteButton->setEnabled(false);
 
-    m_ui->passwordEdit->clear();
-    m_ui->passwordEdit->setVisible(pro.hasPassword());
-    m_ui->passwordLabel->setVisible(pro.hasPassword());
+  if(current) {
+    if(current->data(0, Qt::UserRole).toBool() == false) {
+      Profile pro;
+      pro.load(current->text(0), true);
+
+      m_ui->passwordEdit->clear();
+      m_ui->passwordEdit->setVisible(pro.hasPassword());
+      m_ui->passwordLabel->setVisible(pro.hasPassword());
+
+      m_ui->loginButton->setEnabled(true);
+      m_ui->deleteButton->setEnabled(true);
+    }
   }
 }
 
@@ -109,14 +123,18 @@ void Kitty::ProfilesWindow::on_profilesWidget_itemDoubleClicked(QTreeWidgetItem 
   Q_UNUSED(column)
 
   if(item) {
-    Profile pro;
-    pro.load(item->text(0));
+    if(item->data(0, Qt::UserRole).toBool() == false) {
+      Profile pro;
+      pro.load(item->text(0), true);
 
-    if(!pro.hasPassword() || (pro.hasPassword() && pro.settings()->value(KittySDK::Settings::S_PROFILE_PASSWORD).toString() == QCryptographicHash::hash(m_ui->passwordEdit->text().toLocal8Bit(), QCryptographicHash::Sha1).toHex())) {
-      Core::inst()->loadProfile(item->text(0));
-      close();
+      if(!pro.hasPassword() || (pro.hasPassword() && pro.settings()->value(KittySDK::Settings::S_PROFILE_PASSWORD).toString() == QCryptographicHash::hash(m_ui->passwordEdit->text().toLocal8Bit(), QCryptographicHash::Sha1).toHex())) {
+        Core::inst()->loadProfile(item->text(0));
+        close();
+      } else {
+        QMessageBox::information(this, tr("Wrong password"), tr("The password you supplied is wrong."));
+      }
     } else {
-      QMessageBox::information(this, tr("Wrong password"), tr("The password you supplied is wrong."));
+      //new profile
     }
   }
 }

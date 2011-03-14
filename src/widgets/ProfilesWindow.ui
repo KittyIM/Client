@@ -98,6 +98,9 @@
        <layout class="QHBoxLayout">
         <item>
          <widget class="QPushButton" name="loginButton">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="text">
            <string>Login</string>
           </property>
@@ -105,6 +108,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="deleteButton">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="text">
            <string>Delete</string>
           </property>

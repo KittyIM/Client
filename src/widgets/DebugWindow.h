@@ -1,9 +1,9 @@
 #ifndef DEBUGWINDOW_H
 #define DEBUGWINDOW_H
 
-#include <QtGui/QWidget>
+#include "Singleton.h"
 
-#include <windows.h>
+#include <QtGui/QWidget>
 
 class QStringList;
 class QWebView;
@@ -22,7 +22,7 @@ namespace Kitty
     public:
       ~DebugWindow();
 
-      static DebugWindow *inst();
+      static DebugWindow* inst();
       static void destroy();
 
       static void addMessage(QtMsgType type, const char *msg);
@@ -42,8 +42,8 @@ namespace Kitty
 
     private:
       Ui::DebugWindow *m_ui;
+      static DebugWindow* m_inst;
       QStringList m_history;
-      static DebugWindow *m_inst;
       static QWebView *m_wvLog;
   };
 }

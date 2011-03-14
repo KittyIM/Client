@@ -121,7 +121,7 @@ void Kitty::DebugWindow::on_refreshActionsButton_clicked()
 {
   m_ui->actionsWidget->clear();
 
-  QStringList keys = Core::inst()->actionManager()->keys();
+  QStringList keys = ActionManager::inst()->keys();
   qSort(keys);
   foreach(QString key, keys) {
     QString prefix;
@@ -155,7 +155,7 @@ void Kitty::DebugWindow::on_refreshIconsButton_clicked()
 {
   m_ui->iconsWidget->clear();
 
-  QStringList keys = Core::inst()->iconManager()->keys();
+  QStringList keys = IconManager::inst()->keys();
   qSort(keys);
   foreach(QString key, keys) {
     QString prefix;

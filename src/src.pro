@@ -16,9 +16,11 @@ SOURCES    += main.cpp \
               widgets/ProfilesWindow.cpp \
               XmlSettings.cpp \
               widgets/AboutWindow.cpp \
-    IconTheme.cpp \
-    widgets/SettingsWindow.cpp \
-    widgets/PortabilityWindow.cpp
+              IconTheme.cpp \
+              widgets/SettingsWindow.cpp \
+              widgets/PortabilityWindow.cpp \
+              PluginManager.cpp \
+    PluginCoreImpl.cpp
 
 HEADERS    += constants.h \
               SDK/constants.h \
@@ -33,17 +35,23 @@ HEADERS    += constants.h \
               widgets/ProfilesWindow.h \
               XmlSettings.h \
               widgets/AboutWindow.h \
-    IconTheme.h \
-    widgets/SettingsWindow.h \
-    SDK/SettingPage.h \
-    widgets/PortabilityWindow.h
+              IconTheme.h \
+              widgets/SettingsWindow.h \
+              widgets/PortabilityWindow.h \
+              Singleton.h \
+              PluginManager.h \
+              SDK/SettingPage.h \
+              SDK/Protocol.h \
+              SDK/Plugin.h \
+              SDK/PluginCore.h \
+    PluginCoreImpl.h
 
 FORMS      += widgets/DebugWindow.ui \
               widgets/MainWindow.ui \
               widgets/ProfilesWindow.ui \
               widgets/AboutWindow.ui \
-    widgets/SettingsWindow.ui \
-    widgets/PortabilityWindow.ui
+              widgets/SettingsWindow.ui \
+              widgets/PortabilityWindow.ui
 
 RESOURCES  += ../res.qrc
 RC_FILE     = ../res.rc

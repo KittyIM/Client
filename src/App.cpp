@@ -45,6 +45,7 @@ Kitty::App::App(int &argc, char **argv): QApplication(argc, argv)
     }
   }
 
+  //TODO: When only 1 profile with no password exists, skip profile selection
   if(!profile.isEmpty()) {
     Profile pro;
     pro.load(profile, true);
@@ -69,5 +70,5 @@ void Kitty::App::cleanUp()
     QProcess::startDetached(qApp->applicationFilePath());
   }
 
-  Core::destroy();
+  Core::destr();
 }

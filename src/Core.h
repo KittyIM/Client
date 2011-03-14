@@ -1,6 +1,8 @@
 #ifndef CORE_H
 #define CORE_H
 
+#include "Singleton.h"
+
 #include <QtCore/QVariant>
 #include <QtCore/QObject>
 #include <QtGui/QSystemTrayIcon>
@@ -11,25 +13,22 @@ namespace Kitty
 {
   class ProfilesWindow;
   class SettingsWindow;
-  class ActionManager;
-  class IconManager;
   class AboutWindow;
   class XmlSettings;
   class MainWindow;
   class Profile;
 
 
-  class Core: public QObject
+  class Core: public QObject, public Singleton<Core>
   {
     Q_OBJECT
     Q_PROPERTY(bool restart READ hasToRestart WRITE setRestart)
     Q_PROPERTY(bool portable READ isPortable WRITE setPortable)
 
+    friend class Singleton<Core>;
+
     public:
       ~Core();
-
-      static Core *inst();
-      static void destroy();
 
       QAction *action(const QString &id) const;
       QPixmap icon(const QString &id) const;
@@ -45,8 +44,6 @@ namespace Kitty
       QSystemTrayIcon *trayIcon();
       Profile *profile();
       XmlSettings *settings();
-      ActionManager *actionManager() const { return m_actionManager; }
-      IconManager *iconManager() const { return m_iconManager; }
 
       QString profilesDir() const;
 
@@ -74,14 +71,11 @@ namespace Kitty
       void operator=(const Core &);
 
     private:
-      static Core *m_inst;
       bool m_restart;
       bool m_portable;
       ProfilesWindow *m_profilesWindow;
       SettingsWindow *m_settingsWindow;
-      ActionManager *m_actionManager;
       QSystemTrayIcon *m_trayIcon;
-      IconManager *m_iconManager;
       AboutWindow *m_aboutWindow;
       MainWindow *m_mainWindow;
       Profile *m_profile;

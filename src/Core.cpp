@@ -5,6 +5,7 @@
 #include "widgets/DebugWindow.h"
 #include "widgets/AboutWindow.h"
 #include "widgets/MainWindow.h"
+#include "PluginManager.h"
 #include "ActionManager.h"
 #include "SDK/constants.h"
 #include "XmlSettings.h"
@@ -24,13 +25,8 @@
 #include <QtGui/QApplication>
 #include <QtGui/QMenu>
 
-Kitty::Core *Kitty::Core::m_inst = 0;
-
 Kitty::Core::Core()
 {
-  m_iconManager = new IconManager(this);
-  m_actionManager = new ActionManager(this);
-
   m_profilesWindow = 0;
   m_settingsWindow = 0;
   m_aboutWindow = 0;
@@ -58,12 +54,11 @@ Kitty::Core::~Core()
   }
 
   if(m_trayIcon) {
-    m_trayIcon->hide();
     delete m_trayIcon;
   }
 
-  delete m_actionManager;
-  delete m_iconManager;
+  ActionManager::destr();
+  IconManager::destr();
 
   if(m_profile) {
     delete m_profile;
@@ -72,39 +67,14 @@ Kitty::Core::~Core()
   DebugWindow::destroy();
 }
 
-Kitty::Core* Kitty::Core::inst()
-{
-  static QMutex mutex;
-
-  if(!m_inst) {
-    mutex.lock();
-    m_inst = new Core();
-    mutex.unlock();
-  }
-
-  return m_inst;
-}
-
-void Kitty::Core::destroy()
-{
-  static QMutex mutex;
-
-  if(m_inst) {
-    mutex.lock();
-    delete m_inst;
-    m_inst = 0;
-    mutex.unlock();
-  }
-}
-
 QAction *Kitty::Core::action(const QString &id) const
 {
-  return m_actionManager->action(id);
+  return ActionManager::inst()->action(id);
 }
 
 QPixmap Kitty::Core::icon(const QString &id) const
 {
-  return m_iconManager->icon(id);
+  return IconManager::inst()->icon(id);
 }
 
 QVariant Kitty::Core::setting(const QString &key, const QVariant &defaultValue)
@@ -131,7 +101,9 @@ void Kitty::Core::loadProfile(const QString &name)
 Kitty::MainWindow *Kitty::Core::mainWindow()
 {
   if(!m_mainWindow) {
-    m_actionManager->loadDefaults();
+    PluginManager::inst()->load();
+
+    ActionManager::inst()->loadDefaults();
     m_mainWindow = new Kitty::MainWindow();
   }
 
@@ -141,7 +113,7 @@ Kitty::MainWindow *Kitty::Core::mainWindow()
 Kitty::AboutWindow *Kitty::Core::aboutWindow()
 {
   if(!m_aboutWindow) {
-    //m_mngrAct->loadDefaults();
+    ActionManager::inst()->loadDefaults();
     m_aboutWindow = new Kitty::AboutWindow();
   }
 

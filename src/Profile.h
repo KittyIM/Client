@@ -28,6 +28,7 @@ namespace Kitty
 
     private:
       QString m_name;
+      bool m_settingsOnly;
       XmlSettings *m_settings;
   };
 }
