@@ -1,10 +1,11 @@
 #include "Core.h"
 
-#include "widgets/ProfilesWindow.h"
-#include "widgets/SettingsWindow.h"
-#include "widgets/DebugWindow.h"
-#include "widgets/AboutWindow.h"
-#include "widgets/MainWindow.h"
+#include "widgets/windows/ProfilesWindow.h"
+#include "widgets/windows/SettingsWindow.h"
+#include "widgets/windows/DebugWindow.h"
+#include "widgets/windows/AboutWindow.h"
+#include "widgets/windows/ChatWindow.h"
+#include "widgets/windows/MainWindow.h"
 #include "PluginManager.h"
 #include "ActionManager.h"
 #include "SDK/constants.h"
@@ -30,6 +31,7 @@ Kitty::Core::Core()
   m_profilesWindow = 0;
   m_settingsWindow = 0;
   m_aboutWindow = 0;
+  m_chatWindow = 0;
   m_mainWindow = 0;
   m_trayIcon = 0;
   m_profile = 0;
@@ -47,6 +49,10 @@ Kitty::Core::~Core()
 
   if(m_settingsWindow) {
     delete m_settingsWindow;
+  }
+
+  if(m_chatWindow) {
+    delete m_chatWindow;
   }
 
   if(m_profilesWindow) {
@@ -105,6 +111,15 @@ Kitty::MainWindow *Kitty::Core::mainWindow()
   return m_mainWindow;
 }
 
+Kitty::ChatWindow *Kitty::Core::chatWindow()
+{
+  if(!m_chatWindow) {
+    m_chatWindow = new Kitty::ChatWindow();
+  }
+
+  return m_chatWindow;
+}
+
 Kitty::AboutWindow *Kitty::Core::aboutWindow()
 {
   if(!m_aboutWindow) {
@@ -136,6 +151,11 @@ Kitty::SettingsWindow *Kitty::Core::settingsWindow()
 void Kitty::Core::showMainWindow()
 {
   mainWindow()->show();
+}
+
+void Kitty::Core::showChatWindow()
+{
+  chatWindow()->show();
 }
 
 void Kitty::Core::showProfilesWindow()
@@ -170,7 +190,6 @@ Kitty::Profile *Kitty::Core::profile()
 {
   if(!m_profile) {
     m_profile = new Kitty::Profile(this);
-    qDebug() << "creating profile";
   }
 
   return m_profile;

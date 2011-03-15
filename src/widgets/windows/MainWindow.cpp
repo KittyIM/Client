@@ -21,8 +21,6 @@ Kitty::MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), m_ui(new Ui
 {
   m_ui->setupUi(this);
 
-  qDebug() << "construct";
-
   setWindowFlags(windowFlags() | Qt::Tool);
 
   Core *core = Core::inst();
@@ -39,6 +37,8 @@ Kitty::MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), m_ui(new Ui
   if(!core->setting(Settings::S_MAINWINDOW_STARTHIDDEN).toBool()) {
     show();
   }
+
+  //core->showChatWindow();
 }
 
 Kitty::MainWindow::~MainWindow()
@@ -47,8 +47,6 @@ Kitty::MainWindow::~MainWindow()
 
   core->setSetting(Settings::S_MAINWINDOW_STATE, saveState());
   core->setSetting(Settings::S_MAINWINDOW_GEOMETRY, saveGeometry());
-
-  qDebug() << "deleting MainWindow";
 
   delete m_ui;
 }

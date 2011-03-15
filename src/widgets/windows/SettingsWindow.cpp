@@ -1,19 +1,19 @@
 #include "SettingsWindow.h"
 #include "ui_SettingsWindow.h"
 
-#include "settingpages/ChatWindowTabsSettings.h"
-#include "settingpages/ConnectionSettings.h"
-#include "settingpages/ChatWindowSettings.h"
-#include "settingpages/AccountsSettings.h"
-#include "settingpages/DisplaySettings.h"
-#include "settingpages/HistorySettings.h"
-#include "settingpages/PluginsSettings.h"
-#include "settingpages/StartupSettings.h"
-#include "settingpages/SmiliesSettings.h"
-#include "settingpages/RosterSettings.h"
-#include "settingpages/ThemesSettings.h"
-#include "settingpages/MainSettings.h"
-#include "settingpages/UserSettings.h"
+#include "../settingpages/ChatWindowTabsSettings.h"
+#include "../settingpages/ConnectionSettings.h"
+#include "../settingpages/ChatWindowSettings.h"
+#include "../settingpages/AccountsSettings.h"
+#include "../settingpages/DisplaySettings.h"
+#include "../settingpages/HistorySettings.h"
+#include "../settingpages/PluginsSettings.h"
+#include "../settingpages/StartupSettings.h"
+#include "../settingpages/SmiliesSettings.h"
+#include "../settingpages/RosterSettings.h"
+#include "../settingpages/ThemesSettings.h"
+#include "../settingpages/MainSettings.h"
+#include "../settingpages/UserSettings.h"
 #include "SDK/constants.h"
 #include "IconManager.h"
 #include "Core.h"
@@ -148,6 +148,15 @@ void Kitty::SettingsWindow::showEvent(QShowEvent *event)
   QDialog::showEvent(event);
 }
 
+void Kitty::SettingsWindow::changeEvent(QEvent *event)
+{
+  if(event->type() == QEvent::LanguageChange) {
+    m_ui->retranslateUi(this);
+  }
+
+  QDialog::changeEvent(event);
+}
+
 void Kitty::SettingsWindow::on_treeWidget_currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous)
 {
   if(current) {
@@ -160,7 +169,7 @@ void Kitty::SettingsWindow::on_treeWidget_currentItemChanged(QTreeWidgetItem *cu
       }
     }
 
-    qDebug() << "Page not found :(";
+    qDebug() << "Page not found" << current->text(1);
   }
 }
 

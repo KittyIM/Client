@@ -15,6 +15,7 @@ namespace Kitty
   class SettingsWindow;
   class AboutWindow;
   class XmlSettings;
+  class ChatWindow;
   class MainWindow;
   class Profile;
 
@@ -38,6 +39,7 @@ namespace Kitty
       void loadProfile(const QString &name);
 
       MainWindow *mainWindow();
+      ChatWindow *chatWindow();
       AboutWindow *aboutWindow();
       ProfilesWindow *profilesWindow();
       SettingsWindow *settingsWindow();
@@ -58,6 +60,7 @@ namespace Kitty
       void showTrayIcon();
       void showAboutWindow();
       void showMainWindow();
+      void showChatWindow();
       void showProfilesWindow();
       void showSettingsWindow();
       void toggleMainWindow();
@@ -78,6 +81,7 @@ namespace Kitty
       QSystemTrayIcon *m_trayIcon;
       AboutWindow *m_aboutWindow;
       MainWindow *m_mainWindow;
+      ChatWindow *m_chatWindow;
       Profile *m_profile;
   };
 }

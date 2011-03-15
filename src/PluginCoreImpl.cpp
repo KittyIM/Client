@@ -1,6 +1,6 @@
 #include "PluginCoreImpl.h"
 
-#include "widgets/SettingsWindow.h"
+#include "widgets/windows/SettingsWindow.h"
 #include "SDK/SettingPage.h"
 #include "IconManager.h"
 #include "Core.h"

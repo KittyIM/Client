@@ -1,6 +1,6 @@
 #include "App.h"
 
-#include "widgets/DebugWindow.h"
+#include "widgets/windows/DebugWindow.h"
 #include "SDK/constants.h"
 #include "XmlSettings.h"
 #include "Profile.h"

@@ -1,7 +1,7 @@
 #include "ActionManager.h"
 
 
-#include "widgets/DebugWindow.h"
+#include "widgets/windows/DebugWindow.h"
 #include "SDK/constants.h"
 #include "Core.h"
 

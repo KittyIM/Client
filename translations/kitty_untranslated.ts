@@ -4,38 +4,38 @@
 <context>
     <name>DebugWindow</name>
     <message>
-        <location filename="../src/widgets/DebugWindow.ui"/>
+        <location filename="../src/widgets/windows/DebugWindow.ui"/>
         <location filename="../src/ui_DebugWindow.h" line="157"/>
         <source>Debug console</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/DebugWindow.ui"/>
+        <location filename="../src/widgets/windows/DebugWindow.ui"/>
         <location filename="../src/ui_DebugWindow.h" line="159"/>
         <source>Console</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/DebugWindow.ui"/>
+        <location filename="../src/widgets/windows/DebugWindow.ui"/>
         <location filename="../src/ui_DebugWindow.h" line="158"/>
         <source>Execute</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/DebugWindow.ui"/>
+        <location filename="../src/widgets/windows/DebugWindow.ui"/>
         <location filename="../src/ui_DebugWindow.h" line="161"/>
         <source>Actions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/DebugWindow.ui"/>
+        <location filename="../src/widgets/windows/DebugWindow.ui"/>
         <location filename="../src/ui_DebugWindow.h" line="160"/>
         <location filename="../src/ui_DebugWindow.h" line="162"/>
         <source>Refresh</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/DebugWindow.ui"/>
+        <location filename="../src/widgets/windows/DebugWindow.ui"/>
         <location filename="../src/ui_DebugWindow.h" line="163"/>
         <source>Icons</source>
         <translation type="unfinished"></translation>
@@ -44,25 +44,25 @@
 <context>
     <name>ProfilesWindow</name>
     <message>
-        <location filename="../src/widgets/ProfilesWindow.ui"/>
+        <location filename="../src/widgets/windows/ProfilesWindow.ui"/>
         <location filename="../src/ui_ProfilesWindow.h" line="148"/>
         <source>Choose profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/ProfilesWindow.ui"/>
+        <location filename="../src/widgets/windows/ProfilesWindow.ui"/>
         <location filename="../src/ui_ProfilesWindow.h" line="151"/>
         <source>Password:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/ProfilesWindow.ui"/>
+        <location filename="../src/widgets/windows/ProfilesWindow.ui"/>
         <location filename="../src/ui_ProfilesWindow.h" line="152"/>
         <source>Login</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/ProfilesWindow.ui"/>
+        <location filename="../src/widgets/windows/ProfilesWindow.ui"/>
         <location filename="../src/ui_ProfilesWindow.h" line="153"/>
         <source>Delete</source>
         <translation type="unfinished"></translation>
@@ -114,12 +114,12 @@
 <context>
     <name>Kitty::DebugWindow</name>
     <message>
-        <location filename="../src/widgets/DebugWindow.cpp" line="78"/>
+        <location filename="../src/widgets/windows/DebugWindow.cpp" line="87"/>
         <source>Unknown command, type &lt;i&gt;help&lt;/i&gt; for list of commands.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/DebugWindow.cpp" line="82"/>
+        <location filename="../src/widgets/windows/DebugWindow.cpp" line="91"/>
         <source>Commands:&lt;br&gt;&lt;i&gt;help&lt;/i&gt; - prints this text&lt;br&gt;&lt;i&gt;quit&lt;/i&gt; - quit KittyIM</source>
         <translation type="unfinished"></translation>
     </message>
@@ -127,12 +127,12 @@
 <context>
     <name>Kitty::MainWindow</name>
     <message>
-        <location filename="../src/widgets/MainWindow.cpp" line="120"/>
+        <location filename="../src/widgets/windows/MainWindow.cpp" line="116"/>
         <source>User</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/MainWindow.cpp" line="131"/>
+        <location filename="../src/widgets/windows/MainWindow.cpp" line="127"/>
         <source>Settings</source>
         <translation type="unfinished"></translation>
     </message>
@@ -140,17 +140,17 @@
 <context>
     <name>Kitty::ProfilesWindow</name>
     <message>
-        <location filename="../src/widgets/ProfilesWindow.cpp" line="63"/>
+        <location filename="../src/widgets/windows/ProfilesWindow.cpp" line="63"/>
         <source>Add new profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/ProfilesWindow.cpp" line="134"/>
+        <location filename="../src/widgets/windows/ProfilesWindow.cpp" line="134"/>
         <source>Wrong password</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/ProfilesWindow.cpp" line="134"/>
+        <location filename="../src/widgets/windows/ProfilesWindow.cpp" line="134"/>
         <source>The password you supplied is wrong.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -158,7 +158,7 @@
 <context>
     <name>AboutWindow</name>
     <message>
-        <location filename="../src/widgets/AboutWindow.ui"/>
+        <location filename="../src/widgets/windows/AboutWindow.ui"/>
         <location filename="../src/ui_AboutWindow.h" line="71"/>
         <source>About</source>
         <translation type="unfinished"></translation>
@@ -167,7 +167,7 @@
 <context>
     <name>Kitty::AboutWindow</name>
     <message>
-        <location filename="../src/widgets/AboutWindow.cpp" line="27"/>
+        <location filename="../src/widgets/windows/AboutWindow.cpp" line="27"/>
         <source>Programming:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -175,7 +175,7 @@
 <context>
     <name>SettingsWindow</name>
     <message>
-        <location filename="../src/widgets/SettingsWindow.ui"/>
+        <location filename="../src/widgets/windows/SettingsWindow.ui"/>
         <location filename="../src/ui_SettingsWindow.h" line="95"/>
         <source>Settings</source>
         <translation type="unfinished"></translation>
@@ -184,41 +184,27 @@
 <context>
     <name>PortabilityWindow</name>
     <message>
-        <location filename="../src/widgets/PortabilityWindow.ui"/>
-        <location filename="../src/ui_PortabilityWindow.h" line="70"/>
-        <source>Dialog</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/widgets/PortabilityWindow.ui"/>
-        <location filename="../src/ui_PortabilityWindow.h" line="71"/>
+        <location filename="../src/widgets/windows/PortabilityWindow.ui"/>
+        <location filename="../src/ui_PortabilityWindow.h" line="75"/>
         <source>Please select where Kitty should store profiles:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/PortabilityWindow.ui"/>
-        <location filename="../src/ui_PortabilityWindow.h" line="72"/>
+        <location filename="../src/widgets/windows/PortabilityWindow.ui"/>
+        <location filename="../src/ui_PortabilityWindow.h" line="76"/>
         <source>User&apos;s application data folder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/PortabilityWindow.ui"/>
-        <location filename="../src/ui_PortabilityWindow.h" line="73"/>
-        <source>
-C:\Me\AppData\KittyIM\Profiles</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/widgets/PortabilityWindow.ui"/>
-        <location filename="../src/ui_PortabilityWindow.h" line="75"/>
+        <location filename="../src/widgets/windows/PortabilityWindow.ui"/>
+        <location filename="../src/ui_PortabilityWindow.h" line="77"/>
         <source>Kitty&apos;s folder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/PortabilityWindow.ui"/>
-        <location filename="../src/ui_PortabilityWindow.h" line="76"/>
-        <source>
-C:\Program Files\KittyIM\profiles</source>
+        <location filename="../src/widgets/windows/PortabilityWindow.ui"/>
+        <location filename="../src/ui_PortabilityWindow.h" line="74"/>
+        <source>Profiles location</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

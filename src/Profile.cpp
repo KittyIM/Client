@@ -1,8 +1,8 @@
 #include "Profile.h"
 
-#include "widgets/SettingsWindow.h"
-#include "widgets/DebugWindow.h"
-#include "widgets/MainWindow.h"
+#include "widgets/windows/SettingsWindow.h"
+#include "widgets/windows/DebugWindow.h"
+#include "widgets/windows/MainWindow.h"
 #include "SDK/constants.h"
 #include "ActionManager.h"
 #include "PluginManager.h"
