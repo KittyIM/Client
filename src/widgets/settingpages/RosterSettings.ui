@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>RosterSettings</class>
+ <widget class="KittySDK::SettingPage" name="RosterSettings">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>352</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Roster</string>
+  </property>
+  <property name="name" stdset="0">
+   <string notr="true">Display.Roster</string>
+  </property>
+  <property name="icon" stdset="0">
+   <string/>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="margin">
+    <number>0</number>
+   </property>
+   <item>
+    <widget class="QGroupBox" name="rosterGroupBox">
+     <property name="title">
+      <string/>
+     </property>
+     <layout class="QFormLayout">
+      <item row="0" column="0" colspan="2">
+       <widget class="QCheckBox" name="displayRosterDescriptionCheckBox">
+        <property name="text">
+         <string>Display status description</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0" colspan="2">
+       <widget class="QCheckBox" name="displayRosterAvatarsCheckBox">
+        <property name="text">
+         <string>Display avatars</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0" colspan="2">
+       <widget class="QCheckBox" name="hideOfflineContactsCheckBox">
+        <property name="text">
+         <string>Hide offline contacts</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="rosterGroupsGroupBox">
+     <property name="title">
+      <string>Groups</string>
+     </property>
+     <layout class="QFormLayout" name="_2">
+      <item row="0" column="0" colspan="2">
+       <widget class="QCheckBox" name="rosterGroupsAsTabsCheckBox">
+        <property name="text">
+         <string>Display groups as tabs</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0" colspan="2">
+       <widget class="QCheckBox" name="rosterGroupsOnMainCheckBox">
+        <property name="text">
+         <string>Display groups on main tab</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="rosterIconsGroupBox">
+     <property name="title">
+      <string>Icons</string>
+     </property>
+     <layout class="QFormLayout" name="_3">
+      <item row="0" column="0" colspan="2">
+       <widget class="QCheckBox" name="rosterPhoneIconCheckBox">
+        <property name="text">
+         <string>Display phone icon</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0" colspan="2">
+       <widget class="QCheckBox" name="rosterEmailIconCheckBox">
+        <property name="text">
+         <string>Display email icon</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="rosterTipsGroupBox">
+     <property name="title">
+      <string>Tips</string>
+     </property>
+     <layout class="QFormLayout" name="_4">
+      <property name="fieldGrowthPolicy">
+       <enum>QFormLayout::ExpandingFieldsGrow</enum>
+      </property>
+      <item row="1" column="0">
+       <widget class="QLabel" name="rosterTipDelayLabel">
+        <property name="text">
+         <string>Display tip after:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0" colspan="2">
+       <widget class="QCheckBox" name="rosterTipsCheckBox">
+        <property name="text">
+         <string>Enable tips</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0" colspan="2">
+       <widget class="QCheckBox" name="displayRosterTipsIPCheckBox">
+        <property name="text">
+         <string>Display IP</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QSpinBox" name="rosterTipDelaySpinBox">
+        <property name="suffix">
+         <string> ms</string>
+        </property>
+        <property name="maximum">
+         <number>2000</number>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <spacer name="spacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>0</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>KittySDK::SettingPage</class>
+   <extends>QWidget</extends>
+   <header>SDK/SettingPage.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

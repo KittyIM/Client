@@ -25,6 +25,9 @@ namespace Kitty
     public slots:
       void applySettings();
 
+    protected:
+      void changeEvent(QEvent *event);
+
     private:
       Ui::MainWindow *m_ui;
   };

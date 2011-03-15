@@ -93,17 +93,12 @@ void Kitty::Core::loadProfile(const QString &name)
 
   DebugWindow::inst()->restoreGeometry(setting(KittySDK::Settings::S_DEBUGWINDOW_GEOMETRY).toByteArray());
 
-  mainWindow();
-
-  qDebug() << "Profile " + name + " loaded!";
+  //mainWindow();
 }
 
 Kitty::MainWindow *Kitty::Core::mainWindow()
 {
   if(!m_mainWindow) {
-    PluginManager::inst()->load();
-
-    ActionManager::inst()->loadDefaults();
     m_mainWindow = new Kitty::MainWindow();
   }
 
@@ -133,7 +128,6 @@ Kitty::SettingsWindow *Kitty::Core::settingsWindow()
 {
   if(!m_settingsWindow) {
     m_settingsWindow = new Kitty::SettingsWindow();
-    connect(m_settingsWindow, SIGNAL(settingsApplied()), mainWindow(), SLOT(applySettings()));
   }
 
   return m_settingsWindow;
@@ -176,6 +170,7 @@ Kitty::Profile *Kitty::Core::profile()
 {
   if(!m_profile) {
     m_profile = new Kitty::Profile(this);
+    qDebug() << "creating profile";
   }
 
   return m_profile;

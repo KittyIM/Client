@@ -23,8 +23,8 @@
         <file alias="palette.png">res/glyphs/palette.png</file>
         <file alias="message.png">res/glyphs/message.png</file>
         <file alias="key.png">res/glyphs/key.png</file>
-        <file alias="smilie.png">res/glyphs/smilie.png</file>
         <file alias="bullet.png">res/glyphs/bullet.png</file>
+        <file alias="smiley.png">res/glyphs/smiley.png</file>
     </qresource>
     <qresource prefix="/images">
         <file alias="kitty_logo.png">res/images/kitty_logo.png</file>

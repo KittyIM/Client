@@ -21,7 +21,7 @@ void Kitty::XmlSettings::readElement(SettingsMap &map, const QDomElement &root, 
   for(int i = 0; i < children.count(); i++) {
     QDomNode child = children.at(i);
 
-    if(child.isText()) {
+    if(child.isCDATASection()) {
       map.insert(name, XmlSettings::stringToVariant(child.nodeValue()));
     } else if(child.isElement()) {
       QString newName = name;
@@ -71,7 +71,7 @@ bool Kitty::XmlSettings::xmlWrite(QIODevice &device, const SettingsMap &map)
       elem = elem.firstChildElement(part);
     }
 
-    elem.appendChild(doc.createTextNode(XmlSettings::variantToString(i.value())));
+    elem.appendChild(doc.createCDATASection(XmlSettings::variantToString(i.value())));
   }
 
   doc.appendChild(root);

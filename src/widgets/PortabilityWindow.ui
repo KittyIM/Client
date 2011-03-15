@@ -7,11 +7,11 @@
     <x>0</x>
     <y>0</y>
     <width>323</width>
-    <height>183</height>
+    <height>184</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Profiles location</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
@@ -40,7 +40,7 @@
       <string>User's application data folder</string>
      </property>
      <property name="description">
-      <string>
+      <string notr="true">
 C:\Me\AppData\KittyIM\Profiles</string>
      </property>
     </widget>
@@ -57,7 +57,7 @@ C:\Me\AppData\KittyIM\Profiles</string>
       <string>Kitty's folder</string>
      </property>
      <property name="description">
-      <string>
+      <string notr="true">
 C:\Program Files\KittyIM\profiles</string>
      </property>
     </widget>

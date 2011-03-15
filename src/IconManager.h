@@ -24,6 +24,9 @@ namespace Kitty
       void insert(const QString &id, const QPixmap &pixmap, bool replace = true);
       QPixmap icon(const QString &id) const { return m_icons.value(id); }
 
+    signals:
+      void iconsUpdated();
+
     private:
       explicit IconManager(QObject *parent = 0);
 

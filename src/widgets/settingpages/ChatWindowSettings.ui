@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ChatWindowSettings</class>
+ <widget class="KittySDK::SettingPage" name="ChatWindowSettings">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>404</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Chat Window</string>
+  </property>
+  <property name="name" stdset="0">
+   <string notr="true">Display.ChatWindow</string>
+  </property>
+  <property name="icon" stdset="0">
+   <string/>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="margin">
+    <number>0</number>
+   </property>
+   <item>
+    <widget class="QGroupBox" name="chatWindowGroupGroupBox">
+     <property name="title">
+      <string/>
+     </property>
+     <layout class="QFormLayout" name="_3">
+      <property name="fieldGrowthPolicy">
+       <enum>QFormLayout::ExpandingFieldsGrow</enum>
+      </property>
+      <item row="1" column="0" colspan="2">
+       <widget class="QCheckBox" name="sentMessagesHistoryCheckBox">
+        <property name="text">
+         <string>Enable sent message history (Ctrl+Up and Ctrl+Down)</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0" colspan="2">
+       <widget class="QCheckBox" name="copySelectionToClipboardCheckBox">
+        <property name="text">
+         <string>Copy selection to clipboard</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="loadMessagesAmountLabel">
+        <property name="text">
+         <string>When starting a conversation load last:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QSpinBox" name="loadMessagesAmountSpinBox">
+        <property name="suffix">
+         <string> messages</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="chatWindowGroupingGroupBox">
+     <property name="title">
+      <string>Grouping</string>
+     </property>
+     <layout class="QFormLayout" name="_4">
+      <item row="0" column="0" colspan="2">
+       <widget class="QCheckBox" name="groupIncomingMessagesCheckBox">
+        <property name="text">
+         <string>Group incoming messages</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0" colspan="2">
+       <widget class="QCheckBox" name="groupMyMessagesCheckBox">
+        <property name="text">
+         <string>Group my messages</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="chatWindowDisplayGroupBox">
+     <property name="title">
+      <string>Display</string>
+     </property>
+     <layout class="QFormLayout">
+      <item row="0" column="0" colspan="2">
+       <widget class="QCheckBox" name="displayMessageTimestampCheckBox">
+        <property name="text">
+         <string>Display message timestamp</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0" colspan="2">
+       <widget class="QCheckBox" name="displayChatWindowStatusChangessCheckBox">
+        <property name="text">
+         <string>Display status changes</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0" colspan="2">
+       <widget class="QCheckBox" name="displayYouTubeMessagesCheckBox">
+        <property name="text">
+         <string>Display YouTube movies</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0" colspan="2">
+       <widget class="QCheckBox" name="displayMessageFormattingCheckBox">
+        <property name="text">
+         <string>Display message formatting</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0" colspan="2">
+       <widget class="QCheckBox" name="underlineMessageLinksCheckBox">
+        <property name="text">
+         <string>Underline links</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="chatWindowCleaningBox">
+     <property name="title">
+      <string>Cleaning</string>
+     </property>
+     <layout class="QFormLayout" name="_2">
+      <property name="fieldGrowthPolicy">
+       <enum>QFormLayout::ExpandingFieldsGrow</enum>
+      </property>
+      <item row="0" column="0">
+       <widget class="QLabel" name="cleanChatWindowMessagesAmountLabel">
+        <property name="text">
+         <string>Clean chat window after:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="cleanChatWindowMinutesAmountLabel">
+        <property name="text">
+         <string>Clean chat window after:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QSpinBox" name="cleanChatWindowMessagesAmountSpinBox">
+        <property name="suffix">
+         <string> messages</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QSpinBox" name="cleanChatWindowMinutesAmountSpinBox">
+        <property name="suffix">
+         <string> min</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <spacer name="spacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>14</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>KittySDK::SettingPage</class>
+   <extends>QWidget</extends>
+   <header>SDK/SettingPage.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

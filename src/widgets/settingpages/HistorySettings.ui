@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>HistorySettings</class>
+ <widget class="KittySDK::SettingPage" name="HistorySettings">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>138</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>History</string>
+  </property>
+  <property name="name" stdset="0">
+   <string notr="true">Display.History</string>
+  </property>
+  <property name="icon" stdset="0">
+   <string/>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="margin">
+    <number>0</number>
+   </property>
+   <item>
+    <widget class="QGroupBox" name="historyGroupBox">
+     <property name="title">
+      <string/>
+     </property>
+     <layout class="QFormLayout">
+      <item row="0" column="0" colspan="2">
+       <widget class="QCheckBox" name="historyCheckBox">
+        <property name="text">
+         <string>Enable history</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="historyExpireLabel">
+        <property name="text">
+         <string>Delete messages older than:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QSpinBox" name="historyExpireSpinBox">
+        <property name="suffix">
+         <string> days</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QCheckBox" name="underlineHistoryLinksCheckBox">
+        <property name="text">
+         <string>Underline links</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QCheckBox" name="saveStrangerHistoryCheckBox">
+        <property name="text">
+         <string>Save messages from strangers</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0">
+       <widget class="QCheckBox" name="displayHistoryFormattingCheckBox">
+        <property name="text">
+         <string>Display message format</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <spacer name="spacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>2</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>KittySDK::SettingPage</class>
+   <extends>QWidget</extends>
+   <header>SDK/SettingPage.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

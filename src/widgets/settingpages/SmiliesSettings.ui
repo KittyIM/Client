@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>SmiliesSettings</class>
+ <widget class="KittySDK::SettingPage" name="SmiliesSettings">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>300</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Smilies</string>
+  </property>
+  <property name="name" stdset="0">
+   <string notr="true">Display.ChatWindow.Smilies</string>
+  </property>
+  <property name="icon" stdset="0">
+   <string/>
+  </property>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>KittySDK::SettingPage</class>
+   <extends>QWidget</extends>
+   <header>SDK/SettingPage.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

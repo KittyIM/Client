@@ -12,7 +12,7 @@ Kitty::PluginManager::PluginManager(QObject *parent): QObject(parent)
 {
 }
 
-typedef QObject *(*pluginInst)();
+typedef QObject *(*pluginInst)(KittySDK::PluginCore*);
 
 void Kitty::PluginManager::load()
 {
@@ -34,9 +34,7 @@ void Kitty::PluginManager::load()
     pluginInst inst = (pluginInst)lib.resolve("inst");
 
     if(inst) {
-      KittySDK::Plugin *plug = static_cast<KittySDK::Plugin*>(inst());
-
-      //plug->setCore(new Kitty::PluginCoreImpl());
+      KittySDK::Plugin *plug = static_cast<KittySDK::Plugin*>(inst(new Kitty::PluginCoreImpl()));
       //plug->applySettings();
 
       //qDebug() << plug->info()->author();

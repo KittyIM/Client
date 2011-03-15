@@ -72,6 +72,15 @@ void Kitty::DebugWindow::showEvent(QShowEvent *event)
   m_ui->refreshActionsButton->click();
 }
 
+void Kitty::DebugWindow::changeEvent(QEvent *event)
+{
+  if(event->type() == QEvent::LanguageChange) {
+    m_ui->retranslateUi(this);
+  }
+
+  QWidget::changeEvent(event);
+}
+
 void Kitty::DebugWindow::execCommand()
 {
   QStringList commands = m_ui->commandEdit->text().split(" ");

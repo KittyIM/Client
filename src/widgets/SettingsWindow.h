@@ -26,9 +26,13 @@ namespace Kitty
       ~SettingsWindow();
 
       QTreeWidgetItem *itemById(const QString &id);
+      KittySDK::SettingPage *pageById(const QString &id);
+      void addPage(KittySDK::SettingPage *page, const QString &parent = QString());
 
       void updateIcons();
       void resetSettings();
+
+      void addDefaultPages();
 
     signals:
       void settingsApplied();
@@ -37,11 +41,9 @@ namespace Kitty
       void showEvent(QShowEvent *event);
 
     private slots:
-      void on_treeWidget_currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous);
       void applySettings();
-
+      void on_treeWidget_currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous);
       void on_buttonBox_accepted();
-
       void on_buttonBox_rejected();
 
   private:

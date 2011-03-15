@@ -12,7 +12,8 @@ namespace Kitty
     public:
       explicit App(int &argc, char **argv);
 
-    signals:
+    public slots:
+      void applySettings();
 
     private slots:
       void cleanUp();

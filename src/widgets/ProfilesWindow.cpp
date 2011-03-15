@@ -105,12 +105,12 @@ void Kitty::ProfilesWindow::on_profilesWidget_currentItemChanged(QTreeWidgetItem
 
   if(current) {
     if(current->data(0, Qt::UserRole).toBool() == false) {
-      Profile pro;
-      pro.load(current->text(0), true);
+      Kitty::XmlSettings set(Kitty::Core::inst()->profilesDir() + "/" + current->text(0));
+      bool hasPassword = !set.value(KittySDK::Settings::S_PROFILE_PASSWORD).toString().isEmpty();
 
       m_ui->passwordEdit->clear();
-      m_ui->passwordEdit->setVisible(pro.hasPassword());
-      m_ui->passwordLabel->setVisible(pro.hasPassword());
+      m_ui->passwordEdit->setVisible(hasPassword);
+      m_ui->passwordLabel->setVisible(hasPassword);
 
       m_ui->loginButton->setEnabled(true);
       m_ui->deleteButton->setEnabled(true);
@@ -124,10 +124,10 @@ void Kitty::ProfilesWindow::on_profilesWidget_itemDoubleClicked(QTreeWidgetItem 
 
   if(item) {
     if(item->data(0, Qt::UserRole).toBool() == false) {
-      Profile pro;
-      pro.load(item->text(0), true);
+      Kitty::XmlSettings set(Kitty::Core::inst()->profilesDir() + "/" + item->text(0));
+      bool hasPassword = !set.value(KittySDK::Settings::S_PROFILE_PASSWORD).toString().isEmpty();
 
-      if(!pro.hasPassword() || (pro.hasPassword() && pro.settings()->value(KittySDK::Settings::S_PROFILE_PASSWORD).toString() == QCryptographicHash::hash(m_ui->passwordEdit->text().toLocal8Bit(), QCryptographicHash::Sha1).toHex())) {
+      if(!hasPassword || (hasPassword && set.value(KittySDK::Settings::S_PROFILE_PASSWORD).toString() == QCryptographicHash::hash(m_ui->passwordEdit->text().toLocal8Bit(), QCryptographicHash::Sha1).toHex())) {
         Core::inst()->loadProfile(item->text(0));
         close();
       } else {

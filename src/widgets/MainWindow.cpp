@@ -21,6 +21,8 @@ Kitty::MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), m_ui(new Ui
 {
   m_ui->setupUi(this);
 
+  qDebug() << "construct";
+
   setWindowFlags(windowFlags() | Qt::Tool);
 
   Core *core = Core::inst();
@@ -160,4 +162,13 @@ void Kitty::MainWindow::applySettings()
   title.replace("%version%", Constants::VERSION);
   title.replace("%profile%", core->profile()->name());
   setWindowTitle(title);
+}
+
+void Kitty::MainWindow::changeEvent(QEvent *event)
+{
+  if(event->type() == QEvent::LanguageChange) {
+    m_ui->retranslateUi(this);
+  }
+
+  QWidget::changeEvent(event);
 }

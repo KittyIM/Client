@@ -1,7 +1,6 @@
 TEMPLATE = subdirs
 SUBDIRS  = src
 
-LANGUAGES   = untranslated pl
+LANGUAGES = pl
 
 include(src/translations.pri)
-

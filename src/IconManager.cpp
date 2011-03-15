@@ -3,6 +3,7 @@
 #include "SDK/constants.h"
 
 #include <QtCore/QMap>
+#include <QtCore/QDebug>
 
 using namespace KittySDK;
 
@@ -31,7 +32,7 @@ void Kitty::IconManager::loadDefaults()
   defaults.insert(Icons::I_KEY, ":/glyphs/key.png");
   defaults.insert(Icons::I_MESSAGE, ":/glyphs/message.png");
   defaults.insert(Icons::I_PALETTE, ":/glyphs/palette.png");
-  defaults.insert(Icons::I_SMILIE, ":/glyphs/smilie.png");
+  defaults.insert(Icons::I_SMILEY, ":/glyphs/smiley.png");
   defaults.insert(Icons::I_TAB, ":/glyphs/tab.png");
 
   QMapIterator<QString, QString> i(defaults);
@@ -49,4 +50,6 @@ void Kitty::IconManager::insert(const QString &id, const QPixmap &pixmap, bool r
   }
 
   m_icons.insert(id, pixmap);
+
+  emit iconsUpdated();
 }

@@ -22,7 +22,7 @@ namespace KittySDK
     const char * const I_KEY            = "Kitty.Key";
     const char * const I_PALETTE        = "Kitty.Palette";
     const char * const I_MESSAGE        = "Kitty.Message";
-    const char * const I_SMILIE         = "Kitty.Smilie";
+    const char * const I_SMILEY         = "Kitty.Smiley";
     const char * const I_TAB            = "Kitty.Tab";
   }
 
@@ -41,6 +41,8 @@ namespace KittySDK
 
   namespace Settings
   {
+    const char * const S_LANGUAGE                      = "Kitty.Language";
+
     const char * const S_MAINWINDOW_TRANSPARENCY       = "Kitty.MainWindow.Transparency.Enabled";
     const char * const S_MAINWINDOW_TRANSPARENCY_VALUE = "Kitty.MainWindow.Transparency.Value";
     const char * const S_MAINWINDOW_GEOMETRY           = "Kitty.Geometries.MainWindow";
