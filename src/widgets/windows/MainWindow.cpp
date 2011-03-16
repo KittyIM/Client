@@ -38,7 +38,7 @@ Kitty::MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), m_ui(new Ui
     show();
   }
 
-  //core->showChatWindow();
+  core->showChatWindow();
 }
 
 Kitty::MainWindow::~MainWindow()
@@ -103,7 +103,6 @@ void Kitty::MainWindow::initToolbars()
   QToolButton *btnMain = new QToolButton();
   btnMain->setObjectName("mainButton");
   btnMain->setText("KittyIM");
-  //btnMain->setIcon(core->icon(Icons::I_INFO));
   btnMain->setMenu(mnuMain);
   btnMain->setPopupMode(QToolButton::MenuButtonPopup);
   connect(btnMain, SIGNAL(clicked()), core->action(Actions::A_ABOUT), SIGNAL(triggered()));

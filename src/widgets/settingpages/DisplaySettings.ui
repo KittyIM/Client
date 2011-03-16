@@ -24,7 +24,7 @@
     <number>0</number>
    </property>
    <item>
-    <widget class="QGroupBox" name="mainWindowDisplayGroupBox">
+    <widget class="QGroupBox" name="displayGroupBox">
      <property name="title">
       <string>Main window</string>
      </property>

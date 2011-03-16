@@ -64,6 +64,8 @@ namespace Kitty
       void showProfilesWindow();
       void showSettingsWindow();
       void toggleMainWindow();
+      void openKittyFolder();
+      void openProfilesFolder();
 
     private slots:
       void trayIconActivated(QSystemTrayIcon::ActivationReason reason);

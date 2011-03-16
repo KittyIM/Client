@@ -15,6 +15,7 @@ SOURCES    += main.cpp \
               IconTheme.cpp \
               PluginManager.cpp \
               PluginCoreImpl.cpp \
+              widgets/windows/ChatWindow.cpp \
               widgets/windows/AboutWindow.cpp \
               widgets/windows/SettingsWindow.cpp \
               widgets/windows/PortabilityWindow.cpp \
@@ -34,10 +35,9 @@ SOURCES    += main.cpp \
               widgets/settingpages/ChatWindowTabsSettings.cpp \
               widgets/settingpages/SmiliesSettings.cpp \
               widgets/settingpages/PluginsSettings.cpp \
-    widgets/windows/ChatWindow.cpp \
-    widgets/ChatEdit.cpp \
-    widgets/ChatTab.cpp \
-    widgets/ChatTabWidget.cpp
+              widgets/ChatEdit.cpp \
+              widgets/ChatTab.cpp \
+              widgets/ChatTabWidget.cpp
 
 HEADERS    += constants.h \
               SDK/constants.h \
@@ -53,6 +53,7 @@ HEADERS    += constants.h \
               Profile.h \
               IconTheme.h \
               XmlSettings.h \
+              widgets/windows/ChatWindow.h \
               widgets/windows/DebugWindow.h \
               widgets/windows/MainWindow.h \
               widgets/windows/ProfilesWindow.h \
@@ -75,10 +76,9 @@ HEADERS    += constants.h \
               widgets/settingpages/ChatWindowTabsSettings.h \
               widgets/settingpages/SmiliesSettings.h \
               widgets/settingpages/PluginsSettings.h \
-    widgets/windows/ChatWindow.h \
-    widgets/ChatEdit.h \
-    widgets/ChatTab.h \
-    widgets/ChatTabWidget.h
+              widgets/ChatEdit.h \
+              widgets/ChatTab.h \
+              widgets/ChatTabWidget.h
 
 FORMS      += widgets/windows/DebugWindow.ui \
               widgets/windows/MainWindow.ui \
@@ -99,8 +99,8 @@ FORMS      += widgets/windows/DebugWindow.ui \
               widgets/settingpages/ChatWindowTabsSettings.ui \
               widgets/settingpages/SmiliesSettings.ui \
               widgets/settingpages/PluginsSettings.ui \
-    widgets/windows/ChatWindow.ui \
-    widgets/ChatTab.ui
+              widgets/windows/ChatWindow.ui \
+              widgets/ChatTab.ui
 
 RESOURCES  += ../res.qrc
 RC_FILE     = ../res.rc

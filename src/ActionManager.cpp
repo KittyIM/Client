@@ -14,24 +14,58 @@ void Kitty::ActionManager::loadDefaults()
 {
   Core *core = Core::inst();
 
-  insert(Actions::A_QUIT, new QAction(core->icon(Icons::I_QUIT), tr("Quit"), this));
-  connect(action(Actions::A_QUIT), SIGNAL(triggered()), qApp, SLOT(quit()));
+  QAction *actQuit = new QAction(tr("Quit"), this);
+  actQuit->setProperty("icon_id", Icons::I_QUIT);
+  connect(actQuit, SIGNAL(triggered()), qApp, SLOT(quit()));
+  insert(Actions::A_QUIT, actQuit);
 
-  insert(Actions::A_RESTART, new QAction(core->icon(Icons::I_REFRESH), tr("Restart"), this));
-  connect(action(Actions::A_RESTART), SIGNAL(triggered()), core, SLOT(restart()));
+  QAction *actRestart = new QAction(tr("Restart"), this);
+  actRestart->setProperty("icon_id", Icons::I_REFRESH);
+  connect(actRestart, SIGNAL(triggered()), core, SLOT(restart()));
+  insert(Actions::A_RESTART, actRestart);
 
-  insert(Actions::A_PROFILE_FOLDER, new QAction(core->icon(Icons::I_FOLDER), tr("Profile folder"), this));
-  insert(Actions::A_KITTY_FOLDER, new QAction(core->icon(Icons::I_FOLDER_KITTY), tr("Kitty's folder"), this));
+  QAction *actProfileFolder = new QAction(tr("Profile folder"), this);
+  actProfileFolder->setProperty("icon_id", Icons::I_FOLDER);
+  connect(actProfileFolder, SIGNAL(triggered()), core, SLOT(openProfilesFolder()));
+  insert(Actions::A_PROFILE_FOLDER, actProfileFolder);
 
-  insert(Actions::A_ABOUT, new QAction(core->icon(Icons::I_INFO), tr("About..."), this));
-  connect(action(Actions::A_ABOUT), SIGNAL(triggered()), core, SLOT(showAboutWindow()));
+  QAction *actKittyFolder = new QAction(tr("Kitty's folder"), this);
+  actKittyFolder->setProperty("icon_id", Icons::I_FOLDER_KITTY);
+  connect(actKittyFolder, SIGNAL(triggered()), core, SLOT(openKittyFolder()));
+  insert(Actions::A_KITTY_FOLDER, actKittyFolder);
 
-  insert(Actions::A_DEBUG, new QAction(core->icon(Icons::I_CONSOLE), tr("Debug console"), this));
-  connect(action(Actions::A_DEBUG), SIGNAL(triggered()), DebugWindow::inst(), SLOT(show()));
+  QAction *actAbout = new QAction(tr("About..."), this);
+  actAbout->setProperty("icon_id", Icons::I_INFO);
+  connect(actAbout, SIGNAL(triggered()), core, SLOT(showAboutWindow()));
+  insert(Actions::A_ABOUT, actAbout);
 
-  insert(Actions::A_SETTINGS, new QAction(core->icon(Icons::I_SETTINGS), tr("Settings"), this));
-  connect(action(Actions::A_SETTINGS), SIGNAL(triggered()), core, SLOT(showSettingsWindow()));
+  QAction *actDebug = new QAction(tr("Debug console"), this);
+  actDebug->setProperty("icon_id", Icons::I_CONSOLE);
+  connect(actDebug, SIGNAL(triggered()), DebugWindow::inst(), SLOT(show()));
+  insert(Actions::A_DEBUG, actDebug);
 
-  insert(Actions::A_SHOW_HIDE, new QAction(QIcon(), tr("Show / Hide"), this));
-  connect(action(Actions::A_SHOW_HIDE), SIGNAL(triggered()), core, SLOT(toggleMainWindow()));
+  QAction *actSettings = new QAction(tr("Settings"), this);
+  actSettings->setProperty("icon_id", Icons::I_SETTINGS);
+  connect(actSettings, SIGNAL(triggered()), core, SLOT(showSettingsWindow()));
+  insert(Actions::A_SETTINGS, actSettings);
+
+  QAction *actShowHide = new QAction(tr("Show / Hide"), this);
+  connect(actShowHide, SIGNAL(triggered()), core, SLOT(toggleMainWindow()));
+  insert(Actions::A_SHOW_HIDE, actShowHide);
+
+  updateIcons();
+}
+
+void Kitty::ActionManager::updateIcons()
+{
+  Core *core = Core::inst();
+
+  QHashIterator<QString, QPointer<QAction> > it(m_actions);
+  while(it.hasNext()) {
+    it.next();
+
+    if(!it.value()->property("icon_id").isNull()) {
+      it.value()->setIcon(core->icon(it.value()->property("icon_id").toString()));
+    }
+  }
 }

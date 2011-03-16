@@ -18,7 +18,7 @@ void Kitty::ChatEdit::updateSize()
 
 void Kitty::ChatEdit::keyPressEvent(QKeyEvent *event)
 {
-  if((event->key() == Qt::Key_Return) && !(event->modifiers() & Qt::ShiftModifier)) {
+  if(((event->key() == Qt::Key_Enter) || (event->key() == Qt::Key_Return)) && !(event->modifiers() & Qt::ShiftModifier)) {
     emit returnPressed();
   } else {
     QTextEdit::keyPressEvent(event);

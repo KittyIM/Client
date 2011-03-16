@@ -114,12 +114,12 @@
 <context>
     <name>Kitty::DebugWindow</name>
     <message>
-        <location filename="../src/widgets/windows/DebugWindow.cpp" line="87"/>
+        <location filename="../src/widgets/windows/DebugWindow.cpp" line="88"/>
         <source>Unknown command, type &lt;i&gt;help&lt;/i&gt; for list of commands.</source>
         <translation>Nieznana komenda, wpisz &lt;i&gt;help&lt;/i&gt; by uzyskać listę komend.</translation>
     </message>
     <message>
-        <location filename="../src/widgets/windows/DebugWindow.cpp" line="91"/>
+        <location filename="../src/widgets/windows/DebugWindow.cpp" line="92"/>
         <source>Commands:&lt;br&gt;&lt;i&gt;help&lt;/i&gt; - prints this text&lt;br&gt;&lt;i&gt;quit&lt;/i&gt; - quit KittyIM</source>
         <translation>Komendy&lt;br&gt;&lt;i&gt;help&lt;/i&gt; - wypisz ten tekst&lt;br&gt;&lt;i&gt;quit&lt;/i&gt; - wyłącz KittyIM</translation>
     </message>
@@ -127,12 +127,12 @@
 <context>
     <name>Kitty::MainWindow</name>
     <message>
-        <location filename="../src/widgets/windows/MainWindow.cpp" line="116"/>
+        <location filename="../src/widgets/windows/MainWindow.cpp" line="118"/>
         <source>User</source>
         <translation>Użytkownik</translation>
     </message>
     <message>
-        <location filename="../src/widgets/windows/MainWindow.cpp" line="127"/>
+        <location filename="../src/widgets/windows/MainWindow.cpp" line="129"/>
         <source>Settings</source>
         <translation>Ustawienia</translation>
     </message>
@@ -736,6 +736,24 @@
         <location filename="../src/ui_PluginsSettings.h" line="142"/>
         <source>WWW:</source>
         <translation>WWW:</translation>
+    </message>
+</context>
+<context>
+    <name>ChatTab</name>
+    <message>
+        <location filename="../src/widgets/ChatTab.ui"/>
+        <location filename="../src/ui_ChatTab.h" line="108"/>
+        <source>Form</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ChatWindow</name>
+    <message>
+        <location filename="../src/widgets/windows/ChatWindow.ui"/>
+        <location filename="../src/ui_ChatWindow.h" line="52"/>
+        <source>Form</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

@@ -53,6 +53,11 @@ void Kitty::Profile::load(const QString &name)
   connect(core->settingsWindow(), SIGNAL(settingsApplied()), static_cast<Kitty::App*>(qApp), SLOT(applySettings()));
   connect(core->settingsWindow(), SIGNAL(settingsApplied()), core->mainWindow(), SLOT(applySettings()));
 
+  //connect(IconManager::inst(), SIGNAL(iconsUpdated()), core->mainWindow(), SLOT(updateIcons()));
+  connect(IconManager::inst(), SIGNAL(iconsUpdated()), core->settingsWindow(), SLOT(updateIcons()));
+  connect(IconManager::inst(), SIGNAL(iconsUpdated()), ActionManager::inst(), SLOT(updateIcons()));
+
+
   PluginManager::inst()->load();
 
   qDebug() << "Profile " + name + " loaded!";

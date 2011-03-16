@@ -40,7 +40,6 @@ void Kitty::IconManager::loadDefaults()
     i.next();
     insert(i.key(), QPixmap(i.value()), false);
   }
-
 }
 
 void Kitty::IconManager::insert(const QString &id, const QPixmap &pixmap, bool replace)

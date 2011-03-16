@@ -30,14 +30,14 @@
      </property>
      <layout class="QFormLayout">
       <item row="0" column="0" colspan="2">
-       <widget class="QCheckBox" name="displayRosterDescriptionCheckBox">
+       <widget class="QCheckBox" name="displayDescriptionCheckBox">
         <property name="text">
          <string>Display status description</string>
         </property>
        </widget>
       </item>
       <item row="1" column="0" colspan="2">
-       <widget class="QCheckBox" name="displayRosterAvatarsCheckBox">
+       <widget class="QCheckBox" name="displayAvatarsCheckBox">
         <property name="text">
          <string>Display avatars</string>
         </property>
@@ -54,20 +54,20 @@
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="rosterGroupsGroupBox">
+    <widget class="QGroupBox" name="groupsGroupBox">
      <property name="title">
       <string>Groups</string>
      </property>
      <layout class="QFormLayout" name="_2">
       <item row="0" column="0" colspan="2">
-       <widget class="QCheckBox" name="rosterGroupsAsTabsCheckBox">
+       <widget class="QCheckBox" name="groupsAsTabsCheckBox">
         <property name="text">
          <string>Display groups as tabs</string>
         </property>
        </widget>
       </item>
       <item row="1" column="0" colspan="2">
-       <widget class="QCheckBox" name="rosterGroupsOnMainCheckBox">
+       <widget class="QCheckBox" name="groupsOnMainCheckBox">
         <property name="text">
          <string>Display groups on main tab</string>
         </property>
@@ -77,20 +77,20 @@
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="rosterIconsGroupBox">
+    <widget class="QGroupBox" name="iconsGroupBox">
      <property name="title">
       <string>Icons</string>
      </property>
      <layout class="QFormLayout" name="_3">
       <item row="0" column="0" colspan="2">
-       <widget class="QCheckBox" name="rosterPhoneIconCheckBox">
+       <widget class="QCheckBox" name="phoneIconCheckBox">
         <property name="text">
          <string>Display phone icon</string>
         </property>
        </widget>
       </item>
       <item row="1" column="0" colspan="2">
-       <widget class="QCheckBox" name="rosterEmailIconCheckBox">
+       <widget class="QCheckBox" name="emailIconCheckBox">
         <property name="text">
          <string>Display email icon</string>
         </property>
@@ -100,7 +100,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="rosterTipsGroupBox">
+    <widget class="QGroupBox" name="tipsGroupBox">
      <property name="title">
       <string>Tips</string>
      </property>
@@ -109,28 +109,28 @@
        <enum>QFormLayout::ExpandingFieldsGrow</enum>
       </property>
       <item row="1" column="0">
-       <widget class="QLabel" name="rosterTipDelayLabel">
+       <widget class="QLabel" name="tipDelayLabel">
         <property name="text">
          <string>Display tip after:</string>
         </property>
        </widget>
       </item>
       <item row="0" column="0" colspan="2">
-       <widget class="QCheckBox" name="rosterTipsCheckBox">
+       <widget class="QCheckBox" name="tipsCheckBox">
         <property name="text">
          <string>Enable tips</string>
         </property>
        </widget>
       </item>
       <item row="2" column="0" colspan="2">
-       <widget class="QCheckBox" name="displayRosterTipsIPCheckBox">
+       <widget class="QCheckBox" name="displayTipsIPCheckBox">
         <property name="text">
          <string>Display IP</string>
         </property>
        </widget>
       </item>
       <item row="1" column="1">
-       <widget class="QSpinBox" name="rosterTipDelaySpinBox">
+       <widget class="QSpinBox" name="tipDelaySpinBox">
         <property name="suffix">
          <string> ms</string>
         </property>

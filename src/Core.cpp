@@ -21,6 +21,7 @@
 
 #include <QtCore/QDebug>
 #include <QtCore/QMutex>
+#include <QtCore/QUrl>
 #include <QtGui/QDesktopServices>
 #include <QtGui/QSystemTrayIcon>
 #include <QtGui/QApplication>
@@ -246,4 +247,14 @@ void Kitty::Core::toggleMainWindow()
     mainWindow()->activateWindow();
     mainWindow()->raise();
   }
+}
+
+void Kitty::Core::openKittyFolder()
+{
+  QDesktopServices::openUrl(QUrl(qApp->applicationDirPath()));
+}
+
+void Kitty::Core::openProfilesFolder()
+{
+  QDesktopServices::openUrl(QUrl(profilesDir()));
 }

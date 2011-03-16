@@ -40,7 +40,7 @@
        </widget>
       </item>
       <item row="1" column="0">
-       <widget class="QLabel" name="proxyServerLabel">
+       <widget class="QLabel" name="serverLabel">
         <property name="text">
          <string>Server and port:</string>
         </property>
@@ -49,14 +49,14 @@
       <item row="1" column="1">
        <layout class="QHBoxLayout" name="_2">
         <item>
-         <widget class="QLineEdit" name="proxyServerEdit">
+         <widget class="QLineEdit" name="serverEdit">
           <property name="enabled">
            <bool>false</bool>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QSpinBox" name="proxyPortEdit">
+         <widget class="QSpinBox" name="portEdit">
           <property name="enabled">
            <bool>false</bool>
           </property>
@@ -95,21 +95,21 @@
        </layout>
       </item>
       <item row="2" column="0" colspan="2">
-       <widget class="QCheckBox" name="proxyAuthCheckBox">
+       <widget class="QCheckBox" name="authCheckBox">
         <property name="text">
          <string>Server requires authentication:</string>
         </property>
        </widget>
       </item>
       <item row="3" column="1">
-       <widget class="QLineEdit" name="proxyUsernameEdit">
+       <widget class="QLineEdit" name="usernameEdit">
         <property name="enabled">
          <bool>false</bool>
         </property>
        </widget>
       </item>
       <item row="6" column="1">
-       <widget class="QLineEdit" name="proxyPasswordEdit">
+       <widget class="QLineEdit" name="passwordEdit">
         <property name="enabled">
          <bool>false</bool>
         </property>
@@ -119,14 +119,14 @@
        </widget>
       </item>
       <item row="3" column="0">
-       <widget class="QLabel" name="proxyUsernameLabel">
+       <widget class="QLabel" name="usernameLabel">
         <property name="text">
          <string>Username:</string>
         </property>
        </widget>
       </item>
       <item row="6" column="0">
-       <widget class="QLabel" name="proxyPasswordLabel">
+       <widget class="QLabel" name="passwordLabel">
         <property name="text">
          <string>Password:</string>
         </property>

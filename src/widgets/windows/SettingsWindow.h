@@ -29,10 +29,12 @@ namespace Kitty
       KittySDK::SettingPage *pageById(const QString &id);
       void addPage(KittySDK::SettingPage *page, const QString &parent = QString());
 
-      void updateIcons();
       void resetSettings();
 
       void addDefaultPages();
+
+     public slots:
+      void updateIcons();
 
     signals:
       void settingsApplied();

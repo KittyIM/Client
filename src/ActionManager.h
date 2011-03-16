@@ -23,6 +23,9 @@ namespace Kitty
       void insert(const QString &id, QAction *action) { m_actions.insert(id, action); }
       QAction *action(const QString &id) const { return m_actions.value(id); }
 
+    public slots:
+      void updateIcons();
+
     private:
       ActionManager(): QObject(0) { }
 

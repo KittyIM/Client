@@ -17,13 +17,11 @@ namespace Kitty
       ~Profile();
 
       void load(const QString &name);
+      void loadIconTheme(const QString &name);
 
       QString name() const { return m_name; }
       XmlSettings *settings() const { return m_settings; }
       bool isLoaded() const { return !m_name.isEmpty(); }
-
-    private:
-      void loadIconTheme(const QString &name);
 
     private:
       QString m_name;

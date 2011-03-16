@@ -6,6 +6,7 @@
 #include <QtCore/QObject>
 #include <QtCore/QHash>
 #include <QtGui/QPixmap>
+#include <QtGui/QIcon>
 
 class QPixmap;
 

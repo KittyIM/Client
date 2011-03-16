@@ -37,14 +37,14 @@
        </widget>
       </item>
       <item row="1" column="0">
-       <widget class="QLabel" name="historyExpireLabel">
+       <widget class="QLabel" name="expireLabel">
         <property name="text">
          <string>Delete messages older than:</string>
         </property>
        </widget>
       </item>
       <item row="1" column="1">
-       <widget class="QSpinBox" name="historyExpireSpinBox">
+       <widget class="QSpinBox" name="expireSpinBox">
         <property name="suffix">
          <string> days</string>
         </property>
@@ -65,7 +65,7 @@
        </widget>
       </item>
       <item row="4" column="0">
-       <widget class="QCheckBox" name="displayHistoryFormattingCheckBox">
+       <widget class="QCheckBox" name="displayFormattingCheckBox">
         <property name="text">
          <string>Display message format</string>
         </property>

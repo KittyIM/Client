@@ -24,7 +24,7 @@
     <number>0</number>
    </property>
    <item>
-    <widget class="QGroupBox" name="chatWindowGroupGroupBox">
+    <widget class="QGroupBox" name="groupGroupBox">
      <property name="title">
       <string/>
      </property>
@@ -64,7 +64,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="chatWindowGroupingGroupBox">
+    <widget class="QGroupBox" name="groupingGroupBox">
      <property name="title">
       <string>Grouping</string>
      </property>
@@ -87,7 +87,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="chatWindowDisplayGroupBox">
+    <widget class="QGroupBox" name="displayGroupBox">
      <property name="title">
       <string>Display</string>
      </property>
@@ -100,7 +100,7 @@
        </widget>
       </item>
       <item row="1" column="0" colspan="2">
-       <widget class="QCheckBox" name="displayChatWindowStatusChangessCheckBox">
+       <widget class="QCheckBox" name="displayStatusChangesCheckBox">
         <property name="text">
          <string>Display status changes</string>
         </property>
@@ -131,7 +131,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="chatWindowCleaningBox">
+    <widget class="QGroupBox" name="cleaningGroupBox">
      <property name="title">
       <string>Cleaning</string>
      </property>
@@ -140,28 +140,28 @@
        <enum>QFormLayout::ExpandingFieldsGrow</enum>
       </property>
       <item row="0" column="0">
-       <widget class="QLabel" name="cleanChatWindowMessagesAmountLabel">
+       <widget class="QLabel" name="cleanMessagesAmountLabel">
         <property name="text">
          <string>Clean chat window after:</string>
         </property>
        </widget>
       </item>
       <item row="1" column="0">
-       <widget class="QLabel" name="cleanChatWindowMinutesAmountLabel">
+       <widget class="QLabel" name="cleanMinutesAmountLabel">
         <property name="text">
          <string>Clean chat window after:</string>
         </property>
        </widget>
       </item>
       <item row="0" column="1">
-       <widget class="QSpinBox" name="cleanChatWindowMessagesAmountSpinBox">
+       <widget class="QSpinBox" name="cleanMessagesAmountSpinBox">
         <property name="suffix">
          <string> messages</string>
         </property>
        </widget>
       </item>
       <item row="1" column="1">
-       <widget class="QSpinBox" name="cleanChatWindowMinutesAmountSpinBox">
+       <widget class="QSpinBox" name="cleanMinutesAmountSpinBox">
         <property name="suffix">
          <string> min</string>
         </property>
