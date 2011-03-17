@@ -12,6 +12,8 @@ using namespace KittySDK;
 
 void Kitty::ActionManager::loadDefaults()
 {
+  qDebug() << "ActionManager is loading default actions";
+
   Core *core = Core::inst();
 
   QAction *actQuit = new QAction(tr("Quit"), this);
@@ -58,6 +60,8 @@ void Kitty::ActionManager::loadDefaults()
 
 void Kitty::ActionManager::updateIcons()
 {
+  qDebug() << "ActionManager is updating icons";
+
   Core *core = Core::inst();
 
   QHashIterator<QString, QPointer<QAction> > it(m_actions);
@@ -66,6 +70,8 @@ void Kitty::ActionManager::updateIcons()
 
     if(!it.value()->property("icon_id").isNull()) {
       it.value()->setIcon(core->icon(it.value()->property("icon_id").toString()));
+    } else {
+      qWarning() << "  " << it.value()->text() << " has no icon_id";
     }
   }
 }

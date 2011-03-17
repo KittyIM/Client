@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>171</height>
+    <height>310</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -23,6 +23,36 @@
    <property name="margin">
     <number>0</number>
    </property>
+   <item>
+    <widget class="QGroupBox" name="connectionGroupBox">
+     <property name="title">
+      <string/>
+     </property>
+     <layout class="QFormLayout" name="formLayout">
+      <item row="0" column="0">
+       <widget class="QCheckBox" name="sleepDisconnectCheckBox">
+        <property name="text">
+         <string>Disconnect when going to sleep</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QCheckBox" name="wakeUpReconnectCheckBox">
+        <property name="text">
+         <string>Reconnect on wake up</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QCheckBox" name="reconnectCheckBox">
+        <property name="text">
+         <string>Reconnect after loosing connection</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
    <item>
     <widget class="QGroupBox" name="proxyGroupBox">
      <property name="title">
@@ -132,21 +162,21 @@
         </property>
        </widget>
       </item>
+      <item row="7" column="1">
+       <spacer name="spacer">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>126</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
      </layout>
     </widget>
-   </item>
-   <item>
-    <spacer name="spacer">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>20</width>
-       <height>126</height>
-      </size>
-     </property>
-    </spacer>
    </item>
   </layout>
  </widget>
@@ -159,5 +189,70 @@
   </customwidget>
  </customwidgets>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>proxyCheckBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>serverEdit</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>53</x>
+     <y>30</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>125</x>
+     <y>54</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>proxyCheckBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>portEdit</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>94</x>
+     <y>32</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>367</x>
+     <y>63</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>authCheckBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>usernameEdit</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>51</x>
+     <y>88</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>118</x>
+     <y>106</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>authCheckBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>passwordEdit</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>77</x>
+     <y>80</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>113</x>
+     <y>145</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

@@ -35,6 +35,8 @@ void Kitty::IconManager::loadDefaults()
   defaults.insert(Icons::I_SMILEY, ":/glyphs/smiley.png");
   defaults.insert(Icons::I_TAB, ":/glyphs/tab.png");
 
+  qDebug() << "IconManager is loading default icons [" << defaults.count() << "]";
+
   QMapIterator<QString, QString> i(defaults);
   while(i.hasNext()) {
     i.next();

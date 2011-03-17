@@ -164,6 +164,9 @@
         <property name="enabled">
          <bool>false</bool>
         </property>
+        <property name="suffix">
+         <string> px</string>
+        </property>
        </widget>
       </item>
       <item row="1" column="0" colspan="2">
@@ -260,5 +263,54 @@
   </customwidget>
  </customwidgets>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>autoHideCheckBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>autoHideSlider</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>43</x>
+     <y>57</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>226</x>
+     <y>87</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>transparencyCheckBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>transparencySlider</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>68</x>
+     <y>125</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>186</x>
+     <y>152</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>dockToEdgesCheckBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>dockDistanceSpinBox</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>132</x>
+     <y>239</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>142</x>
+     <y>265</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

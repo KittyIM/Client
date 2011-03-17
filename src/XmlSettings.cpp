@@ -12,7 +12,7 @@ QSettings::Format Kitty::XmlSettings::xmlFormat = QSettings::registerFormat("xml
 
 Kitty::XmlSettings::XmlSettings(const QString &fileName, QObject *parent): QSettings(fileName, XmlSettings::xmlFormat, parent)
 {
-
+  qDebug() << "XmlSettings loading" << fileName;
 }
 
 void Kitty::XmlSettings::readElement(SettingsMap &map, const QDomElement &root, const QString &name)
@@ -37,21 +37,28 @@ void Kitty::XmlSettings::readElement(SettingsMap &map, const QDomElement &root, 
 
 bool Kitty::XmlSettings::xmlRead(QIODevice &device, SettingsMap &map)
 {
+  qDebug() << "XMLSettings reading";
+
   QDomDocument doc;
   doc.setContent(&device);
 
   QDomElement root = doc.documentElement();
   if(root.nodeName() != "settings") {
+    qWarning() << "Root's name is not settings";
     return false;
   }
 
   readElement(map, root, "");
+
+  qDebug() << "  Read" << map.count() << "positions";
 
   return true;
 }
 
 bool Kitty::XmlSettings::xmlWrite(QIODevice &device, const SettingsMap &map)
 {
+  qDebug() << "XMLSettings writing";
+
   QDomDocument doc;
 
   QDomElement root = doc.createElement("settings");
@@ -76,9 +83,13 @@ bool Kitty::XmlSettings::xmlWrite(QIODevice &device, const SettingsMap &map)
 
   doc.appendChild(root);
 
+  QString xml = doc.toString(2);
+
   QTextStream str(&device);
   str.setCodec("UTF-8");
-  str << doc.toString(2);
+  str << xml;
+
+  qDebug() << "Wrote" << map.count() << "positions," << xml.count() << "bytes";
 
   return true;
 }

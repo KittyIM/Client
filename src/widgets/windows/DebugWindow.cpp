@@ -4,7 +4,9 @@
 #include "ActionManager.h"
 #include "IconManager.h"
 #include "MainWindow.h"
+#include "Profile.h"
 #include "Core.h"
+#include "App.h"
 
 #include <QtCore/QDateTime>
 #include <QtCore/QDebug>
@@ -24,9 +26,9 @@ Kitty::DebugWindow::DebugWindow(): QWidget(0), m_ui(new Ui::DebugWindow)
   setWindowFlags(windowFlags() & ~Qt::WindowMinMaxButtonsHint);
 
   m_wvLog = new QWebView(this);
-  m_wvLog->setHtml("<html><head><style type=\"text/css\">body { font-family: Tahoma; font-size: 11px; }</style></head><body></body></html>");
+  m_wvLog->setHtml("<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"><style type=\"text/css\">body { font-family: Tahoma; font-size: 11px; margin: 2px; }</style></head><body></body></html>");
 
-  m_ui->verticalLayout->insertWidget(0, m_wvLog);
+  m_ui->consoleGridLayout->addWidget(m_wvLog);
 
   connect(m_ui->execButton, SIGNAL(clicked()), this, SLOT(execCommand()));
   connect(m_ui->commandEdit, SIGNAL(returnPressed()), m_ui->execButton, SLOT(click()));
@@ -60,7 +62,7 @@ void Kitty::DebugWindow::addMessage(QtMsgType type, const char *msg)
     break;
   }
 
-  m_wvLog->setHtml(m_wvLog->page()->mainFrame()->toHtml() + QString("<div style='background-color: %1;'>[%2] %3</div>").arg(color).arg(QDateTime::currentDateTime().toString("hh:mm:ss")).arg(msg));
+  m_wvLog->setHtml(m_wvLog->page()->mainFrame()->toHtml() + QString("<span style='background-color: %1;'>&nbsp;&nbsp;&nbsp;</span> <b>##%2</b> %3<br>").arg(color).arg(QDateTime::currentDateTime().toString("hh:mm:ss")).arg(QString::fromLocal8Bit(msg).replace(" ", "&nbsp;")));
   m_wvLog->page()->mainFrame()->setScrollBarValue(Qt::Vertical, m_wvLog->page()->mainFrame()->scrollBarMaximum(Qt::Vertical));
 }
 
@@ -88,13 +90,18 @@ void Kitty::DebugWindow::execCommand()
 
   if(commands.count() > 0) {
     if(commands.at(0) == "help") {
-      msg = QString("<div>%1</div>").arg(tr("Commands:<br><i>help</i> - prints this text<br><i>quit</i> - quit KittyIM"));
+      msg = QString("<div>%1</div>").arg(tr("Commands:<br><i>help</i> - prints this text<br><i>uptime</i> - show uptime<br><i>quit</i> - quit KittyIM"));
     } else if(commands.at(0) == "quit") {
       qApp->quit();
+    } else if(commands.at(0) == "uptime") {
+      int secs = static_cast<Kitty::App*>(qApp)->startDate().secsTo(QDateTime::currentDateTime());
+
+      msg = QString("Uptime: %1h %2m %3s").arg(secs / 3600).arg((secs / 60) % 60).arg(secs % 60);
     }
 
     m_wvLog->setHtml(m_wvLog->page()->mainFrame()->toHtml() + QString("<div>&gt; %1</div>").arg(m_ui->commandEdit->text()));
     m_wvLog->setHtml(m_wvLog->page()->mainFrame()->toHtml() + msg);
+    m_wvLog->page()->mainFrame()->setScrollBarValue(Qt::Vertical, m_wvLog->page()->mainFrame()->scrollBarMaximum(Qt::Vertical));
   }
 
   m_history.append(m_ui->commandEdit->text());

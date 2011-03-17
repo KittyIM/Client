@@ -18,11 +18,10 @@
 
 #include <qt_windows.h>
 
-// Blur behind data structures
-#define DWM_BB_ENABLE                 0x00000001  // fEnable has been specified
-#define DWM_BB_BLURREGION             0x00000002  // hRgnBlur has been specified
-#define DWM_BB_TRANSITIONONMAXIMIZED  0x00000004  // fTransitionOnMaximized has been specified
-#define WM_DWMCOMPOSITIONCHANGED      0x031E      // Composition changed window message
+#define DWM_BB_ENABLE                 0x00000001
+#define DWM_BB_BLURREGION             0x00000002
+#define DWM_BB_TRANSITIONONMAXIMIZED  0x00000004
+#define WM_DWMCOMPOSITIONCHANGED      0x031E
 
 typedef struct _DWM_BLURBEHIND
 {
@@ -50,12 +49,7 @@ static PtrDwmEnableBlurBehindWindow pDwmEnableBlurBehindWindow = 0;
 static PtrDwmExtendFrameIntoClientArea pDwmExtendFrameIntoClientArea = 0;
 static PtrDwmGetColorizationColor pDwmGetColorizationColor = 0;
 
-/*
- * Internal helper class that notifies windows if the
- * DWM compositing state changes and updates the widget
- * flags correspondingly.
- */
-class WindowNotifier : public QWidget
+class WindowNotifier: public QWidget
 {
   public:
     WindowNotifier() { winId(); }
@@ -82,16 +76,6 @@ static bool resolveLibs()
 
 #endif
 
-/*!
-  * Chekcs and returns true if Windows DWM composition
-  * is currently enabled on the system.
-  *
-  * To get live notification on the availability of
-  * this feature, you will currently have to
-  * reimplement winEvent() on your widget and listen
-  * for the WM_DWMCOMPOSITIONCHANGED event to occur.
-  *
-  */
 bool QtWin::isCompositionEnabled()
 {
 #ifdef Q_WS_WIN
@@ -105,17 +89,14 @@ bool QtWin::isCompositionEnabled()
     }
   }
 #endif
+
   return false;
 }
 
-/*!
-  * Enables Blur behind on a Widget.
-  *
-  * \a enable tells if the blur should be enabled or not
-  */
 bool QtWin::enableBlurBehindWindow(QWidget *widget, bool enable)
 {
   bool result = false;
+
 #ifdef Q_WS_WIN
   if(resolveLibs()) {
     DWM_BLURBEHIND bb = {0};
@@ -134,24 +115,14 @@ bool QtWin::enableBlurBehindWindow(QWidget *widget, bool enable)
     }
   }
 #endif
+
   return result;
 }
 
-/*!
-  * ExtendFrameIntoClientArea.
-  *
-  * This controls the rendering of the frame inside the window.
-  * Note that passing margins of -1 (the default value) will completely
-  * remove the frame from the window.
-  *
-  * \note you should not call enableBlurBehindWindow before calling
-  *       this functions
-  *
-  * \a enable tells if the blur should be enabled or not
-  */
 bool QtWin::extendFrameIntoClientArea(QWidget *widget, int left, int top, int right, int bottom)
 {
   bool result = false;
+
 #ifdef Q_WS_WIN
   if(resolveLibs()) {
     QLibrary dwmLib(QString::fromAscii("dwmapi"));
@@ -167,14 +138,10 @@ bool QtWin::extendFrameIntoClientArea(QWidget *widget, int left, int top, int ri
     widget->setAttribute(Qt::WA_TranslucentBackground, result);
   }
 #endif
+
   return result;
 }
 
-/*!
-  * Returns the current colorizationColor for the window.
-  *
-  * \a enable tells if the blur should be enabled or not
-  */
 QColor QtWin::colorizatinColor()
 {
   QColor resultColor = QApplication::palette().window().color();
@@ -192,6 +159,7 @@ QColor QtWin::colorizatinColor()
     }
   }
 #endif
+
   return resultColor;
 }
 
@@ -207,11 +175,9 @@ WindowNotifier *QtWin::windowNotifier()
   return windowNotifierInstance;
 }
 
-
-/* Notify all enabled windows that the DWM state changed */
 bool WindowNotifier::winEvent(MSG *message, long *result)
 {
-  if (message && message->message == WM_DWMCOMPOSITIONCHANGED) {
+  if(message && message->message == WM_DWMCOMPOSITIONCHANGED) {
     bool compositionEnabled = QtWin::isCompositionEnabled();
 
     foreach(QWidget *widget, widgets) {

@@ -34,6 +34,8 @@ Kitty::SettingsWindow::SettingsWindow(QWidget *parent): QDialog(parent), m_ui(ne
 
   setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
 
+  qDebug() << "Creating SettingsWindow";
+
   Core *core = Core::inst();
 
   restoreGeometry(core->setting(Settings::S_SETTINGSWINDOW_GEOMETRY).toByteArray());
@@ -57,9 +59,11 @@ QTreeWidgetItem *Kitty::SettingsWindow::itemById(const QString &id)
   QList<QTreeWidgetItem*> list = m_ui->treeWidget->findItems(id, Qt::MatchExactly | Qt::MatchRecursive, 1);
   if(list.count() > 0) {
     return list.first();
-  } else {
-    return 0;
   }
+
+  qWarning() << "Settings item not found [" << id << "]";
+
+  return 0;
 }
 
 KittySDK::SettingPage *Kitty::SettingsWindow::pageById(const QString &id)
@@ -69,6 +73,8 @@ KittySDK::SettingPage *Kitty::SettingsWindow::pageById(const QString &id)
       return page;
     }
   }
+
+  qWarning() << "Page not found [" << id << "]";
 
   return 0;
 }
@@ -91,7 +97,7 @@ void Kitty::SettingsWindow::addPage(KittySDK::SettingPage *page, const QString &
       m_pages.append(page);
       item->addChild(child);
     } else {
-      qDebug() << "No such parent!";
+      qWarning() << "Parent doesn't exist [" << parent << "]";
     }
   }
 }
@@ -105,13 +111,16 @@ void Kitty::SettingsWindow::updateIcons()
     if(item) {
       item->setIcon(0, core->icon(page->icon()));
     } else {
-      qDebug() << "not found" << page->name();
+      qWarning() << "Page doesn't exist [" << page->name() << "]";
     }
   }
+
+  dynamic_cast<Kitty::DisplaySettings*>(pageById(SettingPages::S_DISPLAY))->updateIcons();
 }
 
 void Kitty::SettingsWindow::resetSettings()
 {
+  qDebug() << "Resetting settings on all pages [" << m_pages.count() << "]";
   foreach(SettingPage *page, m_pages) {
     page->reset();
   }
@@ -119,6 +128,8 @@ void Kitty::SettingsWindow::resetSettings()
 
 void Kitty::SettingsWindow::addDefaultPages()
 {
+  qDebug() << "  Adding default pages";
+
   addPage(new MainSettings(this));
   addPage(new StartupSettings(this), SettingPages::S_SETTINGS);
   addPage(new ConnectionSettings(this), SettingPages::S_SETTINGS);
@@ -175,6 +186,8 @@ void Kitty::SettingsWindow::on_treeWidget_currentItemChanged(QTreeWidgetItem *cu
 
 void Kitty::SettingsWindow::applySettings()
 {
+  qDebug() << "Applying settings on all pages [" << m_pages.count() << "]";
+
   foreach(SettingPage *page, m_pages) {
     page->apply();
   }

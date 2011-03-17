@@ -16,6 +16,7 @@ typedef QObject *(*pluginInst)(KittySDK::PluginCore*);
 
 void Kitty::PluginManager::load()
 {
+  qDebug() << "PluginManager starting";
   QDir dir(qApp->applicationDirPath() + "/plugins");
   QStringList filter;
 
@@ -30,18 +31,20 @@ void Kitty::PluginManager::load()
 
   QFileInfoList files = dir.entryInfoList(filter, QDir::Files);
   foreach(QFileInfo info, files) {
+    qDebug() << "  Found plugin: " << info.fileName();
     QLibrary lib(info.absoluteFilePath());
     pluginInst inst = (pluginInst)lib.resolve("inst");
 
     if(inst) {
-      KittySDK::Plugin *plug = static_cast<KittySDK::Plugin*>(inst(new Kitty::PluginCoreImpl()));
-      //plug->applySettings();
+      KittySDK::Plugin *plug = dynamic_cast<KittySDK::Plugin*>(inst(new Kitty::PluginCoreImpl()));
+      plug->applySettings();
 
+      qDebug() << "  Plugin's name: " << plug->info()->name();
       //qDebug() << plug->info()->author();
       //qDebug() << plug->info()->email();
       //qDebug() << plug->info()->www();
     } else {
-      qDebug() << "Resolve failed";
+      qWarning() << "Resolve failed";
     }
   }
 }

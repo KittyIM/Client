@@ -6,14 +6,16 @@
 #include "Profile.h"
 #include "Core.h"
 
-#include <QtCore/QTextCodec>
 #include <QtCore/QTranslator>
+#include <QtCore/QTextCodec>
 #include <QtCore/QProcess>
 #include <QtCore/QDebug>
 #include <QtCore/QFile>
 
 Kitty::App::App(int &argc, char **argv): QApplication(argc, argv)
 {
+  m_startDate = QDateTime::currentDateTime();
+
   QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
   QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
 
@@ -24,20 +26,27 @@ Kitty::App::App(int &argc, char **argv): QApplication(argc, argv)
 
   connect(this, SIGNAL(aboutToQuit()), this, SLOT(cleanUp()));
 
+  qDebug() << "Starting KittyIM";
+  qDebug() << "There are" << (arguments().count() - 1) << "arguments";
+
   Core *core = Core::inst();
-  DebugWindow::inst();
 
   QString profile;
   QListIterator<QString> it(arguments());
   while(it.hasNext()) {
     QString arg = it.next();
     if(arg == "-debug") {
+      qDebug() << "  -debug found, showing debug console";
       DebugWindow::inst()->show();
     } else if(arg == "-profile") {
       if(it.hasNext()) {
         profile = it.next();
+        qDebug() << "  -profile found, profile is" << profile;
+      } else {
+        qWarning() << "  -profile found but nothing more";
       }
     } else if(arg == "-portable") {
+      qDebug() << "  -portable found, we are going portable";
       core->setPortable(true);
     }
   }
@@ -50,17 +59,19 @@ Kitty::App::App(int &argc, char **argv): QApplication(argc, argv)
 
   //TODO: When only 1 profile with no password exists, skip profile selection
   if(!profile.isEmpty()) {
-    Kitty::XmlSettings set(Kitty::Core::inst()->profilesDir() + "/" + profile);
+    Kitty::XmlSettings set(Kitty::Core::inst()->profilesDir() + profile + "/settings.xml");
     bool hasPassword = !set.value(KittySDK::Settings::S_PROFILE_PASSWORD).toString().isEmpty();
 
     if(!hasPassword) {
+      qDebug() << "Profile is ok, loading.";
       core->loadProfile(profile);
     } else {
-      qDebug() << "Wanted to load profile " + profile + " but it's password protected!";
+      qWarning() << "Wanted to load profile" + profile + "but it's password protected!";
     }
   }
 
   if(!core->profile()->isLoaded()) {
+    qDebug() << "No profile, let's ask.";
     core->showProfilesWindow();
   }
 }

@@ -22,6 +22,8 @@ Kitty::ProfilesWindow::ProfilesWindow(QWidget *parent): QDialog(parent), m_ui(ne
 
   setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
 
+  qDebug() << "Creating ProfilesWindow";
+
   if(QtWin::isCompositionEnabled()) {
     QtWin::extendFrameIntoClientArea(this);
     setContentsMargins(0, 0, 0, 0);

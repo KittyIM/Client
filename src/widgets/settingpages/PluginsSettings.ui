@@ -67,7 +67,7 @@
        </widget>
       </item>
       <item row="0" column="1">
-       <widget class="QLabel" name="label_2">
+       <widget class="QLabel" name="pluginNameValueLabel">
         <property name="text">
          <string notr="true">Plugin</string>
         </property>
@@ -87,7 +87,7 @@
        </widget>
       </item>
       <item row="1" column="1">
-       <widget class="QLabel" name="label_4">
+       <widget class="QLabel" name="pluginVersionValueLabel">
         <property name="text">
          <string notr="true">1.2.3.4</string>
         </property>
@@ -107,7 +107,7 @@
        </widget>
       </item>
       <item row="2" column="1">
-       <widget class="QLabel" name="label_6">
+       <widget class="QLabel" name="pluginAuthorValueLabel">
         <property name="text">
          <string notr="true">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
@@ -131,7 +131,7 @@ p, li { white-space: pre-wrap; }
        </widget>
       </item>
       <item row="3" column="1">
-       <widget class="QLabel" name="label_8">
+       <widget class="QLabel" name="pluginWWWValueLabel">
         <property name="text">
          <string notr="true">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;

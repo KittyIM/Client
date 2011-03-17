@@ -4,6 +4,8 @@
 #include "SDK/constants.h"
 #include "Core.h"
 
+#include <QtGui/QToolTip>
+
 using namespace KittySDK;
 
 Kitty::DisplaySettings::DisplaySettings(QWidget *parent): KittySDK::SettingPage(parent), m_ui(new Ui::DisplaySettings)
@@ -48,4 +50,42 @@ void Kitty::DisplaySettings::reset()
   m_ui->mainWindowCaptionEdit->setText(core->setting(Settings::S_MAINWINDOW_CAPTION, "KittyIM %version% [%profile%]").toString());
   m_ui->chatWindowCaptionEdit->setText(core->setting(Settings::S_CHATWINDOW_CAPTION, "%nick% [%status%] \"%description%\"").toString());
   m_ui->chatTabCaptionEdit->setText(core->setting(Settings::S_CHATTAB_CAPTION, "%name%").toString());
+}
+
+void Kitty::DisplaySettings::updateIcons()
+{
+  m_ui->mainWindowCaptionHelpButton->setIcon(Kitty::Core::inst()->icon(Icons::I_INFO));
+  m_ui->chatWindowCaptionHelpButton->setIcon(Kitty::Core::inst()->icon(Icons::I_INFO));
+  m_ui->chatTabCaptionHelpButton->setIcon(Kitty::Core::inst()->icon(Icons::I_INFO));
+}
+
+void Kitty::DisplaySettings::on_mainWindowCaptionHelpButton_clicked()
+{
+  QToolTip::showText(m_ui->mainWindowCaptionHelpButton->mapToGlobal(QPoint(0, 2)), tr("Available variables:") +
+                                                                                   "<br><i>%version%</i> - " + tr("Kitty's version") +
+                                                                                   "<br><i>%profile%</i> - " + tr("name of loaded profile"));
+}
+
+void Kitty::DisplaySettings::on_chatWindowCaptionHelpButton_clicked()
+{
+  QToolTip::showText(m_ui->chatWindowCaptionHelpButton->mapToGlobal(QPoint(0, 2)), tr("Available variables:") +
+                                                                                   "<br><i>%nick%</i> - " + tr("user's nickname") +
+                                                                                   "<br><i>%status%</i> - " + tr("user's status") +
+                                                                                   "<br><i>%description%</i> - " + tr("user's status description") +
+                                                                                   "<br><i>%uid%</i> -" + tr("user's id") +
+                                                                                   "<br><i>%gender%</i> -" + tr("user's gender") +
+                                                                                   "<br><i>%birthday%</i> -" + tr("user's birthday") +
+                                                                                   "<br><i>%phone%</i> -" + tr("user's phone") +
+                                                                                   "<br><i>%email%</i> -" + tr("user's email") +
+                                                                                   "<br><i>%city%</i> -" + tr("user's city"));
+}
+
+void Kitty::DisplaySettings::on_chatTabCaptionHelpButton_clicked()
+{
+  QToolTip::showText(m_ui->chatTabCaptionHelpButton->mapToGlobal(QPoint(0, 2)), tr("Available variables:") +
+                                                                                   "<br><i>%nick%</i> - " + tr("user's nickname") +
+                                                                                   "<br><i>%status%</i> - " + tr("user's status") +
+                                                                                   "<br><i>%description%</i> - " + tr("user's status description") +
+                                                                                   "<br><i>%unread%</i> -" + tr("unread messages"));
+
 }

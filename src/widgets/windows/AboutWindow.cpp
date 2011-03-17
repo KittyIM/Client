@@ -3,11 +3,15 @@
 
 #include "constants.h"
 
+#include <QtCore/QDebug>
+
 Kitty::AboutWindow::AboutWindow(QWidget *parent): QDialog(parent), m_ui(new Ui::AboutWindow)
 {
   m_ui->setupUi(this);
 
   setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
+
+  qDebug() << "Creating AboutWindow";
 }
 
 Kitty::AboutWindow::~AboutWindow()

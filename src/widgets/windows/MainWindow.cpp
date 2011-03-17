@@ -23,6 +23,8 @@ Kitty::MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), m_ui(new Ui
 
   setWindowFlags(windowFlags() | Qt::Tool);
 
+  qDebug() << "Creating MainWindow";
+
   Core *core = Core::inst();
 
   core->showTrayIcon();
@@ -88,6 +90,8 @@ bool Kitty::MainWindow::isObscured()
 
 void Kitty::MainWindow::initToolbars()
 {
+  qDebug() << "  Initializing toolbars";
+
   Core *core = Core::inst();
 
   QMenu *mnuMain = new QMenu();

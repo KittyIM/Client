@@ -3,6 +3,8 @@
 
 #include "../ChatTab.h"
 
+#include <QtCore/QDebug>
+
 Kitty::ChatWindow::ChatWindow(QWidget *parent): QWidget(parent), m_ui(new Ui::ChatWindow)
 {
   m_ui->setupUi(this);
@@ -10,6 +12,8 @@ Kitty::ChatWindow::ChatWindow(QWidget *parent): QWidget(parent), m_ui(new Ui::Ch
   m_ui->tabWidget->addTab(new Kitty::ChatTab(this), "Tab 1");
   m_ui->tabWidget->addTab(new Kitty::ChatTab(this), "Tab 2");
   m_ui->tabWidget->addTab(new Kitty::ChatTab(this), "Tab 3");
+
+  qDebug() << "Creating ChatWindow";
 }
 
 Kitty::ChatWindow::~ChatWindow()

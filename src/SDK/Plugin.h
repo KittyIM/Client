@@ -25,7 +25,7 @@ namespace KittySDK
       void setName(const QString &name) { m_name = name; }
 
       QString version() const { return m_version; }
-      void setVersion(const QString &version) { m_version = m_version; }
+      void setVersion(const QString &version) { m_version = version; }
 
       QString author() const { return m_author; }
       void setAuthor(const QString &author) { m_author = author; }

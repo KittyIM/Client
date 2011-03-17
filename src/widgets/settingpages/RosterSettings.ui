@@ -124,6 +124,9 @@
       </item>
       <item row="2" column="0" colspan="2">
        <widget class="QCheckBox" name="displayTipsIPCheckBox">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <property name="text">
          <string>Display IP</string>
         </property>
@@ -131,6 +134,9 @@
       </item>
       <item row="1" column="1">
        <widget class="QSpinBox" name="tipDelaySpinBox">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <property name="suffix">
          <string> ms</string>
         </property>
@@ -166,5 +172,38 @@
   </customwidget>
  </customwidgets>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>tipsCheckBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>tipDelaySpinBox</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>63</x>
+     <y>275</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>133</x>
+     <y>302</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>tipsCheckBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>displayTipsIPCheckBox</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>36</x>
+     <y>285</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>47</x>
+     <y>328</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>
