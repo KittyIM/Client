@@ -7,9 +7,10 @@
 #include <QtGui/QMainWindow>
 #include <QtGui/QTextEdit>
 
+class QTextCodec;
+
 namespace Kitty
 {
-
   class SpellChecker: public QSyntaxHighlighter
   {
     Q_OBJECT
@@ -18,11 +19,14 @@ namespace Kitty
       SpellChecker(QTextDocument *parent);
       ~SpellChecker();
 
+      QStringList suggest(const QString &word);
+
     private:
       void highlightBlock(const QString &text);
 
     private:
       Hunspell *m_hunspell;
+      QTextCodec *m_codec;
   };
 
   class ChatEdit: public QTextEdit
@@ -38,6 +42,10 @@ namespace Kitty
     protected:
       void keyPressEvent(QKeyEvent *event);
       void resizeEvent(QResizeEvent *event);
+      void contextMenuEvent(QContextMenuEvent *event);
+
+    private slots:
+      void replaceWord();
 
     private:
       void updateSize();

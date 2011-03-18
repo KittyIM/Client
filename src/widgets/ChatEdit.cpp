@@ -2,8 +2,11 @@
 #include "App.h"
 
 #include <QtCore/QTextBoundaryFinder>
+#include <QtCore/QTextCodec>
 #include <QtCore/QDebug>
+#include <QtGui/QTextDocumentFragment>
 #include <QtGui/QKeyEvent>
+#include <QtGui/QMenu>
 
 Kitty::SpellChecker::SpellChecker(QTextDocument *parent): QSyntaxHighlighter(parent)
 {
@@ -12,11 +15,28 @@ Kitty::SpellChecker::SpellChecker(QTextDocument *parent): QSyntaxHighlighter(par
 
   //TODO: move to Core
   m_hunspell = new Hunspell(aff.constData(), dic.constData());
+  m_codec = QTextCodec::codecForName(m_hunspell->get_dic_encoding());
 }
 
 Kitty::SpellChecker::~SpellChecker()
 {
   delete m_hunspell;
+}
+
+QStringList Kitty::SpellChecker::suggest(const QString &word)
+{
+  char **words;
+
+  int count = m_hunspell->suggest(&words, m_codec->fromUnicode(word).constData());
+
+  QStringList suggestions;
+  for(int i = 0; i < count; i++) {
+    suggestions.append(m_codec->toUnicode(words[i]));
+  }
+
+  m_hunspell->free_list(&words, count);
+
+  return suggestions;
 }
 
 void Kitty::SpellChecker::highlightBlock(const QString &text)
@@ -40,7 +60,7 @@ void Kitty::SpellChecker::highlightBlock(const QString &text)
     length = finder.toNextBoundary() - start;
     word = text.mid(start, length);
 
-    if(!m_hunspell->spell(word.toLatin1().constData())) {
+    if(!m_hunspell->spell(m_codec->fromUnicode(word).constData())) {
       setFormat(start, length, format);
     }
   }
@@ -78,5 +98,46 @@ void Kitty::ChatEdit::resizeEvent(QResizeEvent *event)
   QTextEdit::resizeEvent(event);
 
   updateSize();
+}
+
+void Kitty::ChatEdit::contextMenuEvent(QContextMenuEvent *event)
+{
+
+   QTextCursor cursor = textCursor();
+   cursor.setPosition(cursorForPosition(event->pos()).position());
+   cursor.select(QTextCursor::WordUnderCursor);
+   setTextCursor(cursor);
+
+   QString word = cursor.selection().toPlainText();
+
+   QMenu *menu = QTextEdit::createStandardContextMenu();
+
+   if(!cursor.selection().isEmpty()) {
+     menu->insertAction(menu->actions().first(), new QAction("Add to dictionary", this));
+     menu->addSeparator();
+   }
+
+   QStringList suggestions = m_checker->suggest(word);
+   QList<QAction*> suggestActions;
+   for(int i = 0; i < suggestions.count(); i++) {
+     QAction *suggestedWord = new QAction(this);
+     suggestedWord->setText(suggestions.at(i));
+     connect(suggestedWord, SIGNAL(triggered()), this, SLOT(replaceWord()));
+     suggestActions.append(suggestedWord);
+   }
+   if(suggestActions.count() > 0) {
+     menu->insertActions(menu->actions().first(), suggestActions);
+     menu->addSeparator();
+   }
+
+   menu->exec(event->globalPos());
+}
+
+void Kitty::ChatEdit::replaceWord()
+{
+  QAction *action = qobject_cast<QAction*>(sender());
+  if(action) {
+    insertPlainText(action->text());
+  }
 }
 
