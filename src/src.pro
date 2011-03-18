@@ -5,7 +5,7 @@ TEMPLATE    = app
 QT         += core gui xml network webkit
 
 SOURCES    += main.cpp \
-              qtwin/qtwin.cpp \
+              3rdparty/qtwin/qtwin.cpp \
               App.cpp \
               ActionManager.cpp \
               Core.cpp \
@@ -45,7 +45,7 @@ HEADERS    += constants.h \
               SDK/Protocol.h \
               SDK/Plugin.h \
               SDK/PluginCore.h \
-              qtwin/qtwin.h \
+              3rdparty/qtwin/qtwin.h \
               App.h \
               ActionManager.h \
               Core.h \
@@ -78,7 +78,8 @@ HEADERS    += constants.h \
               widgets/settingpages/PluginsSettings.h \
               widgets/ChatEdit.h \
               widgets/ChatTab.h \
-              widgets/ChatTabWidget.h
+              widgets/ChatTabWidget.h \
+              3rdparty/hunspell/hunspell.hxx
 
 FORMS      += widgets/windows/DebugWindow.ui \
               widgets/windows/MainWindow.ui \
@@ -104,3 +105,11 @@ FORMS      += widgets/windows/DebugWindow.ui \
 
 RESOURCES  += ../res.qrc
 RC_FILE     = ../res.rc
+
+LIBS += -lhunspell
+
+debug {
+  LIBS += -L3rdparty/hunspell/debug
+} else {
+  LIBS += -L3rdparty/hunspell/release
+}

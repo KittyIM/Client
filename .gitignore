@@ -1,10 +1,12 @@
 
-/Kitty.pro.user
-/Makefile*
+/*.pro.user
+/*Makefile*
 /bin/Kitty.exe
 /bin/profiles/*
-/src/Makefile*
 /src/ui_*.h
 /src/*/moc_*.cpp
+/src/*/*.o
 /src/*/qrc_res.cpp
-/src/object_script.Kitty.*
+/src/*object_script.*
+/src/3rdparty/hunspell/debug/*
+/src/3rdparty/hunspell/release/*

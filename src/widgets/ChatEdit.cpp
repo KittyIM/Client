@@ -1,10 +1,56 @@
 #include "ChatEdit.h"
+#include "App.h"
 
+#include <QtCore/QTextBoundaryFinder>
 #include <QtCore/QDebug>
 #include <QtGui/QKeyEvent>
 
+Kitty::SpellChecker::SpellChecker(QTextDocument *parent): QSyntaxHighlighter(parent)
+{
+  QByteArray dic = QString(qApp->applicationDirPath() + "/data/dictionaries/pl_PL.dic").toLocal8Bit();
+  QByteArray aff = QString(qApp->applicationDirPath() + "/data/dictionaries/pl_PL.aff").toLocal8Bit();
+
+  //TODO: move to Core
+  m_hunspell = new Hunspell(aff.constData(), dic.constData());
+}
+
+Kitty::SpellChecker::~SpellChecker()
+{
+  delete m_hunspell;
+}
+
+void Kitty::SpellChecker::highlightBlock(const QString &text)
+{
+  QTextCharFormat format;
+  format.setUnderlineColor(Qt::red);
+  format.setUnderlineStyle(QTextCharFormat::SpellCheckUnderline);
+
+  QTextBoundaryFinder finder(QTextBoundaryFinder::Word, text);
+  int start = 0;
+  int length = 0;
+  QString word = "";
+
+  while(finder.position() < text.length()) {
+    if(finder.position() == 0) {
+      start = 0;
+    } else {
+      start = finder.position();
+    }
+
+    length = finder.toNextBoundary() - start;
+    word = text.mid(start, length);
+
+    if(!m_hunspell->spell(word.toLatin1().constData())) {
+      setFormat(start, length, format);
+    }
+  }
+}
+
+
 Kitty::ChatEdit::ChatEdit(QWidget *parent): QTextEdit(parent)
 {
+  m_checker = new Kitty::SpellChecker(document());
+
   updateSize();
 }
 
@@ -33,3 +79,4 @@ void Kitty::ChatEdit::resizeEvent(QResizeEvent *event)
 
   updateSize();
 }
+
