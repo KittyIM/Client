@@ -37,7 +37,11 @@ SOURCES    += main.cpp \
               widgets/settingpages/PluginsSettings.cpp \
               widgets/ChatEdit.cpp \
               widgets/ChatTab.cpp \
-              widgets/ChatTabWidget.cpp
+              widgets/ChatTabWidget.cpp \
+              RosterItemModel.cpp \
+              RosterItemDelegate.cpp \
+              RosterItem.cpp \
+              widgets/RosterTreeView.cpp
 
 HEADERS    += constants.h \
               SDK/constants.h \
@@ -79,7 +83,11 @@ HEADERS    += constants.h \
               widgets/ChatEdit.h \
               widgets/ChatTab.h \
               widgets/ChatTabWidget.h \
-              3rdparty/hunspell/hunspell.hxx
+              3rdparty/hunspell/hunspell.hxx \
+              RosterItemModel.h \
+              RosterItemDelegate.h \
+              RosterItem.h \
+              widgets/RosterTreeView.h
 
 FORMS      += widgets/windows/DebugWindow.ui \
               widgets/windows/MainWindow.ui \

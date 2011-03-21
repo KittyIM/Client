@@ -10,6 +10,8 @@ namespace Ui
 
 namespace Kitty
 {
+  class RosterItemModel;
+
   class MainWindow: public QMainWindow
   {
     Q_OBJECT
@@ -30,6 +32,7 @@ namespace Kitty
 
     private:
       Ui::MainWindow *m_ui;
+      RosterItemModel *m_model;
   };
 }
 

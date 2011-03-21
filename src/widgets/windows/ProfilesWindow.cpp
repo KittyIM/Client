@@ -2,7 +2,7 @@
 #include "ui_ProfilesWindow.h"
 
 #include "SDK/constants.h"
-#include "qtwin/qtwin.h"
+#include "3rdparty/qtwin/qtwin.h"
 #include "XmlSettings.h"
 #include "constants.h"
 #include "Profile.h"

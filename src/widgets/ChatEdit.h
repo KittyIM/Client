@@ -1,13 +1,9 @@
 #ifndef CHATEDIT_H
 #define CHATEDIT_H
 
-#include "3rdparty/hunspell/hunspell.hxx"
-
 #include <QtGui/QSyntaxHighlighter>
 #include <QtGui/QMainWindow>
 #include <QtGui/QTextEdit>
-
-class QTextCodec;
 
 namespace Kitty
 {
@@ -23,10 +19,6 @@ namespace Kitty
 
     private:
       void highlightBlock(const QString &text);
-
-    private:
-      Hunspell *m_hunspell;
-      QTextCodec *m_codec;
   };
 
   class ChatEdit: public QTextEdit

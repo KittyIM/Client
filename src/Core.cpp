@@ -2,6 +2,7 @@
 
 #include "widgets/windows/ProfilesWindow.h"
 #include "widgets/windows/SettingsWindow.h"
+#include "3rdparty/hunspell/hunspell.hxx"
 #include "widgets/windows/DebugWindow.h"
 #include "widgets/windows/AboutWindow.h"
 #include "widgets/windows/ChatWindow.h"
@@ -35,6 +36,7 @@ Kitty::Core::Core()
   m_chatWindow = 0;
   m_mainWindow = 0;
   m_trayIcon = 0;
+  m_hunspell = 0;
   m_profile = 0;
 
   m_restart = false;
@@ -167,6 +169,7 @@ void Kitty::Core::showProfilesWindow()
 void Kitty::Core::showSettingsWindow()
 {
   settingsWindow()->show();
+  settingsWindow()->activateWindow();
 }
 
 QSystemTrayIcon *Kitty::Core::trayIcon()
@@ -194,6 +197,18 @@ Kitty::Profile *Kitty::Core::profile()
   }
 
   return m_profile;
+}
+
+Hunspell *Kitty::Core::hunspell()
+{
+  if(!m_hunspell) {
+    QByteArray dic = QString(qApp->applicationDirPath() + "/data/dictionaries/pl_PL.dic").toLocal8Bit();
+    QByteArray aff = QString(qApp->applicationDirPath() + "/data/dictionaries/pl_PL.aff").toLocal8Bit();
+
+    m_hunspell = new Hunspell(aff.constData(), dic.constData());
+  }
+
+  return m_hunspell;
 }
 
 Kitty::XmlSettings *Kitty::Core::settings()

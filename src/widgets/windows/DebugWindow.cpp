@@ -102,9 +102,9 @@ void Kitty::DebugWindow::execCommand()
     m_wvLog->setHtml(m_wvLog->page()->mainFrame()->toHtml() + QString("<div>&gt; %1</div>").arg(m_ui->commandEdit->text()));
     m_wvLog->setHtml(m_wvLog->page()->mainFrame()->toHtml() + msg);
     m_wvLog->page()->mainFrame()->setScrollBarValue(Qt::Vertical, m_wvLog->page()->mainFrame()->scrollBarMaximum(Qt::Vertical));
-  }
 
-  m_history.append(m_ui->commandEdit->text());
+    m_history.append(m_ui->commandEdit->text());
+  }
   m_ui->commandEdit->clear();
 }
 

@@ -1,6 +1,7 @@
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
 
+#include "RosterItemModel.h"
 #include "SDK/constants.h"
 #include "constants.h"
 #include "Profile.h"
@@ -20,6 +21,8 @@ using namespace KittySDK;
 Kitty::MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), m_ui(new Ui::MainWindow)
 {
   m_ui->setupUi(this);
+  m_model = new Kitty::RosterItemModel(m_ui->rosterTreeView);
+  m_ui->rosterTreeView->setModel(m_model);
 
   setWindowFlags(windowFlags() | Qt::Tool);
 

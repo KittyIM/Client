@@ -8,6 +8,7 @@
 #include <QtGui/QSystemTrayIcon>
 
 class QAction;
+class Hunspell;
 
 namespace Kitty
 {
@@ -45,6 +46,7 @@ namespace Kitty
       SettingsWindow *settingsWindow();
       QSystemTrayIcon *trayIcon();
       Profile *profile();
+      Hunspell *hunspell();
       XmlSettings *settings();
 
       QString profilesDir() const;
@@ -84,6 +86,7 @@ namespace Kitty
       AboutWindow *m_aboutWindow;
       MainWindow *m_mainWindow;
       ChatWindow *m_chatWindow;
+      Hunspell *m_hunspell;
       Profile *m_profile;
   };
 }

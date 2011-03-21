@@ -33,7 +33,7 @@ void Kitty::MainSettings::reset()
   Core *core = Core::inst();
 
   m_ui->languageComboBox->clear();
-  m_ui->languageComboBox->addItem(tr("System"), "");
+  m_ui->languageComboBox->addItem(tr("System"), QString());
   m_ui->languageComboBox->addItem("English", "C");
 
   if(core->setting(Settings::S_LANGUAGE, "C").toString() == "C") {

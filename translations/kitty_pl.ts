@@ -242,7 +242,7 @@
         <location filename="../src/ui_ChatWindowSettings.h" line="190"/>
         <location filename="../src/ui_ChatWindowSettings.h" line="203"/>
         <source> messages</source>
-        <translation>wiadomości</translation>
+        <translation> wiadomości</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/ChatWindowSettings.ui"/>
