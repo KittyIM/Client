@@ -20,7 +20,7 @@
    <string>Settings</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../../res.qrc">
+   <iconset resource="../../../res.qrc">
     <normaloff>:/icons/settings.ico</normaloff>:/icons/settings.ico</iconset>
   </property>
   <layout class="QGridLayout">
@@ -67,6 +67,9 @@
    </item>
    <item row="0" column="1">
     <widget class="QGroupBox" name="groupBox">
+     <property name="styleSheet">
+      <string notr="true">#groupBox { font-weight: bold; }</string>
+     </property>
      <property name="title">
       <string/>
      </property>
@@ -98,7 +101,7 @@
   <tabstop>buttonBox</tabstop>
  </tabstops>
  <resources>
-  <include location="../../res.qrc"/>
+  <include location="../../../res.qrc"/>
  </resources>
  <connections/>
 </ui>

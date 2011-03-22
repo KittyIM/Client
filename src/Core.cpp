@@ -58,6 +58,10 @@ Kitty::Core::~Core()
     delete m_chatWindow;
   }
 
+  if(m_hunspell) {
+    delete m_hunspell;
+  }
+
   if(m_profilesWindow) {
     delete m_profilesWindow;
   }
@@ -202,8 +206,8 @@ Kitty::Profile *Kitty::Core::profile()
 Hunspell *Kitty::Core::hunspell()
 {
   if(!m_hunspell) {
-    QByteArray dic = QString(qApp->applicationDirPath() + "/data/dictionaries/pl_PL.dic").toLocal8Bit();
-    QByteArray aff = QString(qApp->applicationDirPath() + "/data/dictionaries/pl_PL.aff").toLocal8Bit();
+    QByteArray dic = QString(qApp->applicationDirPath() + "/data/dictionaries/" + setting(KittySDK::Settings::S_CHATWINDOW_SPELLCHECK_DICT).toString() + ".dic").toLocal8Bit();
+    QByteArray aff = QString(qApp->applicationDirPath() + "/data/dictionaries/" + setting(KittySDK::Settings::S_CHATWINDOW_SPELLCHECK_DICT).toString() + ".aff").toLocal8Bit();
 
     m_hunspell = new Hunspell(aff.constData(), dic.constData());
   }

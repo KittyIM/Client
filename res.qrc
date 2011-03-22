@@ -5,6 +5,7 @@
         <file alias="profile.ico">res/icons/profile.ico</file>
         <file alias="about.ico">res/icons/about.ico</file>
         <file alias="settings.ico">res/icons/settings.ico</file>
+        <file alias="message.ico">res/icons/message.ico</file>
     </qresource>
     <qresource prefix="/glyphs">
         <file alias="quit.png">res/glyphs/quit.png</file>
@@ -25,8 +26,18 @@
         <file alias="key.png">res/glyphs/key.png</file>
         <file alias="bullet.png">res/glyphs/bullet.png</file>
         <file alias="smiley.png">res/glyphs/smiley.png</file>
+        <file alias="color.png">res/glyphs/color.png</file>
+        <file alias="file.png">res/glyphs/file.png</file>
+        <file alias="image.png">res/glyphs/image.png</file>
+        <file alias="bold.png">res/glyphs/bold.png</file>
+        <file alias="italic.png">res/glyphs/italic.png</file>
+        <file alias="striketrough.png">res/glyphs/strikethrough.png</file>
+        <file alias="underline.png">res/glyphs/underline.png</file>
     </qresource>
     <qresource prefix="/images">
         <file alias="kitty_logo.png">res/images/kitty_logo.png</file>
+    </qresource>
+    <qresource prefix="/roster">
+        <file alias="theme.xml">res/roster/theme.xml</file>
     </qresource>
 </RCC>

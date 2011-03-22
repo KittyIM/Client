@@ -19,7 +19,6 @@ namespace Kitty
         TypeRole = Qt::UserRole + 1,
         DescriptionRole,
         AvatarRole,
-        IconRole,
         ChildrenRole
       };
 
@@ -27,7 +26,7 @@ namespace Kitty
       int type() const { return Type; }
 
     public:
-      RosterItem(const int &type = RosterItem::GROUP, const QString &text = QString(), RosterItem *parent = 0);
+      RosterItem(RosterItem *parent = 0);
       ~RosterItem();
 
       void appendChild(RosterItem *child);

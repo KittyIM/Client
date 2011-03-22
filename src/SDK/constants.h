@@ -24,6 +24,14 @@ namespace KittySDK
     const char * const I_MESSAGE        = "Kitty.Message";
     const char * const I_SMILEY         = "Kitty.Smiley";
     const char * const I_TAB            = "Kitty.Tab";
+    const char * const I_BOLD           = "Kitty.Bold";
+    const char * const I_ITALIC         = "Kitty.Italic";
+    const char * const I_UNDERLINE      = "Kitty.Underline";
+    const char * const I_STRIKETROUGH   = "Kitty.Striketrough";
+    const char * const I_COLOR          = "Kitty.Color";
+    const char * const I_IMAGE          = "Kitty.Image";
+    const char * const I_FILE           = "Kitty.File";
+
   }
 
   namespace Actions
@@ -60,13 +68,15 @@ namespace KittySDK
     const char * const S_SETTINGSWINDOW_GEOMETRY       = "Kitty.Geometries.SettingsWindow";
 
     const char * const S_CHATWINDOW_CAPTION            = "Kitty.Display.Captions.ChatWindow";
+    const char * const S_CHATWINDOW_GEOMETRY           = "Kitty.Geometries.ChatWindow";
     const char * const S_CHATWINDOW_SPELLCHECK_DICT    = "Kitty.ChatWindow.SpellCheck.Dictionary";
 
 
     const char * const S_CHATTAB_CAPTION               = "Kitty.Display.Captions.ChatTab";
 
     const char * const S_PROFILE_PASSWORD              = "Profile.Password";
-    const char * const S_PROFILE_THEMES_ICON           = "Profile.Themes.Icon";
+
+    const char * const S_ICON_THEME                    = "Profile.Themes.Icon";
 
     const char * const S_PROXY_ENABLED                 = "Kitty.Proxy.Enabled";
     const char * const S_PROXY_SERVER                  = "Kitty.Proxy.Server";
@@ -75,6 +85,7 @@ namespace KittySDK
     const char * const S_PROXY_USERNAME                = "Kitty.Proxy.Auth.Username";
     const char * const S_PROXY_PASSWORD                = "Kitty.Proxy.Auth.Password";
 
+    const char * const S_ROSTER_THEME                  = "Profile.Themes.Roster";
     const char * const S_ROSTER_STATUS_DESCRIPTION     = "Kitty.Roster.StatusDescription";
     const char * const S_ROSTER_AVATARS                = "Kitty.Roster.Avatars";
     const char * const S_ROSTER_HIDE_OFFLINE           = "Kitty.Roster.HideOffline";

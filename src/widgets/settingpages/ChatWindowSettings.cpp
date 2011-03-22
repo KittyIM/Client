@@ -24,14 +24,14 @@ Kitty::ChatWindowSettings::~ChatWindowSettings()
 
 void Kitty::ChatWindowSettings::apply()
 {
-  Core *core = Core::inst();
+  Kitty::Core *core = Kitty::Core::inst();
 
   core->setSetting(Settings::S_CHATWINDOW_SPELLCHECK_DICT, m_ui->spellCheckDictionaryComboBox->itemData(m_ui->spellCheckDictionaryComboBox->currentIndex()).toString());
 }
 
 void Kitty::ChatWindowSettings::reset()
 {
-  Core *core = Core::inst();
+  Kitty::Core *core = Kitty::Core::inst();
 
   m_ui->spellCheckDictionaryComboBox->clear();
   m_ui->spellCheckDictionaryComboBox->addItem(tr("None"), QString());

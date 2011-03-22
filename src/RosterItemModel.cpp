@@ -2,31 +2,59 @@
 
 #include "RosterItem.h"
 
+#include <QtCore/QDebug>
+
 Kitty::RosterItemModel::RosterItemModel(QObject *parent): QAbstractItemModel(parent)
 {
-  m_root = new RosterItem();
+  qDebug() << "Creating RosterItemModel";
 
-  RosterItem *friends = new RosterItem(RosterItem::GROUP, "Friends", m_root);
-  RosterItem *kill3r = new RosterItem(RosterItem::CONTACT, "Kill3r", friends);
-  kill3r->setData("Can I haz description?", RosterItem::DescriptionRole);
-  friends->appendChild(kill3r);
-  friends->appendChild(new RosterItem(RosterItem::CONTACT, "Dawid", friends));
-  friends->appendChild(new RosterItem(RosterItem::CONTACT, "Woltaszffasfasfasfasfafasfsaf", friends));
-  m_root->appendChild(friends);
+  m_root = new Kitty::RosterItem();
 
-  RosterItem *roommates = new RosterItem(RosterItem::GROUP, "Roommates", m_root);
-  roommates->appendChild(new RosterItem(RosterItem::CONTACT, "Raze", roommates));
-  roommates->appendChild(new RosterItem(RosterItem::CONTACT, "Oli", roommates));
-  m_root->appendChild(roommates);
+  Kitty::RosterItem *g1 = addGroup("Group 1");
+  addContact("Contact 1", g1)->setData("Lorem ipsum dolor sit amet.", Kitty::RosterItem::DescriptionRole);
+  addContact("Contact 2", g1);
 
-  RosterItem *family = new RosterItem(RosterItem::GROUP, "Family", m_root);
-  family->appendChild(new RosterItem(RosterItem::CONTACT, "Peter", family));
-  m_root->appendChild(family);
+  Kitty::RosterItem *g2 = addGroup("Group 2");
+  addContact("Contact 3", g2);
+  addContact("Contact 4", g2);
+  addContact("Contact 5", g2);
+
+  Kitty::RosterItem *g3 = addGroup("Group 3");
+  addContact("Contact 6", g3);
+
+  addContact("Contact 7");
 }
 
 Kitty::RosterItemModel::~RosterItemModel()
 {
   delete m_root;
+}
+
+Kitty::RosterItem *Kitty::RosterItemModel::addGroup(const QString &name)
+{
+  Kitty::RosterItem *item = new Kitty::RosterItem(m_root);
+
+  item->setData(Kitty::RosterItem::GROUP, Kitty::RosterItem::TypeRole);
+  item->setData(name, Qt::DisplayRole);
+
+  m_root->appendChild(item);
+
+  return item;
+}
+
+Kitty::RosterItem *Kitty::RosterItemModel::addContact(const QString &name, Kitty::RosterItem *parent)
+{
+  if(!parent) {
+    parent = m_root;
+  }
+
+  Kitty::RosterItem *item = new Kitty::RosterItem(parent);
+  item->setData(Kitty::RosterItem::CONTACT, Kitty::RosterItem::TypeRole);
+  item->setData(name, Qt::DisplayRole);
+
+  parent->appendChild(item);
+
+  return item;
 }
 
 int Kitty::RosterItemModel::columnCount(const QModelIndex &parent) const

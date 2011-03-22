@@ -2,7 +2,6 @@
 #define CHATEDIT_H
 
 #include <QtGui/QSyntaxHighlighter>
-#include <QtGui/QMainWindow>
 #include <QtGui/QTextEdit>
 
 namespace Kitty

@@ -14,7 +14,7 @@ void Kitty::ActionManager::loadDefaults()
 {
   qDebug() << "ActionManager is loading default actions";
 
-  Core *core = Core::inst();
+  Kitty::Core *core = Kitty::Core::inst();
 
   QAction *actQuit = new QAction(tr("Quit"), this);
   actQuit->setProperty("icon_id", Icons::I_QUIT);
@@ -62,7 +62,7 @@ void Kitty::ActionManager::updateIcons()
 {
   qDebug() << "ActionManager is updating icons";
 
-  Core *core = Core::inst();
+  Kitty::Core *core = Kitty::Core::inst();
 
   QHashIterator<QString, QPointer<QAction> > it(m_actions);
   while(it.hasNext()) {

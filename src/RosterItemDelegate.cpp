@@ -1,12 +1,18 @@
 #include "RosterItemDelegate.h"
 
+#include "SDK/constants.h"
+#include "RosterTheme.h"
 #include "RosterItem.h"
+#include "Core.h"
 
 #include <QtGui/QApplication>
 #include <QtGui/QPainter>
 
+using namespace KittySDK;
+
 Kitty::RosterItemDelegate::RosterItemDelegate(QObject *parent): QStyledItemDelegate(parent)
 {
+  m_theme = new Kitty::RosterTheme(Kitty::Core::inst()->setting(Settings::S_ROSTER_THEME).toString());
 }
 
 void Kitty::RosterItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
@@ -14,33 +20,29 @@ void Kitty::RosterItemDelegate::paint(QPainter *painter, const QStyleOptionViewI
   int type = index.data(RosterItem::TypeRole).toInt();
   QString text = index.data(Qt::DisplayRole).toString();
   QString description = index.data(RosterItem::DescriptionRole).toString();
+  QPixmap icon = qvariant_cast<QPixmap>(index.data(Qt::DecorationRole));
+
   QPixmap avatar(index.data(RosterItem::AvatarRole).toString());
-  if(!avatar.isNull()) {
+  if((avatar.size() != QSize(32, 32)) && !avatar.isNull()) {
     avatar = avatar.scaled(32, 32, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
   }
 
   QRect rect = option.rect;
-  QFont font = option.font;
 
   painter->save();
 
   if(type == RosterItem::GROUP) {
     if(option.state & QStyle::State_Selected) {
-      painter->setBrush(qApp->palette().button().color().darker(110));
-      painter->setPen(qApp->palette().midlight().color().darker(110));
+      painter->setBrush(m_theme->selectedGroupBackground());
+      painter->setPen(m_theme->selectedGroupForeground());
    } else {
-      painter->setBrush(qApp->palette().button().color());
-      painter->setPen(qApp->palette().midlight().color());
+      painter->setBrush(m_theme->groupBackground());
+      painter->setPen(m_theme->groupForeground());
     }
-
     painter->drawRect(option.rect);
 
-    font.setBold(true);
-    painter->setFont(font);
-
-    painter->setPen(Qt::black);
-    painter->setBrush(Qt::white);
-
+    painter->setFont(m_theme->groupFont());
+    painter->setPen(m_theme->groupNameColor());
     painter->drawText(rect.translated(20, 0), Qt::AlignVCenter | Qt::TextSingleLine, text);
 
     QStyleOption opt;
@@ -54,15 +56,16 @@ void Kitty::RosterItemDelegate::paint(QPainter *painter, const QStyleOptionViewI
     }
   } else {
     if(option.state & QStyle::State_Selected) {
-      painter->setBrush(QColor(54, 151, 255));
-      painter->setPen(QColor(54, 151, 255));
-      painter->drawRect(option.rect);
+      painter->setBrush(m_theme->selectedContactBackground());
+      painter->setPen(m_theme->selectedContactForeground());
+    } else {
+      painter->setBrush(m_theme->contactBackground());
+      painter->setPen(m_theme->contactForeground());
     }
+    painter->drawRect(option.rect);
 
-    font.setBold(false);
-    painter->setFont(font);
-
-    painter->setPen(Qt::black);
+    painter->setFont(m_theme->contactFont());
+    painter->setPen(m_theme->contactNameColor());
 
     int right = 0;
     if(!avatar.isNull()) {
@@ -70,21 +73,25 @@ void Kitty::RosterItemDelegate::paint(QPainter *painter, const QStyleOptionViewI
     }
 
     if(description.isEmpty()) {
-      painter->drawText(rect.translated(20, 0), Qt::AlignVCenter | Qt::TextSingleLine, QFontMetrics(font).elidedText(text, Qt::ElideRight, rect.width() - (20 + right)));
+      painter->drawText(rect.translated(20, 0), Qt::AlignVCenter | Qt::TextSingleLine, painter->fontMetrics().elidedText(text, Qt::ElideRight, rect.width() - (20 + right)));
     } else {
       rect = option.rect;
       rect.translate(20, 3);
       rect.setHeight(16);
-      painter->drawText(rect, Qt::TextSingleLine, QFontMetrics(font).elidedText(text, Qt::ElideRight, rect.width() - (20 + right)));
+      painter->drawText(rect, Qt::TextSingleLine, painter->fontMetrics().elidedText(text, Qt::ElideRight, rect.width() - (20 + right)));
 
-      font.setItalic(true);
-      font.setPointSize(font.pointSize() - 1);
-      painter->setFont(font);
+      painter->setFont(m_theme->descriptionFont());
+      painter->setPen(m_theme->contactDescriptionColor());
 
       rect = option.rect;
       rect.translate(20, rect.height() / 2 + 1);
       rect.setHeight(18);
-      painter->drawText(rect, Qt::TextSingleLine, QFontMetrics(font).elidedText(description, Qt::ElideRight, rect.width() - (20 + right)));
+      painter->drawText(rect, Qt::TextSingleLine, painter->fontMetrics().elidedText(description, Qt::ElideRight, rect.width() - (20 + right)));
+    }
+
+    if(!icon.isNull()) {
+      rect = option.rect;
+      painter->drawPixmap(rect.left() + 2, rect.top() + 10, icon);
     }
 
     if(!avatar.isNull()) {

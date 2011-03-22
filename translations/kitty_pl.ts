@@ -5,38 +5,38 @@
     <name>DebugWindow</name>
     <message>
         <location filename="../src/widgets/windows/DebugWindow.ui"/>
-        <location filename="../src/ui_DebugWindow.h" line="157"/>
+        <location filename="../src/ui_DebugWindow.h" line="170"/>
         <source>Debug console</source>
         <translation>Konsola debugowania</translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/DebugWindow.ui"/>
-        <location filename="../src/ui_DebugWindow.h" line="159"/>
+        <location filename="../src/ui_DebugWindow.h" line="172"/>
         <source>Console</source>
         <translation>Konsola</translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/DebugWindow.ui"/>
-        <location filename="../src/ui_DebugWindow.h" line="158"/>
+        <location filename="../src/ui_DebugWindow.h" line="171"/>
         <source>Execute</source>
         <translation>Wykonaj</translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/DebugWindow.ui"/>
-        <location filename="../src/ui_DebugWindow.h" line="161"/>
+        <location filename="../src/ui_DebugWindow.h" line="174"/>
         <source>Actions</source>
         <translation>Akcje</translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/DebugWindow.ui"/>
-        <location filename="../src/ui_DebugWindow.h" line="160"/>
-        <location filename="../src/ui_DebugWindow.h" line="162"/>
+        <location filename="../src/ui_DebugWindow.h" line="173"/>
+        <location filename="../src/ui_DebugWindow.h" line="175"/>
         <source>Refresh</source>
         <translation>Odśwież</translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/DebugWindow.ui"/>
-        <location filename="../src/ui_DebugWindow.h" line="163"/>
+        <location filename="../src/ui_DebugWindow.h" line="176"/>
         <source>Icons</source>
         <translation>Ikony</translation>
     </message>
@@ -71,42 +71,42 @@
 <context>
     <name>Kitty::ActionManager</name>
     <message>
-        <location filename="../src/ActionManager.cpp" line="17"/>
+        <location filename="../src/ActionManager.cpp" line="19"/>
         <source>Quit</source>
         <translation>Zakończ</translation>
     </message>
     <message>
-        <location filename="../src/ActionManager.cpp" line="22"/>
+        <location filename="../src/ActionManager.cpp" line="24"/>
         <source>Restart</source>
         <translation>Uruchom ponownie</translation>
     </message>
     <message>
-        <location filename="../src/ActionManager.cpp" line="27"/>
+        <location filename="../src/ActionManager.cpp" line="29"/>
         <source>Profile folder</source>
         <translation>Folder profili</translation>
     </message>
     <message>
-        <location filename="../src/ActionManager.cpp" line="32"/>
+        <location filename="../src/ActionManager.cpp" line="34"/>
         <source>Kitty&apos;s folder</source>
         <translation>Folder Kitty</translation>
     </message>
     <message>
-        <location filename="../src/ActionManager.cpp" line="37"/>
+        <location filename="../src/ActionManager.cpp" line="39"/>
         <source>About...</source>
         <translation>O...</translation>
     </message>
     <message>
-        <location filename="../src/ActionManager.cpp" line="42"/>
+        <location filename="../src/ActionManager.cpp" line="44"/>
         <source>Debug console</source>
         <translation>Konsola debugowania</translation>
     </message>
     <message>
-        <location filename="../src/ActionManager.cpp" line="47"/>
+        <location filename="../src/ActionManager.cpp" line="49"/>
         <source>Settings</source>
         <translation>Ustawienia</translation>
     </message>
     <message>
-        <location filename="../src/ActionManager.cpp" line="52"/>
+        <location filename="../src/ActionManager.cpp" line="54"/>
         <source>Show / Hide</source>
         <translation>Pokaż / Ukryj</translation>
     </message>
@@ -114,43 +114,38 @@
 <context>
     <name>Kitty::DebugWindow</name>
     <message>
-        <location filename="../src/widgets/windows/DebugWindow.cpp" line="88"/>
+        <location filename="../src/widgets/windows/DebugWindow.cpp" line="89"/>
         <source>Unknown command, type &lt;i&gt;help&lt;/i&gt; for list of commands.</source>
         <translation>Nieznana komenda, wpisz &lt;i&gt;help&lt;/i&gt; by uzyskać listę komend.</translation>
     </message>
     <message>
-        <location filename="../src/widgets/windows/DebugWindow.cpp" line="92"/>
-        <source>Commands:&lt;br&gt;&lt;i&gt;help&lt;/i&gt; - prints this text&lt;br&gt;&lt;i&gt;quit&lt;/i&gt; - quit KittyIM</source>
-        <translation>Komendy&lt;br&gt;&lt;i&gt;help&lt;/i&gt; - wypisz ten tekst&lt;br&gt;&lt;i&gt;quit&lt;/i&gt; - wyłącz KittyIM</translation>
+        <location filename="../src/widgets/windows/DebugWindow.cpp" line="93"/>
+        <source>Commands:&lt;br&gt;&lt;i&gt;help&lt;/i&gt; - prints this text&lt;br&gt;&lt;i&gt;uptime&lt;/i&gt; - show uptime&lt;br&gt;&lt;i&gt;quit&lt;/i&gt; - quit KittyIM</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>Kitty::MainWindow</name>
     <message>
-        <location filename="../src/widgets/windows/MainWindow.cpp" line="117"/>
+        <location filename="../src/widgets/windows/MainWindow.cpp" line="122"/>
         <source>User</source>
         <translation>Użytkownik</translation>
-    </message>
-    <message>
-        <location filename="../src/widgets/windows/MainWindow.cpp" line="128"/>
-        <source>Settings</source>
-        <translation>Ustawienia</translation>
     </message>
 </context>
 <context>
     <name>Kitty::ProfilesWindow</name>
     <message>
-        <location filename="../src/widgets/windows/ProfilesWindow.cpp" line="63"/>
+        <location filename="../src/widgets/windows/ProfilesWindow.cpp" line="65"/>
         <source>Add new profile</source>
         <translation>Dodaj nowy profil</translation>
     </message>
     <message>
-        <location filename="../src/widgets/windows/ProfilesWindow.cpp" line="134"/>
+        <location filename="../src/widgets/windows/ProfilesWindow.cpp" line="136"/>
         <source>Wrong password</source>
         <translation>Błędne hasło</translation>
     </message>
     <message>
-        <location filename="../src/widgets/windows/ProfilesWindow.cpp" line="134"/>
+        <location filename="../src/widgets/windows/ProfilesWindow.cpp" line="136"/>
         <source>The password you supplied is wrong.</source>
         <translation>Podane hasło nie jest poprawne.</translation>
     </message>
@@ -167,7 +162,7 @@
 <context>
     <name>Kitty::AboutWindow</name>
     <message>
-        <location filename="../src/widgets/windows/AboutWindow.cpp" line="27"/>
+        <location filename="../src/widgets/windows/AboutWindow.cpp" line="31"/>
         <source>Programming:</source>
         <translation>Programowanie:</translation>
     </message>
@@ -176,7 +171,7 @@
     <name>SettingsWindow</name>
     <message>
         <location filename="../src/widgets/windows/SettingsWindow.ui"/>
-        <location filename="../src/ui_SettingsWindow.h" line="95"/>
+        <location filename="../src/ui_SettingsWindow.h" line="96"/>
         <source>Settings</source>
         <translation>Ustawienia</translation>
     </message>
@@ -221,107 +216,131 @@
     <name>ChatWindowSettings</name>
     <message>
         <location filename="../src/widgets/settingpages/ChatWindowSettings.ui"/>
-        <location filename="../src/ui_ChatWindowSettings.h" line="187"/>
+        <location filename="../src/ui_ChatWindowSettings.h" line="232"/>
         <source>Enable sent message history (Ctrl+Up and Ctrl+Down)</source>
         <translation>Włącz historię wysyłanych wiadomości (Ctrl+Góra i Ctrl+Dół)</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/ChatWindowSettings.ui"/>
-        <location filename="../src/ui_ChatWindowSettings.h" line="188"/>
+        <location filename="../src/ui_ChatWindowSettings.h" line="233"/>
         <source>Copy selection to clipboard</source>
         <translation>Kopiuj zaznaczenie do schowka</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/ChatWindowSettings.ui"/>
-        <location filename="../src/ui_ChatWindowSettings.h" line="189"/>
+        <location filename="../src/ui_ChatWindowSettings.h" line="234"/>
         <source>When starting a conversation load last:</source>
         <translation>Przy rozpoczęciu rozmowy, ładuj ostatnie:</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/ChatWindowSettings.ui"/>
-        <location filename="../src/ui_ChatWindowSettings.h" line="190"/>
-        <location filename="../src/ui_ChatWindowSettings.h" line="203"/>
+        <location filename="../src/ui_ChatWindowSettings.h" line="235"/>
+        <location filename="../src/ui_ChatWindowSettings.h" line="248"/>
         <source> messages</source>
         <translation> wiadomości</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/ChatWindowSettings.ui"/>
-        <location filename="../src/ui_ChatWindowSettings.h" line="191"/>
+        <location filename="../src/ui_ChatWindowSettings.h" line="236"/>
         <source>Grouping</source>
         <translation>Grupowanie</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/ChatWindowSettings.ui"/>
-        <location filename="../src/ui_ChatWindowSettings.h" line="192"/>
+        <location filename="../src/ui_ChatWindowSettings.h" line="237"/>
         <source>Group incoming messages</source>
         <translation>Grupuj przychodzące wiadomości</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/ChatWindowSettings.ui"/>
-        <location filename="../src/ui_ChatWindowSettings.h" line="193"/>
+        <location filename="../src/ui_ChatWindowSettings.h" line="238"/>
         <source>Group my messages</source>
         <translation>Grupuj moje wiadomości</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/ChatWindowSettings.ui"/>
-        <location filename="../src/ui_ChatWindowSettings.h" line="194"/>
+        <location filename="../src/ui_ChatWindowSettings.h" line="239"/>
         <source>Display</source>
         <translation>Wygląd</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/ChatWindowSettings.ui"/>
-        <location filename="../src/ui_ChatWindowSettings.h" line="195"/>
+        <location filename="../src/ui_ChatWindowSettings.h" line="240"/>
         <source>Display message timestamp</source>
         <translation>Pokaż czas wiadomości</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/ChatWindowSettings.ui"/>
-        <location filename="../src/ui_ChatWindowSettings.h" line="196"/>
+        <location filename="../src/ui_ChatWindowSettings.h" line="241"/>
         <source>Display status changes</source>
         <translation>Pokazuj zmiany statusu</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/ChatWindowSettings.ui"/>
-        <location filename="../src/ui_ChatWindowSettings.h" line="197"/>
+        <location filename="../src/ui_ChatWindowSettings.h" line="242"/>
         <source>Display YouTube movies</source>
         <translation>Pokazuj filmiki z YouTube</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/ChatWindowSettings.ui"/>
-        <location filename="../src/ui_ChatWindowSettings.h" line="198"/>
+        <location filename="../src/ui_ChatWindowSettings.h" line="243"/>
         <source>Display message formatting</source>
         <translation>Pokazuj formatowanie wiadomości</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/ChatWindowSettings.ui"/>
-        <location filename="../src/ui_ChatWindowSettings.h" line="199"/>
+        <location filename="../src/ui_ChatWindowSettings.h" line="244"/>
         <source>Underline links</source>
         <translation>Podkreślaj linki</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/ChatWindowSettings.ui"/>
-        <location filename="../src/ui_ChatWindowSettings.h" line="200"/>
+        <location filename="../src/ui_ChatWindowSettings.h" line="245"/>
         <source>Cleaning</source>
         <translation>Czyszczenie</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/ChatWindowSettings.ui"/>
-        <location filename="../src/ui_ChatWindowSettings.h" line="201"/>
-        <location filename="../src/ui_ChatWindowSettings.h" line="202"/>
+        <location filename="../src/ui_ChatWindowSettings.h" line="246"/>
+        <location filename="../src/ui_ChatWindowSettings.h" line="247"/>
         <source>Clean chat window after:</source>
         <translation>Czyść okno rozmowy po:</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/ChatWindowSettings.ui"/>
-        <location filename="../src/ui_ChatWindowSettings.h" line="204"/>
+        <location filename="../src/ui_ChatWindowSettings.h" line="249"/>
         <source> min</source>
         <translation> min</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/ChatWindowSettings.ui"/>
-        <location filename="../src/ui_ChatWindowSettings.h" line="184"/>
+        <location filename="../src/ui_ChatWindowSettings.h" line="229"/>
         <source>Chat Window</source>
         <translation>Okno rozmowy</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/settingpages/ChatWindowSettings.ui"/>
+        <location filename="../src/ui_ChatWindowSettings.h" line="250"/>
+        <source>Spell checker</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/settingpages/ChatWindowSettings.ui"/>
+        <location filename="../src/ui_ChatWindowSettings.h" line="251"/>
+        <source>Check spelling</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/settingpages/ChatWindowSettings.ui"/>
+        <location filename="../src/ui_ChatWindowSettings.h" line="252"/>
+        <source>Dictionary:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/settingpages/ChatWindowSettings.ui"/>
+        <location filename="../src/ui_ChatWindowSettings.h" line="253"/>
+        <source>Suggestions list:</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -921,6 +940,79 @@
     <message>
         <location filename="../src/widgets/settingpages/DisplaySettings.cpp" line="89"/>
         <source>unread messages</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ChatTab</name>
+    <message>
+        <location filename="../src/widgets/ChatTab.ui"/>
+        <source>about:blank</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Kitty::ChatTab</name>
+    <message>
+        <location filename="../src/widgets/ChatTab.cpp" line="23"/>
+        <location filename="../src/widgets/ChatTab.cpp" line="62"/>
+        <source>Bold</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/ChatTab.cpp" line="24"/>
+        <location filename="../src/widgets/ChatTab.cpp" line="63"/>
+        <source>Italic</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/ChatTab.cpp" line="25"/>
+        <location filename="../src/widgets/ChatTab.cpp" line="64"/>
+        <source>Underline</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/ChatTab.cpp" line="27"/>
+        <location filename="../src/widgets/ChatTab.cpp" line="65"/>
+        <source>Color</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/ChatTab.cpp" line="28"/>
+        <location filename="../src/widgets/ChatTab.cpp" line="66"/>
+        <source>Smilies</source>
+        <translation type="unfinished">Emotikonki</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/ChatTab.cpp" line="30"/>
+        <location filename="../src/widgets/ChatTab.cpp" line="67"/>
+        <source>Send image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/ChatTab.cpp" line="31"/>
+        <location filename="../src/widgets/ChatTab.cpp" line="68"/>
+        <source>Send file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/ChatTab.cpp" line="33"/>
+        <location filename="../src/widgets/ChatTab.cpp" line="69"/>
+        <source>Profile</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/ChatTab.cpp" line="34"/>
+        <location filename="../src/widgets/ChatTab.cpp" line="70"/>
+        <source>History</source>
+        <translation type="unfinished">Historia</translation>
+    </message>
+</context>
+<context>
+    <name>Kitty::ChatWindowSettings</name>
+    <message>
+        <location filename="../src/widgets/settingpages/ChatWindowSettings.cpp" line="37"/>
+        <source>None</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

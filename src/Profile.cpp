@@ -2,6 +2,7 @@
 
 #include "widgets/windows/SettingsWindow.h"
 #include "widgets/windows/DebugWindow.h"
+#include "widgets/windows/ChatWindow.h"
 #include "widgets/windows/MainWindow.h"
 #include "SDK/constants.h"
 #include "ActionManager.h"
@@ -37,28 +38,24 @@ Kitty::Profile::~Profile()
 
 void Kitty::Profile::load(const QString &name)
 {
-  Core *core = Core::inst();
+  Kitty::Core *core = Kitty::Core::inst();
 
   m_name = name;
   m_settings = new XmlSettings(core->profilesDir() + name + "/settings.xml", this);
 
-  if(m_settings->contains(Settings::S_PROFILE_THEMES_ICON)) {
-    loadIconTheme(settings()->value(Settings::S_PROFILE_THEMES_ICON).toString());
+  if(m_settings->contains(Settings::S_ICON_THEME)) {
+    loadIconTheme(settings()->value(Settings::S_ICON_THEME).toString());
   }
 
   static_cast<Kitty::App*>(qApp)->applySettings();
 
   ActionManager::inst()->loadDefaults();
 
-  connect(core->settingsWindow(), SIGNAL(settingsApplied()), static_cast<Kitty::App*>(qApp), SLOT(applySettings()));
-  connect(core->settingsWindow(), SIGNAL(settingsApplied()), core->mainWindow(), SLOT(applySettings()));
-
-  //connect(IconManager::inst(), SIGNAL(iconsUpdated()), core->mainWindow(), SLOT(updateIcons()));
-  connect(IconManager::inst(), SIGNAL(iconsUpdated()), core->settingsWindow(), SLOT(updateIcons()));
   connect(IconManager::inst(), SIGNAL(iconsUpdated()), ActionManager::inst(), SLOT(updateIcons()));
 
-
   PluginManager::inst()->load();
+
+  core->mainWindow();
 
   qDebug() << "Profile " + name + " loaded!";
 }

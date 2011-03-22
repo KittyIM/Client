@@ -3,6 +3,7 @@
 
 #include "RosterItemModel.h"
 #include "SDK/constants.h"
+#include "RosterTheme.h"
 #include "constants.h"
 #include "Profile.h"
 #include "Core.h"
@@ -12,9 +13,10 @@
 #endif
 
 #include <QtCore/QDebug>
+#include <QtCore/QTimer>
+#include <QtGui/QLinearGradient>
 #include <QtGui/QToolButton>
 #include <QtGui/QMenu>
-#include <QtCore/QTimer>
 
 using namespace KittySDK;
 
@@ -42,8 +44,6 @@ Kitty::MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), m_ui(new Ui
   if(!core->setting(Settings::S_MAINWINDOW_STARTHIDDEN).toBool()) {
     show();
   }
-
-  core->showChatWindow();
 }
 
 Kitty::MainWindow::~MainWindow()
@@ -97,7 +97,7 @@ void Kitty::MainWindow::initToolbars()
 
   Core *core = Core::inst();
 
-  QMenu *mnuMain = new QMenu();
+  QMenu *mnuMain = new QMenu(this);
   mnuMain->addAction(core->action(Actions::A_ABOUT));
   mnuMain->addAction(core->action(Actions::A_DEBUG));
   mnuMain->addSeparator();
@@ -107,16 +107,14 @@ void Kitty::MainWindow::initToolbars()
   mnuMain->addAction(core->action(Actions::A_RESTART));
   mnuMain->addAction(core->action(Actions::A_QUIT));
 
-  QToolButton *btnMain = new QToolButton();
-  btnMain->setObjectName("mainButton");
-  btnMain->setText("KittyIM");
+  m_ui->mainToolBar->addAction(core->action(Actions::A_ABOUT));
+
+  QToolButton *btnMain = qobject_cast<QToolButton*>(m_ui->mainToolBar->widgetForAction(core->action(Actions::A_ABOUT)));
   btnMain->setMenu(mnuMain);
   btnMain->setPopupMode(QToolButton::MenuButtonPopup);
-  connect(btnMain, SIGNAL(clicked()), core->action(Actions::A_ABOUT), SIGNAL(triggered()));
-  m_ui->mainToolBar->addWidget(btnMain);
 
 
-  QMenu *mnuUser = new QMenu();
+  QMenu *mnuUser = new QMenu(this);
   //mnuUser->addAction(core->getAction(Actions::A_OPEN_KITTY_FOLDER));
 
   QToolButton *btnUser = new QToolButton();
@@ -127,25 +125,19 @@ void Kitty::MainWindow::initToolbars()
   m_ui->mainToolBar->addWidget(btnUser);
 
 
-  QMenu *mnuSettings = new QMenu();
+  QMenu *mnuSettings = new QMenu(this);
   mnuSettings->addAction(core->action(Actions::A_SETTINGS));
 
-  QToolButton *btnSettings = new QToolButton();
-  btnSettings->setObjectName("settingsButton");
-  btnSettings->setText(tr("Settings"));
+  m_ui->mainToolBar->addAction(core->action(Actions::A_SETTINGS));
+
+  QToolButton *btnSettings = qobject_cast<QToolButton*>(m_ui->mainToolBar->widgetForAction(core->action(Actions::A_SETTINGS)));
   btnSettings->setMenu(mnuSettings);
   btnSettings->setPopupMode(QToolButton::MenuButtonPopup);
-  connect(btnSettings, SIGNAL(clicked()), core->action(Actions::A_SETTINGS), SIGNAL(triggered()));
-  m_ui->mainToolBar->addWidget(btnSettings);
 }
 
 void Kitty::MainWindow::applySettings()
 {
   Core *core = Core::inst();
-
-  m_ui->mainToolBar->findChild<QToolButton*>("mainButton")->setIcon(core->icon(Icons::I_INFO));
-  m_ui->mainToolBar->findChild<QToolButton*>("userButton")->setIcon(core->icon(Icons::I_USER));
-  m_ui->mainToolBar->findChild<QToolButton*>("settingsButton")->setIcon(core->icon(Icons::I_SETTINGS));
 
   if(core->setting(Settings::S_MAINWINDOW_TRANSPARENCY).toBool()) {
     setWindowOpacity(core->setting(Settings::S_MAINWINDOW_TRANSPARENCY_VALUE, 80).toReal() / 100.0);
@@ -174,5 +166,5 @@ void Kitty::MainWindow::changeEvent(QEvent *event)
     m_ui->retranslateUi(this);
   }
 
-  QWidget::changeEvent(event);
+  QMainWindow::changeEvent(event);
 }

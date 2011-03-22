@@ -23,7 +23,7 @@ Kitty::SpellChecker::~SpellChecker()
 
 QStringList Kitty::SpellChecker::suggest(const QString &word)
 {
-  Hunspell *hunspell = Core::inst()->hunspell();
+  Hunspell *hunspell = Kitty::Core::inst()->hunspell();
   char **words;
 
   int count = hunspell->suggest(&words, QTextCodec::codecForName(hunspell->get_dic_encoding())->fromUnicode(word).constData());
@@ -40,7 +40,7 @@ QStringList Kitty::SpellChecker::suggest(const QString &word)
 
 void Kitty::SpellChecker::highlightBlock(const QString &text)
 {
-  Hunspell *hunspell = Core::inst()->hunspell();
+  Hunspell *hunspell = Kitty::Core::inst()->hunspell();
 
   QTextCharFormat format;
   format.setUnderlineColor(Qt::red);

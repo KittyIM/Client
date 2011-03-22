@@ -22,7 +22,7 @@ Kitty::DisplaySettings::~DisplaySettings()
 
 void Kitty::DisplaySettings::apply()
 {
-  Core *core = Core::inst();
+  Kitty::Core *core = Kitty::Core::inst();
 
   core->setSetting(Settings::S_MAINWINDOW_ALWAYS_ON_TOP, m_ui->alwaysOnTopCheckBox->isChecked());
   core->setSetting(Settings::S_MAINWINDOW_AUTOHIDE, m_ui->autoHideCheckBox->isChecked());
@@ -38,7 +38,7 @@ void Kitty::DisplaySettings::apply()
 
 void Kitty::DisplaySettings::reset()
 {
-  Core *core = Core::inst();
+  Kitty::Core *core = Kitty::Core::inst();
 
   m_ui->alwaysOnTopCheckBox->setChecked(core->setting(Settings::S_MAINWINDOW_ALWAYS_ON_TOP).toBool());
   m_ui->autoHideCheckBox->setChecked(core->setting(Settings::S_MAINWINDOW_AUTOHIDE).toBool());

@@ -9,8 +9,6 @@
 #include <QtXml/QDomDocument>
 #include <QtXml/QDomElement>
 
-using namespace Kitty;
-
 Kitty::IconTheme::IconTheme(const QString &name)
 {
   if(QDir(qApp->applicationDirPath() + "/themes/icon/" + name).exists()) {
@@ -48,6 +46,10 @@ Kitty::IconTheme::IconTheme(const QString &name)
       }
 
       file.close();
+    } else {
+      qDebug() << "Could not open icon theme file" << name;
     }
+  } else {
+    qDebug() << "Icon theme directory does not exist" << name;
   }
 }

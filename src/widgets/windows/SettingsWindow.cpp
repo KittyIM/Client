@@ -16,7 +16,9 @@
 #include "../settingpages/UserSettings.h"
 #include "SDK/constants.h"
 #include "IconManager.h"
+#include "MainWindow.h"
 #include "Core.h"
+#include "App.h"
 
 #include <QtCore/QDebug>
 #include <QtCore/QDir>
@@ -31,12 +33,16 @@ Kitty::SettingsWindow::SettingsWindow(QWidget *parent): QDialog(parent), m_ui(ne
   m_ui->treeWidget->header()->hideSection(1);
 
   connect(m_ui->buttonBox->button(QDialogButtonBox::Apply), SIGNAL(clicked()), this, SLOT(applySettings()));
+  connect(IconManager::inst(), SIGNAL(iconsUpdated()), this, SLOT(updateIcons()));
 
   setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
 
   qDebug() << "Creating SettingsWindow";
 
   Core *core = Core::inst();
+
+  connect(this, SIGNAL(settingsApplied()), static_cast<Kitty::App*>(qApp), SLOT(applySettings()));
+  connect(this, SIGNAL(settingsApplied()), core->mainWindow(), SLOT(applySettings()));
 
   restoreGeometry(core->setting(Settings::S_SETTINGSWINDOW_GEOMETRY).toByteArray());
 

@@ -20,8 +20,11 @@ namespace Kitty
       explicit ChatWindow(QWidget *parent = 0);
       ~ChatWindow();
 
-  private slots:
-    void on_tabWidget_tabCloseRequested(int index);
+    public slots:
+      void updateIcons();
+
+    private slots:
+      void on_tabWidget_tabCloseRequested(int index);
 
   private:
       Ui::ChatWindow *m_ui;

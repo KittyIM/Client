@@ -41,7 +41,8 @@ SOURCES    += main.cpp \
               RosterItemModel.cpp \
               RosterItemDelegate.cpp \
               RosterItem.cpp \
-              widgets/RosterTreeView.cpp
+              widgets/RosterTreeView.cpp \
+    RosterTheme.cpp
 
 HEADERS    += constants.h \
               SDK/constants.h \
@@ -87,7 +88,9 @@ HEADERS    += constants.h \
               RosterItemModel.h \
               RosterItemDelegate.h \
               RosterItem.h \
-              widgets/RosterTreeView.h
+              widgets/RosterTreeView.h \
+    RosterTheme.h \
+    AbstractTheme.h
 
 FORMS      += widgets/windows/DebugWindow.ui \
               widgets/windows/MainWindow.ui \

@@ -14,6 +14,9 @@ namespace Kitty
     public:
       explicit RosterTreeView(QWidget *parent = 0);
 
+    protected:
+      void mousePressEvent(QMouseEvent *event);
+
     private:
       RosterItemDelegate *m_delegate;
   };

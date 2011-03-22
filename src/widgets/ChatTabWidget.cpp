@@ -1,5 +1,6 @@
 #include "ChatTabWidget.h"
 
+#include <QtCore/QDebug>
 #include <QtGui/QTabBar>
 #include <QtGui/QKeyEvent>
 

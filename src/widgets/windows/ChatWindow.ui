@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string notr="true"/>
   </property>
+  <property name="windowIcon">
+   <iconset resource="../../../res.qrc">
+    <normaloff>:/icons/message.ico</normaloff>:/icons/message.ico</iconset>
+  </property>
   <layout class="QGridLayout" name="gridLayout">
    <property name="margin">
     <number>0</number>
@@ -20,6 +24,9 @@
    <item row="0" column="0">
     <widget class="Kitty::ChatTabWidget" name="tabWidget">
      <property name="tabsClosable">
+      <bool>true</bool>
+     </property>
+     <property name="movable">
       <bool>true</bool>
      </property>
     </widget>
@@ -34,6 +41,8 @@
    <container>1</container>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="../../../res.qrc"/>
+ </resources>
  <connections/>
 </ui>

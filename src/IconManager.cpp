@@ -34,6 +34,13 @@ void Kitty::IconManager::loadDefaults()
   defaults.insert(Icons::I_PALETTE, ":/glyphs/palette.png");
   defaults.insert(Icons::I_SMILEY, ":/glyphs/smiley.png");
   defaults.insert(Icons::I_TAB, ":/glyphs/tab.png");
+  defaults.insert(Icons::I_BOLD, ":/glyphs/bold.png");
+  defaults.insert(Icons::I_ITALIC, ":/glyphs/italic.png");
+  defaults.insert(Icons::I_UNDERLINE, ":/glyphs/underline.png");
+  defaults.insert(Icons::I_STRIKETROUGH, ":/glyphs/striketrough.png");
+  defaults.insert(Icons::I_COLOR, ":/glyphs/color.png");
+  defaults.insert(Icons::I_IMAGE, ":/glyphs/image.png");
+  defaults.insert(Icons::I_FILE, ":/glyphs/file.png");
 
   qDebug() << "IconManager is loading default icons [" << defaults.count() << "]";
 

@@ -1,8 +1,11 @@
 #include "RosterItem.h"
 
-Kitty::RosterItem::RosterItem(const int &type, const QString &text, RosterItem *parent): QStandardItem(text), m_parent(parent)
+#include "SDK/constants.h"
+#include "Core.h"
+
+Kitty::RosterItem::RosterItem(RosterItem *parent): QStandardItem(), m_parent(parent)
 {
-  setData(type, RosterItem::TypeRole);
+  setData(Kitty::Core::inst()->icon(KittySDK::Icons::I_SMILEY), Qt::DecorationRole);
 }
 
 Kitty::RosterItem::~RosterItem()

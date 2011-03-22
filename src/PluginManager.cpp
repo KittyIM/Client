@@ -36,10 +36,10 @@ void Kitty::PluginManager::load()
     pluginInst inst = (pluginInst)lib.resolve("inst");
 
     if(inst) {
-      KittySDK::Plugin *plug = dynamic_cast<KittySDK::Plugin*>(inst(new Kitty::PluginCoreImpl()));
-      plug->applySettings();
+      //KittySDK::Plugin *plug = dynamic_cast<KittySDK::Plugin*>(inst(new Kitty::PluginCoreImpl()));
+      //plug->applySettings();
 
-      qDebug() << "  Plugin's name: " << plug->info()->name();
+      //qDebug() << "  Plugin's name: " << plug->info()->name();
       //qDebug() << plug->info()->author();
       //qDebug() << plug->info()->email();
       //qDebug() << plug->info()->www();

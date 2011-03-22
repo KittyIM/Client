@@ -29,7 +29,7 @@ Kitty::App::App(int &argc, char **argv): QApplication(argc, argv)
   qDebug() << "Starting KittyIM";
   qDebug() << "There are" << (arguments().count() - 1) << "arguments";
 
-  Core *core = Core::inst();
+  Kitty::Core *core = Kitty::Core::inst();
 
   QString profile;
   QListIterator<QString> it(arguments());
@@ -82,7 +82,7 @@ void Kitty::App::applySettings()
   QTranslator *qtTranslator = new QTranslator();
 
   QString locale = QLocale::system().name();
-  locale = Core::inst()->setting(KittySDK::Settings::S_LANGUAGE, locale).toString();
+  locale = Kitty::Core::inst()->setting(KittySDK::Settings::S_LANGUAGE, locale).toString();
 
   QString dir = applicationDirPath() + "/data/translations/";
   if(translator->load("kitty_" + locale, dir) && qtTranslator->load("qt_" + locale, dir)) {
@@ -95,11 +95,11 @@ void Kitty::App::applySettings()
 
 void Kitty::App::cleanUp()
 {
-  Core *core = Core::inst();
+  Kitty::Core *core = Kitty::Core::inst();
 
   if(core->hasToRestart()) {
     QProcess::startDetached(qApp->applicationFilePath());
   }
 
-  Core::destr();
+  Kitty::Core::destr();
 }

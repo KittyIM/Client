@@ -20,7 +20,7 @@ Kitty::ConnectionSettings::~ConnectionSettings()
 
 void Kitty::ConnectionSettings::apply()
 {
-  Core *core = Core::inst();
+  Kitty::Core *core = Kitty::Core::inst();
 
   core->setSetting(Settings::S_PROXY_ENABLED, m_ui->proxyCheckBox->isChecked());
   core->setSetting(Settings::S_PROXY_SERVER, m_ui->serverEdit->text());
@@ -32,7 +32,7 @@ void Kitty::ConnectionSettings::apply()
 
 void Kitty::ConnectionSettings::reset()
 {
-  Core *core = Core::inst();
+  Kitty::Core *core = Kitty::Core::inst();
 
   m_ui->proxyCheckBox->setChecked(core->setting(Settings::S_PROXY_ENABLED).toBool());
   m_ui->serverEdit->setText(core->setting(Settings::S_PROXY_SERVER).toString());
