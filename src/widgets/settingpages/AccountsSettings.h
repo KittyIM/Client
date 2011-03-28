@@ -21,6 +21,9 @@ namespace Kitty
       void apply();
       void reset();
 
+    private slots:
+      void on_addButton_clicked();
+
     private:
       Ui::AccountsSettings *m_ui;
   };

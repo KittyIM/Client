@@ -26,12 +26,15 @@ void Kitty::ChatWindowSettings::apply()
 {
   Kitty::Core *core = Kitty::Core::inst();
 
+  core->setSetting(Settings::S_CHATWINDOW_SPELLCHECK_ENABLED, m_ui->spellCheckCheckBox->isChecked());
   core->setSetting(Settings::S_CHATWINDOW_SPELLCHECK_DICT, m_ui->spellCheckDictionaryComboBox->itemData(m_ui->spellCheckDictionaryComboBox->currentIndex()).toString());
 }
 
 void Kitty::ChatWindowSettings::reset()
 {
   Kitty::Core *core = Kitty::Core::inst();
+
+  m_ui->spellCheckCheckBox->setChecked(core->setting(Settings::S_CHATWINDOW_SPELLCHECK_ENABLED, false).toBool());
 
   m_ui->spellCheckDictionaryComboBox->clear();
   m_ui->spellCheckDictionaryComboBox->addItem(tr("None"), QString());

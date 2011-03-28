@@ -7,9 +7,12 @@
 #include <QtCore/QtPlugin>
 
 class QString;
+class QWidget;
 
 namespace KittySDK
 {
+  class Account;
+
   class PluginInfo
   {
     public:
@@ -64,17 +67,6 @@ namespace KittySDK
     protected:
       PluginInfo *m_info;
       PluginCore *m_core;
-  };
-
-  class Protocol: public Plugin
-  {
-    Q_OBJECT
-
-    public:
-      Protocol(PluginCore *core): Plugin(core) { }
-
-      enum { Type = 2 };
-      int type() const { return Type; }
   };
 }
 

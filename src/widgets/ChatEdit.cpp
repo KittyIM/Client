@@ -1,6 +1,7 @@
 #include "ChatEdit.h"
 
 #include "3rdparty/hunspell/hunspell.hxx"
+#include "SDK/constants.h"
 #include "Core.h"
 #include "App.h"
 
@@ -70,7 +71,9 @@ void Kitty::SpellChecker::highlightBlock(const QString &text)
 
 Kitty::ChatEdit::ChatEdit(QWidget *parent): QTextEdit(parent)
 {
-  m_checker = new Kitty::SpellChecker(document());
+  if(Kitty::Core::inst()->setting(KittySDK::Settings::S_CHATWINDOW_SPELLCHECK_ENABLED, false).toBool()) {
+    m_checker = new Kitty::SpellChecker(document());
+  }
 
   updateSize();
 }

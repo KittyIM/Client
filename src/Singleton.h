@@ -37,7 +37,7 @@ namespace Kitty
       }
 
     protected:
-      explicit Singleton() { }
+      Singleton() { }
       Singleton(const T &) { }
       void operator=(const T &) { }
 

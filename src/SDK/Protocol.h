@@ -7,13 +7,27 @@ namespace KittySDK
 {
   class Protocol: public Plugin
   {
+    Q_OBJECT
+
     public:
-      Protocol(PluginCore *core): Plugin(0) { }
+      enum Status
+      {
+        Online = 1,
+        Away,
+        FFC,
+        DND,
+        Invisible,
+        Offline
+      };
+
+    public:
+      Protocol(PluginCore *core): Plugin(core) { }
+
+      virtual Account *newAccount(const QString &uid) = 0;
+      virtual QWidget *editWindow(Account *account) = 0;
 
       enum { Type = 2 };
       int type() const { return Type; }
-
-    private:
   };
 }
 

@@ -34,7 +34,7 @@ Kitty::RosterItem *Kitty::RosterItemModel::addGroup(const QString &name)
 {
   Kitty::RosterItem *item = new Kitty::RosterItem(m_root);
 
-  item->setData(Kitty::RosterItem::GROUP, Kitty::RosterItem::TypeRole);
+  item->setData(Kitty::RosterItem::Group, Kitty::RosterItem::TypeRole);
   item->setData(name, Qt::DisplayRole);
 
   m_root->appendChild(item);
@@ -49,7 +49,7 @@ Kitty::RosterItem *Kitty::RosterItemModel::addContact(const QString &name, Kitty
   }
 
   Kitty::RosterItem *item = new Kitty::RosterItem(parent);
-  item->setData(Kitty::RosterItem::CONTACT, Kitty::RosterItem::TypeRole);
+  item->setData(Kitty::RosterItem::Contact, Kitty::RosterItem::TypeRole);
   item->setData(name, Qt::DisplayRole);
 
   parent->appendChild(item);
@@ -75,7 +75,7 @@ QVariant Kitty::RosterItemModel::data(const QModelIndex &index, int role) const
   Kitty::RosterItem *item = static_cast<RosterItem*>(index.internalPointer());
 
   if(role == Qt::ToolTipRole) {
-    if(item->data(RosterItem::TypeRole) == RosterItem::GROUP) {
+    if(item->data(RosterItem::TypeRole) == RosterItem::Group) {
       return QString("<b>%1</b><br>Items: %2").arg(item->text()).arg(item->childCount());
     } else {
       return QString("<b>%1</b><br>Group: %2").arg(item->text()).arg(item->parent()->text());

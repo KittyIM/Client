@@ -31,7 +31,7 @@ void Kitty::RosterItemDelegate::paint(QPainter *painter, const QStyleOptionViewI
 
   painter->save();
 
-  if(type == RosterItem::GROUP) {
+  if(type == RosterItem::Group) {
     if(option.state & QStyle::State_Selected) {
       painter->setBrush(m_theme->selectedGroupBackground());
       painter->setPen(m_theme->selectedGroupForeground());
@@ -107,7 +107,7 @@ QSize Kitty::RosterItemDelegate::sizeHint(const QStyleOptionViewItem &option, co
 {
   int height = 26;
 
-  if(index.data(RosterItem::TypeRole).toInt() == RosterItem::CONTACT) {
+  if(index.data(RosterItem::TypeRole).toInt() == RosterItem::Contact) {
     height = 36;
   }
 

@@ -1,5 +1,5 @@
-#ifndef PLUGINCORE2_H
-#define PLUGINCORE2_H
+#ifndef PLUGINCOREIMPL_H
+#define PLUGINCOREIMPL_H
 
 #include "SDK/PluginCore.h"
 
@@ -25,4 +25,4 @@ namespace Kitty
   };
 }
 
-#endif // PLUGINCORE2_H
+#endif // PLUGINCOREIMPL_H

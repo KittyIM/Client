@@ -1,6 +1,7 @@
 #ifndef PLUGINMANAGER_H
 #define PLUGINMANAGER_H
 
+#include "SDK/Plugin.h"
 #include "Singleton.h"
 
 #include <QtCore/QObject>
@@ -14,11 +15,13 @@ namespace Kitty
     friend class Singleton<PluginManager>;
 
     public:
-     void load();
+      void load();
 
     private:
-      explicit PluginManager(QObject *parent = 0);
+      explicit PluginManager(QObject *parent = 0): QObject(parent) { }
 
+    private:
+      QList<KittySDK::Plugin*> m_plugins;
   };
 }
 

@@ -69,6 +69,7 @@ namespace KittySDK
 
     const char * const S_CHATWINDOW_CAPTION            = "Kitty.Display.Captions.ChatWindow";
     const char * const S_CHATWINDOW_GEOMETRY           = "Kitty.Geometries.ChatWindow";
+    const char * const S_CHATWINDOW_SPELLCHECK_ENABLED = "Kitty.ChatWindow.SpellCheck.Enabled";
     const char * const S_CHATWINDOW_SPELLCHECK_DICT    = "Kitty.ChatWindow.SpellCheck.Dictionary";
 
 

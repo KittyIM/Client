@@ -8,10 +8,10 @@ namespace Kitty
   class RosterItem: public QStandardItem
   {
     public:
-      enum
+      enum ItemType
       {
-        GROUP = 0,
-        CONTACT = 1
+        Group = 0,
+        Contact
       };
 
       enum

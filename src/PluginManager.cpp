@@ -1,16 +1,13 @@
 #include "PluginManager.h"
 
+#include "ProtocolManager.h"
 #include "PluginCoreImpl.h"
-#include "SDK/Plugin.h"
+#include "SDK/Protocol.h"
 
 #include <QtCore/QLibrary>
 #include <QtCore/QDebug>
 #include <QtCore/QDir>
 #include <QtGui/QApplication>
-
-Kitty::PluginManager::PluginManager(QObject *parent): QObject(parent)
-{
-}
 
 typedef QObject *(*pluginInst)(KittySDK::PluginCore*);
 
@@ -30,13 +27,23 @@ void Kitty::PluginManager::load()
 #endif
 
   QFileInfoList files = dir.entryInfoList(filter, QDir::Files);
-  foreach(QFileInfo info, files) {
+  foreach(const QFileInfo &info, files) {
     qDebug() << "  Found plugin: " << info.fileName();
     QLibrary lib(info.absoluteFilePath());
     pluginInst inst = (pluginInst)lib.resolve("inst");
 
     if(inst) {
-      //KittySDK::Plugin *plug = dynamic_cast<KittySDK::Plugin*>(inst(new Kitty::PluginCoreImpl()));
+      KittySDK::Plugin *plug = dynamic_cast<KittySDK::Plugin*>(inst(new Kitty::PluginCoreImpl()));
+      if(plug) {
+        KittySDK::Protocol *prot = dynamic_cast<KittySDK::Protocol*>(plug);
+        if(prot) {
+          Kitty::ProtocolManager::inst()->add(prot);
+        } else {
+          m_plugins.append(plug);
+        }
+      } else {
+        qWarning() << "Could not cast to Plugin for file" << info.fileName();
+      }
       //plug->applySettings();
 
       //qDebug() << "  Plugin's name: " << plug->info()->name();
