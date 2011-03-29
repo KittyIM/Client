@@ -22,6 +22,7 @@ namespace Kitty
       void reset();
 
     private slots:
+      void addAccount();
       void on_addButton_clicked();
 
     private:

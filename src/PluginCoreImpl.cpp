@@ -2,6 +2,7 @@
 
 #include "widgets/windows/SettingsWindow.h"
 #include "SDK/SettingPage.h"
+#include "AccountManager.h"
 #include "IconManager.h"
 #include "Core.h"
 
@@ -21,6 +22,11 @@ void Kitty::PluginCoreImpl::setSetting(const QString &key, const QVariant &value
 void Kitty::PluginCoreImpl::addSettingPage(KittySDK::SettingPage *page, const QString &parent)
 {
   Kitty::Core::inst()->settingsWindow()->addPage(page, parent);
+}
+
+void Kitty::PluginCoreImpl::addAccount(KittySDK::Account *account)
+{
+  Kitty::AccountManager::inst()->add(account);
 }
 
 QPixmap Kitty::PluginCoreImpl::icon(const QString &id)

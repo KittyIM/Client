@@ -72,6 +72,9 @@
      </item>
      <item>
       <widget class="QToolButton" name="editButton">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="text">
         <string>Edit</string>
        </property>
@@ -79,6 +82,9 @@
      </item>
      <item>
       <widget class="QToolButton" name="deleteButton">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="text">
         <string>Delete</string>
        </property>

@@ -16,6 +16,7 @@ namespace Kitty
 
     public:
       const QList<KittySDK::Protocol*> &protocols() const;
+      KittySDK::Protocol *protocolByName(const QString &name) const;
 
       void add(KittySDK::Protocol *protocol);
 

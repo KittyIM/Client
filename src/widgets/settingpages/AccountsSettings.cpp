@@ -2,6 +2,7 @@
 #include "ui_AccountsSettings.h"
 
 #include "ProtocolManager.h"
+#include "AccountManager.h"
 #include "SDK/constants.h"
 #include "IconManager.h"
 
@@ -30,13 +31,24 @@ void Kitty::AccountsSettings::reset()
 {
 }
 
+void Kitty::AccountsSettings::addAccount()
+{
+  QAction *action = qobject_cast<QAction*>(sender());
+  KittySDK::Protocol *proto = Kitty::ProtocolManager::inst()->protocolByName(action->text());
+  if(proto) {
+    proto->editWindow()->show();
+  } else {
+    qWarning() << "Invalid protocol" << action->text();
+  }
+}
+
 void Kitty::AccountsSettings::on_addButton_clicked()
 {
 
   QMenu menu;
 
   foreach(KittySDK::Protocol *proto, Kitty::ProtocolManager::inst()->protocols()) {
-    menu.addAction(Kitty::IconManager::inst()->icon(KittySDK::Icons::I_IMAGE), proto->info()->name());
+    menu.addAction(Kitty::IconManager::inst()->icon(proto->protoInfo()->protoIcon()), proto->protoInfo()->protoName(), this, SLOT(addAccount()));
   }
 
   if(menu.isEmpty()) {

@@ -35,11 +35,17 @@ void Kitty::PluginManager::load()
     if(inst) {
       KittySDK::Plugin *plug = dynamic_cast<KittySDK::Plugin*>(inst(new Kitty::PluginCoreImpl()));
       if(plug) {
-        KittySDK::Protocol *prot = dynamic_cast<KittySDK::Protocol*>(plug);
-        if(prot) {
-          Kitty::ProtocolManager::inst()->add(prot);
-        } else {
+        if(plug->type() == KittySDK::Plugin::Type) {
           m_plugins.append(plug);
+        } else if(plug->type() == KittySDK::Protocol::Type) {
+          KittySDK::Protocol *prot = dynamic_cast<KittySDK::Protocol*>(plug);
+          if(prot) {
+            Kitty::ProtocolManager::inst()->add(prot);
+          } else {
+            qWarning() << "Could not cast to protocol for file" << info.fileName();
+          }
+        } else {
+          qWarning() << "Unknown type for file" << info.fileName();
         }
       } else {
         qWarning() << "Could not cast to Plugin for file" << info.fileName();
