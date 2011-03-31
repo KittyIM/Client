@@ -23,9 +23,11 @@ namespace Kitty
       bool isObscured();
 
       void initToolbars();
+      void addToolbarAction(const QString &tb, QAction *action);
 
     public slots:
       void applySettings();
+      void showAccountStatusMenu();
 
     protected:
       void changeEvent(QEvent *event);

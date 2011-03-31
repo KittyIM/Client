@@ -25,6 +25,9 @@
    </property>
    <item row="0" column="0">
     <widget class="QTreeWidget" name="treeWidget">
+     <property name="indentation">
+      <number>0</number>
+     </property>
      <column>
       <property name="text">
        <string>Account</string>

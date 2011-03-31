@@ -116,9 +116,13 @@ namespace KittySDK
     const char * const S_DISPLAY_CHATWINDOW_TABS    = "Display.ChatWindow.Tabs";
     const char * const S_DISPLAY_CHATWINDOW_SMILIES = "Display.ChatWindow.Smilies";
     const char * const S_PLUGINS                    = "Plugins";
+  }
 
-
-
+  namespace Toolbars
+  {
+    const char * const TB_MAIN = "Toolbars.Main";
+    const char * const TB_NETWORKS = "Toolbars.Networks";
+    const char * const TB_PLUGINS = "Toolbars.Plugins";
   }
 }
 

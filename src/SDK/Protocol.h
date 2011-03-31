@@ -40,17 +40,42 @@ namespace KittySDK
         Offline
       };
 
+      enum Ability
+      {
+        TextBold         = 0x01,
+        TextItalics      = 0x02,
+        TextUnderline    = 0x04,
+        TextStriketrough = 0x08,
+        TextColor        = 0x10,
+        BackgroundColor  = 0x20,
+
+        SendImages       = 0x100,
+        SendFiles        = 0x200,
+
+        ChangeStatus     = 0x1000,
+        BlockContacts    = 0x2000
+      };
+      Q_DECLARE_FLAGS(Abilities, Ability)
+
     public:
       Protocol(PluginCore *core): Plugin(core) { }
 
       ProtocolInfo *protoInfo() const { return static_cast<ProtocolInfo*>(m_info); }
+
+      Abilities abilities() const { return m_abilities; }
+      void setAbilities(const Abilities &abilities) { m_abilities = abilities; }
 
       virtual Account *newAccount(const QString &uid) = 0;
       virtual QWidget *editWindow(Account *account = 0) = 0;
 
       enum { Type = 2 };
       int type() const { return Type; }
+
+    protected:
+      Abilities m_abilities;
   };
+
+  Q_DECLARE_OPERATORS_FOR_FLAGS(Protocol::Abilities)
 }
 
 #endif // SDKPROTOCOL_H

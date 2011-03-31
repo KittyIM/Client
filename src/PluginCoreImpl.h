@@ -20,6 +20,7 @@ namespace Kitty
       void setSetting(const QString &key, const QVariant &value);
 
       void addSettingPage(KittySDK::SettingPage *page, const QString &parent);
+      void addToolbarAction(const QString &tb, QAction *action);
       void addAccount(KittySDK::Account *account);
 
       QPixmap icon(const QString &id);

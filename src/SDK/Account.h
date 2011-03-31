@@ -3,7 +3,10 @@
 
 #include "Protocol.h"
 
+#include <QtCore/QDebug>
 #include <QtCore/QObject>
+
+class QMenu;
 
 namespace KittySDK
 {
@@ -23,6 +26,11 @@ namespace KittySDK
 
       QString password() const { return m_password; }
       void setPassword(const QString &password) { m_password = password; }
+
+    public slots:
+      virtual void loadSettings(const QMap<QString, QVariant> &settings) { }
+      virtual QMap<QString, QVariant> saveSettings() { return QMap<QString, QVariant>(); }
+      virtual QMenu *statusMenu() { return 0; }
 
     protected:
       QString m_uid;

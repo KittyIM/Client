@@ -19,8 +19,14 @@ namespace Kitty
       const QList<KittySDK::Account*> accountsByProtocol(KittySDK::Protocol *protocol) const;
 
       KittySDK::Account *account(KittySDK::Protocol *protocol, const QString &uid) const;
+      KittySDK::Account *account(const QString &protocol, const QString &uid) const;
 
-      void add(KittySDK::Account *account);
+      bool add(KittySDK::Account *account);
+
+      void load(const QString &profile);
+
+    signals:
+      void accountAdded();
 
     private:
       AccountManager(QObject *parent = 0): QObject(parent) { }

@@ -57,6 +57,12 @@
    <property name="windowTitle">
     <string/>
    </property>
+   <property name="iconSize">
+    <size>
+     <width>16</width>
+     <height>16</height>
+    </size>
+   </property>
    <attribute name="toolBarArea">
     <enum>TopToolBarArea</enum>
    </attribute>
@@ -67,6 +73,12 @@
   <widget class="QToolBar" name="networksToolBar">
    <property name="windowTitle">
     <string notr="true"/>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>16</width>
+     <height>16</height>
+    </size>
    </property>
    <attribute name="toolBarArea">
     <enum>BottomToolBarArea</enum>

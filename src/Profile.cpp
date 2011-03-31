@@ -4,6 +4,7 @@
 #include "widgets/windows/DebugWindow.h"
 #include "widgets/windows/ChatWindow.h"
 #include "widgets/windows/MainWindow.h"
+#include "AccountManager.h"
 #include "SDK/constants.h"
 #include "ActionManager.h"
 #include "PluginManager.h"
@@ -54,6 +55,8 @@ void Kitty::Profile::load(const QString &name)
   connect(IconManager::inst(), SIGNAL(iconsUpdated()), ActionManager::inst(), SLOT(updateIcons()));
 
   PluginManager::inst()->load();
+
+  AccountManager::inst()->load(name);
 
   core->mainWindow();
 

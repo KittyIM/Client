@@ -2,6 +2,7 @@
 #include "ui_MainWindow.h"
 
 #include "RosterItemModel.h"
+#include "AccountManager.h"
 #include "SDK/constants.h"
 #include "RosterTheme.h"
 #include "constants.h"
@@ -135,6 +136,19 @@ void Kitty::MainWindow::initToolbars()
   btnSettings->setPopupMode(QToolButton::MenuButtonPopup);
 }
 
+void Kitty::MainWindow::addToolbarAction(const QString &tb, QAction *action)
+{
+  if(tb == Toolbars::TB_MAIN) {
+    m_ui->mainToolBar->addAction(action);
+  } else if(tb == Toolbars::TB_NETWORKS) {
+    m_ui->networksToolBar->addAction(action);
+  } else if(tb == Toolbars::TB_PLUGINS) {
+    m_ui->pluginsToolBar->addAction(action);
+  } else {
+    qWarning() << "Unknown ToolBar" << tb;
+  }
+}
+
 void Kitty::MainWindow::applySettings()
 {
   Core *core = Core::inst();
@@ -158,6 +172,20 @@ void Kitty::MainWindow::applySettings()
   title.replace("%version%", Constants::VERSION);
   title.replace("%profile%", core->profile()->name());
   setWindowTitle(title);
+}
+
+void Kitty::MainWindow::showAccountStatusMenu()
+{
+  QAction *action = qobject_cast<QAction*>(sender());
+  KittySDK::Account *account = Kitty::AccountManager::inst()->account(action->property("protocol").toString(), action->property("uid").toString());
+  if(account) {
+    QMenu *menu = account->statusMenu();
+    if(menu) {
+      QToolButton *button = qobject_cast<QToolButton*>(m_ui->networksToolBar->widgetForAction(action));
+
+      menu->exec(button->mapToGlobal(QPoint(0, button->height() + 1)));
+    }
+  }
 }
 
 void Kitty::MainWindow::changeEvent(QEvent *event)
