@@ -188,6 +188,16 @@ void Kitty::MainWindow::showAccountStatusMenu()
   }
 }
 
+void Kitty::MainWindow::updateAccountStatusIcon()
+{
+  KittySDK::Account *account = dynamic_cast<KittySDK::Account*>(sender());
+  foreach(QAction *action, m_ui->networksToolBar->actions()) {
+    if((action->property("protocol").toString() == account->protocol()->protoInfo()->protoName()) && (action->property("uid").toString() == account->uid())) {
+      action->setIcon(Kitty::Core::inst()->icon(account->protocol()->statusIcon(account->status())));
+    }
+  }
+}
+
 void Kitty::MainWindow::changeEvent(QEvent *event)
 {
   if(event->type() == QEvent::LanguageChange) {

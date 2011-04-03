@@ -127,7 +127,7 @@
 <context>
     <name>Kitty::MainWindow</name>
     <message>
-        <location filename="../src/widgets/windows/MainWindow.cpp" line="122"/>
+        <location filename="../src/widgets/windows/MainWindow.cpp" line="123"/>
         <source>User</source>
         <translation type="unfinished"></translation>
     </message>
@@ -207,8 +207,44 @@
     <name>AccountsSettings</name>
     <message>
         <location filename="../src/widgets/settingpages/AccountsSettings.ui"/>
-        <location filename="../src/ui_AccountsSettings.h" line="40"/>
+        <location filename="../src/ui_AccountsSettings.h" line="88"/>
         <source>Accounts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/settingpages/AccountsSettings.ui"/>
+        <location filename="../src/ui_AccountsSettings.h" line="93"/>
+        <source>Account</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/settingpages/AccountsSettings.ui"/>
+        <location filename="../src/ui_AccountsSettings.h" line="92"/>
+        <source>Protocol</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/settingpages/AccountsSettings.ui"/>
+        <location filename="../src/ui_AccountsSettings.h" line="91"/>
+        <source>State</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/settingpages/AccountsSettings.ui"/>
+        <location filename="../src/ui_AccountsSettings.h" line="94"/>
+        <source>Add</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/settingpages/AccountsSettings.ui"/>
+        <location filename="../src/ui_AccountsSettings.h" line="95"/>
+        <source>Edit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/settingpages/AccountsSettings.ui"/>
+        <location filename="../src/ui_AccountsSettings.h" line="96"/>
+        <source>Delete</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1011,8 +1047,16 @@
 <context>
     <name>Kitty::ChatWindowSettings</name>
     <message>
-        <location filename="../src/widgets/settingpages/ChatWindowSettings.cpp" line="37"/>
+        <location filename="../src/widgets/settingpages/ChatWindowSettings.cpp" line="40"/>
         <source>None</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Kitty::AccountsSettings</name>
+    <message>
+        <location filename="../src/widgets/settingpages/AccountsSettings.cpp" line="74"/>
+        <source>No protocols available</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

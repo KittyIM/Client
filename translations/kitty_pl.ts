@@ -127,7 +127,7 @@
 <context>
     <name>Kitty::MainWindow</name>
     <message>
-        <location filename="../src/widgets/windows/MainWindow.cpp" line="122"/>
+        <location filename="../src/widgets/windows/MainWindow.cpp" line="123"/>
         <source>User</source>
         <translation>Użytkownik</translation>
     </message>
@@ -207,9 +207,45 @@
     <name>AccountsSettings</name>
     <message>
         <location filename="../src/widgets/settingpages/AccountsSettings.ui"/>
-        <location filename="../src/ui_AccountsSettings.h" line="40"/>
+        <location filename="../src/ui_AccountsSettings.h" line="88"/>
         <source>Accounts</source>
         <translation>Konta</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/settingpages/AccountsSettings.ui"/>
+        <location filename="../src/ui_AccountsSettings.h" line="93"/>
+        <source>Account</source>
+        <translation>Konto</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/settingpages/AccountsSettings.ui"/>
+        <location filename="../src/ui_AccountsSettings.h" line="92"/>
+        <source>Protocol</source>
+        <translation>Protokół</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/settingpages/AccountsSettings.ui"/>
+        <location filename="../src/ui_AccountsSettings.h" line="91"/>
+        <source>State</source>
+        <translation>Stan</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/settingpages/AccountsSettings.ui"/>
+        <location filename="../src/ui_AccountsSettings.h" line="94"/>
+        <source>Add</source>
+        <translation>Dodaj</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/settingpages/AccountsSettings.ui"/>
+        <location filename="../src/ui_AccountsSettings.h" line="95"/>
+        <source>Edit</source>
+        <translation>Edytuj</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/settingpages/AccountsSettings.ui"/>
+        <location filename="../src/ui_AccountsSettings.h" line="96"/>
+        <source>Delete</source>
+        <translation>Usuń</translation>
     </message>
 </context>
 <context>
@@ -322,25 +358,25 @@
         <location filename="../src/widgets/settingpages/ChatWindowSettings.ui"/>
         <location filename="../src/ui_ChatWindowSettings.h" line="250"/>
         <source>Spell checker</source>
-        <translation type="unfinished"></translation>
+        <translation>Sprawdzanie pisowni</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/ChatWindowSettings.ui"/>
         <location filename="../src/ui_ChatWindowSettings.h" line="251"/>
         <source>Check spelling</source>
-        <translation type="unfinished"></translation>
+        <translation>Sprawdzaj pisownię</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/ChatWindowSettings.ui"/>
         <location filename="../src/ui_ChatWindowSettings.h" line="252"/>
         <source>Dictionary:</source>
-        <translation type="unfinished"></translation>
+        <translation>Słownik:</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/ChatWindowSettings.ui"/>
         <location filename="../src/ui_ChatWindowSettings.h" line="253"/>
         <source>Suggestions list:</source>
-        <translation type="unfinished"></translation>
+        <translation>Lista podpowiedzi:</translation>
     </message>
 </context>
 <context>
@@ -391,19 +427,19 @@
         <location filename="../src/widgets/settingpages/ConnectionSettings.ui"/>
         <location filename="../src/ui_ConnectionSettings.h" line="176"/>
         <source>Disconnect when going to sleep</source>
-        <translation type="unfinished"></translation>
+        <translation>Rozłącz przy usypianiu</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/ConnectionSettings.ui"/>
         <location filename="../src/ui_ConnectionSettings.h" line="177"/>
         <source>Reconnect on wake up</source>
-        <translation type="unfinished"></translation>
+        <translation>Połącz ponownie przy budzeniu</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/ConnectionSettings.ui"/>
         <location filename="../src/ui_ConnectionSettings.h" line="178"/>
         <source>Reconnect after loosing connection</source>
-        <translation type="unfinished"></translation>
+        <translation>Połącz po stracie połączenia</translation>
     </message>
 </context>
 <context>
@@ -673,25 +709,25 @@
         <location filename="../src/widgets/settingpages/StartupSettings.ui"/>
         <location filename="../src/ui_StartupSettings.h" line="86"/>
         <source>On startup</source>
-        <translation type="unfinished"></translation>
+        <translation>Przy uruchamianiu</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/StartupSettings.ui"/>
         <location filename="../src/ui_StartupSettings.h" line="87"/>
         <source>Hide main window</source>
-        <translation type="unfinished"></translation>
+        <translation>Ukryj okno główne</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/StartupSettings.ui"/>
         <location filename="../src/ui_StartupSettings.h" line="88"/>
         <source>Autostart</source>
-        <translation type="unfinished"></translation>
+        <translation>Automatyczne uruchamianie</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/StartupSettings.ui"/>
         <location filename="../src/ui_StartupSettings.h" line="89"/>
         <source>Lanch when system starts</source>
-        <translation type="unfinished"></translation>
+        <translation>Włączaj podczas startu systemu</translation>
     </message>
 </context>
 <context>
@@ -762,49 +798,49 @@
         <location filename="../src/widgets/settingpages/ChatWindowTabsSettings.ui"/>
         <location filename="../src/ui_ChatWindowTabsSettings.h" line="99"/>
         <source>Tab bar position:</source>
-        <translation type="unfinished"></translation>
+        <translation>Pozycja paska zakładek:</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/ChatWindowTabsSettings.ui"/>
         <location filename="../src/ui_ChatWindowTabsSettings.h" line="102"/>
         <source>Top</source>
-        <translation type="unfinished"></translation>
+        <translation>Góra</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/ChatWindowTabsSettings.ui"/>
         <location filename="../src/ui_ChatWindowTabsSettings.h" line="103"/>
         <source>Bottom</source>
-        <translation type="unfinished"></translation>
+        <translation>Dół</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/ChatWindowTabsSettings.ui"/>
         <location filename="../src/ui_ChatWindowTabsSettings.h" line="104"/>
         <source>Left</source>
-        <translation type="unfinished"></translation>
+        <translation>Lewo</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/ChatWindowTabsSettings.ui"/>
         <location filename="../src/ui_ChatWindowTabsSettings.h" line="105"/>
         <source>Right</source>
-        <translation type="unfinished"></translation>
+        <translation>Prawo</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/ChatWindowTabsSettings.ui"/>
         <location filename="../src/ui_ChatWindowTabsSettings.h" line="107"/>
         <source>Hide tab bar when only one tab is opened</source>
-        <translation type="unfinished"></translation>
+        <translation>Ukryj pasek zakładek, gdy otwarta jest tylko jedna</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/ChatWindowTabsSettings.ui"/>
         <location filename="../src/ui_ChatWindowTabsSettings.h" line="108"/>
         <source>Close all tabs when closing chat window</source>
-        <translation type="unfinished"></translation>
+        <translation>Zamknij wszystkie zakładki przy zamykaniu okna</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/ChatWindowTabsSettings.ui"/>
         <location filename="../src/ui_ChatWindowTabsSettings.h" line="109"/>
         <source>Enable tab switching with F-keys</source>
-        <translation type="unfinished"></translation>
+        <translation>Włącz przełączanie zakładek klawiszami F1-F12</translation>
     </message>
 </context>
 <context>
@@ -877,70 +913,70 @@
         <location filename="../src/widgets/settingpages/DisplaySettings.cpp" line="71"/>
         <location filename="../src/widgets/settingpages/DisplaySettings.cpp" line="85"/>
         <source>Available variables:</source>
-        <translation type="unfinished"></translation>
+        <translation>Dostępne zmienne:</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/DisplaySettings.cpp" line="65"/>
         <source>Kitty&apos;s version</source>
-        <translation type="unfinished"></translation>
+        <translation>wersja Kitty</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/DisplaySettings.cpp" line="66"/>
         <source>name of loaded profile</source>
-        <translation type="unfinished"></translation>
+        <translation>załadowany profil</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/DisplaySettings.cpp" line="72"/>
         <location filename="../src/widgets/settingpages/DisplaySettings.cpp" line="86"/>
         <source>user&apos;s nickname</source>
-        <translation type="unfinished"></translation>
+        <translation>nick użytkownika</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/DisplaySettings.cpp" line="73"/>
         <location filename="../src/widgets/settingpages/DisplaySettings.cpp" line="87"/>
         <source>user&apos;s status</source>
-        <translation type="unfinished"></translation>
+        <translation>status użytkownika</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/DisplaySettings.cpp" line="74"/>
         <location filename="../src/widgets/settingpages/DisplaySettings.cpp" line="88"/>
         <source>user&apos;s status description</source>
-        <translation type="unfinished"></translation>
+        <translation>opis użytkownika</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/DisplaySettings.cpp" line="75"/>
         <source>user&apos;s id</source>
-        <translation type="unfinished"></translation>
+        <translation>identyfikator użytkownika</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/DisplaySettings.cpp" line="76"/>
         <source>user&apos;s gender</source>
-        <translation type="unfinished"></translation>
+        <translation>płeć użytkownika</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/DisplaySettings.cpp" line="77"/>
         <source>user&apos;s birthday</source>
-        <translation type="unfinished"></translation>
+        <translation>urodziny użytkownika</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/DisplaySettings.cpp" line="78"/>
         <source>user&apos;s phone</source>
-        <translation type="unfinished"></translation>
+        <translation>telefon użytkownika</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/DisplaySettings.cpp" line="79"/>
         <source>user&apos;s email</source>
-        <translation type="unfinished"></translation>
+        <translation>email użytkownika</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/DisplaySettings.cpp" line="80"/>
         <source>user&apos;s city</source>
-        <translation type="unfinished"></translation>
+        <translation>miasto użytkownika</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/DisplaySettings.cpp" line="89"/>
         <source>unread messages</source>
-        <translation type="unfinished"></translation>
+        <translation>ilość nieprzeczytanych wiadomości</translation>
     </message>
 </context>
 <context>
@@ -1011,9 +1047,17 @@
 <context>
     <name>Kitty::ChatWindowSettings</name>
     <message>
-        <location filename="../src/widgets/settingpages/ChatWindowSettings.cpp" line="37"/>
+        <location filename="../src/widgets/settingpages/ChatWindowSettings.cpp" line="40"/>
         <source>None</source>
-        <translation type="unfinished"></translation>
+        <translation>Brak</translation>
+    </message>
+</context>
+<context>
+    <name>Kitty::AccountsSettings</name>
+    <message>
+        <location filename="../src/widgets/settingpages/AccountsSettings.cpp" line="74"/>
+        <source>No protocols available</source>
+        <translation>Brak dostępnych protokołów</translation>
     </message>
 </context>
 </TS>

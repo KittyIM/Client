@@ -28,6 +28,7 @@ namespace Kitty
     public slots:
       void applySettings();
       void showAccountStatusMenu();
+      void updateAccountStatusIcon();
 
     protected:
       void changeEvent(QEvent *event);

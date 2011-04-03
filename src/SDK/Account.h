@@ -27,6 +27,11 @@ namespace KittySDK
       QString password() const { return m_password; }
       void setPassword(const QString &password) { m_password = password; }
 
+      virtual KittySDK::Protocol::Status status() const { return KittySDK::Protocol::Offline; }
+
+    signals:
+      void statusChanged();
+
     public slots:
       virtual void loadSettings(const QMap<QString, QVariant> &settings) { }
       virtual QMap<QString, QVariant> saveSettings() { return QMap<QString, QVariant>(); }

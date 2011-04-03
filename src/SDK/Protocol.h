@@ -65,6 +65,7 @@ namespace KittySDK
       Abilities abilities() const { return m_abilities; }
       void setAbilities(const Abilities &abilities) { m_abilities = abilities; }
 
+      virtual QString statusIcon(KittySDK::Protocol::Status status) { return ""; }
       virtual Account *newAccount(const QString &uid) = 0;
       virtual QWidget *editWindow(Account *account = 0) = 0;
 
