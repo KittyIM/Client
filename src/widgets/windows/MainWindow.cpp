@@ -2,8 +2,10 @@
 #include "ui_MainWindow.h"
 
 #include "RosterItemModel.h"
+#include "ContactManager.h"
 #include "AccountManager.h"
 #include "SDK/constants.h"
+#include "RosterContact.h"
 #include "RosterTheme.h"
 #include "constants.h"
 #include "Profile.h"
@@ -147,6 +149,18 @@ void Kitty::MainWindow::addToolbarAction(const QString &tb, QAction *action)
   } else {
     qWarning() << "Unknown ToolBar" << tb;
   }
+}
+
+void Kitty::MainWindow::loadContacts()
+{
+  QList<KittySDK::Contact*> contacts = Kitty::ContactManager::inst()->contacts();
+  foreach(KittySDK::Contact *cnt, contacts) {
+    Kitty::RosterContact *contact = new Kitty::RosterContact(cnt, m_model->groupItem(cnt->group()));
+
+    m_model->addContact(contact, m_model->groupItem(cnt->group()));
+  }
+
+  m_ui->rosterTreeView->expandAll();
 }
 
 void Kitty::MainWindow::applySettings()

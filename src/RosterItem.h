@@ -1,7 +1,7 @@
 #ifndef ROSTERITEM_H
 #define ROSTERITEM_H
 
-#include <QStandardItem>
+#include <QtGui/QStandardItem>
 
 namespace Kitty
 {
@@ -17,13 +17,12 @@ namespace Kitty
       enum
       {
         TypeRole = Qt::UserRole + 1,
+        AccountRole,
+        UidRole,
         DescriptionRole,
         AvatarRole,
         ChildrenRole
       };
-
-      enum { Type = UserType + 1 };
-      int type() const { return Type; }
 
     public:
       RosterItem(RosterItem *parent = 0);
@@ -33,7 +32,6 @@ namespace Kitty
 
       RosterItem *child(int row);
       int childCount() const;
-      int columnCount() const;
       int row() const;
       RosterItem *parent();
 

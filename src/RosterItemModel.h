@@ -16,7 +16,8 @@ namespace Kitty
       ~RosterItemModel();
 
       RosterItem *addGroup(const QString &name);
-      RosterItem *addContact(const QString &name, RosterItem *parent = 0);
+      RosterItem *addContact(Kitty::RosterItem *item, RosterItem *parent = 0);
+      RosterItem *groupItem(const QString &name);
 
       QVariant data(const QModelIndex &index, int role) const;
       QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const;

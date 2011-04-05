@@ -1,9 +1,8 @@
 #ifndef CONTACTMANAGER_H
 #define CONTACTMANAGER_H
 
+#include "SDK/Contact.h"
 #include "Singleton.h"
-
-#include <QtCore/QObject>
 
 namespace Kitty
 {
@@ -13,8 +12,21 @@ namespace Kitty
 
     friend class Singleton<ContactManager>;
 
+    public:
+      const QList<KittySDK::Contact*> &contacts() const;
+
+      void add(KittySDK::Contact *contact);
+
+      void load(const QString &profile);
+
+    signals:
+      void contactAdded();
+
     private:
       ContactManager(QObject *parent = 0): QObject(parent) { }
+
+    private:
+      QList<KittySDK::Contact*> m_contacts;
   };
 }
 

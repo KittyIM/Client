@@ -4,6 +4,7 @@
 #include "widgets/windows/DebugWindow.h"
 #include "widgets/windows/ChatWindow.h"
 #include "widgets/windows/MainWindow.h"
+#include "ContactManager.h"
 #include "AccountManager.h"
 #include "SDK/constants.h"
 #include "ActionManager.h"
@@ -58,7 +59,9 @@ void Kitty::Profile::load(const QString &name)
 
   AccountManager::inst()->load(name);
 
-  core->mainWindow();
+  ContactManager::inst()->load(name);
+
+  core->mainWindow()->loadContacts();
 
   qDebug() << "Profile " + name + " loaded!";
 }

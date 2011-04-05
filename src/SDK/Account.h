@@ -10,6 +10,8 @@ class QMenu;
 
 namespace KittySDK
 {
+  class Contact;
+
   class Account: public QObject
   {
     Q_OBJECT
@@ -26,6 +28,8 @@ namespace KittySDK
 
       QString password() const { return m_password; }
       void setPassword(const QString &password) { m_password = password; }
+
+      virtual KittySDK::Contact *newContact(const QString &uid) = 0;
 
       virtual KittySDK::Protocol::Status status() const { return KittySDK::Protocol::Offline; }
 

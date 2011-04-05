@@ -25,6 +25,8 @@ namespace Kitty
       void initToolbars();
       void addToolbarAction(const QString &tb, QAction *action);
 
+      void loadContacts();
+
     public slots:
       void applySettings();
       void showAccountStatusMenu();
