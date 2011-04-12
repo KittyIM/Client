@@ -31,6 +31,7 @@ namespace Kitty
       void applySettings();
       void showAccountStatusMenu();
       void updateAccountStatusIcon();
+      void updateRoster();
 
     protected:
       void changeEvent(QEvent *event);

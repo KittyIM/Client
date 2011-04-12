@@ -67,7 +67,7 @@ bool Kitty::AccountManager::add(KittySDK::Account *account)
   if(account->protocol()->abilities().testFlag(KittySDK::Protocol::ChangeStatus)) {
     QAction *action = new QAction(this);
     action->setText(QString("%1 (%2)").arg(account->uid()).arg(account->protocol()->protoInfo()->protoName()));
-    action->setIcon(Kitty::Core::inst()->icon(account->protocol()->protoInfo()->protoIcon()));
+    action->setIcon(Kitty::Core::inst()->icon(account->protocol()->statusIcon(account->status())));
     action->setProperty("protocol", account->protocol()->protoInfo()->protoName());
     action->setProperty("uid", account->uid());
     connect(account, SIGNAL(statusChanged()), Kitty::Core::inst()->mainWindow(), SLOT(updateAccountStatusIcon()));
@@ -108,15 +108,19 @@ void Kitty::AccountManager::load(const QString &profile)
 
           if(proto) {
             KittySDK::Account *acc = proto->newAccount(settings.value("uid").toString());
-            acc->setPassword(settings.value("password").toString());
+            if(acc) {
+              acc->setPassword(settings.value("password").toString());
 
-            settings.remove("protocol");
-            settings.remove("uid");
-            settings.remove("password");
+              settings.remove("protocol");
+              settings.remove("uid");
+              settings.remove("password");
 
-            acc->loadSettings(settings);
+              acc->loadSettings(settings);
 
-            add(acc);
+              add(acc);
+            } else {
+              qWarning() << "Account creation failed" << settings.value("protocol").toString() << settings.value("uid").toString();
+            }
           } else {
             qWarning() << "Protocole not found" << settings.value("protocol").toString();
           }

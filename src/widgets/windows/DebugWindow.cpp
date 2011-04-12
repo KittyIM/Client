@@ -71,7 +71,7 @@ void Kitty::DebugWindow::showEvent(QShowEvent *event)
   QWidget::showEvent(event);
 
   m_ui->tabWidget->setCurrentIndex(0);
-  m_ui->refreshActionsButton->click();
+  m_ui->commandEdit->setFocus();
 }
 
 void Kitty::DebugWindow::changeEvent(QEvent *event)

@@ -22,6 +22,9 @@ namespace Kitty
     signals:
       void contactAdded();
 
+    private slots:
+      void updateStatuses();
+
     private:
       ContactManager(QObject *parent = 0): QObject(parent) { }
 

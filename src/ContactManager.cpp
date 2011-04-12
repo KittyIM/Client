@@ -1,5 +1,6 @@
 #include "ContactManager.h"
 
+#include "widgets/windows/MainWindow.h"
 #include "AccountManager.h"
 #include "Core.h"
 
@@ -50,10 +51,14 @@ void Kitty::ContactManager::load(const QString &profile)
               cnt->setDisplay(settings.value("display").toString());
               cnt->setGroup(groupName);
 
+              connect(cnt, SIGNAL(statusChanged(KittySDK::Protocol::Status,QString)), this, SLOT(updateStatuses()));
+
               settings.remove("protocol");
               settings.remove("account");
 
               cnt->loadSettings(settings);
+
+              account->insertContact(cnt->uid(), cnt);
               add(cnt);
             }
           } else {
@@ -67,4 +72,9 @@ void Kitty::ContactManager::load(const QString &profile)
       qDebug() << "Could not open accounts file for" << profile;
     }
   }
+}
+
+void Kitty::ContactManager::updateStatuses()
+{
+  Kitty::Core::inst()->mainWindow()->updateRoster();
 }

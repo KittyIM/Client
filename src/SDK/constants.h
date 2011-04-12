@@ -31,6 +31,11 @@ namespace KittySDK
     const char * const I_COLOR          = "Kitty.Color";
     const char * const I_IMAGE          = "Kitty.Image";
     const char * const I_FILE           = "Kitty.File";
+    const char * const I_BLOCK          = "Kitty.Block";
+    const char * const I_DELETE         = "Kitty.Delete";
+    const char * const I_COPY           = "Kitty.Copy";
+    const char * const I_GROUP          = "Kitty.Group";
+
 
   }
 

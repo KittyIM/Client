@@ -6,6 +6,7 @@
 namespace Kitty
 {
   class RosterItem;
+  class RosterContact;
 
   class RosterItemModel: public QAbstractItemModel
   {
@@ -16,7 +17,7 @@ namespace Kitty
       ~RosterItemModel();
 
       RosterItem *addGroup(const QString &name);
-      RosterItem *addContact(Kitty::RosterItem *item, RosterItem *parent = 0);
+      RosterItem *addContact(Kitty::RosterContact *item, RosterItem *parent = 0);
       RosterItem *groupItem(const QString &name);
 
       QVariant data(const QModelIndex &index, int role) const;
@@ -24,6 +25,9 @@ namespace Kitty
       QModelIndex parent(const QModelIndex &index) const;
       int rowCount(const QModelIndex &parent = QModelIndex()) const;
       int columnCount(const QModelIndex &parent = QModelIndex()) const;
+
+    private slots:
+      void updateData();
 
     private:
       RosterItem *m_root;

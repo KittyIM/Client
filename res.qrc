@@ -33,6 +33,10 @@
         <file alias="italic.png">res/glyphs/italic.png</file>
         <file alias="striketrough.png">res/glyphs/strikethrough.png</file>
         <file alias="underline.png">res/glyphs/underline.png</file>
+        <file alias="delete.png">res/glyphs/delete.png</file>
+        <file alias="block.png">res/glyphs/block.png</file>
+        <file alias="group.png">res/glyphs/group.png</file>
+        <file alias="copy.png">res/glyphs/copy.png</file>
     </qresource>
     <qresource prefix="/images">
         <file alias="kitty_logo.png">res/images/kitty_logo.png</file>

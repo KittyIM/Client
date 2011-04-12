@@ -7,6 +7,8 @@
 
 namespace KittySDK
 {
+  class Message;
+
   class Contact: public QObject
   {
     Q_OBJECT
@@ -30,17 +32,26 @@ namespace KittySDK
       KittySDK::Protocol::Status status() const { return m_status; }
       void setStatus(KittySDK::Protocol::Status status) { m_status = status; }
 
+      QString description() const { return m_description; }
+      void setDescription(const QString &description) { m_description = description; }
+
       KittySDK::Account *account() const { return m_account; }
 
+    signals:
+      void statusChanged(KittySDK::Protocol::Status status, const QString &description);
+      void messageReceived(KittySDK::Message *msg);
+
     public slots:
+      virtual void prepareContextMenu(QMenu *menu) { }
       virtual void loadSettings(const QMap<QString, QVariant> &settings) { }
       virtual QMap<QString, QVariant> saveSettings() { return QMap<QString, QVariant>(); }
 
-    private:
+    protected:
       QString m_uid;
       QString m_display;
       QString m_group;
       KittySDK::Protocol::Status m_status;
+      QString m_description;
       KittySDK::Account *m_account;
   };
 }

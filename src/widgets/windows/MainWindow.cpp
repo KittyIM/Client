@@ -212,6 +212,11 @@ void Kitty::MainWindow::updateAccountStatusIcon()
   }
 }
 
+void Kitty::MainWindow::updateRoster()
+{
+  m_ui->rosterTreeView->update();
+}
+
 void Kitty::MainWindow::changeEvent(QEvent *event)
 {
   if(event->type() == QEvent::LanguageChange) {
@@ -220,3 +225,4 @@ void Kitty::MainWindow::changeEvent(QEvent *event)
 
   QMainWindow::changeEvent(event);
 }
+

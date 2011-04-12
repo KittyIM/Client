@@ -1,6 +1,7 @@
 #include "RosterItemModel.h"
 
-#include "RosterItem.h"
+#include "RosterContact.h"
+#include "SDK/Contact.h"
 
 #include <QtCore/QDebug>
 
@@ -28,13 +29,15 @@ Kitty::RosterItem *Kitty::RosterItemModel::addGroup(const QString &name)
   return item;
 }
 
-Kitty::RosterItem *Kitty::RosterItemModel::addContact(Kitty::RosterItem *item, Kitty::RosterItem *parent)
+Kitty::RosterItem *Kitty::RosterItemModel::addContact(Kitty::RosterContact *item, Kitty::RosterItem *parent)
 {
   if(!parent) {
     parent = m_root;
   }
 
   parent->appendChild(item);
+
+  connect(item->contact(), SIGNAL(statusChanged(KittySDK::Protocol::Status,QString)), this, SLOT(updateData()));
 
   return item;
 }
@@ -44,7 +47,7 @@ Kitty::RosterItem *Kitty::RosterItemModel::groupItem(const QString &name)
   if(name.isEmpty()) {
     return m_root;
   } else {
-    for(int i = 0; m_root->childCount(); i++) {
+    for(int i = 0; i < m_root->childCount(); i++) {
       Kitty::RosterItem *group = m_root->child(i);
       if(group->data(Qt::DisplayRole).toString() == name) {
         return group;
@@ -68,19 +71,22 @@ QVariant Kitty::RosterItemModel::data(const QModelIndex &index, int role) const
 
   Kitty::RosterItem *item = static_cast<Kitty::RosterItem*>(index.internalPointer());
 
-  if(role == Qt::ToolTipRole) {
-    if(item->data(RosterItem::TypeRole) == RosterItem::Group) {
-      return QString("<b>%1</b><br>Items: %2").arg(item->text()).arg(item->childCount());
-    } else {
-      return QString("<b>%1</b><br>Account: %2<br>Uid: %3<br>Group: %4").arg(item->text()).arg(item->data(RosterItem::AccountRole).toString()).arg(item->data(RosterItem::UidRole).toString()).arg(item->parent()->text());
+  if(item->data(RosterItem::TypeRole) == RosterItem::Group) {
+    switch(role) {
+      case Qt::ToolTipRole:
+        return QString("<b>%1</b><br>Items: %2").arg(item->text()).arg(item->childCount());
+      break;
+
+      case RosterItem::ChildrenRole:
+        return item->childCount();
+      break;
     }
   }
 
   return item->data(role);
 }
 
-QModelIndex Kitty::RosterItemModel::index(int row, int column, const QModelIndex &parent)
-const
+QModelIndex Kitty::RosterItemModel::index(int row, int column, const QModelIndex &parent) const
 {
   if(!hasIndex(row, column, parent)) {
     return QModelIndex();
@@ -132,4 +138,9 @@ int Kitty::RosterItemModel::rowCount(const QModelIndex &parent) const
   }
 
   return parentItem->childCount();
+}
+
+void Kitty::RosterItemModel::updateData()
+{
+  emit layoutChanged();
 }

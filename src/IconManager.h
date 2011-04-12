@@ -4,6 +4,7 @@
 #include "Singleton.h"
 
 #include <QtCore/QObject>
+#include <QtCore/QTimer>
 #include <QtCore/QHash>
 #include <QtGui/QPixmap>
 #include <QtGui/QIcon>
@@ -33,6 +34,7 @@ namespace Kitty
 
     private:
       QHash<QString, QPixmap> m_icons;
+      QTimer m_updateTimer;
   };
 }
 

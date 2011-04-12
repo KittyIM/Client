@@ -9,6 +9,11 @@ using namespace KittySDK;
 
 Kitty::IconManager::IconManager(QObject *parent): QObject(parent)
 {
+  m_updateTimer.setSingleShot(true);
+  m_updateTimer.setInterval(100);
+
+  connect(&m_updateTimer, SIGNAL(timeout()), this, SIGNAL(iconsUpdated()));
+
   loadDefaults();
 }
 
@@ -41,6 +46,10 @@ void Kitty::IconManager::loadDefaults()
   defaults.insert(Icons::I_COLOR, ":/glyphs/color.png");
   defaults.insert(Icons::I_IMAGE, ":/glyphs/image.png");
   defaults.insert(Icons::I_FILE, ":/glyphs/file.png");
+  defaults.insert(Icons::I_BLOCK, ":/glyphs/block.png");
+  defaults.insert(Icons::I_DELETE, ":/glyphs/delete.png");
+  defaults.insert(Icons::I_COPY, ":/glyphs/copy.png");
+  defaults.insert(Icons::I_GROUP, ":/glyphs/group.png");
 
   qDebug() << "IconManager is loading default icons [" << defaults.count() << "]";
 
@@ -59,5 +68,5 @@ void Kitty::IconManager::insert(const QString &id, const QPixmap &pixmap, bool r
 
   m_icons.insert(id, pixmap);
 
-  emit iconsUpdated();
+  m_updateTimer.start();
 }

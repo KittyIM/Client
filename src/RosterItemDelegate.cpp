@@ -19,19 +19,15 @@ void Kitty::RosterItemDelegate::paint(QPainter *painter, const QStyleOptionViewI
 {
   int type = index.data(RosterItem::TypeRole).toInt();
   QString text = index.data(Qt::DisplayRole).toString();
-  QString description = index.data(RosterItem::DescriptionRole).toString();
-  QPixmap icon = qvariant_cast<QPixmap>(index.data(Qt::DecorationRole));
-
-  QPixmap avatar(index.data(RosterItem::AvatarRole).toString());
-  if((avatar.size() != QSize(32, 32)) && !avatar.isNull()) {
-    avatar = avatar.scaled(32, 32, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-  }
+  QPixmap icon = index.data(Qt::DecorationRole).value<QPixmap>();
 
   QRect rect = option.rect;
 
   painter->save();
 
   if(type == RosterItem::Group) {
+    //int children = index.data(RosterItem::ChildrenRole).toInt();
+
     if(option.state & QStyle::State_Selected) {
       painter->setBrush(m_theme->selectedGroupBackground());
       painter->setPen(m_theme->selectedGroupForeground());
@@ -55,6 +51,9 @@ void Kitty::RosterItemDelegate::paint(QPainter *painter, const QStyleOptionViewI
       qApp->style()->drawPrimitive(QStyle::PE_IndicatorArrowRight, &opt, painter);
     }
   } else {
+    QString description = index.data(RosterItem::DescriptionRole).toString();
+    QPixmap avatar(index.data(RosterItem::AvatarRole).toString());
+
     if(option.state & QStyle::State_Selected) {
       painter->setBrush(m_theme->selectedContactBackground());
       painter->setPen(m_theme->selectedContactForeground());
@@ -95,6 +94,10 @@ void Kitty::RosterItemDelegate::paint(QPainter *painter, const QStyleOptionViewI
     }
 
     if(!avatar.isNull()) {
+      if(avatar.size() != QSize(32, 32)) {
+        avatar = avatar.scaled(32, 32, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+      }
+
       rect = option.rect;
       painter->drawPixmap(rect.width() - 34, rect.top() + 2, 32, 32, avatar);
     }
