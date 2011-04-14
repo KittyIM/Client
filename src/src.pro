@@ -46,7 +46,9 @@ SOURCES    += main.cpp \
               ProtocolManager.cpp \
               ContactManager.cpp \
     AccountManager.cpp \
-    RosterContact.cpp
+    RosterContact.cpp \
+    RosterSortProxy.cpp \
+    RosterGroup.cpp
 
 HEADERS    += constants.h \
               SDK/constants.h \
@@ -100,7 +102,9 @@ HEADERS    += constants.h \
     SDK/Account.h \
     AccountManager.h \
     SDK/Contact.h \
-    RosterContact.h
+    RosterContact.h \
+    RosterSortProxy.h \
+    RosterGroup.h
 
 FORMS      += widgets/windows/DebugWindow.ui \
               widgets/windows/MainWindow.ui \

@@ -1,6 +1,7 @@
 #include "RosterItemModel.h"
 
 #include "RosterContact.h"
+#include "RosterGroup.h"
 #include "SDK/Contact.h"
 
 #include <QtCore/QDebug>
@@ -19,7 +20,7 @@ Kitty::RosterItemModel::~RosterItemModel()
 
 Kitty::RosterItem *Kitty::RosterItemModel::addGroup(const QString &name)
 {
-  Kitty::RosterItem *item = new Kitty::RosterItem(m_root);
+  Kitty::RosterGroup *item = new Kitty::RosterGroup(m_root);
 
   item->setData(Kitty::RosterItem::Group, Kitty::RosterItem::TypeRole);
   item->setData(name, Qt::DisplayRole);
@@ -36,8 +37,6 @@ Kitty::RosterItem *Kitty::RosterItemModel::addContact(Kitty::RosterContact *item
   }
 
   parent->appendChild(item);
-
-  connect(item->contact(), SIGNAL(statusChanged(KittySDK::Protocol::Status,QString)), this, SLOT(updateData()));
 
   return item;
 }
@@ -77,8 +76,9 @@ QVariant Kitty::RosterItemModel::data(const QModelIndex &index, int role) const
         return QString("<b>%1</b><br>Items: %2").arg(item->text()).arg(item->childCount());
       break;
 
-      case RosterItem::ChildrenRole:
-        return item->childCount();
+      // TODO
+      case RosterItem::ExpandedRole:
+        return true;
       break;
     }
   }
@@ -138,9 +138,4 @@ int Kitty::RosterItemModel::rowCount(const QModelIndex &parent) const
   }
 
   return parentItem->childCount();
-}
-
-void Kitty::RosterItemModel::updateData()
-{
-  emit layoutChanged();
 }

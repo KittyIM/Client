@@ -2,6 +2,7 @@
 #include "ui_MainWindow.h"
 
 #include "RosterItemModel.h"
+#include "RosterSortProxy.h"
 #include "ContactManager.h"
 #include "AccountManager.h"
 #include "SDK/constants.h"
@@ -26,12 +27,21 @@ using namespace KittySDK;
 Kitty::MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), m_ui(new Ui::MainWindow)
 {
   m_ui->setupUi(this);
-  m_model = new Kitty::RosterItemModel(m_ui->rosterTreeView);
-  m_ui->rosterTreeView->setModel(m_model);
 
   setWindowFlags(windowFlags() | Qt::Tool);
-
   qDebug() << "Creating MainWindow";
+
+  m_model = new Kitty::RosterItemModel(m_ui->rosterTreeView);
+  m_proxy = new Kitty::RosterSortProxy(m_ui->rosterTreeView);
+  m_proxy->setSourceModel(m_model);
+
+  m_ui->rosterTreeView->setModel(m_proxy);
+  m_ui->rosterTreeView->setSortingEnabled(true);
+
+  connect(m_proxy, SIGNAL(layoutChanged()), m_ui->rosterTreeView, SLOT(fixGroups()));
+
+  m_hideTimer.setSingleShot(true);
+  connect(&m_hideTimer, SIGNAL(timeout()), this, SLOT(hide()));
 
   Core *core = Core::inst();
 
@@ -160,7 +170,7 @@ void Kitty::MainWindow::loadContacts()
     m_model->addContact(contact, m_model->groupItem(cnt->group()));
   }
 
-  m_ui->rosterTreeView->expandAll();
+  m_proxy->invalidate();
 }
 
 void Kitty::MainWindow::applySettings()
@@ -181,6 +191,10 @@ void Kitty::MainWindow::applySettings()
     setWindowFlags(windowFlags() & ~Qt::WindowStaysOnTopHint);
     setVisible(visible);
   }
+
+  m_hideTimer.setInterval(core->setting(Settings::S_MAINWINDOW_AUTOHIDE_DELAY, 5).toInt() * 1000);
+
+  m_proxy->invalidate();
 
   QString title = core->setting(Settings::S_MAINWINDOW_CAPTION, "KittyIM %version% [%profile%]").toString();
   title.replace("%version%", Constants::VERSION);
@@ -212,11 +226,6 @@ void Kitty::MainWindow::updateAccountStatusIcon()
   }
 }
 
-void Kitty::MainWindow::updateRoster()
-{
-  m_ui->rosterTreeView->update();
-}
-
 void Kitty::MainWindow::changeEvent(QEvent *event)
 {
   if(event->type() == QEvent::LanguageChange) {
@@ -224,5 +233,21 @@ void Kitty::MainWindow::changeEvent(QEvent *event)
   }
 
   QMainWindow::changeEvent(event);
+}
+
+void Kitty::MainWindow::enterEvent(QEvent *event)
+{
+  QMainWindow::enterEvent(event);
+
+  m_hideTimer.stop();
+}
+
+void Kitty::MainWindow::leaveEvent(QEvent *event)
+{
+  QMainWindow::leaveEvent(event);
+
+  if(Core::inst()->setting(Settings::S_MAINWINDOW_AUTOHIDE, false).toBool()) {
+    m_hideTimer.start();
+  }
 }
 

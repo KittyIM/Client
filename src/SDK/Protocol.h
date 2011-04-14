@@ -53,7 +53,9 @@ namespace KittySDK
         SendFiles        = 0x200,
 
         ChangeStatus     = 0x1000,
-        BlockContacts    = 0x2000
+        BlockContacts    = 0x2000,
+
+        TextStandard     = TextBold | TextItalics | TextUnderline
       };
       Q_DECLARE_FLAGS(Abilities, Ability)
 

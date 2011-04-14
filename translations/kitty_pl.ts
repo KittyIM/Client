@@ -127,7 +127,7 @@
 <context>
     <name>Kitty::MainWindow</name>
     <message>
-        <location filename="../src/widgets/windows/MainWindow.cpp" line="123"/>
+        <location filename="../src/widgets/windows/MainWindow.cpp" line="127"/>
         <source>User</source>
         <translation>Użytkownik</translation>
     </message>
@@ -747,7 +747,7 @@
     <message>
         <location filename="../src/widgets/settingpages/ThemesSettings.ui"/>
         <source>about:blank</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/ThemesSettings.ui"/>
@@ -984,7 +984,7 @@
     <message>
         <location filename="../src/widgets/ChatTab.ui"/>
         <source>about:blank</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -1011,37 +1011,37 @@
         <location filename="../src/widgets/ChatTab.cpp" line="27"/>
         <location filename="../src/widgets/ChatTab.cpp" line="65"/>
         <source>Color</source>
-        <translation type="unfinished"></translation>
+        <translation>Kolor</translation>
     </message>
     <message>
         <location filename="../src/widgets/ChatTab.cpp" line="28"/>
         <location filename="../src/widgets/ChatTab.cpp" line="66"/>
         <source>Smilies</source>
-        <translation type="unfinished">Emotikonki</translation>
+        <translation>Emotikonki</translation>
     </message>
     <message>
         <location filename="../src/widgets/ChatTab.cpp" line="30"/>
         <location filename="../src/widgets/ChatTab.cpp" line="67"/>
         <source>Send image</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyślij obrazek</translation>
     </message>
     <message>
         <location filename="../src/widgets/ChatTab.cpp" line="31"/>
         <location filename="../src/widgets/ChatTab.cpp" line="68"/>
         <source>Send file</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyślij plik</translation>
     </message>
     <message>
         <location filename="../src/widgets/ChatTab.cpp" line="33"/>
         <location filename="../src/widgets/ChatTab.cpp" line="69"/>
         <source>Profile</source>
-        <translation type="unfinished"></translation>
+        <translation>Profil</translation>
     </message>
     <message>
         <location filename="../src/widgets/ChatTab.cpp" line="34"/>
         <location filename="../src/widgets/ChatTab.cpp" line="70"/>
         <source>History</source>
-        <translation type="unfinished">Historia</translation>
+        <translation>Historia</translation>
     </message>
 </context>
 <context>
@@ -1058,6 +1058,64 @@
         <location filename="../src/widgets/settingpages/AccountsSettings.cpp" line="74"/>
         <source>No protocols available</source>
         <translation>Brak dostępnych protokołów</translation>
+    </message>
+</context>
+<context>
+    <name>Kitty::RosterTreeView</name>
+    <message>
+        <location filename="../src/widgets/RosterTreeView.cpp" line="34"/>
+        <source>Send message</source>
+        <translation>Wyślij wiadomość</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/RosterTreeView.cpp" line="37"/>
+        <source>History</source>
+        <translation>Historia</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/RosterTreeView.cpp" line="38"/>
+        <source>vCard</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/RosterTreeView.cpp" line="41"/>
+        <source>Copy</source>
+        <translation>Kopiuj</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/RosterTreeView.cpp" line="42"/>
+        <source>Name</source>
+        <translation>Nazwa</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/RosterTreeView.cpp" line="43"/>
+        <source>UID</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/RosterTreeView.cpp" line="44"/>
+        <source>Status description</source>
+        <translation>Opis</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/RosterTreeView.cpp" line="46"/>
+        <source>Group</source>
+        <translation>Grupa</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/RosterTreeView.cpp" line="47"/>
+        <source>None</source>
+        <translation>Brak</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/RosterTreeView.cpp" line="61"/>
+        <source>Block</source>
+        <translation>Zablokuj</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/RosterTreeView.cpp" line="64"/>
+        <source>Remove</source>
+        <translation>Usuń</translation>
     </message>
 </context>
 </TS>

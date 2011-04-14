@@ -26,9 +26,6 @@ namespace Kitty
       int rowCount(const QModelIndex &parent = QModelIndex()) const;
       int columnCount(const QModelIndex &parent = QModelIndex()) const;
 
-    private slots:
-      void updateData();
-
     private:
       RosterItem *m_root;
   };

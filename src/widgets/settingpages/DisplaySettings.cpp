@@ -42,7 +42,7 @@ void Kitty::DisplaySettings::reset()
 
   m_ui->alwaysOnTopCheckBox->setChecked(core->setting(Settings::S_MAINWINDOW_ALWAYS_ON_TOP).toBool());
   m_ui->autoHideCheckBox->setChecked(core->setting(Settings::S_MAINWINDOW_AUTOHIDE).toBool());
-  m_ui->autoHideSlider->setValue(core->setting(Settings::S_MAINWINDOW_AUTOHIDE_DELAY).toInt());
+  m_ui->autoHideSlider->setValue(core->setting(Settings::S_MAINWINDOW_AUTOHIDE_DELAY, 5).toInt());
   m_ui->transparencyCheckBox->setChecked(core->setting(Settings::S_MAINWINDOW_TRANSPARENCY).toBool());
   m_ui->transparencySlider->setValue(core->setting(Settings::S_MAINWINDOW_TRANSPARENCY_VALUE, 80).toInt());
   m_ui->dockToEdgesCheckBox->setChecked(core->setting(Settings::S_MAINWINDOW_DOCKING).toBool());

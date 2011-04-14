@@ -5,6 +5,7 @@
 #include "RosterItem.h"
 #include "Core.h"
 
+#include <QtCore/QDebug>
 #include <QtGui/QApplication>
 #include <QtGui/QPainter>
 
@@ -26,7 +27,7 @@ void Kitty::RosterItemDelegate::paint(QPainter *painter, const QStyleOptionViewI
   painter->save();
 
   if(type == RosterItem::Group) {
-    //int children = index.data(RosterItem::ChildrenRole).toInt();
+    //int children = index.model()->rowCount(index);
 
     if(option.state & QStyle::State_Selected) {
       painter->setBrush(m_theme->selectedGroupBackground());
@@ -51,7 +52,11 @@ void Kitty::RosterItemDelegate::paint(QPainter *painter, const QStyleOptionViewI
       qApp->style()->drawPrimitive(QStyle::PE_IndicatorArrowRight, &opt, painter);
     }
   } else {
-    QString description = index.data(RosterItem::DescriptionRole).toString();
+    QString description;
+    if(Core::inst()->setting(Settings::S_ROSTER_STATUS_DESCRIPTION, true).toBool()) {
+      description = index.data(RosterItem::DescriptionRole).toString();
+    }
+
     QPixmap avatar(index.data(RosterItem::AvatarRole).toString());
 
     if(option.state & QStyle::State_Selected) {

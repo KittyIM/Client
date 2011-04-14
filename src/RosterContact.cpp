@@ -27,6 +27,10 @@ QVariant Kitty::RosterContact::data(int role) const
       return m_contact->uid();
     break;
 
+    case RosterItem::StatusRole:
+      return m_contact->status();
+    break;
+
     case RosterItem::DescriptionRole:
       return m_contact->description();
     break;

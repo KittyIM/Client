@@ -127,7 +127,7 @@
 <context>
     <name>Kitty::MainWindow</name>
     <message>
-        <location filename="../src/widgets/windows/MainWindow.cpp" line="123"/>
+        <location filename="../src/widgets/windows/MainWindow.cpp" line="127"/>
         <source>User</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1057,6 +1057,64 @@
     <message>
         <location filename="../src/widgets/settingpages/AccountsSettings.cpp" line="74"/>
         <source>No protocols available</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Kitty::RosterTreeView</name>
+    <message>
+        <location filename="../src/widgets/RosterTreeView.cpp" line="34"/>
+        <source>Send message</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/RosterTreeView.cpp" line="37"/>
+        <source>History</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/RosterTreeView.cpp" line="38"/>
+        <source>vCard</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/RosterTreeView.cpp" line="41"/>
+        <source>Copy</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/RosterTreeView.cpp" line="42"/>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/RosterTreeView.cpp" line="43"/>
+        <source>UID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/RosterTreeView.cpp" line="44"/>
+        <source>Status description</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/RosterTreeView.cpp" line="46"/>
+        <source>Group</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/RosterTreeView.cpp" line="47"/>
+        <source>None</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/RosterTreeView.cpp" line="61"/>
+        <source>Block</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/RosterTreeView.cpp" line="64"/>
+        <source>Remove</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

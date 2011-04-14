@@ -14,6 +14,13 @@ namespace Kitty
     public:
       explicit RosterTreeView(QWidget *parent = 0);
 
+    public slots:
+      void fixGroups();
+
+    private slots:
+      void itemExpanded(const QModelIndex &index);
+      void itemCollapsed(const QModelIndex &index);
+
     protected:
       void mousePressEvent(QMouseEvent *event);
 

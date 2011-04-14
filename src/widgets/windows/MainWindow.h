@@ -1,6 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <QtCore/QTimer>
 #include <QtGui/QMainWindow>
 
 namespace Ui
@@ -11,6 +12,7 @@ namespace Ui
 namespace Kitty
 {
   class RosterItemModel;
+  class RosterSortProxy;
 
   class MainWindow: public QMainWindow
   {
@@ -31,14 +33,17 @@ namespace Kitty
       void applySettings();
       void showAccountStatusMenu();
       void updateAccountStatusIcon();
-      void updateRoster();
 
     protected:
       void changeEvent(QEvent *event);
+      void enterEvent(QEvent *event);
+      void leaveEvent(QEvent *event);
 
     private:
+      QTimer m_hideTimer;
       Ui::MainWindow *m_ui;
       RosterItemModel *m_model;
+      RosterSortProxy *m_proxy;
   };
 }
 
