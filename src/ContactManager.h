@@ -18,6 +18,7 @@ namespace Kitty
       void add(KittySDK::Contact *contact);
 
       void load(const QString &profile);
+      void save(const QString &profile);
 
     signals:
       void contactAdded();

@@ -72,3 +72,66 @@ void Kitty::ContactManager::load(const QString &profile)
     }
   }
 }
+
+void Kitty::ContactManager::save(const QString &profile)
+{
+  qDebug() << "saving contacts for" << profile;
+
+  QDomDocument doc;
+  QDomElement root = doc.createElement("contacts");
+
+  QMap<QString, QDomElement> groups;
+  foreach(KittySDK::Contact *contact, m_contacts) {
+    if(!contact->group().isEmpty() && !groups.contains(contact->group())) {
+      QDomElement elem = doc.createElement("group");
+      elem.setAttribute("name", contact->group());
+      groups.insert(contact->group(), elem);
+    }
+  }
+
+  foreach(KittySDK::Contact *contact, m_contacts) {
+    QDomElement cnt = doc.createElement("contact");
+
+    QMap<QString, QVariant> settings = contact->saveSettings();
+    settings.insert("protocol", contact->account()->protocol()->protoInfo()->protoName());
+    settings.insert("account", contact->account()->uid());
+    settings.insert("uid", contact->uid());
+    settings.insert("display", contact->display());
+
+    QMapIterator<QString, QVariant> i(settings);
+    while(i.hasNext()) {
+      i.next();
+
+      QDomElement elem = doc.createElement(i.key());
+      elem.appendChild(doc.createTextNode(i.value().toString()));
+      cnt.appendChild(elem);
+    }
+
+    if(contact->group().isEmpty()) {
+      root.appendChild(cnt);
+    } else {
+      QDomElement group = groups.value(contact->group());
+      group.appendChild(cnt);
+    }
+  }
+
+  QMapIterator<QString, QDomElement> ig(groups);
+  while(ig.hasNext()) {
+    ig.next();
+
+    root.appendChild(ig.value());
+  }
+
+  doc.appendChild(root);
+
+  QFile file(Core::inst()->profilesDir() + profile + "/contacts.xml");
+  if(file.open(QIODevice::ReadWrite)) {
+    file.resize(0);
+
+    QTextStream str(&file);
+    str.setCodec("UTF-8");
+    str << doc.toString(2);
+
+    file.close();
+  }
+}

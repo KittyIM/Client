@@ -6,11 +6,13 @@
 
 #include <QtCore/QDebug>
 
+using namespace Kitty;
+
 Kitty::RosterItemModel::RosterItemModel(QObject *parent): QAbstractItemModel(parent)
 {
   qDebug() << "Creating RosterItemModel";
 
-  m_root = new Kitty::RosterItem();
+  m_root = new RosterItem();
 }
 
 Kitty::RosterItemModel::~RosterItemModel()
@@ -20,9 +22,9 @@ Kitty::RosterItemModel::~RosterItemModel()
 
 Kitty::RosterItem *Kitty::RosterItemModel::addGroup(const QString &name)
 {
-  Kitty::RosterGroup *item = new Kitty::RosterGroup(m_root);
+  Kitty::RosterGroup *item = new RosterGroup(m_root);
 
-  item->setData(Kitty::RosterItem::Group, Kitty::RosterItem::TypeRole);
+  item->setData(RosterItem::Group, RosterItem::TypeRole);
   item->setData(name, Qt::DisplayRole);
 
   m_root->appendChild(item);
@@ -30,7 +32,17 @@ Kitty::RosterItem *Kitty::RosterItemModel::addGroup(const QString &name)
   return item;
 }
 
-Kitty::RosterItem *Kitty::RosterItemModel::addContact(Kitty::RosterContact *item, Kitty::RosterItem *parent)
+void Kitty::RosterItemModel::removeGroup(RosterItem *group)
+{
+  beginRemoveRows(group->parent()->index(), group->row(), group->row() + 1);
+
+  group->parent()->removeChild(group);
+  delete group;
+
+  endRemoveRows();
+}
+
+Kitty::RosterItem *Kitty::RosterItemModel::addContact(RosterContact *item, RosterItem *parent)
 {
   if(!parent) {
     parent = m_root;
@@ -47,7 +59,7 @@ Kitty::RosterItem *Kitty::RosterItemModel::groupItem(const QString &name)
     return m_root;
   } else {
     for(int i = 0; i < m_root->childCount(); i++) {
-      Kitty::RosterItem *group = m_root->child(i);
+      RosterItem *group = m_root->child(i);
       if(group->data(Qt::DisplayRole).toString() == name) {
         return group;
       }
@@ -57,9 +69,40 @@ Kitty::RosterItem *Kitty::RosterItemModel::groupItem(const QString &name)
   }
 }
 
+void Kitty::RosterItemModel::moveToGroup(RosterContact *item, const QString &groupName)
+{
+  RosterItem *newGroup = groupItem(groupName);
+  RosterItem *oldGroup = groupItem(item->contact()->group());
+
+  if(newGroup != oldGroup) {
+    oldGroup->removeChild(item);
+    newGroup->appendChild(item);
+
+    item->contact()->setGroup(groupName);
+
+    if((oldGroup->childCount() == 0) && (oldGroup != m_root)) {
+      removeGroup(oldGroup);
+    }
+  } else {
+    qWarning() << "Trying to move contact to same group";
+  }
+}
+
 int Kitty::RosterItemModel::columnCount(const QModelIndex &parent) const
 {
   return 1;
+}
+
+Qt::ItemFlags Kitty::RosterItemModel::flags(const QModelIndex &index) const
+{
+  Qt::ItemFlags basic = Qt::ItemIsEnabled | Qt::ItemIsSelectable;
+
+  RosterItem *item = static_cast<RosterItem*>(index.internalPointer());
+  if(item->data(RosterItem::TypeRole) == RosterItem::Contact) {
+    return basic | Qt::ItemIsDragEnabled;
+  } else {
+    return basic | Qt::ItemIsDropEnabled;
+  }
 }
 
 QVariant Kitty::RosterItemModel::data(const QModelIndex &index, int role) const
@@ -68,7 +111,7 @@ QVariant Kitty::RosterItemModel::data(const QModelIndex &index, int role) const
     return QVariant();
   }
 
-  Kitty::RosterItem *item = static_cast<Kitty::RosterItem*>(index.internalPointer());
+  RosterItem *item = static_cast<RosterItem*>(index.internalPointer());
 
   if(item->data(RosterItem::TypeRole) == RosterItem::Group) {
     switch(role) {
@@ -92,12 +135,12 @@ QModelIndex Kitty::RosterItemModel::index(int row, int column, const QModelIndex
     return QModelIndex();
   }
 
-  Kitty::RosterItem *parentItem;
+  RosterItem *parentItem;
 
   if(!parent.isValid()) {
     parentItem = m_root;
   } else {
-    parentItem = static_cast<Kitty::RosterItem*>(parent.internalPointer());
+    parentItem = static_cast<RosterItem*>(parent.internalPointer());
   }
 
   RosterItem *childItem = parentItem->child(row);
@@ -114,7 +157,7 @@ QModelIndex Kitty::RosterItemModel::parent(const QModelIndex &index) const
     return QModelIndex();
   }
 
-  RosterItem *childItem = static_cast<Kitty::RosterItem*>(index.internalPointer());
+  RosterItem *childItem = static_cast<RosterItem*>(index.internalPointer());
   RosterItem *parentItem = childItem->parent();
 
   if(parentItem == m_root) {
@@ -126,7 +169,7 @@ QModelIndex Kitty::RosterItemModel::parent(const QModelIndex &index) const
 
 int Kitty::RosterItemModel::rowCount(const QModelIndex &parent) const
 {
-  Kitty::RosterItem *parentItem;
+  RosterItem *parentItem;
   if(parent.column() > 0) {
     return 0;
   }
@@ -134,7 +177,7 @@ int Kitty::RosterItemModel::rowCount(const QModelIndex &parent) const
   if(!parent.isValid()) {
     parentItem = m_root;
   } else {
-    parentItem = static_cast<Kitty::RosterItem*>(parent.internalPointer());
+    parentItem = static_cast<RosterItem*>(parent.internalPointer());
   }
 
   return parentItem->childCount();

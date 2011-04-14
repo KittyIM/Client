@@ -9,7 +9,94 @@
 #include <QtCore/QDir>
 #include <QtGui/QApplication>
 
+using namespace Kitty;
+
 typedef QObject *(*pluginInst)(KittySDK::PluginCore*);
+
+Kitty::Plugin::Plugin(const QString &fileName): m_fileName(fileName)
+{
+  m_loaded = false;
+  m_inited = false;
+
+  QLibrary lib(m_fileName);
+  pluginInst inst = (pluginInst)lib.resolve("inst");
+
+  if(inst) {
+    m_plugin = dynamic_cast<KittySDK::Plugin*>(inst(new Kitty::PluginCoreImpl()));
+    if(m_plugin) {
+      if(m_plugin->type() == KittySDK::Plugin::Type) {
+        //nothing for now
+      } else if(m_plugin->type() == KittySDK::Protocol::Type) {
+        KittySDK::Protocol *prot = dynamic_cast<KittySDK::Protocol*>(m_plugin);
+        if(prot) {
+          Kitty::ProtocolManager::inst()->add(prot);
+        } else {
+          qWarning() << "Could not cast to protocol for file" << QFileInfo(m_fileName).fileName();
+        }
+      } else {
+        qWarning() << "Unknown type for file" << QFileInfo(m_fileName).fileName();
+      }
+    } else {
+      qWarning() << "Could not cast to Plugin for file" << QFileInfo(m_fileName).fileName();
+    }
+  } else {
+    qWarning() << "Resolve failed" << QFileInfo(m_fileName).fileName();
+  }
+}
+
+void Kitty::Plugin::init()
+{
+  if(!isInited()) {
+    m_plugin->init();
+    m_inited = true;
+  }
+}
+
+void Kitty::Plugin::load()
+{
+  if(!isLoaded()) {
+    init();
+
+    m_plugin->load();
+    m_loaded = true;
+  } else {
+    qWarning() << "Trying to load already loaded plugin" << QFileInfo(m_fileName).fileName();
+  }
+}
+
+void Kitty::Plugin::unload()
+{
+
+}
+
+const QList<Plugin*> &Kitty::PluginManager::plugins() const
+{
+  return m_plugins;
+}
+
+Kitty::Plugin *Kitty::PluginManager::pluginByName(const QString &name) const
+{
+  foreach(Plugin *plugin, m_plugins) {
+    if(plugin->isLoaded()) {
+      if(plugin->plugin()->info()->name() == name) {
+        return plugin;
+      }
+    }
+  }
+
+  return 0;
+}
+
+Kitty::Plugin *Kitty::PluginManager::pluginByFileName(const QString &fileName) const
+{
+  foreach(Plugin *plugin, m_plugins) {
+    if(plugin->fileName() == fileName) {
+      return plugin;
+    }
+  }
+
+  return 0;
+}
 
 void Kitty::PluginManager::load()
 {
@@ -28,36 +115,10 @@ void Kitty::PluginManager::load()
 
   QFileInfoList files = dir.entryInfoList(filter, QDir::Files);
   foreach(const QFileInfo &info, files) {
-    qDebug() << "  Found plugin: " << info.fileName();
-    QLibrary lib(info.absoluteFilePath());
-    pluginInst inst = (pluginInst)lib.resolve("inst");
+    qDebug() << "  Found file: " << info.fileName();
 
-    if(inst) {
-      KittySDK::Plugin *plug = dynamic_cast<KittySDK::Plugin*>(inst(new Kitty::PluginCoreImpl()));
-      if(plug) {
-        if(plug->type() == KittySDK::Plugin::Type) {
-          m_plugins.append(plug);
-        } else if(plug->type() == KittySDK::Protocol::Type) {
-          KittySDK::Protocol *prot = dynamic_cast<KittySDK::Protocol*>(plug);
-          if(prot) {
-            Kitty::ProtocolManager::inst()->add(prot);
-          } else {
-            qWarning() << "Could not cast to protocol for file" << info.fileName();
-          }
-        } else {
-          qWarning() << "Unknown type for file" << info.fileName();
-        }
-      } else {
-        qWarning() << "Could not cast to Plugin for file" << info.fileName();
-      }
-      //plug->applySettings();
-
-      //qDebug() << "  Plugin's name: " << plug->info()->name();
-      //qDebug() << plug->info()->author();
-      //qDebug() << plug->info()->email();
-      //qDebug() << plug->info()->www();
-    } else {
-      qWarning() << "Resolve failed";
-    }
+    Plugin *plug = new Plugin(info.absoluteFilePath());
+    plug->load();
+    m_plugins.append(plug);
   }
 }

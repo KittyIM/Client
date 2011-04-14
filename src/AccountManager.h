@@ -24,6 +24,7 @@ namespace Kitty
       bool add(KittySDK::Account *account);
 
       void load(const QString &profile);
+      void save(const QString &profile);
 
     signals:
       void accountAdded();

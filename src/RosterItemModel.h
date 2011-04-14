@@ -6,6 +6,7 @@
 namespace Kitty
 {
   class RosterItem;
+  class RosterGroup;
   class RosterContact;
 
   class RosterItemModel: public QAbstractItemModel
@@ -17,9 +18,14 @@ namespace Kitty
       ~RosterItemModel();
 
       RosterItem *addGroup(const QString &name);
-      RosterItem *addContact(Kitty::RosterContact *item, RosterItem *parent = 0);
+      void removeGroup(RosterItem *group);
+
+      RosterItem *addContact(RosterContact *item, RosterItem *parent = 0);
       RosterItem *groupItem(const QString &name);
 
+      void moveToGroup(RosterContact *item, const QString &groupName);
+
+      Qt::ItemFlags flags(const QModelIndex &index) const;
       QVariant data(const QModelIndex &index, int role) const;
       QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const;
       QModelIndex parent(const QModelIndex &index) const;

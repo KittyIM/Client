@@ -30,6 +30,7 @@ namespace Kitty
       ~RosterItem();
 
       void appendChild(RosterItem *child);
+      void removeChild(RosterItem *child);
 
       RosterItem *child(int row);
       int childCount() const;

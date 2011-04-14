@@ -16,6 +16,10 @@ namespace Kitty
 
     public slots:
       void fixGroups();
+      void copyName();
+      void copyUid();
+      void copyDescription();
+      void moveToGroup();
 
     private slots:
       void itemExpanded(const QModelIndex &index);

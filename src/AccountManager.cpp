@@ -2,6 +2,7 @@
 
 #include "widgets/windows/MainWindow.h"
 #include "ProtocolManager.h"
+#include "PluginManager.h"
 #include "SDK/constants.h"
 #include "Core.h"
 
@@ -10,6 +11,8 @@
 #include <QtGui/QAction>
 #include <QtXml/QDomDocument>
 #include <QtXml/QDomElement>
+
+using namespace Kitty;
 
 const QList<KittySDK::Account*> &Kitty::AccountManager::accounts() const
 {
@@ -42,7 +45,7 @@ KittySDK::Account *Kitty::AccountManager::account(KittySDK::Protocol *protocol, 
 
 KittySDK::Account *Kitty::AccountManager::account(const QString &protocol, const QString &uid) const
 {
-  KittySDK::Protocol *proto = Kitty::ProtocolManager::inst()->protocolByName(protocol);
+  KittySDK::Protocol *proto = ProtocolManager::inst()->protocolByName(protocol);
   if(proto) {
     foreach(KittySDK::Account *account, accountsByProtocol(proto)) {
       if(account->uid() == uid) {
@@ -67,13 +70,13 @@ bool Kitty::AccountManager::add(KittySDK::Account *account)
   if(account->protocol()->abilities().testFlag(KittySDK::Protocol::ChangeStatus)) {
     QAction *action = new QAction(this);
     action->setText(QString("%1 (%2)").arg(account->uid()).arg(account->protocol()->protoInfo()->protoName()));
-    action->setIcon(Kitty::Core::inst()->icon(account->protocol()->statusIcon(account->status())));
+    action->setIcon(Core::inst()->icon(account->protocol()->statusIcon(account->status())));
     action->setProperty("protocol", account->protocol()->protoInfo()->protoName());
     action->setProperty("uid", account->uid());
-    connect(account, SIGNAL(statusChanged()), Kitty::Core::inst()->mainWindow(), SLOT(updateAccountStatusIcon()));
-    connect(action, SIGNAL(triggered()), Kitty::Core::inst()->mainWindow(), SLOT(showAccountStatusMenu()));
+    connect(account, SIGNAL(statusChanged()), Core::inst()->mainWindow(), SLOT(updateAccountStatusIcon()));
+    connect(action, SIGNAL(triggered()), Core::inst()->mainWindow(), SLOT(showAccountStatusMenu()));
 
-    Kitty::Core::inst()->mainWindow()->addToolbarAction(KittySDK::Toolbars::TB_NETWORKS, action);
+    Core::inst()->mainWindow()->addToolbarAction(KittySDK::Toolbars::TB_NETWORKS, action);
   }
 
   m_accounts.append(account);
@@ -87,7 +90,7 @@ void Kitty::AccountManager::load(const QString &profile)
 {
   qDebug() << "Loading accounts for" << profile;
 
-  QFile file(Kitty::Core::inst()->profilesDir() + profile + "/accounts.xml");
+  QFile file(Core::inst()->profilesDir() + profile + "/accounts.xml");
   if(file.exists()) {
     if(file.open(QIODevice::ReadOnly)) {
       QDomDocument doc;
@@ -104,22 +107,25 @@ void Kitty::AccountManager::load(const QString &profile)
         }
 
         if(settings.contains("protocol")) {
-          KittySDK::Protocol *proto = Kitty::ProtocolManager::inst()->protocolByName(settings.value("protocol").toString());
+          KittySDK::Protocol *proto = ProtocolManager::inst()->protocolByName(settings.value("protocol").toString());
 
           if(proto) {
-            KittySDK::Account *acc = proto->newAccount(settings.value("uid").toString());
-            if(acc) {
-              acc->setPassword(settings.value("password").toString());
+            Plugin *plug = PluginManager::inst()->pluginByName(proto->info()->name());
+            if(plug->isLoaded()) {
+              KittySDK::Account *acc = proto->newAccount(settings.value("uid").toString());
+              if(acc) {
+                acc->setPassword(settings.value("password").toString());
 
-              settings.remove("protocol");
-              settings.remove("uid");
-              settings.remove("password");
+                settings.remove("protocol");
+                settings.remove("uid");
+                settings.remove("password");
 
-              acc->loadSettings(settings);
+                acc->loadSettings(settings);
 
-              add(acc);
-            } else {
-              qWarning() << "Account creation failed" << settings.value("protocol").toString() << settings.value("uid").toString();
+                add(acc);
+              } else {
+                qWarning() << "Account creation failed" << settings.value("protocol").toString() << settings.value("uid").toString();
+              }
             }
           } else {
             qWarning() << "Protocole not found" << settings.value("protocol").toString();
@@ -136,4 +142,43 @@ void Kitty::AccountManager::load(const QString &profile)
   }
 }
 
+void Kitty::AccountManager::save(const QString &profile)
+{
+  qDebug() << "saving accounts for" << profile;
 
+  QDomDocument doc;
+  QDomElement root = doc.createElement("accounts");
+
+  foreach(KittySDK::Account *account, m_accounts) {
+    QDomElement acc = doc.createElement("account");
+
+    QMap<QString, QVariant> settings = account->saveSettings();
+    settings.insert("protocol", account->protocol()->protoInfo()->protoName());
+    settings.insert("uid", account->uid());
+    settings.insert("password", account->password());
+
+    QMapIterator<QString, QVariant> i(settings);
+    while(i.hasNext()) {
+      i.next();
+
+      QDomElement elem = doc.createElement(i.key());
+      elem.appendChild(doc.createTextNode(i.value().toString()));
+      acc.appendChild(elem);
+    }
+
+    root.appendChild(acc);
+  }
+
+  doc.appendChild(root);
+
+  QFile file(Core::inst()->profilesDir() + profile + "/accounts.xml");
+  if(file.open(QIODevice::ReadWrite)) {
+    file.resize(0);
+
+    QTextStream str(&file);
+    str.setCodec("UTF-8");
+    str << doc.toString(2);
+
+    file.close();
+  }
+}

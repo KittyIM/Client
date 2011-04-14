@@ -57,6 +57,10 @@ namespace KittySDK
       enum { Type = 1 };
       virtual int type() const { return Type; }
 
+      virtual void init() { }
+      virtual void load() { }
+      virtual void unload() { }
+
       PluginInfo *info() const { return m_info; }
       PluginCore *core() const { return m_core; }
 

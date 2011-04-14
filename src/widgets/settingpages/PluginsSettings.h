@@ -3,6 +3,8 @@
 
 #include "SDK/SettingPage.h"
 
+class QTreeWidgetItem;
+
 namespace Ui
 {
   class PluginsSettings;
@@ -20,6 +22,9 @@ namespace Kitty
 
       void apply();
       void reset();
+
+    private slots:
+      void on_pluginWidget_currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous);
 
     private:
       Ui::PluginsSettings *m_ui;

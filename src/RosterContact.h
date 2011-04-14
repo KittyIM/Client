@@ -25,4 +25,4 @@ namespace Kitty
   };
 }
 
-#endif // KITTY_ROSTERCONTACT_H
+#endif // ROSTERCONTACT_H

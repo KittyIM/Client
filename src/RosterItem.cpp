@@ -18,6 +18,11 @@ void Kitty::RosterItem::appendChild(RosterItem *item)
   m_children.append(item);
 }
 
+void Kitty::RosterItem::removeChild(RosterItem *item)
+{
+  m_children.removeAll(item);
+}
+
 Kitty::RosterItem *Kitty::RosterItem::child(int row)
 {
   return m_children.value(row);

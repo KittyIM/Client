@@ -35,6 +35,9 @@ Kitty::Profile::~Profile()
 {
   if(isLoaded()) {
     settings()->setValue(Settings::S_DEBUGWINDOW_GEOMETRY, DebugWindow::inst()->saveGeometry());
+
+    AccountManager::inst()->save(m_name);
+    ContactManager::inst()->save(m_name);
   }
 }
 

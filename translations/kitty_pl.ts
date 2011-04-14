@@ -127,7 +127,7 @@
 <context>
     <name>Kitty::MainWindow</name>
     <message>
-        <location filename="../src/widgets/windows/MainWindow.cpp" line="127"/>
+        <location filename="../src/widgets/windows/MainWindow.cpp" line="135"/>
         <source>User</source>
         <translation>Użytkownik</translation>
     </message>
@@ -1063,57 +1063,57 @@
 <context>
     <name>Kitty::RosterTreeView</name>
     <message>
-        <location filename="../src/widgets/RosterTreeView.cpp" line="34"/>
+        <location filename="../src/widgets/RosterTreeView.cpp" line="64"/>
         <source>Send message</source>
         <translation>Wyślij wiadomość</translation>
     </message>
     <message>
-        <location filename="../src/widgets/RosterTreeView.cpp" line="37"/>
+        <location filename="../src/widgets/RosterTreeView.cpp" line="67"/>
         <source>History</source>
         <translation>Historia</translation>
     </message>
     <message>
-        <location filename="../src/widgets/RosterTreeView.cpp" line="38"/>
+        <location filename="../src/widgets/RosterTreeView.cpp" line="68"/>
         <source>vCard</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/widgets/RosterTreeView.cpp" line="41"/>
+        <location filename="../src/widgets/RosterTreeView.cpp" line="71"/>
         <source>Copy</source>
         <translation>Kopiuj</translation>
     </message>
     <message>
-        <location filename="../src/widgets/RosterTreeView.cpp" line="42"/>
+        <location filename="../src/widgets/RosterTreeView.cpp" line="72"/>
         <source>Name</source>
         <translation>Nazwa</translation>
     </message>
     <message>
-        <location filename="../src/widgets/RosterTreeView.cpp" line="43"/>
+        <location filename="../src/widgets/RosterTreeView.cpp" line="73"/>
         <source>UID</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/widgets/RosterTreeView.cpp" line="44"/>
+        <location filename="../src/widgets/RosterTreeView.cpp" line="74"/>
         <source>Status description</source>
         <translation>Opis</translation>
     </message>
     <message>
-        <location filename="../src/widgets/RosterTreeView.cpp" line="46"/>
+        <location filename="../src/widgets/RosterTreeView.cpp" line="76"/>
         <source>Group</source>
         <translation>Grupa</translation>
     </message>
     <message>
-        <location filename="../src/widgets/RosterTreeView.cpp" line="47"/>
+        <location filename="../src/widgets/RosterTreeView.cpp" line="77"/>
         <source>None</source>
         <translation>Brak</translation>
     </message>
     <message>
-        <location filename="../src/widgets/RosterTreeView.cpp" line="61"/>
+        <location filename="../src/widgets/RosterTreeView.cpp" line="91"/>
         <source>Block</source>
         <translation>Zablokuj</translation>
     </message>
     <message>
-        <location filename="../src/widgets/RosterTreeView.cpp" line="64"/>
+        <location filename="../src/widgets/RosterTreeView.cpp" line="94"/>
         <source>Remove</source>
         <translation>Usuń</translation>
     </message>

@@ -3,6 +3,8 @@
 
 #include "SDK/SettingPage.h"
 
+class QTreeWidgetItem;
+
 namespace Ui
 {
   class AccountsSettings;
@@ -25,8 +27,11 @@ namespace Kitty
       void refreshAccounts();
       void addAccount();
       void on_addButton_clicked();
+      void on_treeWidget_currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous);
 
-    private:
+      void on_editButton_clicked();
+
+  private:
       Ui::AccountsSettings *m_ui;
   };
 }

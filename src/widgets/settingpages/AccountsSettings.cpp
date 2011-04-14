@@ -55,6 +55,7 @@ void Kitty::AccountsSettings::addAccount()
   QAction *action = qobject_cast<QAction*>(sender());
   KittySDK::Protocol *proto = Kitty::ProtocolManager::inst()->protocolByName(action->text());
   if(proto) {
+    proto->editWindow()->setWindowModality(Qt::ApplicationModal);
     proto->editWindow()->show();
   } else {
     qWarning() << "Invalid protocol" << action->text();
@@ -75,4 +76,29 @@ void Kitty::AccountsSettings::on_addButton_clicked()
   }
 
   menu.exec(m_ui->addButton->mapToGlobal(QPoint(0, m_ui->addButton->height())));
+}
+
+void Kitty::AccountsSettings::on_treeWidget_currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous)
+{
+  m_ui->editButton->setEnabled(current != 0);
+  m_ui->deleteButton->setEnabled(current != 0);
+}
+
+void Kitty::AccountsSettings::on_editButton_clicked()
+{
+  QList<QTreeWidgetItem*> list = m_ui->treeWidget->selectedItems();
+  if(list.size() > 0) {
+    KittySDK::Protocol *proto = Kitty::ProtocolManager::inst()->protocolByName(list.first()->text(1));
+    if(proto) {
+      KittySDK::Account *acc = Kitty::AccountManager::inst()->account(proto, list.first()->text(0));
+      if(acc) {
+        proto->editWindow(acc)->setWindowModality(Qt::ApplicationModal);
+        proto->editWindow(acc)->show();
+      } else {
+        qWarning() << "Account not found" << list.first()->text(0) << list.first()->text(1);
+      }
+    } else {
+      qWarning() << "Protocol not found" << list.first()->text(1);
+    }
+  }
 }

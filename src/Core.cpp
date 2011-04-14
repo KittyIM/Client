@@ -7,6 +7,9 @@
 #include "widgets/windows/AboutWindow.h"
 #include "widgets/windows/ChatWindow.h"
 #include "widgets/windows/MainWindow.h"
+#include "ProtocolManager.h"
+#include "AccountManager.h"
+#include "ContactManager.h"
 #include "PluginManager.h"
 #include "ActionManager.h"
 #include "SDK/constants.h"
@@ -76,6 +79,12 @@ Kitty::Core::~Core()
   if(m_profile) {
     delete m_profile;
   }
+
+  ContactManager::destr();
+  AccountManager::destr();
+
+  ProtocolManager::destr();
+  PluginManager::destr();
 
   DebugWindow::destroy();
 }

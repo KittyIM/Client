@@ -1,6 +1,7 @@
 #include "RosterContact.h"
 
 #include "SDK/Contact.h"
+#include "Profile.h"
 #include "Core.h"
 
 Kitty::RosterContact::RosterContact(KittySDK::Contact *contact, RosterItem *parent): RosterItem(parent), m_contact(contact)
@@ -35,8 +36,12 @@ QVariant Kitty::RosterContact::data(int role) const
       return m_contact->description();
     break;
 
+    /*case RosterItem::AvatarRole:
+      return Core::inst()->profilesDir() + Core::inst()->profile()->name() + "/avatars/avatar_" + m_contact->uid() + ".png";
+    break;*/
+
     case Qt::ToolTipRole:
-    return QString("<b>%1</b><br>Account: %2<br>Uid: %3<br>Group: %4").arg(data(Qt::DisplayRole).toString()).arg(data(RosterItem::AccountRole).toString()).arg(data(RosterItem::UidRole).toString()).arg("");
+      return QString("<b>%1</b><br>Account: %2<br>Uid: %3<br>Group: %4").arg(data(Qt::DisplayRole).toString()).arg(data(RosterItem::AccountRole).toString()).arg(data(RosterItem::UidRole).toString()).arg("");
     break;
 
     default:
