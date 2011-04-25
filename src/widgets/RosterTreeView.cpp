@@ -47,18 +47,36 @@ void Kitty::RosterTreeView::fixGroups()
 void Kitty::RosterTreeView::copyName()
 {
   QModelIndexList list = selectedIndexes();
+  RosterSortProxy* proxy = static_cast<RosterSortProxy*>(model());
+  QString names;
+
+  foreach(QModelIndex index, list) {
+    QModelIndex ind = proxy->mapToSource(index);
+    names += ind.data().toString() + ", ";
+  }
+
+  names.chop(2);
+
   if(list.size() > 0) {
-    QModelIndex index = static_cast<RosterSortProxy*>(model())->mapToSource(list.first());
-    qApp->clipboard()->setText(index.data().toString());
+    qApp->clipboard()->setText(names);
   }
 }
 
 void Kitty::RosterTreeView::copyUid()
 {
   QModelIndexList list = selectedIndexes();
+  RosterSortProxy* proxy = static_cast<RosterSortProxy*>(model());
+  QString uids;
+
+  foreach(QModelIndex index, list) {
+    QModelIndex ind = proxy->mapToSource(index);
+    uids += ind.data(RosterItem::UidRole).toString() + ", ";
+  }
+
+  uids.chop(2);
+
   if(list.size() > 0) {
-    QModelIndex index = static_cast<RosterSortProxy*>(model())->mapToSource(list.first());
-    qApp->clipboard()->setText(index.data(RosterItem::UidRole).toString());
+    qApp->clipboard()->setText(uids);
   }
 }
 

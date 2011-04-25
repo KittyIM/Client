@@ -36,9 +36,9 @@ QVariant Kitty::RosterContact::data(int role) const
       return m_contact->description();
     break;
 
-    /*case RosterItem::AvatarRole:
+    case RosterItem::AvatarRole:
       return Core::inst()->profilesDir() + Core::inst()->profile()->name() + "/avatars/avatar_" + m_contact->uid() + ".png";
-    break;*/
+    break;
 
     case Qt::ToolTipRole:
       return QString("<b>%1</b><br>Account: %2<br>Uid: %3<br>Group: %4").arg(data(Qt::DisplayRole).toString()).arg(data(RosterItem::AccountRole).toString()).arg(data(RosterItem::UidRole).toString()).arg("");

@@ -20,6 +20,39 @@
     </property>
     <item row="0" column="0">
      <widget class="Kitty::RosterTreeView" name="rosterTreeView">
+      <property name="styleSheet">
+       <string notr="true">QTreeView {
+  color: #000000;
+  selection-color: #000000;
+}
+
+QTreeView::item {
+  background-color: transparent;
+  border: 1px solid transparent;
+}
+
+QTreeView::item:selected {
+  border: 1px solid #329afb;
+  background-color: #329afb;
+}
+
+QTreeView::item:selected:!active {
+  border: 1px solid #e6e6e6;
+  background-color: #e6e6e6;
+}
+
+QTreeView::item:has-children {
+  background-color: #f4f4f4;
+  border: 1px solid #e6e6e6;
+}
+
+QTreeView::item:has-children:selected {
+  background-color: #c8c8c8;
+  border: 1px solid #b9b9b9;
+}
+
+</string>
+      </property>
       <property name="frameShape">
        <enum>QFrame::NoFrame</enum>
       </property>

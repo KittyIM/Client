@@ -25,7 +25,7 @@ namespace Kitty
 
       void moveToGroup(RosterContact *item, const QString &groupName);
 
-      Qt::ItemFlags flags(const QModelIndex &index) const;
+      //Qt::ItemFlags flags(const QModelIndex &index) const;
       QVariant data(const QModelIndex &index, int role) const;
       QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const;
       QModelIndex parent(const QModelIndex &index) const;

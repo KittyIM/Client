@@ -93,7 +93,7 @@ int Kitty::RosterItemModel::columnCount(const QModelIndex &parent) const
   return 1;
 }
 
-Qt::ItemFlags Kitty::RosterItemModel::flags(const QModelIndex &index) const
+/*Qt::ItemFlags Kitty::RosterItemModel::flags(const QModelIndex &index) const
 {
   Qt::ItemFlags basic = Qt::ItemIsEnabled | Qt::ItemIsSelectable;
 
@@ -103,7 +103,7 @@ Qt::ItemFlags Kitty::RosterItemModel::flags(const QModelIndex &index) const
   } else {
     return basic | Qt::ItemIsDropEnabled;
   }
-}
+}*/
 
 QVariant Kitty::RosterItemModel::data(const QModelIndex &index, int role) const
 {

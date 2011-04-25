@@ -7,7 +7,6 @@
 #include "AccountManager.h"
 #include "SDK/constants.h"
 #include "RosterContact.h"
-#include "RosterTheme.h"
 #include "constants.h"
 #include "Profile.h"
 #include "Core.h"

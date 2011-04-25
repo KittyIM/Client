@@ -42,7 +42,6 @@ SOURCES    += main.cpp \
               RosterItemDelegate.cpp \
               RosterItem.cpp \
               widgets/RosterTreeView.cpp \
-              RosterTheme.cpp \
               ProtocolManager.cpp \
               ContactManager.cpp \
     AccountManager.cpp \
@@ -95,7 +94,6 @@ HEADERS    += constants.h \
               RosterItemDelegate.h \
               RosterItem.h \
               widgets/RosterTreeView.h \
-              RosterTheme.h \
               AbstractTheme.h \
               ProtocolManager.h \
               ContactManager.h \
