@@ -15,7 +15,7 @@ namespace Kitty
   class ProfilesWindow;
   class SettingsWindow;
   class AboutWindow;
-  class XmlSettings;
+  class JsonSettings;
   class ChatWindow;
   class MainWindow;
   class Profile;
@@ -47,7 +47,7 @@ namespace Kitty
       QSystemTrayIcon *trayIcon();
       Profile *profile();
       Hunspell *hunspell();
-      XmlSettings *settings();
+      JsonSettings *settings();
 
       QString profilesDir() const;
 

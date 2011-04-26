@@ -10,7 +10,7 @@
 #include "ActionManager.h"
 #include "PluginManager.h"
 #include "IconManager.h"
-#include "XmlSettings.h"
+#include "JsonSettings.h"
 #include "IconTheme.h"
 #include "Core.h"
 #include "App.h"
@@ -46,7 +46,7 @@ void Kitty::Profile::load(const QString &name)
   Kitty::Core *core = Kitty::Core::inst();
 
   m_name = name;
-  m_settings = new XmlSettings(core->profilesDir() + name + "/settings.xml", this);
+  m_settings = new JsonSettings(core->profilesDir() + name + "/settings.json", this);
 
   if(m_settings->contains(Settings::S_ICON_THEME)) {
     loadIconTheme(settings()->value(Settings::S_ICON_THEME).toString());

@@ -127,7 +127,7 @@
 <context>
     <name>Kitty::MainWindow</name>
     <message>
-        <location filename="../src/widgets/windows/MainWindow.cpp" line="135"/>
+        <location filename="../src/widgets/windows/MainWindow.cpp" line="134"/>
         <source>User</source>
         <translation type="unfinished"></translation>
     </message>
@@ -847,61 +847,61 @@
     <name>PluginsSettings</name>
     <message>
         <location filename="../src/widgets/settingpages/PluginsSettings.ui"/>
-        <location filename="../src/ui_PluginsSettings.h" line="131"/>
+        <location filename="../src/ui_PluginsSettings.h" line="133"/>
         <source>Plugins</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/PluginsSettings.ui"/>
-        <location filename="../src/ui_PluginsSettings.h" line="137"/>
+        <location filename="../src/ui_PluginsSettings.h" line="139"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/PluginsSettings.ui"/>
-        <location filename="../src/ui_PluginsSettings.h" line="136"/>
+        <location filename="../src/ui_PluginsSettings.h" line="138"/>
         <source>Version</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/PluginsSettings.ui"/>
-        <location filename="../src/ui_PluginsSettings.h" line="135"/>
+        <location filename="../src/ui_PluginsSettings.h" line="137"/>
         <source>Filename</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/PluginsSettings.ui"/>
-        <location filename="../src/ui_PluginsSettings.h" line="134"/>
+        <location filename="../src/ui_PluginsSettings.h" line="136"/>
         <source>State</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/PluginsSettings.ui"/>
-        <location filename="../src/ui_PluginsSettings.h" line="138"/>
+        <location filename="../src/ui_PluginsSettings.h" line="140"/>
         <source>Plugin info</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/PluginsSettings.ui"/>
-        <location filename="../src/ui_PluginsSettings.h" line="139"/>
+        <location filename="../src/ui_PluginsSettings.h" line="141"/>
         <source>Name:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/PluginsSettings.ui"/>
-        <location filename="../src/ui_PluginsSettings.h" line="140"/>
+        <location filename="../src/ui_PluginsSettings.h" line="142"/>
         <source>Version:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/PluginsSettings.ui"/>
-        <location filename="../src/ui_PluginsSettings.h" line="141"/>
+        <location filename="../src/ui_PluginsSettings.h" line="143"/>
         <source>Author:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/PluginsSettings.ui"/>
-        <location filename="../src/ui_PluginsSettings.h" line="142"/>
+        <location filename="../src/ui_PluginsSettings.h" line="144"/>
         <source>WWW:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1055,7 +1055,7 @@
 <context>
     <name>Kitty::AccountsSettings</name>
     <message>
-        <location filename="../src/widgets/settingpages/AccountsSettings.cpp" line="74"/>
+        <location filename="../src/widgets/settingpages/AccountsSettings.cpp" line="75"/>
         <source>No protocols available</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1063,58 +1063,86 @@
 <context>
     <name>Kitty::RosterTreeView</name>
     <message>
-        <location filename="../src/widgets/RosterTreeView.cpp" line="64"/>
+        <location filename="../src/widgets/RosterTreeView.cpp" line="104"/>
+        <source>Add new group</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/RosterTreeView.cpp" line="104"/>
+        <source>Choose a new for the new group:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/RosterTreeView.cpp" line="141"/>
         <source>Send message</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/RosterTreeView.cpp" line="67"/>
+        <location filename="../src/widgets/RosterTreeView.cpp" line="144"/>
         <source>History</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/RosterTreeView.cpp" line="68"/>
+        <location filename="../src/widgets/RosterTreeView.cpp" line="145"/>
         <source>vCard</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/RosterTreeView.cpp" line="71"/>
+        <location filename="../src/widgets/RosterTreeView.cpp" line="148"/>
         <source>Copy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/RosterTreeView.cpp" line="72"/>
+        <location filename="../src/widgets/RosterTreeView.cpp" line="149"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/RosterTreeView.cpp" line="73"/>
+        <location filename="../src/widgets/RosterTreeView.cpp" line="150"/>
         <source>UID</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/RosterTreeView.cpp" line="74"/>
+        <location filename="../src/widgets/RosterTreeView.cpp" line="151"/>
         <source>Status description</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/RosterTreeView.cpp" line="76"/>
+        <location filename="../src/widgets/RosterTreeView.cpp" line="153"/>
         <source>Group</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/RosterTreeView.cpp" line="77"/>
+        <location filename="../src/widgets/RosterTreeView.cpp" line="154"/>
         <source>None</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/RosterTreeView.cpp" line="91"/>
+        <location filename="../src/widgets/RosterTreeView.cpp" line="183"/>
+        <source>Add new</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/RosterTreeView.cpp" line="191"/>
         <source>Block</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/RosterTreeView.cpp" line="94"/>
+        <location filename="../src/widgets/RosterTreeView.cpp" line="195"/>
         <source>Remove</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Kitty::PluginsSettings</name>
+    <message>
+        <location filename="../src/widgets/settingpages/PluginsSettings.cpp" line="43"/>
+        <source>Loaded</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/settingpages/PluginsSettings.cpp" line="43"/>
+        <source>Not loaded</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

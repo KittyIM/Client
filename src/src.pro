@@ -11,7 +11,6 @@ SOURCES    += main.cpp \
               Core.cpp \
               IconManager.cpp \
               Profile.cpp \
-              XmlSettings.cpp \
               IconTheme.cpp \
               PluginManager.cpp \
               PluginCoreImpl.cpp \
@@ -47,7 +46,9 @@ SOURCES    += main.cpp \
     AccountManager.cpp \
     RosterContact.cpp \
     RosterSortProxy.cpp \
-    RosterGroup.cpp
+    RosterGroup.cpp \
+    JsonSettings.cpp \
+    3rdparty/json/json.cpp
 
 HEADERS    += constants.h \
               SDK/constants.h \
@@ -62,7 +63,6 @@ HEADERS    += constants.h \
               IconManager.h \
               Profile.h \
               IconTheme.h \
-              XmlSettings.h \
               widgets/windows/ChatWindow.h \
               widgets/windows/DebugWindow.h \
               widgets/windows/MainWindow.h \
@@ -102,7 +102,9 @@ HEADERS    += constants.h \
     SDK/Contact.h \
     RosterContact.h \
     RosterSortProxy.h \
-    RosterGroup.h
+    RosterGroup.h \
+    JsonSettings.h \
+    3rdparty/json/json.h
 
 FORMS      += widgets/windows/DebugWindow.ui \
               widgets/windows/MainWindow.ui \

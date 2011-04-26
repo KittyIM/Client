@@ -13,7 +13,7 @@
 #include "PluginManager.h"
 #include "ActionManager.h"
 #include "SDK/constants.h"
-#include "XmlSettings.h"
+#include "JsonSettings.h"
 #include "IconManager.h"
 #include "constants.h"
 #include "Profile.h"
@@ -224,7 +224,7 @@ Hunspell *Kitty::Core::hunspell()
   return m_hunspell;
 }
 
-Kitty::XmlSettings *Kitty::Core::settings()
+Kitty::JsonSettings *Kitty::Core::settings()
 {
   return profile()->settings();
 }

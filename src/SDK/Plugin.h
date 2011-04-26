@@ -12,6 +12,7 @@ class QWidget;
 namespace KittySDK
 {
   class Account;
+  class Message;
 
   class PluginInfo
   {
@@ -67,6 +68,7 @@ namespace KittySDK
     public slots:
       virtual void applySettings() { }
       virtual void updateIcons() { }
+      virtual void receiveMessage(const Message &msg) { }
 
     protected:
       PluginInfo *m_info;

@@ -36,10 +36,10 @@ namespace KittySDK
       void setDescription(const QString &description) { m_description = description; }
 
       KittySDK::Account *account() const { return m_account; }
+      KittySDK::Protocol *protocol() const { return m_account->protocol(); }
 
     signals:
       void statusChanged(KittySDK::Protocol::Status status, const QString &description);
-      void messageReceived(KittySDK::Message *msg);
 
     public slots:
       virtual void prepareContextMenu(QMenu *menu) { }

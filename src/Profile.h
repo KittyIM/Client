@@ -6,7 +6,7 @@
 
 namespace Kitty
 {
-  class XmlSettings;
+  class JsonSettings;
 
   class Profile: public QObject
   {
@@ -20,12 +20,12 @@ namespace Kitty
       void loadIconTheme(const QString &name);
 
       QString name() const { return m_name; }
-      XmlSettings *settings() const { return m_settings; }
+      JsonSettings *settings() const { return m_settings; }
       bool isLoaded() const { return !m_name.isEmpty(); }
 
     private:
       QString m_name;
-      XmlSettings *m_settings;
+      JsonSettings *m_settings;
   };
 }
 

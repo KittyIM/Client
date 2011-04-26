@@ -1,101 +1,102 @@
-#include "XmlSettings.h"
+#include "JsonSettings.h"
+
+#include "3rdparty/json/json.h"
 
 #include <QtCore/QStringList>
 #include <QtCore/QDebug>
 #include <QtCore/QPoint>
 #include <QtCore/QRect>
 #include <QtCore/QSize>
-#include <QtXml/QDomDocument>
-#include <QtXml/QDomElement>
 
-QSettings::Format Kitty::XmlSettings::xmlFormat = QSettings::registerFormat("xml", XmlSettings::xmlRead, XmlSettings::xmlWrite);
+QSettings::Format Kitty::JsonSettings::jsonFormat = QSettings::registerFormat("json", jsonRead, jsonWrite);
 
-Kitty::XmlSettings::XmlSettings(const QString &fileName, QObject *parent): QSettings(fileName, XmlSettings::xmlFormat, parent)
+Kitty::JsonSettings::JsonSettings(const QString &fileName, QObject *parent): QSettings(fileName, JsonSettings::jsonFormat, parent)
 {
   qDebug() << "XmlSettings loading" << fileName;
 }
 
-void Kitty::XmlSettings::readElement(SettingsMap &map, const QDomElement &root, const QString &name)
+void Kitty::JsonSettings::readMap(SettingsMap &map, const QVariant &root, const QString &name)
 {
-  QDomNodeList children = root.childNodes();
-  for(int i = 0; i < children.count(); i++) {
-    QDomNode child = children.at(i);
+  if(root.type() == QVariant::Map) {
+    QVariantMap vmap = root.toMap();
+    QMapIterator<QString, QVariant> it(vmap);
+    while(it.hasNext()) {
+      it.next();
 
-    if(child.isCDATASection()) {
-      map.insert(name, XmlSettings::stringToVariant(child.nodeValue()));
-    } else if(child.isElement()) {
       QString newName = name;
       if(!newName.isEmpty()) {
         newName.append(".");
       }
-      newName.append(child.nodeName());
 
-      readElement(map, child.toElement(), newName);
+      newName.append(it.key());
+
+      readMap(map, it.value(), newName);
     }
+  } else {
+    map.insert(name, stringToVariant(root.toString()));
   }
 }
 
-bool Kitty::XmlSettings::xmlRead(QIODevice &device, SettingsMap &map)
+void Kitty::JsonSettings::writeMap(QVariant &root, const QString &key, const QVariant &value)
 {
-  qDebug() << "XMLSettings reading";
+  int pos = key.indexOf('.');
 
-  QDomDocument doc;
-  doc.setContent(&device);
+  if(pos < 0) {
+    QVariantMap map = root.toMap();
+    map.insert(key, variantToString(value));
+    root = map;
 
-  QDomElement root = doc.documentElement();
-  if(root.nodeName() != "settings") {
-    qWarning() << "Root's name is not settings";
-    return false;
+    return;
   }
 
-  readElement(map, root, "");
+  QString groupName = key.left(pos);
+
+  QVariantMap map = root.toMap();
+  QVariant item = map.value(groupName);
+  writeMap(item, key.mid(pos + 1), value);
+  map.insert(groupName, item);
+
+  root = map;
+}
+
+bool Kitty::JsonSettings::jsonRead(QIODevice &device, SettingsMap &map)
+{
+  qDebug() << "XMLSettings json reading";
+
+  QVariant vmap = Json::parse(device.readAll());
+  readMap(map, vmap, "");
 
   qDebug() << "  Read" << map.count() << "positions";
 
   return true;
 }
 
-bool Kitty::XmlSettings::xmlWrite(QIODevice &device, const SettingsMap &map)
+bool Kitty::JsonSettings::jsonWrite(QIODevice &device, const SettingsMap &map)
 {
-  qDebug() << "XMLSettings writing";
+  qDebug() << "XMLSettings json writing";
 
-  QDomDocument doc;
-
-  QDomElement root = doc.createElement("settings");
+  QVariant vmap;
 
   QMapIterator<QString, QVariant> i(map);
   while(i.hasNext()) {
     i.next();
 
-    QString key = i.key();
-    QStringList parts = key.replace("/", ".").split(".");
-    QDomElement elem = root;
-    foreach(QString part, parts) {
-      if(elem.firstChildElement(part).isNull()) {
-        elem.appendChild(doc.createElement(part));
-      }
-
-      elem = elem.firstChildElement(part);
-    }
-
-    elem.appendChild(doc.createCDATASection(XmlSettings::variantToString(i.value())));
+    writeMap(vmap, i.key(), i.value());
   }
 
-  doc.appendChild(root);
-
-  QString xml = doc.toString(2);
+  QString json = Json::stringify(vmap);
 
   QTextStream str(&device);
   str.setCodec("UTF-8");
-  str << xml;
+  str << json;
 
-  qDebug() << "Wrote" << map.count() << "positions," << xml.count() << "bytes";
+  qDebug() << "Wrote" << map.count() << "positions," << json.count() << "bytes";
 
   return true;
 }
 
 // This function is taken from Qt's qsettings.cpp (except QByteArrays are saved in Base64)
-QString Kitty::XmlSettings::variantToString(const QVariant &v)
+QString Kitty::JsonSettings::variantToString(const QVariant &v)
 {
   QString result;
 
@@ -188,7 +189,7 @@ QString Kitty::XmlSettings::variantToString(const QVariant &v)
 }
 
 // This function is taken from Qt's qsettings.cpp (except QByteArrays are saved in Base64)
-QVariant Kitty::XmlSettings::stringToVariant(const QString &s)
+QVariant Kitty::JsonSettings::stringToVariant(const QString &s)
 {
   if(s.startsWith(QLatin1Char('@'))) {
     if(s.endsWith(QLatin1Char(')'))) {
@@ -206,17 +207,17 @@ QVariant Kitty::XmlSettings::stringToVariant(const QString &s)
 
 #ifndef QT_NO_GEOM_VARIANT
       } else if(s.startsWith(QLatin1String("@Rect("))) {
-        QStringList args = XmlSettings::splitArgs(s, 5);
+        QStringList args = JsonSettings::splitArgs(s, 5);
         if(args.size() == 4) {
           return QVariant(QRect(args[0].toInt(), args[1].toInt(), args[2].toInt(), args[3].toInt()));
         }
       } else if(s.startsWith(QLatin1String("@Size("))) {
-        QStringList args = XmlSettings::splitArgs(s, 5);
+        QStringList args = JsonSettings::splitArgs(s, 5);
         if(args.size() == 2) {
           return QVariant(QSize(args[0].toInt(), args[1].toInt()));
         }
       } else if(s.startsWith(QLatin1String("@Point("))) {
-        QStringList args = XmlSettings::splitArgs(s, 6);
+        QStringList args = JsonSettings::splitArgs(s, 6);
         if(args.size() == 2) {
           return QVariant(QPoint(args[0].toInt(), args[1].toInt()));
         }
@@ -235,7 +236,7 @@ QVariant Kitty::XmlSettings::stringToVariant(const QString &s)
 }
 
 // This function is taken from Qt's qsettings.cpp
-QStringList Kitty::XmlSettings::splitArgs(const QString &s, int idx)
+QStringList Kitty::JsonSettings::splitArgs(const QString &s, int idx)
 {
   int l = s.length();
   QStringList result;

@@ -2,7 +2,7 @@
 
 #include "widgets/windows/DebugWindow.h"
 #include "SDK/constants.h"
-#include "XmlSettings.h"
+#include "JsonSettings.h"
 #include "Profile.h"
 #include "Core.h"
 
@@ -59,7 +59,7 @@ Kitty::App::App(int &argc, char **argv): QApplication(argc, argv)
 
   //TODO: When only 1 profile with no password exists, skip profile selection
   if(!profile.isEmpty()) {
-    Kitty::XmlSettings set(Kitty::Core::inst()->profilesDir() + profile + "/settings.xml");
+    Kitty::JsonSettings set(Kitty::Core::inst()->profilesDir() + profile + "/settings.json");
     bool hasPassword = !set.value(KittySDK::Settings::S_PROFILE_PASSWORD).toString().isEmpty();
 
     if(!hasPassword) {
