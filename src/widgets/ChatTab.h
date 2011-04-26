@@ -6,6 +6,11 @@
 class QToolBar;
 class QAction;
 
+namespace KittySDK
+{
+  class Chat;
+}
+
 namespace Ui
 {
   class ChatTab;
@@ -18,27 +23,24 @@ namespace Kitty
     Q_OBJECT
 
     public:
-      explicit ChatTab(QWidget *parent = 0);
+      ChatTab(KittySDK::Chat *chat, QWidget *parent = 0);
       ~ChatTab();
+
+      KittySDK::Chat *chat() const { return m_chat; }
 
     public slots:
       void updateIcons();
+
+    private slots:
+      void sendMessage();
 
     protected:
       void changeEvent(QEvent *event);
 
     private:
       Ui::ChatTab *m_ui;
+      KittySDK::Chat *m_chat;
       QToolBar *m_toolBar;
-      QAction *m_boldAction;
-      QAction *m_italicAction;
-      QAction *m_underlineAction;
-      QAction *m_colorAction;
-      QAction *m_smileyAction;
-      QAction *m_imageAction;
-      QAction *m_fileAction;
-      QAction *m_profileAction;
-      QAction *m_historyAction;
   };
 }
 

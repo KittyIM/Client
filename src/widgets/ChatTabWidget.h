@@ -3,6 +3,11 @@
 
 #include <QtGui/QTabWidget>
 
+namespace KittySDK
+{
+  class Chat;
+}
+
 namespace Kitty
 {
   class ChatTabWidget: public QTabWidget
@@ -11,6 +16,8 @@ namespace Kitty
 
     public:
       explicit ChatTabWidget(QWidget *parent = 0);
+
+      void switchTo(KittySDK::Chat *chat);
 
     protected:
       void tabRemoved(int index);

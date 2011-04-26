@@ -7,6 +7,7 @@
 #include "ContactManager.h"
 #include "RosterContact.h"
 #include "SDK/constants.h"
+#include "ChatManager.h"
 #include "SDK/Contact.h"
 #include "RosterItem.h"
 #include "Core.h"
@@ -40,6 +41,22 @@ void Kitty::RosterTreeView::fixGroups()
     QModelIndex index = model()->index(i, 0, root);
     if(index.data(RosterItem::TypeRole).toInt() == RosterItem::Group) {
       setExpanded(index, index.data(RosterItem::ExpandedRole).toBool());
+    }
+  }
+}
+
+void Kitty::RosterTreeView::sendMessage()
+{
+  QModelIndexList list = selectedIndexes();
+
+  foreach(QModelIndex in, list) {
+    RosterSortProxy *proxy = static_cast<RosterSortProxy*>(model());
+
+    QModelIndex index = proxy->mapToSource(in);
+    if(index.data(RosterItem::TypeRole) == RosterItem::Contact) {
+      RosterContact *cnt = static_cast<RosterContact*>(index.internalPointer());
+
+      ChatManager::inst()->startChat(cnt->contact()->account(), QList<KittySDK::Contact*>() << cnt->contact());
     }
   }
 }
@@ -138,7 +155,7 @@ void Kitty::RosterTreeView::mousePressEvent(QMouseEvent *event)
         RosterContact *cnt = static_cast<RosterContact*>(index.internalPointer());
         if(cnt) {
           QMenu menu(this);
-          menu.addAction(Core::inst()->icon(KittySDK::Icons::I_MESSAGE), tr("Send message"));
+          menu.addAction(Core::inst()->icon(KittySDK::Icons::I_MESSAGE), tr("Send message"), this, SLOT(sendMessage()));
           menu.addSeparator();
 
           menu.addAction(Core::inst()->icon(KittySDK::Icons::I_HISTORY), tr("History"));
@@ -201,4 +218,11 @@ void Kitty::RosterTreeView::mousePressEvent(QMouseEvent *event)
       }
     }
   }
+}
+
+void Kitty::RosterTreeView::mouseDoubleClickEvent(QMouseEvent *event)
+{
+  sendMessage();
+
+  QTreeView::mouseDoubleClickEvent(event);
 }

@@ -91,10 +91,10 @@ void Kitty::AccountManager::load(const QString &profile)
 {
   qDebug() << "Loading accounts for" << profile;
 
-  QFile file(Core::inst()->profilesDir() + profile + "/accounts.json");
+  QFile file(Core::inst()->profilesDir() + profile + "/accounts.dat");
   if(file.exists()) {
     if(file.open(QIODevice::ReadOnly)) {
-      QVariantMap map = Json::parse(file.readAll()).toMap();
+      QVariantMap map = Json::parse(qUncompress(file.readAll())).toMap();
       if(map.contains("accounts")) {
         QVariantList list = map.value("accounts").toList();
         foreach(QVariant item, list) {
@@ -165,14 +165,10 @@ void Kitty::AccountManager::save(const QString &profile)
   QVariantMap map;
   map.insert("accounts", list);
 
-  QFile file(Core::inst()->profilesDir() + profile + "/accounts.json");
+  QFile file(Core::inst()->profilesDir() + profile + "/accounts.dat");
   if(file.open(QIODevice::ReadWrite)) {
     file.resize(0);
-
-    QTextStream str(&file);
-    str.setCodec("UTF-8");
-    str << Json::stringify(map);
-
+    file.write(qCompress(Json::stringify(map).toAscii()));
     file.close();
   }
 }

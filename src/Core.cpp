@@ -14,6 +14,7 @@
 #include "ActionManager.h"
 #include "SDK/constants.h"
 #include "JsonSettings.h"
+#include "ChatManager.h"
 #include "IconManager.h"
 #include "constants.h"
 #include "Profile.h"
@@ -80,6 +81,7 @@ Kitty::Core::~Core()
     delete m_profile;
   }
 
+  ChatManager::destr();
   ContactManager::destr();
   AccountManager::destr();
 

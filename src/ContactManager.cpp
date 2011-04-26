@@ -22,10 +22,10 @@ void Kitty::ContactManager::load(const QString &profile)
 {
   qDebug() << "Loading contacts for" << profile;
 
-  QFile file(Kitty::Core::inst()->profilesDir() + profile + "/contacts.json");
+  QFile file(Kitty::Core::inst()->profilesDir() + profile + "/contacts.dat");
   if(file.exists()) {
     if(file.open(QIODevice::ReadOnly)) {
-      QVariantMap map = Json::parse(file.readAll()).toMap();
+      QVariantMap map = Json::parse(qUncompress(file.readAll())).toMap();
       if(map.contains("contacts")) {
         QVariantList list = map.value("contacts").toList();
         foreach(QVariant item, list) {
@@ -82,14 +82,10 @@ void Kitty::ContactManager::save(const QString &profile)
   QVariantMap map;
   map.insert("contacts", list);
 
-  QFile file(Core::inst()->profilesDir() + profile + "/contacts.json");
+  QFile file(Core::inst()->profilesDir() + profile + "/contacts.dat");
   if(file.open(QIODevice::ReadWrite)) {
     file.resize(0);
-
-    QTextStream str(&file);
-    str.setCodec("UTF-8");
-    str << Json::stringify(map);
-
+    file.write(qCompress(Json::stringify(map).toAscii()));
     file.close();
   }
 }

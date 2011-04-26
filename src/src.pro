@@ -48,7 +48,8 @@ SOURCES    += main.cpp \
               RosterSortProxy.cpp \
               RosterGroup.cpp \
               JsonSettings.cpp \
-              3rdparty/json/json.cpp
+              3rdparty/json/json.cpp \
+    ChatManager.cpp
 
 HEADERS    += constants.h \
               SDK/constants.h \
@@ -104,7 +105,10 @@ HEADERS    += constants.h \
               RosterSortProxy.h \
               RosterGroup.h \
               JsonSettings.h \
-              3rdparty/json/json.h
+              3rdparty/json/json.h \
+    SDK/Message.h \
+    SDK/Chat.h \
+    ChatManager.h
 
 FORMS      += widgets/windows/DebugWindow.ui \
               widgets/windows/MainWindow.ui \

@@ -59,7 +59,7 @@ Kitty::App::App(int &argc, char **argv): QApplication(argc, argv)
 
   //TODO: When only 1 profile with no password exists, skip profile selection
   if(!profile.isEmpty()) {
-    Kitty::JsonSettings set(Kitty::Core::inst()->profilesDir() + profile + "/settings.json");
+    Kitty::JsonSettings set(Kitty::Core::inst()->profilesDir() + profile + "/settings.dat");
     bool hasPassword = !set.value(KittySDK::Settings::S_PROFILE_PASSWORD).toString().isEmpty();
 
     if(!hasPassword) {

@@ -16,6 +16,7 @@ namespace Kitty
 
     public slots:
       void fixGroups();
+      void sendMessage();
       void copyName();
       void copyUid();
       void copyDescription();
@@ -27,6 +28,7 @@ namespace Kitty
 
     protected:
       void mousePressEvent(QMouseEvent *event);
+      void mouseDoubleClickEvent(QMouseEvent *event);
 
     private:
       RosterItemDelegate *m_delegate;

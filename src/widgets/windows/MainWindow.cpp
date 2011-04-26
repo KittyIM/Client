@@ -17,6 +17,7 @@
 
 #include <QtCore/QDebug>
 #include <QtCore/QTimer>
+#include <QtCore/QFile>
 #include <QtGui/QLinearGradient>
 #include <QtGui/QToolButton>
 #include <QtGui/QMenu>
@@ -192,6 +193,19 @@ void Kitty::MainWindow::applySettings()
   }
 
   m_hideTimer.setInterval(core->setting(Settings::S_MAINWINDOW_AUTOHIDE_DELAY, 5).toInt() * 1000);
+
+  QString fileName;
+  if(core->setting(Settings::S_ROSTER_THEME, QString()).toString().isEmpty()) {
+    fileName = ":/roster/theme.css";
+  } else {
+    fileName = qApp->applicationDirPath() + "/themes/roster/" + core->setting(Settings::S_ROSTER_THEME, QString()).toString() + "/theme.css";
+  }
+
+  QFile file(fileName);
+  if(file.open(QFile::ReadOnly)) {
+    m_ui->rosterTreeView->setStyleSheet(file.readAll());
+    file.close();
+  }
 
   m_proxy->invalidate();
 

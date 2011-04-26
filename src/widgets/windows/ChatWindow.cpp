@@ -3,7 +3,9 @@
 
 #include "SDK/constants.h"
 #include "IconManager.h"
+#include "SDK/Contact.h"
 #include "../ChatTab.h"
+#include "SDK/Chat.h"
 #include "Core.h"
 
 #include <QtCore/QDebug>
@@ -15,10 +17,6 @@ Kitty::ChatWindow::ChatWindow(QWidget *parent): QWidget(parent), m_ui(new Ui::Ch
   m_ui->setupUi(this);
 
   connect(IconManager::inst(), SIGNAL(iconsUpdated()), this, SLOT(updateIcons()));
-
-  m_ui->tabWidget->addTab(new Kitty::ChatTab(this), "Tab 1");
-  m_ui->tabWidget->addTab(new Kitty::ChatTab(this), "Tab 2");
-  m_ui->tabWidget->addTab(new Kitty::ChatTab(this), "Tab 3");
 
   qDebug() << "Creating ChatWindow";
 
@@ -42,6 +40,23 @@ void Kitty::ChatWindow::updateIcons()
     Kitty::ChatTab *tab = qobject_cast<Kitty::ChatTab*>(m_ui->tabWidget->widget(i));
     tab->updateIcons();
   }
+}
+
+void Kitty::ChatWindow::startChat(KittySDK::Chat *chat)
+{
+  QString label = Kitty::Core::inst()->setting(Settings::S_CHATTAB_CAPTION, "%name%").toString();
+  label = label.replace("%nick%", chat->contacts().first()->display());
+  //label = label.replace("%status%", chat->contacts().first()->status());
+  label = label.replace("%description%", chat->contacts().first()->description());
+  label = label.replace("%unread%", QString::number(0));
+
+  int tab = m_ui->tabWidget->addTab(new Kitty::ChatTab(chat, this), label);
+  m_ui->tabWidget->setCurrentIndex(tab);
+}
+
+void Kitty::ChatWindow::switchTo(KittySDK::Chat *chat)
+{
+  m_ui->tabWidget->switchTo(chat);
 }
 
 void Kitty::ChatWindow::on_tabWidget_tabCloseRequested(int index)

@@ -2,6 +2,7 @@
 
 #include "3rdparty/json/json.h"
 
+#include <QtGui/QMessageBox>
 #include <QtCore/QStringList>
 #include <QtCore/QDebug>
 #include <QtCore/QPoint>
@@ -63,7 +64,7 @@ bool Kitty::JsonSettings::jsonRead(QIODevice &device, SettingsMap &map)
 {
   qDebug() << "JsonSettings reading";
 
-  QVariant vmap = Json::parse(device.readAll());
+  QVariant vmap = Json::parse(qUncompress(device.readAll()));
   readMap(map, vmap, "");
 
   qDebug() << "  Read" << map.count() << "positions";
@@ -86,9 +87,7 @@ bool Kitty::JsonSettings::jsonWrite(QIODevice &device, const SettingsMap &map)
 
   QString json = Json::stringify(vmap);
 
-  QTextStream str(&device);
-  str.setCodec("UTF-8");
-  str << json;
+  device.write(qCompress(json.toAscii()));
 
   qDebug() << "Wrote" << map.count() << "positions," << json.count() << "bytes";
 

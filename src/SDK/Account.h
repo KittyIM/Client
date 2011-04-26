@@ -11,6 +11,7 @@ class QMenu;
 namespace KittySDK
 {
   class Contact;
+  class Message;
 
   class Account: public QObject
   {
@@ -43,6 +44,7 @@ namespace KittySDK
       virtual void loadSettings(const QMap<QString, QVariant> &settings) { }
       virtual QMap<QString, QVariant> saveSettings() { return QMap<QString, QVariant>(); }
       virtual QMenu *statusMenu() { return 0; }
+      virtual void sendMessage(const KittySDK::Message &msg) { }
 
     protected:
       QString m_uid;

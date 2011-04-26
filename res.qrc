@@ -41,4 +41,7 @@
     <qresource prefix="/images">
         <file alias="kitty_logo.png">res/images/kitty_logo.png</file>
     </qresource>
+    <qresource prefix="/roster">
+        <file alias="theme.css">res/roster/theme.css</file>
+    </qresource>
 </RCC>

@@ -69,6 +69,7 @@ namespace KittySDK
       virtual void applySettings() { }
       virtual void updateIcons() { }
       virtual void receiveMessage(const Message &msg) { }
+      virtual void processMessage(Message &msg) { }
 
     protected:
       PluginInfo *m_info;

@@ -66,6 +66,18 @@
     </widget>
    </item>
    <item>
+    <widget class="QGroupBox" name="rosterThemeGroupBox">
+     <property name="title">
+      <string>Roster theme</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_3">
+      <item row="0" column="0">
+       <widget class="QComboBox" name="rosterThemeComboBox"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>

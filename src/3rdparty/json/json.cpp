@@ -58,7 +58,7 @@ QString Json::stringify(const QVariant &variant, int indent)
   QString res;
 
   if((variant.type() == QVariant::List) || (variant.type() == QVariant::StringList)) {
-    res = "\n" + QString(" ").repeated(indent) + "[\n";
+    res = QString(" ").repeated(indent) + "[\n";
 
     QList<QVariant> list = variant.toList();
     foreach(QVariant var, list) {
@@ -73,13 +73,19 @@ QString Json::stringify(const QVariant &variant, int indent)
 
     res += QString(" ").repeated(indent) + "]";
   } else if(variant.type() == QVariant::Map) {
-    res = "\n" + QString(" ").repeated(indent) + "{\n";
+    res = QString(" ").repeated(indent) + "{\n";
 
     QMapIterator<QString, QVariant> it(variant.toMap());
     while(it.hasNext()) {
       it.next();
 
-      res += QString(" ").repeated(indent + 2) + "\"" + escape(it.key()) + "\": " + stringify(it.value(), indent + 2);
+      res += QString(" ").repeated(indent + 2) + "\"" + escape(it.key()) + "\": ";
+
+      if(it.value().type() == QVariant::Map || it.value().type() == QVariant::List) {
+        res += "\n";
+      }
+
+      res += stringify(it.value(), indent + 2);
 
       if(it.hasNext()) {
         res += ",";

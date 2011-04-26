@@ -3,6 +3,11 @@
 
 #include <QtGui/QWidget>
 
+namespace KittySDK
+{
+  class Chat;
+}
+
 namespace Ui
 {
   class ChatWindow;
@@ -22,6 +27,8 @@ namespace Kitty
 
     public slots:
       void updateIcons();
+      void startChat(KittySDK::Chat *chat);
+      void switchTo(KittySDK::Chat *chat);
 
     private slots:
       void on_tabWidget_tabCloseRequested(int index);
