@@ -1,6 +1,7 @@
 #include "AccountManager.h"
 
 #include "widgets/windows/MainWindow.h"
+#include "3rdparty/json/json.h"
 #include "ProtocolManager.h"
 #include "PluginManager.h"
 #include "SDK/constants.h"
@@ -90,54 +91,50 @@ void Kitty::AccountManager::load(const QString &profile)
 {
   qDebug() << "Loading accounts for" << profile;
 
-  QFile file(Core::inst()->profilesDir() + profile + "/accounts.xml");
+  QFile file(Core::inst()->profilesDir() + profile + "/accounts.json");
   if(file.exists()) {
     if(file.open(QIODevice::ReadOnly)) {
-      QDomDocument doc;
-      doc.setContent(&file);
+      QVariantMap map = Json::parse(file.readAll()).toMap();
+      if(map.contains("accounts")) {
+        QVariantList list = map.value("accounts").toList();
+        foreach(QVariant item, list) {
+          QVariantMap settings = item.toMap();
 
-      QDomElement root = doc.documentElement();
-      QDomNodeList accounts = root.elementsByTagName("account");
-      for(int i = 0; i < accounts.count(); i++) {
-        QDomNodeList children = accounts.at(i).childNodes();
-        QMap<QString, QVariant> settings;
+          if(settings.contains("protocol")) {
+            KittySDK::Protocol *proto = ProtocolManager::inst()->protocolByName(settings.value("protocol").toString());
 
-        for(int j = 0; j < children.count(); j++) {
-          settings.insert(children.at(j).nodeName(), children.at(j).firstChild().nodeValue());
-        }
+            if(proto) {
+              Plugin *plug = PluginManager::inst()->pluginByName(proto->info()->name());
+              if(plug->isLoaded()) {
+                KittySDK::Account *acc = proto->newAccount(settings.value("uid").toString());
+                if(acc) {
+                  acc->setPassword(settings.value("password").toString());
 
-        if(settings.contains("protocol")) {
-          KittySDK::Protocol *proto = ProtocolManager::inst()->protocolByName(settings.value("protocol").toString());
+                  settings.remove("protocol");
+                  settings.remove("uid");
+                  settings.remove("password");
 
-          if(proto) {
-            Plugin *plug = PluginManager::inst()->pluginByName(proto->info()->name());
-            if(plug->isLoaded()) {
-              KittySDK::Account *acc = proto->newAccount(settings.value("uid").toString());
-              if(acc) {
-                acc->setPassword(settings.value("password").toString());
+                  acc->loadSettings(settings);
 
-                settings.remove("protocol");
-                settings.remove("uid");
-                settings.remove("password");
-
-                acc->loadSettings(settings);
-
-                add(acc);
-              } else {
-                qWarning() << "Account creation failed" << settings.value("protocol").toString() << settings.value("uid").toString();
+                  add(acc);
+                } else {
+                  qWarning() << "Account creation failed" << settings.value("protocol").toString() << settings.value("uid").toString();
+                }
               }
+            } else {
+              qWarning() << "Protocole not found" << settings.value("protocol").toString();
             }
           } else {
-            qWarning() << "Protocole not found" << settings.value("protocol").toString();
+            qWarning() << "Account #" << list.indexOf(item) << " had no protocol info!";
           }
-        } else {
-          qWarning() << "Account #" << i << " had no protocol info!";
         }
+      } else {
+        qDebug() << "No accounts info!";
       }
 
       file.close();
     } else {
-      qDebug() << "Could not open accounts file for" << profile;
+      qDebug() << "Could not open file!";
     }
   }
 }
@@ -146,11 +143,9 @@ void Kitty::AccountManager::save(const QString &profile)
 {
   qDebug() << "saving accounts for" << profile;
 
-  QDomDocument doc;
-  QDomElement root = doc.createElement("accounts");
-
+  QVariantList list;
   foreach(KittySDK::Account *account, m_accounts) {
-    QDomElement acc = doc.createElement("account");
+    QVariantMap acc;
 
     QMap<QString, QVariant> settings = account->saveSettings();
     settings.insert("protocol", account->protocol()->protoInfo()->protoName());
@@ -161,23 +156,22 @@ void Kitty::AccountManager::save(const QString &profile)
     while(i.hasNext()) {
       i.next();
 
-      QDomElement elem = doc.createElement(i.key());
-      elem.appendChild(doc.createTextNode(i.value().toString()));
-      acc.appendChild(elem);
+      acc.insert(i.key(), i.value());
     }
 
-    root.appendChild(acc);
+    list.append(acc);
   }
 
-  doc.appendChild(root);
+  QVariantMap map;
+  map.insert("accounts", list);
 
-  QFile file(Core::inst()->profilesDir() + profile + "/accounts.xml");
+  QFile file(Core::inst()->profilesDir() + profile + "/accounts.json");
   if(file.open(QIODevice::ReadWrite)) {
     file.resize(0);
 
     QTextStream str(&file);
     str.setCodec("UTF-8");
-    str << doc.toString(2);
+    str << Json::stringify(map);
 
     file.close();
   }

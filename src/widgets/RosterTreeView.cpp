@@ -101,7 +101,7 @@ void Kitty::RosterTreeView::moveToGroup()
 
     QString group = action->property("group").toString();
     if(action->property("group_new").toBool()) {
-      group = QInputDialog::getText(this, tr("Add new group"), tr("Choose a new for the new group:"));
+      group = QInputDialog::getText(this, tr("Add new group"), tr("Choose a name for the new group:"));
     }
 
     QModelIndex index = proxy->mapToSource(list.first());

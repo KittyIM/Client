@@ -43,12 +43,12 @@ SOURCES    += main.cpp \
               widgets/RosterTreeView.cpp \
               ProtocolManager.cpp \
               ContactManager.cpp \
-    AccountManager.cpp \
-    RosterContact.cpp \
-    RosterSortProxy.cpp \
-    RosterGroup.cpp \
-    JsonSettings.cpp \
-    3rdparty/json/json.cpp
+              AccountManager.cpp \
+              RosterContact.cpp \
+              RosterSortProxy.cpp \
+              RosterGroup.cpp \
+              JsonSettings.cpp \
+              3rdparty/json/json.cpp
 
 HEADERS    += constants.h \
               SDK/constants.h \
@@ -97,14 +97,14 @@ HEADERS    += constants.h \
               AbstractTheme.h \
               ProtocolManager.h \
               ContactManager.h \
-    SDK/Account.h \
-    AccountManager.h \
-    SDK/Contact.h \
-    RosterContact.h \
-    RosterSortProxy.h \
-    RosterGroup.h \
-    JsonSettings.h \
-    3rdparty/json/json.h
+              SDK/Account.h \
+              AccountManager.h \
+              SDK/Contact.h \
+              RosterContact.h \
+              RosterSortProxy.h \
+              RosterGroup.h \
+              JsonSettings.h \
+              3rdparty/json/json.h
 
 FORMS      += widgets/windows/DebugWindow.ui \
               widgets/windows/MainWindow.ui \

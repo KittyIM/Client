@@ -12,7 +12,7 @@ QSettings::Format Kitty::JsonSettings::jsonFormat = QSettings::registerFormat("j
 
 Kitty::JsonSettings::JsonSettings(const QString &fileName, QObject *parent): QSettings(fileName, JsonSettings::jsonFormat, parent)
 {
-  qDebug() << "XmlSettings loading" << fileName;
+  qDebug() << "JsonSettings loading" << fileName;
 }
 
 void Kitty::JsonSettings::readMap(SettingsMap &map, const QVariant &root, const QString &name)
@@ -61,7 +61,7 @@ void Kitty::JsonSettings::writeMap(QVariant &root, const QString &key, const QVa
 
 bool Kitty::JsonSettings::jsonRead(QIODevice &device, SettingsMap &map)
 {
-  qDebug() << "XMLSettings json reading";
+  qDebug() << "JsonSettings reading";
 
   QVariant vmap = Json::parse(device.readAll());
   readMap(map, vmap, "");
@@ -73,7 +73,7 @@ bool Kitty::JsonSettings::jsonRead(QIODevice &device, SettingsMap &map)
 
 bool Kitty::JsonSettings::jsonWrite(QIODevice &device, const SettingsMap &map)
 {
-  qDebug() << "XMLSettings json writing";
+  qDebug() << "JsonSettings writing";
 
   QVariant vmap;
 

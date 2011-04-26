@@ -1,5 +1,6 @@
 #include "ContactManager.h"
 
+#include "3rdparty/json/json.h"
 #include "AccountManager.h"
 #include "Core.h"
 
@@ -21,39 +22,27 @@ void Kitty::ContactManager::load(const QString &profile)
 {
   qDebug() << "Loading contacts for" << profile;
 
-  QFile file(Kitty::Core::inst()->profilesDir() + profile + "/contacts.xml");
+  QFile file(Kitty::Core::inst()->profilesDir() + profile + "/contacts.json");
   if(file.exists()) {
     if(file.open(QIODevice::ReadOnly)) {
-      QDomDocument doc;
-      doc.setContent(&file);
-
-      QDomElement root = doc.documentElement();
-      QDomNodeList groups = root.elementsByTagName("group");
-      for(int i = 0; i < groups.count(); i++) {
-        QDomNode group = groups.at(i);
-        QString groupName = group.toElement().attribute("name");
-
-        QDomNodeList contacts = group.toElement().elementsByTagName("contact");
-        for(int j = 0; j < contacts.count(); j++) {
-          QDomNode contact = contacts.at(j);
-          QDomNodeList children = contact.childNodes();
-          QMap<QString, QVariant> settings;
-
-          for(int k = 0; k < children.count(); k++) {
-            settings.insert(children.at(k).nodeName(), children.at(k).firstChild().nodeValue());
-          }
+      QVariantMap map = Json::parse(file.readAll()).toMap();
+      if(map.contains("contacts")) {
+        QVariantList list = map.value("contacts").toList();
+        foreach(QVariant item, list) {
+          QVariantMap settings = item.toMap();
 
           if(settings.contains("protocol") && settings.contains("account")) {
             KittySDK::Account *account = Kitty::AccountManager::inst()->account(settings.value("protocol").toString(), settings.value("account").toString());
             if(account) {
               KittySDK::Contact *cnt = account->newContact(settings.value("uid").toString());
               cnt->setDisplay(settings.value("display").toString());
-              cnt->setGroup(groupName);
+              cnt->setGroup(settings.value("group").toString());
 
               connect(cnt, SIGNAL(statusChanged(KittySDK::Protocol::Status,QString)), this, SIGNAL(statusUpdated()));
 
               settings.remove("protocol");
               settings.remove("account");
+              settings.remove("group");
 
               cnt->loadSettings(settings);
 
@@ -61,14 +50,14 @@ void Kitty::ContactManager::load(const QString &profile)
               add(cnt);
             }
           } else {
-            qWarning() << "No protocol and/or account info for contact in group" << groupName;
+            qWarning() << "No protocol and/or account info for contact #" << list.indexOf(item);
           }
         }
       }
 
       file.close();
     } else {
-      qDebug() << "Could not open accounts file for" << profile;
+      qWarning() << "Could not open file!";
     }
   }
 }
@@ -77,60 +66,29 @@ void Kitty::ContactManager::save(const QString &profile)
 {
   qDebug() << "saving contacts for" << profile;
 
-  QDomDocument doc;
-  QDomElement root = doc.createElement("contacts");
-
-  QMap<QString, QDomElement> groups;
-  foreach(KittySDK::Contact *contact, m_contacts) {
-    if(!contact->group().isEmpty() && !groups.contains(contact->group())) {
-      QDomElement elem = doc.createElement("group");
-      elem.setAttribute("name", contact->group());
-      groups.insert(contact->group(), elem);
-    }
-  }
+  QVariantList list;
 
   foreach(KittySDK::Contact *contact, m_contacts) {
-    QDomElement cnt = doc.createElement("contact");
-
     QMap<QString, QVariant> settings = contact->saveSettings();
     settings.insert("protocol", contact->account()->protocol()->protoInfo()->protoName());
     settings.insert("account", contact->account()->uid());
     settings.insert("uid", contact->uid());
     settings.insert("display", contact->display());
+    settings.insert("group", contact->group());
 
-    QMapIterator<QString, QVariant> i(settings);
-    while(i.hasNext()) {
-      i.next();
-
-      QDomElement elem = doc.createElement(i.key());
-      elem.appendChild(doc.createTextNode(i.value().toString()));
-      cnt.appendChild(elem);
-    }
-
-    if(contact->group().isEmpty()) {
-      root.appendChild(cnt);
-    } else {
-      QDomElement group = groups.value(contact->group());
-      group.appendChild(cnt);
-    }
+    list.append(settings);
   }
 
-  QMapIterator<QString, QDomElement> ig(groups);
-  while(ig.hasNext()) {
-    ig.next();
+  QVariantMap map;
+  map.insert("contacts", list);
 
-    root.appendChild(ig.value());
-  }
-
-  doc.appendChild(root);
-
-  QFile file(Core::inst()->profilesDir() + profile + "/contacts.xml");
+  QFile file(Core::inst()->profilesDir() + profile + "/contacts.json");
   if(file.open(QIODevice::ReadWrite)) {
     file.resize(0);
 
     QTextStream str(&file);
     str.setCodec("UTF-8");
-    str << doc.toString(2);
+    str << Json::stringify(map);
 
     file.close();
   }

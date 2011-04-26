@@ -1065,7 +1065,7 @@
     <message>
         <location filename="../src/widgets/RosterTreeView.cpp" line="104"/>
         <source>Add new group</source>
-        <translation type="unfinished"></translation>
+        <translation>Dodaj grupę</translation>
     </message>
     <message>
         <location filename="../src/widgets/RosterTreeView.cpp" line="104"/>
@@ -1120,7 +1120,7 @@
     <message>
         <location filename="../src/widgets/RosterTreeView.cpp" line="183"/>
         <source>Add new</source>
-        <translation type="unfinished"></translation>
+        <translation>Dodaj nową</translation>
     </message>
     <message>
         <location filename="../src/widgets/RosterTreeView.cpp" line="191"/>
@@ -1138,12 +1138,12 @@
     <message>
         <location filename="../src/widgets/settingpages/PluginsSettings.cpp" line="43"/>
         <source>Loaded</source>
-        <translation type="unfinished"></translation>
+        <translation>Załadowany</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/PluginsSettings.cpp" line="43"/>
         <source>Not loaded</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie załadowany</translation>
     </message>
 </context>
 </TS>
