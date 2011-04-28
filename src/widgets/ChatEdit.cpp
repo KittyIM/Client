@@ -12,19 +12,12 @@
 #include <QtGui/QKeyEvent>
 #include <QtGui/QMenu>
 
-Kitty::SpellChecker::SpellChecker(QTextDocument *parent): QSyntaxHighlighter(parent)
-{
-
-}
-
-Kitty::SpellChecker::~SpellChecker()
-{
-
-}
+using namespace Kitty;
+using namespace KittySDK;
 
 QStringList Kitty::SpellChecker::suggest(const QString &word)
 {
-  Hunspell *hunspell = Kitty::Core::inst()->hunspell();
+  Hunspell *hunspell = Core::inst()->hunspell();
   char **words;
 
   int count = hunspell->suggest(&words, QTextCodec::codecForName(hunspell->get_dic_encoding())->fromUnicode(word).constData());
@@ -41,7 +34,7 @@ QStringList Kitty::SpellChecker::suggest(const QString &word)
 
 void Kitty::SpellChecker::highlightBlock(const QString &text)
 {
-  Hunspell *hunspell = Kitty::Core::inst()->hunspell();
+  Hunspell *hunspell = Core::inst()->hunspell();
 
   QTextCharFormat format;
   format.setUnderlineColor(Qt::red);
@@ -71,11 +64,12 @@ void Kitty::SpellChecker::highlightBlock(const QString &text)
 
 Kitty::ChatEdit::ChatEdit(QWidget *parent): QTextEdit(parent)
 {
-  if(Kitty::Core::inst()->setting(KittySDK::Settings::S_CHATWINDOW_SPELLCHECK_ENABLED, false).toBool()) {
-    m_checker = new Kitty::SpellChecker(document());
+  if(Core::inst()->setting(Settings::S_CHATWINDOW_SPELLCHECK_ENABLED, false).toBool()) {
+    m_checker = new SpellChecker(document());
   }
 
   updateSize();
+  clearHistory();
 }
 
 void Kitty::ChatEdit::updateSize()
@@ -88,8 +82,27 @@ void Kitty::ChatEdit::updateSize()
 
 void Kitty::ChatEdit::keyPressEvent(QKeyEvent *event)
 {
-  if(((event->key() == Qt::Key_Enter) || (event->key() == Qt::Key_Return)) && !(event->modifiers() & Qt::ShiftModifier)) {
+  if(((event->key() == Qt::Key_Enter) || (event->key() == Qt::Key_Return)) && !(event->modifiers().testFlag(Qt::ShiftModifier))) {
     emit returnPressed();
+  } else if(((event->key() == Qt::Key_Up) || (event->key() == Qt::Key_Down))&& (event->modifiers().testFlag(Qt::ControlModifier)))  {
+    if(m_history.size() > 0) {
+      if(m_historyPos < m_history.size()) {
+        setText(m_history.at(m_historyPos));
+        selectAll();
+      }
+
+      if(event->key() == Qt::Key_Up) {
+        m_historyPos++;
+        if(m_historyPos >= m_history.size()) {
+          m_historyPos = 0;
+        }
+      } else {
+        m_historyPos--;
+        if(m_historyPos < 0) {
+          m_historyPos = m_history.size() - 1;
+        }
+      }
+    }
   } else {
     QTextEdit::keyPressEvent(event);
   }
@@ -137,6 +150,22 @@ void Kitty::ChatEdit::contextMenuEvent(QContextMenuEvent *event)
   menu->exec(event->globalPos());
 }
 
+void Kitty::ChatEdit::clearHistory()
+{
+  m_history.clear();
+  m_historyPos = 0;
+}
+
+void Kitty::ChatEdit::addHistory(const QString &msg)
+{
+  m_history.prepend(msg);
+  m_historyPos = 0;
+
+  if(m_history.size() > 25) {
+    m_history.removeLast();
+  }
+}
+
 void Kitty::ChatEdit::replaceWord()
 {
   QAction *action = qobject_cast<QAction*>(sender());
@@ -144,4 +173,3 @@ void Kitty::ChatEdit::replaceWord()
     insertPlainText(action->text());
   }
 }
-

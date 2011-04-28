@@ -5,6 +5,8 @@
 
 #include <QtCore/QDebug>
 
+using namespace Kitty;
+
 Kitty::AboutWindow::AboutWindow(QWidget *parent): QDialog(parent), m_ui(new Ui::AboutWindow)
 {
   m_ui->setupUi(this);

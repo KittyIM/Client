@@ -11,8 +11,7 @@ namespace Kitty
     Q_OBJECT
 
     public:
-      SpellChecker(QTextDocument *parent);
-      ~SpellChecker();
+      SpellChecker(QTextDocument *parent): QSyntaxHighlighter(parent) { }
 
       QStringList suggest(const QString &word);
 
@@ -30,18 +29,24 @@ namespace Kitty
     signals:
       void returnPressed();
 
+    public slots:
+      void clearHistory();
+      void addHistory(const QString &msg);
+
+    private slots:
+      void replaceWord();
+
     protected:
       void keyPressEvent(QKeyEvent *event);
       void resizeEvent(QResizeEvent *event);
       void contextMenuEvent(QContextMenuEvent *event);
 
-    private slots:
-      void replaceWord();
-
     private:
       void updateSize();
 
     private:
+      QStringList m_history;
+      int m_historyPos;
       SpellChecker *m_checker;
   };
 }

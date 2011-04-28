@@ -25,6 +25,7 @@
 #include <QtGui/QTreeWidgetItem>
 #include <QtGui/QPushButton>
 
+using namespace Kitty;
 using namespace KittySDK;
 
 Kitty::SettingsWindow::SettingsWindow(QWidget *parent): QDialog(parent), m_ui(new Ui::SettingsWindow)
@@ -41,7 +42,7 @@ Kitty::SettingsWindow::SettingsWindow(QWidget *parent): QDialog(parent), m_ui(ne
 
   Core *core = Core::inst();
 
-  connect(this, SIGNAL(settingsApplied()), static_cast<Kitty::App*>(qApp), SLOT(applySettings()));
+  connect(this, SIGNAL(settingsApplied()), static_cast<App*>(qApp), SLOT(applySettings()));
   connect(this, SIGNAL(settingsApplied()), core->mainWindow(), SLOT(applySettings()));
 
   restoreGeometry(core->setting(Settings::S_SETTINGSWINDOW_GEOMETRY).toByteArray());
@@ -72,9 +73,9 @@ QTreeWidgetItem *Kitty::SettingsWindow::itemById(const QString &id)
   return 0;
 }
 
-KittySDK::SettingPage *Kitty::SettingsWindow::pageById(const QString &id)
+SettingPage *Kitty::SettingsWindow::pageById(const QString &id)
 {
-  foreach(KittySDK::SettingPage *page, m_pages) {
+  foreach(SettingPage *page, m_pages) {
     if(page->name() == id) {
       return page;
     }
@@ -85,7 +86,7 @@ KittySDK::SettingPage *Kitty::SettingsWindow::pageById(const QString &id)
   return 0;
 }
 
-void Kitty::SettingsWindow::addPage(KittySDK::SettingPage *page, const QString &parent)
+void Kitty::SettingsWindow::addPage(SettingPage *page, const QString &parent)
 {
   QTreeWidgetItem *child = new QTreeWidgetItem();
   child->setIcon(0, IconManager::inst()->icon(page->icon()));
@@ -121,7 +122,7 @@ void Kitty::SettingsWindow::updateIcons()
     }
   }
 
-  dynamic_cast<Kitty::DisplaySettings*>(pageById(SettingPages::S_DISPLAY))->updateIcons();
+  dynamic_cast<DisplaySettings*>(pageById(SettingPages::S_DISPLAY))->updateIcons();
 }
 
 void Kitty::SettingsWindow::resetSettings()

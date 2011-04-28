@@ -18,6 +18,7 @@
 #include <QtWebKit/QWebElement>
 #include <QtWebKit/QWebFrame>
 
+using namespace Kitty;
 using namespace KittySDK;
 
 class KittyAccount: public Account
@@ -65,7 +66,7 @@ Kitty::ThemesSettings::~ThemesSettings()
 
 void Kitty::ThemesSettings::apply()
 {
-  Kitty::Core *core = Kitty::Core::inst();
+  Core *core = Core::inst();
   core->setSetting(Settings::S_ROSTER_THEME, m_ui->rosterThemeComboBox->itemData(m_ui->rosterThemeComboBox->currentIndex()));
   core->setSetting(Settings::S_CHAT_THEME, m_ui->chatThemeComboBox->itemData(m_ui->chatThemeComboBox->currentIndex()));
   core->setSetting(Settings::S_CHAT_THEME_VARIANT, m_ui->chatThemeVariantComboBox->itemData(m_ui->chatThemeVariantComboBox->currentIndex()));
@@ -73,7 +74,7 @@ void Kitty::ThemesSettings::apply()
 
 void Kitty::ThemesSettings::reset()
 {
-  Kitty::Core *core = Kitty::Core::inst();
+  Core *core = Core::inst();
 
   disconnect(m_ui->chatThemeComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(updateChatPreview()));
   disconnect(m_ui->chatThemeVariantComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(updateChatPreview()));
@@ -111,9 +112,9 @@ void Kitty::ThemesSettings::updateChatPreview()
 {
   m_ui->chatThemeWebView->clearTo(true, m_ui->chatThemeComboBox->itemData(m_ui->chatThemeComboBox->currentIndex()).toString(), m_ui->chatThemeVariantComboBox->itemData(m_ui->chatThemeVariantComboBox->currentIndex()).toString());
 
-  Kitty::ChatTheme theme(m_ui->chatThemeComboBox->currentText());
+  ChatTheme theme(m_ui->chatThemeComboBox->currentText());
 
-  Kitty::PluginCoreImpl core;
+  PluginCoreImpl core;
   KittyProto proto(&core);
   KittyAccount *acc = dynamic_cast<KittyAccount*>(proto.newAccount("me@example.com"));
   Contact *kittyBot = acc->newContact("kittybot@kittyim.pl");
@@ -151,7 +152,7 @@ void Kitty::ThemesSettings::updateChatPreview()
 
 void Kitty::ThemesSettings::updateVariantList()
 {
-  Kitty::Core *core = Kitty::Core::inst();
+  Core *core = Core::inst();
 
   disconnect(m_ui->chatThemeComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(updateChatPreview()));
   disconnect(m_ui->chatThemeVariantComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(updateChatPreview()));

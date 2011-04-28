@@ -15,6 +15,9 @@
 #include <QtGui/QKeyEvent>
 #include <QtGui/QPainter>
 
+using namespace Kitty;
+using namespace KittySDK;
+
 Kitty::ProfilesWindow::ProfilesWindow(QWidget *parent): QDialog(parent), m_ui(new Ui::ProfilesWindow)
 {
   m_ui->setupUi(this);
@@ -107,8 +110,8 @@ void Kitty::ProfilesWindow::on_profilesWidget_currentItemChanged(QTreeWidgetItem
 
   if(current) {
     if(current->data(0, Qt::UserRole).toBool() == false) {
-      Kitty::JsonSettings set(Kitty::Core::inst()->profilesDir() + current->text(0) + "/settings.dat");
-      bool hasPassword = !set.value(KittySDK::Settings::S_PROFILE_PASSWORD).toString().isEmpty();
+      Kitty::JsonSettings set(Core::inst()->profilesDir() + current->text(0) + "/settings.dat");
+      bool hasPassword = !set.value(Settings::S_PROFILE_PASSWORD).toString().isEmpty();
 
       m_ui->passwordEdit->clear();
       m_ui->passwordEdit->setVisible(hasPassword);
@@ -126,10 +129,10 @@ void Kitty::ProfilesWindow::on_profilesWidget_itemDoubleClicked(QTreeWidgetItem 
 
   if(item) {
     if(item->data(0, Qt::UserRole).toBool() == false) {
-      Kitty::JsonSettings set(Kitty::Core::inst()->profilesDir() + item->text(0) + "/settings.dat");
-      bool hasPassword = !set.value(KittySDK::Settings::S_PROFILE_PASSWORD).toString().isEmpty();
+      Kitty::JsonSettings set(Core::inst()->profilesDir() + item->text(0) + "/settings.dat");
+      bool hasPassword = !set.value(Settings::S_PROFILE_PASSWORD).toString().isEmpty();
 
-      if(!hasPassword || (hasPassword && set.value(KittySDK::Settings::S_PROFILE_PASSWORD).toString() == QCryptographicHash::hash(m_ui->passwordEdit->text().toLocal8Bit(), QCryptographicHash::Sha1).toHex())) {
+      if(!hasPassword || (hasPassword && set.value(Settings::S_PROFILE_PASSWORD).toString() == QCryptographicHash::hash(m_ui->passwordEdit->text().toLocal8Bit(), QCryptographicHash::Sha1).toHex())) {
         Core::inst()->loadProfile(item->text(0));
         close();
       } else {

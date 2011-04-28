@@ -12,6 +12,9 @@
 #include <QtCore/QDebug>
 #include <QtCore/QFile>
 
+using namespace Kitty;
+using namespace KittySDK;
+
 Kitty::App::App(int &argc, char **argv): QApplication(argc, argv)
 {
   m_startDate = QDateTime::currentDateTime();
@@ -29,7 +32,7 @@ Kitty::App::App(int &argc, char **argv): QApplication(argc, argv)
   qDebug() << "Starting KittyIM";
   qDebug() << "There are" << (arguments().count() - 1) << "arguments";
 
-  Kitty::Core *core = Kitty::Core::inst();
+  Core *core = Core::inst();
 
   QString profile;
   QListIterator<QString> it(arguments());
@@ -59,8 +62,8 @@ Kitty::App::App(int &argc, char **argv): QApplication(argc, argv)
 
   //TODO: When only 1 profile with no password exists, skip profile selection
   if(!profile.isEmpty()) {
-    Kitty::JsonSettings set(Kitty::Core::inst()->profilesDir() + profile + "/settings.dat");
-    bool hasPassword = !set.value(KittySDK::Settings::S_PROFILE_PASSWORD).toString().isEmpty();
+    JsonSettings set(Core::inst()->profilesDir() + profile + "/settings.dat");
+    bool hasPassword = !set.value(Settings::S_PROFILE_PASSWORD).toString().isEmpty();
 
     if(!hasPassword) {
       qDebug() << "Profile is ok, loading.";
@@ -82,7 +85,7 @@ void Kitty::App::applySettings()
   QTranslator *qtTranslator = new QTranslator();
 
   QString locale = QLocale::system().name();
-  locale = Kitty::Core::inst()->setting(KittySDK::Settings::S_LANGUAGE, locale).toString();
+  locale = Core::inst()->setting(Settings::S_LANGUAGE, locale).toString();
 
   QString dir = applicationDirPath() + "/data/translations/";
   if(translator->load("kitty_" + locale, dir) && qtTranslator->load("qt_" + locale, dir)) {
@@ -95,11 +98,11 @@ void Kitty::App::applySettings()
 
 void Kitty::App::cleanUp()
 {
-  Kitty::Core *core = Kitty::Core::inst();
+  Core *core = Core::inst();
 
   if(core->hasToRestart()) {
     QProcess::startDetached(qApp->applicationFilePath());
   }
 
-  Kitty::Core::destr();
+  Core::destr();
 }

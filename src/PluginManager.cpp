@@ -10,8 +10,9 @@
 #include <QtGui/QApplication>
 
 using namespace Kitty;
+using namespace KittySDK;
 
-typedef QObject *(*pluginInst)(KittySDK::PluginCore*);
+typedef QObject *(*pluginInst)(PluginCore*);
 
 Kitty::Plugin::Plugin(const QString &fileName): m_fileName(fileName)
 {
@@ -22,12 +23,12 @@ Kitty::Plugin::Plugin(const QString &fileName): m_fileName(fileName)
   pluginInst inst = (pluginInst)lib.resolve("inst");
 
   if(inst) {
-    m_plugin = dynamic_cast<KittySDK::Plugin*>(inst(new Kitty::PluginCoreImpl()));
+    m_plugin = dynamic_cast<KittySDK::Plugin*>(inst(new PluginCoreImpl()));
     if(m_plugin) {
       if(m_plugin->type() == KittySDK::Plugin::Type) {
         //nothing for now
-      } else if(m_plugin->type() == KittySDK::Protocol::Type) {
-        KittySDK::Protocol *prot = dynamic_cast<KittySDK::Protocol*>(m_plugin);
+      } else if(m_plugin->type() == Protocol::Type) {
+        Protocol *prot = dynamic_cast<Protocol*>(m_plugin);
         if(prot) {
           Kitty::ProtocolManager::inst()->add(prot);
         } else {
@@ -69,7 +70,7 @@ void Kitty::Plugin::unload()
 
 }
 
-const QList<Plugin*> &Kitty::PluginManager::plugins() const
+const QList<Kitty::Plugin*> &Kitty::PluginManager::plugins() const
 {
   return m_plugins;
 }

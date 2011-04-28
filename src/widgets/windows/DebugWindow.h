@@ -30,6 +30,7 @@ namespace Kitty
     protected:
       void showEvent(QShowEvent *event);
       void changeEvent(QEvent *event);
+      bool eventFilter(QObject *obj, QEvent *event);
 
     private slots:
       void execCommand();

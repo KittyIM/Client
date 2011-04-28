@@ -11,10 +11,12 @@
 #include <QtCore/QDateTime>
 #include <QtCore/QDebug>
 #include <QtCore/QMutex>
-#include <QtGui/QMessageBox>
+#include <QtGui/QClipboard>
+#include <QtGui/QKeyEvent>
 #include <QtWebKit/QWebFrame>
 #include <QtWebKit/QWebView>
 
+using namespace Kitty;
 
 Kitty::DebugWindow *Kitty::DebugWindow::m_inst = 0;
 QWebView *Kitty::DebugWindow::m_wvLog = 0;
@@ -26,6 +28,8 @@ Kitty::DebugWindow::DebugWindow(): QWidget(0), m_ui(new Ui::DebugWindow)
   setWindowFlags(windowFlags() & ~Qt::WindowMinMaxButtonsHint);
 
   m_wvLog = new QWebView(this);
+  m_wvLog->installEventFilter(this);
+  m_wvLog->setContextMenuPolicy(Qt::NoContextMenu);
   m_wvLog->setHtml("<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"><style type=\"text/css\">body { font-family: Tahoma; font-size: 11px; margin: 2px; }</style></head><body></body></html>");
 
   m_ui->consoleGridLayout->addWidget(m_wvLog);
@@ -68,8 +72,6 @@ void Kitty::DebugWindow::addMessage(QtMsgType type, const char *msg)
 
 void Kitty::DebugWindow::showEvent(QShowEvent *event)
 {
-  QWidget::showEvent(event);
-
   m_ui->tabWidget->setCurrentIndex(0);
   m_ui->commandEdit->setFocus();
 }
@@ -83,6 +85,18 @@ void Kitty::DebugWindow::changeEvent(QEvent *event)
   QWidget::changeEvent(event);
 }
 
+bool Kitty::DebugWindow::eventFilter(QObject *obj, QEvent *event)
+{
+  if(event->type() == QEvent::KeyPress) {
+    QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+    if((keyEvent->key() == Qt::Key_C) && (keyEvent->modifiers().testFlag(Qt::ControlModifier))) {
+      qApp->clipboard()->setText(m_wvLog->selectedText());
+    }
+  }
+
+  return QObject::eventFilter(obj, event);
+}
+
 void Kitty::DebugWindow::execCommand()
 {
   QStringList commands = m_ui->commandEdit->text().split(" ");
@@ -94,11 +108,11 @@ void Kitty::DebugWindow::execCommand()
     } else if(commands.at(0) == "quit") {
       qApp->quit();
     } else if(commands.at(0) == "uptime") {
-      int secs = static_cast<Kitty::App*>(qApp)->startDate().secsTo(QDateTime::currentDateTime());
+      int secs = static_cast<App*>(qApp)->startDate().secsTo(QDateTime::currentDateTime());
 
       msg = QString("Uptime: %1h %2m %3s").arg(secs / 3600).arg((secs / 60) % 60).arg(secs % 60);
     } else if(commands.at(0) == "theme") {
-      Kitty::Core::inst()->profile()->loadIconTheme("Fugue");
+      Core::inst()->profile()->loadIconTheme("Fugue");
     }
 
     m_wvLog->setHtml(m_wvLog->page()->mainFrame()->toHtml() + QString("<div>&gt; %1</div>").arg(m_ui->commandEdit->text()));
@@ -110,7 +124,7 @@ void Kitty::DebugWindow::execCommand()
   m_ui->commandEdit->clear();
 }
 
-Kitty::DebugWindow *Kitty::DebugWindow::inst()
+DebugWindow *Kitty::DebugWindow::inst()
 {
   static QMutex mutex;
 

@@ -127,7 +127,7 @@
 <context>
     <name>Kitty::MainWindow</name>
     <message>
-        <location filename="../src/widgets/windows/MainWindow.cpp" line="134"/>
+        <location filename="../src/widgets/windows/MainWindow.cpp" line="135"/>
         <source>User</source>
         <translation type="unfinished"></translation>
     </message>
@@ -734,13 +734,13 @@
     <name>ThemesSettings</name>
     <message>
         <location filename="../src/widgets/settingpages/ThemesSettings.ui"/>
-        <location filename="../src/ui_ThemesSettings.h" line="99"/>
+        <location filename="../src/ui_ThemesSettings.h" line="137"/>
         <source>Themes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/ThemesSettings.ui"/>
-        <location filename="../src/ui_ThemesSettings.h" line="101"/>
+        <location filename="../src/ui_ThemesSettings.h" line="139"/>
         <source>Icon theme</source>
         <translation type="unfinished"></translation>
     </message>
@@ -751,8 +751,26 @@
     </message>
     <message>
         <location filename="../src/widgets/settingpages/ThemesSettings.ui"/>
-        <location filename="../src/ui_ThemesSettings.h" line="102"/>
+        <location filename="../src/ui_ThemesSettings.h" line="140"/>
         <source>Chat theme</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/settingpages/ThemesSettings.ui"/>
+        <location filename="../src/ui_ThemesSettings.h" line="141"/>
+        <source>Theme:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/settingpages/ThemesSettings.ui"/>
+        <location filename="../src/ui_ThemesSettings.h" line="142"/>
+        <source>Variant:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/settingpages/ThemesSettings.ui"/>
+        <location filename="../src/ui_ThemesSettings.h" line="143"/>
+        <source>Roster theme</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -990,56 +1008,52 @@
 <context>
     <name>Kitty::ChatTab</name>
     <message>
-        <location filename="../src/widgets/ChatTab.cpp" line="23"/>
-        <location filename="../src/widgets/ChatTab.cpp" line="62"/>
+        <location filename="../src/widgets/ChatTab.cpp" line="38"/>
         <source>Bold</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/ChatTab.cpp" line="24"/>
-        <location filename="../src/widgets/ChatTab.cpp" line="63"/>
+        <location filename="../src/widgets/ChatTab.cpp" line="43"/>
         <source>Italic</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/ChatTab.cpp" line="25"/>
-        <location filename="../src/widgets/ChatTab.cpp" line="64"/>
+        <location filename="../src/widgets/ChatTab.cpp" line="48"/>
         <source>Underline</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/ChatTab.cpp" line="27"/>
-        <location filename="../src/widgets/ChatTab.cpp" line="65"/>
+        <location filename="../src/widgets/ChatTab.cpp" line="53"/>
+        <source>Striketrough</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/ChatTab.cpp" line="62"/>
         <source>Color</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/ChatTab.cpp" line="28"/>
         <location filename="../src/widgets/ChatTab.cpp" line="66"/>
         <source>Smilies</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/ChatTab.cpp" line="30"/>
-        <location filename="../src/widgets/ChatTab.cpp" line="67"/>
+        <location filename="../src/widgets/ChatTab.cpp" line="74"/>
         <source>Send image</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/ChatTab.cpp" line="31"/>
-        <location filename="../src/widgets/ChatTab.cpp" line="68"/>
+        <location filename="../src/widgets/ChatTab.cpp" line="79"/>
         <source>Send file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/ChatTab.cpp" line="33"/>
-        <location filename="../src/widgets/ChatTab.cpp" line="69"/>
+        <location filename="../src/widgets/ChatTab.cpp" line="87"/>
         <source>Profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/ChatTab.cpp" line="34"/>
-        <location filename="../src/widgets/ChatTab.cpp" line="70"/>
+        <location filename="../src/widgets/ChatTab.cpp" line="90"/>
         <source>History</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1063,72 +1077,72 @@
 <context>
     <name>Kitty::RosterTreeView</name>
     <message>
-        <location filename="../src/widgets/RosterTreeView.cpp" line="104"/>
+        <location filename="../src/widgets/RosterTreeView.cpp" line="121"/>
         <source>Add new group</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/RosterTreeView.cpp" line="104"/>
-        <source>Choose a new for the new group:</source>
+        <location filename="../src/widgets/RosterTreeView.cpp" line="121"/>
+        <source>Choose a name for the new group:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/RosterTreeView.cpp" line="141"/>
+        <location filename="../src/widgets/RosterTreeView.cpp" line="158"/>
         <source>Send message</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/RosterTreeView.cpp" line="144"/>
+        <location filename="../src/widgets/RosterTreeView.cpp" line="161"/>
         <source>History</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/RosterTreeView.cpp" line="145"/>
+        <location filename="../src/widgets/RosterTreeView.cpp" line="162"/>
         <source>vCard</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/RosterTreeView.cpp" line="148"/>
+        <location filename="../src/widgets/RosterTreeView.cpp" line="165"/>
         <source>Copy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/RosterTreeView.cpp" line="149"/>
+        <location filename="../src/widgets/RosterTreeView.cpp" line="166"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/RosterTreeView.cpp" line="150"/>
+        <location filename="../src/widgets/RosterTreeView.cpp" line="167"/>
         <source>UID</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/RosterTreeView.cpp" line="151"/>
+        <location filename="../src/widgets/RosterTreeView.cpp" line="168"/>
         <source>Status description</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/RosterTreeView.cpp" line="153"/>
+        <location filename="../src/widgets/RosterTreeView.cpp" line="170"/>
         <source>Group</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/RosterTreeView.cpp" line="154"/>
+        <location filename="../src/widgets/RosterTreeView.cpp" line="171"/>
         <source>None</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/RosterTreeView.cpp" line="183"/>
+        <location filename="../src/widgets/RosterTreeView.cpp" line="200"/>
         <source>Add new</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/RosterTreeView.cpp" line="191"/>
+        <location filename="../src/widgets/RosterTreeView.cpp" line="208"/>
         <source>Block</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/RosterTreeView.cpp" line="195"/>
+        <location filename="../src/widgets/RosterTreeView.cpp" line="212"/>
         <source>Remove</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1143,6 +1157,23 @@
     <message>
         <location filename="../src/widgets/settingpages/PluginsSettings.cpp" line="43"/>
         <source>Not loaded</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Kitty::ChatWebView</name>
+    <message>
+        <location filename="../src/widgets/ChatWebView.cpp" line="174"/>
+        <source>Clear</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Kitty::ThemesSettings</name>
+    <message>
+        <location filename="../src/widgets/settingpages/ThemesSettings.cpp" line="82"/>
+        <location filename="../src/widgets/settingpages/ThemesSettings.cpp" line="97"/>
+        <source>Default</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

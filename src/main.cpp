@@ -1,6 +1,8 @@
 #include "App.h"
 
+using namespace Kitty;
+
 int main(int argc, char *argv[])
 {
-  return (new Kitty::App(argc, argv))->exec();
+  return (new App(argc, argv))->exec();
 }

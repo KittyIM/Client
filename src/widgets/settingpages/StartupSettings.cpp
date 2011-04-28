@@ -3,9 +3,10 @@
 
 #include "SDK/constants.h"
 
+using namespace Kitty;
 using namespace KittySDK;
 
-Kitty::StartupSettings::StartupSettings(QWidget *parent): KittySDK::SettingPage(parent), m_ui(new Ui::StartupSettings)
+Kitty::StartupSettings::StartupSettings(QWidget *parent): SettingPage(parent), m_ui(new Ui::StartupSettings)
 {
   m_ui->setupUi(this);
 

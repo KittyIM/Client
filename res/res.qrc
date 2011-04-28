@@ -1,0 +1,105 @@
+<RCC>
+    <qresource prefix="/">
+        <file>icons/main.ico</file>
+        <file>icons/console.ico</file>
+        <file>icons/profile.ico</file>
+        <file>icons/about.ico</file>
+        <file>icons/settings.ico</file>
+        <file>icons/message.ico</file>
+        <file>glyphs/quit.png</file>
+        <file>glyphs/plugin.png</file>
+        <file>glyphs/settings.png</file>
+        <file>glyphs/console.png</file>
+        <file>glyphs/folder.png</file>
+        <file>glyphs/info.png</file>
+        <file>glyphs/profile.png</file>
+        <file>glyphs/refresh.png</file>
+        <file>glyphs/user.png</file>
+        <file>glyphs/folder_kitty.png</file>
+        <file>glyphs/history.png</file>
+        <file>glyphs/connect.png</file>
+        <file>glyphs/tab.png</file>
+        <file>glyphs/palette.png</file>
+        <file>glyphs/message.png</file>
+        <file>glyphs/key.png</file>
+        <file>glyphs/bullet.png</file>
+        <file>glyphs/smiley.png</file>
+        <file>glyphs/color.png</file>
+        <file>glyphs/file.png</file>
+        <file>glyphs/image.png</file>
+        <file>glyphs/bold.png</file>
+        <file>glyphs/italic.png</file>
+        <file>glyphs/strikethrough.png</file>
+        <file>glyphs/underline.png</file>
+        <file>glyphs/delete.png</file>
+        <file>glyphs/block.png</file>
+        <file>glyphs/group.png</file>
+        <file>glyphs/copy.png</file>
+        <file>images/kitty_logo.png</file>
+        <file>roster/theme.css</file>
+        <file>chat/Header.html</file>
+        <file>chat/Main.css</file>
+        <file>chat/Status.html</file>
+        <file>chat/Incoming/Content.html</file>
+        <file>chat/Incoming/NextContent.html</file>
+        <file>chat/Outgoing/Content.html</file>
+        <file>chat/Outgoing/NextContent.html</file>
+        <file>chat/Variants/Default.css</file>
+        <file>chat/Variants/Black vs. Pink.css</file>
+        <file>chat/Variants/Black vs. Blue.css</file>
+        <file>chat/Variants/Black vs. Gray.css</file>
+        <file>chat/Variants/Black vs. Green.css</file>
+        <file>chat/Variants/Black vs. Orange.css</file>
+        <file>chat/Variants/Black vs. Red.css</file>
+        <file>chat/Variants/Black vs. Yellow.css</file>
+        <file>chat/Variants/Blue vs. Black.css</file>
+        <file>chat/Variants/Blue vs. Gray.css</file>
+        <file>chat/Variants/Blue vs. Green.css</file>
+        <file>chat/Variants/Blue vs. Orange.css</file>
+        <file>chat/Variants/Blue vs. Pink.css</file>
+        <file>chat/Variants/Blue vs. Red.css</file>
+        <file>chat/Variants/Blue vs. Yellow.css</file>
+        <file>chat/Variants/Gray vs. Black.css</file>
+        <file>chat/Variants/Gray vs. Blue.css</file>
+        <file>chat/Variants/Gray vs. Green.css</file>
+        <file>chat/Variants/Gray vs. Orange.css</file>
+        <file>chat/Variants/Gray vs. Pink.css</file>
+        <file>chat/Variants/Gray vs. Red.css</file>
+        <file>chat/Variants/Gray vs. Yellow.css</file>
+        <file>chat/Variants/Green vs. Black.css</file>
+        <file>chat/Variants/Green vs. Blue.css</file>
+        <file>chat/Variants/Green vs. Gray.css</file>
+        <file>chat/Variants/Green vs. Orange.css</file>
+        <file>chat/Variants/Green vs. Pink.css</file>
+        <file>chat/Variants/Green vs. Red.css</file>
+        <file>chat/Variants/Green vs. Yellow.css</file>
+        <file>chat/Variants/Orange vs. Black.css</file>
+        <file>chat/Variants/Orange vs. Blue.css</file>
+        <file>chat/Variants/Orange vs. Gray.css</file>
+        <file>chat/Variants/Orange vs. Green.css</file>
+        <file>chat/Variants/Orange vs. Pink.css</file>
+        <file>chat/Variants/Orange vs. Red.css</file>
+        <file>chat/Variants/Orange vs. Yellow.css</file>
+        <file>chat/Variants/Pink vs. Black.css</file>
+        <file>chat/Variants/Pink vs. Blue.css</file>
+        <file>chat/Variants/Pink vs. Gray.css</file>
+        <file>chat/Variants/Pink vs. Green.css</file>
+        <file>chat/Variants/Pink vs. Orange.css</file>
+        <file>chat/Variants/Pink vs. Red.css</file>
+        <file>chat/Variants/Pink vs. Yellow.css</file>
+        <file>chat/Variants/Red vs. Black.css</file>
+        <file>chat/Variants/Red vs. Blue.css</file>
+        <file>chat/Variants/Red vs. Gray.css</file>
+        <file>chat/Variants/Red vs. Green.css</file>
+        <file>chat/Variants/Red vs. Orange.css</file>
+        <file>chat/Variants/Red vs. Pink.css</file>
+        <file>chat/Variants/Red vs. Yellow.css</file>
+        <file>chat/Variants/Yellow vs. Black.css</file>
+        <file>chat/Variants/Yellow vs. Blue.css</file>
+        <file>chat/Variants/Yellow vs. Gray.css</file>
+        <file>chat/Variants/Yellow vs. Green.css</file>
+        <file>chat/Variants/Yellow vs. Orange.css</file>
+        <file>chat/Variants/Yellow vs. Pink.css</file>
+        <file>chat/Variants/Yellow vs. Red.css</file>
+    </qresource>
+</RCC>

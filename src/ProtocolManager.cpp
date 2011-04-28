@@ -2,14 +2,16 @@
 
 #include <QtCore/QDebug>
 
-const QList<KittySDK::Protocol*> &Kitty::ProtocolManager::protocols() const
+using namespace KittySDK;
+
+const QList<Protocol*> &Kitty::ProtocolManager::protocols() const
 {
   return m_protocols;
 }
 
-KittySDK::Protocol *Kitty::ProtocolManager::protocolByName(const QString &name) const
+Protocol *Kitty::ProtocolManager::protocolByName(const QString &name) const
 {
-  foreach(KittySDK::Protocol *proto, m_protocols) {
+  foreach(Protocol *proto, m_protocols) {
     if(proto->protoInfo()->protoName() == name) {
       return proto;
     }
@@ -18,7 +20,7 @@ KittySDK::Protocol *Kitty::ProtocolManager::protocolByName(const QString &name) 
   return 0;
 }
 
-void Kitty::ProtocolManager::add(KittySDK::Protocol *protocol)
+void Kitty::ProtocolManager::add(Protocol *protocol)
 {
   if(protocolByName(protocol->protoInfo()->protoName())) {
     qWarning() << "Tried to add protocol" << protocol->protoInfo()->protoName() << "which is already in ProtocolManager.";

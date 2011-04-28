@@ -8,9 +8,10 @@
 #include <QtCore/QFileInfo>
 #include <QtCore/QDebug>
 
+using namespace Kitty;
 using namespace KittySDK;
 
-Kitty::PluginsSettings::PluginsSettings(QWidget *parent): KittySDK::SettingPage(parent), m_ui(new Ui::PluginsSettings)
+Kitty::PluginsSettings::PluginsSettings(QWidget *parent): SettingPage(parent), m_ui(new Ui::PluginsSettings)
 {
   m_ui->setupUi(this);
 
@@ -51,7 +52,7 @@ void Kitty::PluginsSettings::on_pluginWidget_currentItemChanged(QTreeWidgetItem 
   if(current) {
     Plugin *plug = PluginManager::inst()->pluginByName(current->text(0));
     if(plug) {
-      KittySDK::PluginInfo *info = plug->plugin()->info();
+      PluginInfo *info = plug->plugin()->info();
       m_ui->pluginNameValueLabel->setText(info->name());
       m_ui->pluginAuthorValueLabel->setText(QString("%1 &lt;<a href=\"mailto:%2\">%2</a>&gt;").arg(info->author()).arg(info->email()));
       m_ui->pluginVersionValueLabel->setText(info->version());

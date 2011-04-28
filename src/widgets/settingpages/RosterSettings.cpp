@@ -4,9 +4,10 @@
 #include "SDK/constants.h"
 #include "Core.h"
 
+using namespace Kitty;
 using namespace KittySDK;
 
-Kitty::RosterSettings::RosterSettings(QWidget *parent): KittySDK::SettingPage(parent), m_ui(new Ui::RosterSettings)
+Kitty::RosterSettings::RosterSettings(QWidget *parent): SettingPage(parent), m_ui(new Ui::RosterSettings)
 {
   m_ui->setupUi(this);
 

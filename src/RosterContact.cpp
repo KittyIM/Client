@@ -4,9 +4,12 @@
 #include "Profile.h"
 #include "Core.h"
 
+using namespace Kitty;
+using namespace KittySDK;
+
 Kitty::RosterContact::RosterContact(KittySDK::Contact *contact, RosterItem *parent): RosterItem(parent), m_contact(contact)
 {
-  setData(Kitty::RosterItem::Contact, Kitty::RosterItem::TypeRole);
+  setData(RosterItem::Contact, RosterItem::TypeRole);
 }
 
 QVariant Kitty::RosterContact::data(int role) const
@@ -17,7 +20,7 @@ QVariant Kitty::RosterContact::data(int role) const
     break;
 
     case Qt::DecorationRole:
-      return Kitty::Core::inst()->icon(m_contact->account()->protocol()->statusIcon(m_contact->status()));
+      return Core::inst()->icon(m_contact->account()->protocol()->statusIcon(m_contact->status()));
     break;
 
     case RosterItem::AccountRole:

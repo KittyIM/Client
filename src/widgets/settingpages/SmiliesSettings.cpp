@@ -3,9 +3,10 @@
 
 #include "SDK/constants.h"
 
+using namespace Kitty;
 using namespace KittySDK;
 
-Kitty::SmiliesSettings::SmiliesSettings(QWidget *parent): KittySDK::SettingPage(parent), m_ui(new Ui::SmiliesSettings)
+Kitty::SmiliesSettings::SmiliesSettings(QWidget *parent): SettingPage(parent), m_ui(new Ui::SmiliesSettings)
 {
   m_ui->setupUi(this);
 

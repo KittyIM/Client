@@ -14,17 +14,18 @@
 #include <QtXml/QDomElement>
 
 using namespace Kitty;
+using namespace KittySDK;
 
-const QList<KittySDK::Account*> &Kitty::AccountManager::accounts() const
+const QList<Account*> &Kitty::AccountManager::accounts() const
 {
   return m_accounts;
 }
 
-const QList<KittySDK::Account*> Kitty::AccountManager::accountsByProtocol(KittySDK::Protocol *protocol) const
+const QList<Account*> Kitty::AccountManager::accountsByProtocol(Protocol *protocol) const
 {
-  QList<KittySDK::Account*> accounts;
+  QList<Account*> accounts;
 
-  foreach(KittySDK::Account *account, m_accounts) {
+  foreach(Account *account, m_accounts) {
     if(account->protocol() == protocol) {
       accounts.append(account);
     }
@@ -33,9 +34,9 @@ const QList<KittySDK::Account*> Kitty::AccountManager::accountsByProtocol(KittyS
   return accounts;
 }
 
-KittySDK::Account *Kitty::AccountManager::account(KittySDK::Protocol *protocol, const QString &uid) const
+Account *Kitty::AccountManager::account(Protocol *protocol, const QString &uid) const
 {
-  foreach(KittySDK::Account *account, accountsByProtocol(protocol)) {
+  foreach(Account *account, accountsByProtocol(protocol)) {
     if(account->uid() == uid) {
       return account;
     }
@@ -44,11 +45,11 @@ KittySDK::Account *Kitty::AccountManager::account(KittySDK::Protocol *protocol, 
   return 0;
 }
 
-KittySDK::Account *Kitty::AccountManager::account(const QString &protocol, const QString &uid) const
+Account *Kitty::AccountManager::account(const QString &protocol, const QString &uid) const
 {
-  KittySDK::Protocol *proto = ProtocolManager::inst()->protocolByName(protocol);
+  Protocol *proto = ProtocolManager::inst()->protocolByName(protocol);
   if(proto) {
-    foreach(KittySDK::Account *account, accountsByProtocol(proto)) {
+    foreach(Account *account, accountsByProtocol(proto)) {
       if(account->uid() == uid) {
         return account;
       }
@@ -58,17 +59,17 @@ KittySDK::Account *Kitty::AccountManager::account(const QString &protocol, const
   return 0;
 }
 
-bool Kitty::AccountManager::add(KittySDK::Account *account)
+bool Kitty::AccountManager::add(Account *account)
 {
   qDebug() << "Adding new account" << account->uid() << account->password() << account->protocol()->protoInfo()->protoName();
 
-  foreach(KittySDK::Account *acc, accountsByProtocol(account->protocol())) {
+  foreach(Account *acc, accountsByProtocol(account->protocol())) {
     if(account->uid() == acc->uid()) {
       return false;
     }
   }
 
-  if(account->protocol()->abilities().testFlag(KittySDK::Protocol::ChangeStatus)) {
+  if(account->protocol()->abilities().testFlag(Protocol::ChangeStatus)) {
     QAction *action = new QAction(this);
     action->setText(QString("%1 (%2)").arg(account->uid()).arg(account->protocol()->protoInfo()->protoName()));
     action->setIcon(Core::inst()->icon(account->protocol()->statusIcon(account->status())));
@@ -77,7 +78,7 @@ bool Kitty::AccountManager::add(KittySDK::Account *account)
     connect(account, SIGNAL(statusChanged()), Core::inst()->mainWindow(), SLOT(updateAccountStatusIcon()));
     connect(action, SIGNAL(triggered()), Core::inst()->mainWindow(), SLOT(showAccountStatusMenu()));
 
-    Core::inst()->mainWindow()->addToolbarAction(KittySDK::Toolbars::TB_NETWORKS, action);
+    Core::inst()->mainWindow()->addToolbarAction(Toolbars::TB_NETWORKS, action);
   }
 
   m_accounts.append(account);
@@ -101,12 +102,12 @@ void Kitty::AccountManager::load(const QString &profile)
           QVariantMap settings = item.toMap();
 
           if(settings.contains("protocol")) {
-            KittySDK::Protocol *proto = ProtocolManager::inst()->protocolByName(settings.value("protocol").toString());
+            Protocol *proto = ProtocolManager::inst()->protocolByName(settings.value("protocol").toString());
 
             if(proto) {
               Plugin *plug = PluginManager::inst()->pluginByName(proto->info()->name());
               if(plug->isLoaded()) {
-                KittySDK::Account *acc = proto->newAccount(settings.value("uid").toString());
+                Account *acc = proto->newAccount(settings.value("uid").toString());
                 if(acc) {
                   acc->setPassword(settings.value("password").toString());
 
@@ -144,7 +145,7 @@ void Kitty::AccountManager::save(const QString &profile)
   qDebug() << "saving accounts for" << profile;
 
   QVariantList list;
-  foreach(KittySDK::Account *account, m_accounts) {
+  foreach(Account *account, m_accounts) {
     QVariantMap acc;
 
     QMap<QString, QVariant> settings = account->saveSettings();

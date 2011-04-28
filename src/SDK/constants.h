@@ -74,9 +74,15 @@ namespace KittySDK
 
     const char * const S_CHATWINDOW_CAPTION            = "Kitty.Display.Captions.ChatWindow";
     const char * const S_CHATWINDOW_GEOMETRY           = "Kitty.Geometries.ChatWindow";
+    const char * const S_CHATWINDOW_SENTHISTORY        = "Kitty.ChatWindow.SentHistory";
+    const char * const S_CHATWINDOW_COPYSELECTION      = "Kitty.ChatWindow.CopySelection";
+
     const char * const S_CHATWINDOW_SPELLCHECK_ENABLED = "Kitty.ChatWindow.SpellCheck.Enabled";
     const char * const S_CHATWINDOW_SPELLCHECK_DICT    = "Kitty.ChatWindow.SpellCheck.Dictionary";
-
+    const char * const S_CHATWINDOW_TABBAR_HIDE_ONE    = "Kitty.ChatWindow.TabBar.HideIfOneTab";
+    const char * const S_CHATWINDOW_TABBAR_CLOSE_WND   = "Kitty.ChatWindow.TabBar.CloseWithWnd";
+    const char * const S_CHATWINDOW_TABBAR_FKEYS       = "Kitty.ChatWindow.TabBar.UseFKeys";
+    const char * const S_CHATWINDOW_TABBAR_POS         = "Kitty.ChatWindow.TabBar.Position";
 
     const char * const S_CHATTAB_CAPTION               = "Kitty.Display.Captions.ChatTab";
 

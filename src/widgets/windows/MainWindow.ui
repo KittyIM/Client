@@ -20,9 +20,6 @@
     </property>
     <item row="0" column="0">
      <widget class="Kitty::RosterTreeView" name="rosterTreeView">
-      <property name="styleSheet">
-       <string notr="true"/>
-      </property>
       <property name="frameShape">
        <enum>QFrame::NoFrame</enum>
       </property>

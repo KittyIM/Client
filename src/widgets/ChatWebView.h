@@ -44,6 +44,7 @@ namespace Kitty
 
     protected:
       void keyPressEvent(QKeyEvent *event);
+      void mouseReleaseEvent(QMouseEvent *event);
 
     private:
       ChatWebPage *m_page;

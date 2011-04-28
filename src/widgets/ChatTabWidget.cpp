@@ -1,43 +1,52 @@
 #include "ChatTabWidget.h"
 
+#include "SDK/constants.h"
 #include "ChatTab.h"
+#include "Core.h"
 
 #include <QtCore/QDebug>
 #include <QtGui/QTabBar>
 #include <QtGui/QKeyEvent>
 
+using namespace Kitty;
+using namespace KittySDK;
+
 Kitty::ChatTabWidget::ChatTabWidget(QWidget *parent): QTabWidget(parent)
 {
-}
-
-void Kitty::ChatTabWidget::switchTo(KittySDK::Chat *chat)
-{
-  for(int i = 0; i < count(); i++) {
-    Kitty::ChatTab *tab = static_cast<Kitty::ChatTab*>(widget(i));
-    if(tab->chat() == chat) {
-      setCurrentIndex(i);
-
-      return;
-    }
-  }
 }
 
 void Kitty::ChatTabWidget::setCurrentIndex(int index)
 {
   QTabWidget::setCurrentIndex(index);
 
-  static_cast<Kitty::ChatTab*>(widget(index))->setEditFocus();
+  if(widget(index)) {
+    static_cast<ChatTab*>(widget(index))->setEditFocus();
+  }
+}
+
+void Kitty::ChatTabWidget::updateTabBar()
+{
+  Core *core = Core::inst();
+
+  if(core->setting(Settings::S_CHATWINDOW_TABBAR_HIDE_ONE, true).toBool()) {
+    if(count() == 1) {
+      tabBar()->hide();
+    } else {
+      tabBar()->show();
+    }
+  } else {
+    tabBar()->show();
+  }
+}
+
+void Kitty::ChatTabWidget::tabInserted(int index)
+{
+  updateTabBar();
 }
 
 void Kitty::ChatTabWidget::tabRemoved(int index)
 {
-  QTabWidget::tabRemoved(index);
-
-  if(count() > 1) {
-    //tabBar()->show();
-  } else {
-    //tabBar()->hide();
-  }
+  updateTabBar();
 }
 
 void Kitty::ChatTabWidget::mousePressEvent(QMouseEvent *event)

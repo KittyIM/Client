@@ -19,6 +19,7 @@
 #include <QtWebKit/QWebElement>
 #include <QtWebKit/QWebFrame>
 
+using namespace Kitty;
 using namespace KittySDK;
 
 bool Kitty::ChatWebPage::acceptNavigationRequest(QWebFrame *frame, const QNetworkRequest &request, QWebPage::NavigationType type)
@@ -35,16 +36,22 @@ Kitty::ChatWebView::ChatWebView(QWidget *parent): QWebView(parent)
   m_page = new ChatWebPage();
   setPage(m_page);
 
+  page()->settings()->setAttribute(QWebSettings::PrivateBrowsingEnabled, true);
+  page()->settings()->setAttribute(QWebSettings::JavascriptEnabled, false);
+  page()->settings()->setAttribute(QWebSettings::JavaEnabled, false);
+  page()->settings()->setAttribute(QWebSettings::PluginsEnabled, false);
+  page()->settings()->setAttribute(QWebSettings::LinksIncludedInFocusChain, false);
+
   connect(this->page(), SIGNAL(downloadRequested(QNetworkRequest)), this, SLOT(handleDownload(QNetworkRequest)));
   connect(this, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(showContextMenu(QPoint)));
 }
 
 void Kitty::ChatWebView::appendMessage(const KittySDK::Message &msg, Kitty::ChatTheme *theme)
 {
-  Kitty::Core *core = Kitty::Core::inst();
+  Core *core = Core::inst();
 
   if(!theme) {
-    theme = Kitty::Core::inst()->chatWindow()->theme();
+    theme = Core::inst()->chatWindow()->theme();
   }
 
   QString style;
@@ -52,21 +59,21 @@ void Kitty::ChatWebView::appendMessage(const KittySDK::Message &msg, Kitty::Chat
   switch(msg.direction()) {
     case Message::Outgoing:
     {
-     style = theme->getCode(Kitty::ChatTheme::OutgoingContent);
+     style = theme->getCode(ChatTheme::OutgoingContent);
      style.replace("%messageClasses%", "message, outgoing");
     }
     break;
 
     case Message::Incoming:
     {
-     style = theme->getCode(Kitty::ChatTheme::IncomingContent);
+     style = theme->getCode(ChatTheme::IncomingContent);
      style.replace("%messageClasses%", "message, incoming");
     }
     break;
 
     case Message::System:
     {
-     style = theme->getCode(Kitty::ChatTheme::Status);
+     style = theme->getCode(ChatTheme::Status);
      style.replace("%messageClasses%", "status");
     }
     break;
@@ -111,7 +118,7 @@ void Kitty::ChatWebView::clear()
 
 void Kitty::ChatWebView::clearTo(bool custom, const QString &theme, const QString &variant)
 {
-  Kitty::Core *core = Kitty::Core::inst();
+  Core *core = Core::inst();
 
   QString style = "Main.css";
   if(custom) {
@@ -187,4 +194,20 @@ void Kitty::ChatWebView::keyPressEvent(QKeyEvent *event)
       qApp->clipboard()->setText(selectedText());
     }
   }
+}
+
+void Kitty::ChatWebView::mouseReleaseEvent(QMouseEvent *event)
+{
+  Core *core = Core::inst();
+ if(core->setting(Settings::S_CHATWINDOW_COPYSELECTION, false).toBool()) {
+    if(!selectedText().isEmpty()) {
+      qApp->clipboard()->setText(selectedText());
+
+      page()->settings()->setAttribute(QWebSettings::JavascriptEnabled, true);
+      page()->mainFrame()->evaluateJavaScript("document.execCommand('unselect');");
+      page()->settings()->setAttribute(QWebSettings::JavascriptEnabled, false);
+    }
+  }
+
+  QWebView::mouseReleaseEvent(event);
 }

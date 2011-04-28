@@ -25,6 +25,7 @@
 #include <QtXml/QDomDocument>
 #include <QtXml/QDomElement>
 
+using namespace Kitty;
 using namespace KittySDK;
 
 Kitty::Profile::Profile(QObject *parent): QObject(parent)
@@ -44,16 +45,16 @@ Kitty::Profile::~Profile()
 
 void Kitty::Profile::load(const QString &name)
 {
-  Kitty::Core *core = Kitty::Core::inst();
+  Core *core = Core::inst();
 
   m_name = name;
-  m_settings = new Kitty::JsonSettings(core->profilesDir() + name + "/settings.dat", this);
+  m_settings = new JsonSettings(core->profilesDir() + name + "/settings.dat", this);
 
   if(m_settings->contains(Settings::S_ICON_THEME)) {
     loadIconTheme(settings()->value(Settings::S_ICON_THEME).toString());
   }
 
-  static_cast<Kitty::App*>(qApp)->applySettings();
+  static_cast<App*>(qApp)->applySettings();
 
   ActionManager::inst()->loadDefaults();
 

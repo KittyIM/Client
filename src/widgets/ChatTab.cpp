@@ -19,9 +19,10 @@
 #include <QtWebKit/QWebFrame>
 #include <QtWebKit/QWebPage>
 
+using namespace Kitty;
 using namespace KittySDK;
 
-Kitty::ChatTab::ChatTab(KittySDK::Chat *chat, QWidget *parent): QWidget(parent), m_ui(new Ui::ChatTab), m_chat(chat)
+Kitty::ChatTab::ChatTab(Chat *chat, QWidget *parent): QWidget(parent), m_ui(new Ui::ChatTab), m_chat(chat)
 {
   m_ui->setupUi(this);
 
@@ -32,24 +33,24 @@ Kitty::ChatTab::ChatTab(KittySDK::Chat *chat, QWidget *parent): QWidget(parent),
   m_toolBar->setStyleSheet("QToolBar { border: 0; }");
   m_ui->verticalLayout->addWidget(m_toolBar);
 
-  KittySDK::Protocol *proto = chat->account()->protocol();
+  Protocol *proto = chat->account()->protocol();
 
-  if(proto->abilities().testFlag(KittySDK::Protocol::TextBold)) {
+  if(proto->abilities().testFlag(Protocol::TextBold)) {
     QAction *boldAction = m_toolBar->addAction(tr("Bold"));
     boldAction->setProperty("icon_id", Icons::I_BOLD);
   }
 
-  if(proto->abilities().testFlag(KittySDK::Protocol::TextItalics)) {
+  if(proto->abilities().testFlag(Protocol::TextItalics)) {
     QAction *italicAction = m_toolBar->addAction(tr("Italic"));
     italicAction->setProperty("icon_id", Icons::I_ITALIC);
   }
 
-  if(proto->abilities().testFlag(KittySDK::Protocol::TextUnderline)) {
+  if(proto->abilities().testFlag(Protocol::TextUnderline)) {
     QAction *underlineAction = m_toolBar->addAction(tr("Underline"));
     underlineAction->setProperty("icon_id", Icons::I_UNDERLINE);
   }
 
-  if(proto->abilities().testFlag(KittySDK::Protocol::TextStriketrough)) {
+  if(proto->abilities().testFlag(Protocol::TextStriketrough)) {
     QAction *striketroughAction = m_toolBar->addAction(tr("Striketrough"));
     striketroughAction->setProperty("icon_id", Icons::I_STRIKETROUGH);
   }
@@ -58,7 +59,7 @@ Kitty::ChatTab::ChatTab(KittySDK::Chat *chat, QWidget *parent): QWidget(parent),
     m_toolBar->addSeparator();
   }
 
-  if(proto->abilities().testFlag(KittySDK::Protocol::TextColor)) {
+  if(proto->abilities().testFlag(Protocol::TextColor)) {
     QAction *colorAction = m_toolBar->addAction(tr("Color"));
     colorAction->setProperty("icon_id", Icons::I_COLOR);
   }
@@ -70,12 +71,12 @@ Kitty::ChatTab::ChatTab(KittySDK::Chat *chat, QWidget *parent): QWidget(parent),
 
   int c = m_toolBar->actions().count();
 
-  if(proto->abilities().testFlag(KittySDK::Protocol::SendImages)) {
+  if(proto->abilities().testFlag(Protocol::SendImages)) {
     QAction *imageAction = m_toolBar->addAction(tr("Send image"));
     imageAction->setProperty("icon_id", Icons::I_IMAGE);
   }
 
-  if(proto->abilities().testFlag(KittySDK::Protocol::SendFiles)) {
+  if(proto->abilities().testFlag(Protocol::SendFiles)) {
     QAction *fileAction = m_toolBar->addAction(tr("Send file"));
     fileAction->setProperty("icon_id", Icons::I_FILE);
   }
@@ -102,7 +103,7 @@ Kitty::ChatTab::~ChatTab()
 
 void Kitty::ChatTab::updateIcons()
 {
-  Kitty::Core *core = Kitty::Core::inst();
+  Core *core = Core::inst();
 
   foreach(QAction *action, m_toolBar->actions()) {
     if(action->property("icon_id").isValid()) {
@@ -118,24 +119,31 @@ void Kitty::ChatTab::setEditFocus()
 
 void Kitty::ChatTab::applySettings()
 {
+  m_ui->textEdit->clearHistory();
 }
 
 void Kitty::ChatTab::sendMessage()
 {
-  KittySDK::Message msg(m_chat->me(), m_chat->contacts());
-  msg.setBody(m_ui->textEdit->toPlainText());
+  if(!m_ui->textEdit->toPlainText().isEmpty()) {
+    Message msg(m_chat->me(), m_chat->contacts());
+    msg.setBody(m_ui->textEdit->toPlainText());
 
-  QList<Kitty::Plugin*> plugins = Kitty::PluginManager::inst()->plugins();
-  foreach(Kitty::Plugin *plugin, plugins) {
-    if(plugin->isLoaded()) {
-      plugin->plugin()->processMessage(msg);
+    QList<Plugin*> plugins = PluginManager::inst()->plugins();
+    foreach(Plugin *plugin, plugins) {
+      if(plugin->isLoaded()) {
+        plugin->plugin()->processMessage(msg);
+      }
     }
+
+    m_ui->webView->appendMessage(msg);
+
+    if(Core::inst()->setting(Settings::S_CHATWINDOW_SENTHISTORY, true).toBool()) {
+      m_ui->textEdit->addHistory(msg.body());
+    }
+
+    m_chat->account()->sendMessage(msg);
+    m_ui->textEdit->clear();
   }
-
-  m_ui->webView->appendMessage(msg);
-
-  m_chat->account()->sendMessage(msg);
-  m_ui->textEdit->clear();
 }
 
 void Kitty::ChatTab::changeEvent(QEvent *event)

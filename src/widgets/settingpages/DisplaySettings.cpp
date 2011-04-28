@@ -6,6 +6,7 @@
 
 #include <QtGui/QToolTip>
 
+using namespace Kitty;
 using namespace KittySDK;
 
 Kitty::DisplaySettings::DisplaySettings(QWidget *parent): KittySDK::SettingPage(parent), m_ui(new Ui::DisplaySettings)
@@ -22,7 +23,7 @@ Kitty::DisplaySettings::~DisplaySettings()
 
 void Kitty::DisplaySettings::apply()
 {
-  Kitty::Core *core = Kitty::Core::inst();
+  Core *core = Core::inst();
 
   core->setSetting(Settings::S_MAINWINDOW_ALWAYS_ON_TOP, m_ui->alwaysOnTopCheckBox->isChecked());
   core->setSetting(Settings::S_MAINWINDOW_AUTOHIDE, m_ui->autoHideCheckBox->isChecked());
@@ -38,7 +39,7 @@ void Kitty::DisplaySettings::apply()
 
 void Kitty::DisplaySettings::reset()
 {
-  Kitty::Core *core = Kitty::Core::inst();
+  Core *core = Core::inst();
 
   m_ui->alwaysOnTopCheckBox->setChecked(core->setting(Settings::S_MAINWINDOW_ALWAYS_ON_TOP).toBool());
   m_ui->autoHideCheckBox->setChecked(core->setting(Settings::S_MAINWINDOW_AUTOHIDE).toBool());
@@ -54,9 +55,9 @@ void Kitty::DisplaySettings::reset()
 
 void Kitty::DisplaySettings::updateIcons()
 {
-  m_ui->mainWindowCaptionHelpButton->setIcon(Kitty::Core::inst()->icon(Icons::I_INFO));
-  m_ui->chatWindowCaptionHelpButton->setIcon(Kitty::Core::inst()->icon(Icons::I_INFO));
-  m_ui->chatTabCaptionHelpButton->setIcon(Kitty::Core::inst()->icon(Icons::I_INFO));
+  m_ui->mainWindowCaptionHelpButton->setIcon(Core::inst()->icon(Icons::I_INFO));
+  m_ui->chatWindowCaptionHelpButton->setIcon(Core::inst()->icon(Icons::I_INFO));
+  m_ui->chatTabCaptionHelpButton->setIcon(Core::inst()->icon(Icons::I_INFO));
 }
 
 void Kitty::DisplaySettings::on_mainWindowCaptionHelpButton_clicked()

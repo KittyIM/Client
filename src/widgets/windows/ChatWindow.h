@@ -28,6 +28,8 @@ namespace Kitty
 
       Kitty::ChatTheme *theme() const { return m_theme; }
 
+      QString createLabel(KittySDK::Chat *chat);
+
     public slots:
       void applySettings();
       void updateIcons();
@@ -36,6 +38,10 @@ namespace Kitty
 
     private slots:
       void on_tabWidget_tabCloseRequested(int index);
+
+    protected:
+      void keyPressEvent(QKeyEvent *event);
+      void closeEvent(QCloseEvent *event);
 
     private:
       Ui::ChatWindow *m_ui;

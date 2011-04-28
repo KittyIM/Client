@@ -12,6 +12,7 @@
 #include <QtCore/QDebug>
 
 using namespace Kitty;
+using namespace KittySDK;
 
 QVariant Kitty::PluginCoreImpl::setting(const QString &key, const QVariant &defaultValue)
 {
@@ -28,7 +29,7 @@ QString Kitty::PluginCoreImpl::profileName()
   return Core::inst()->profile()->name();
 }
 
-void Kitty::PluginCoreImpl::addSettingPage(KittySDK::SettingPage *page, const QString &parent)
+void Kitty::PluginCoreImpl::addSettingPage(SettingPage *page, const QString &parent)
 {
   Core::inst()->settingsWindow()->addPage(page, parent);
 }
@@ -38,7 +39,7 @@ void Kitty::PluginCoreImpl::addToolbarAction(const QString &tb, QAction *action)
   Core::inst()->mainWindow()->addToolbarAction(tb, action);
 }
 
-void Kitty::PluginCoreImpl::addAccount(KittySDK::Account *account)
+void Kitty::PluginCoreImpl::addAccount(Account *account)
 {
   AccountManager::inst()->add(account);
 }

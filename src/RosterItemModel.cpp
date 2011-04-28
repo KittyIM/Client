@@ -20,9 +20,9 @@ Kitty::RosterItemModel::~RosterItemModel()
   delete m_root;
 }
 
-Kitty::RosterItem *Kitty::RosterItemModel::addGroup(const QString &name)
+RosterItem *Kitty::RosterItemModel::addGroup(const QString &name)
 {
-  Kitty::RosterGroup *item = new RosterGroup(m_root);
+  RosterGroup *item = new RosterGroup(m_root);
 
   item->setData(RosterItem::Group, RosterItem::TypeRole);
   item->setData(name, Qt::DisplayRole);
@@ -42,7 +42,7 @@ void Kitty::RosterItemModel::removeGroup(RosterItem *group)
   endRemoveRows();
 }
 
-Kitty::RosterItem *Kitty::RosterItemModel::addContact(RosterContact *item, RosterItem *parent)
+RosterItem *Kitty::RosterItemModel::addContact(RosterContact *item, RosterItem *parent)
 {
   if(!parent) {
     parent = m_root;
@@ -53,7 +53,7 @@ Kitty::RosterItem *Kitty::RosterItemModel::addContact(RosterContact *item, Roste
   return item;
 }
 
-Kitty::RosterItem *Kitty::RosterItemModel::groupItem(const QString &name)
+RosterItem *Kitty::RosterItemModel::groupItem(const QString &name)
 {
   if(name.isEmpty()) {
     return m_root;

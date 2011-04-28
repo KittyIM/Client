@@ -8,9 +8,10 @@
 #include <QtCore/QDebug>
 #include <QtCore/QDir>
 
+using namespace Kitty;
 using namespace KittySDK;
 
-Kitty::ChatWindowSettings::ChatWindowSettings(QWidget *parent): KittySDK::SettingPage(parent), m_ui(new Ui::ChatWindowSettings)
+Kitty::ChatWindowSettings::ChatWindowSettings(QWidget *parent): SettingPage(parent), m_ui(new Ui::ChatWindowSettings)
 {
   m_ui->setupUi(this);
 
@@ -24,16 +25,20 @@ Kitty::ChatWindowSettings::~ChatWindowSettings()
 
 void Kitty::ChatWindowSettings::apply()
 {
-  Kitty::Core *core = Kitty::Core::inst();
+  Core *core = Core::inst();
 
+  core->setSetting(Settings::S_CHATWINDOW_COPYSELECTION, m_ui->copySelectionToClipboardCheckBox->isChecked());
+  core->setSetting(Settings::S_CHATWINDOW_SENTHISTORY, m_ui->sentMessagesHistoryCheckBox->isChecked());
   core->setSetting(Settings::S_CHATWINDOW_SPELLCHECK_ENABLED, m_ui->spellCheckCheckBox->isChecked());
   core->setSetting(Settings::S_CHATWINDOW_SPELLCHECK_DICT, m_ui->spellCheckDictionaryComboBox->itemData(m_ui->spellCheckDictionaryComboBox->currentIndex()).toString());
 }
 
 void Kitty::ChatWindowSettings::reset()
 {
-  Kitty::Core *core = Kitty::Core::inst();
+  Core *core = Core::inst();
 
+  m_ui->copySelectionToClipboardCheckBox->setChecked(core->setting(Settings::S_CHATWINDOW_COPYSELECTION, false).toBool());
+  m_ui->sentMessagesHistoryCheckBox->setChecked(core->setting(Settings::S_CHATWINDOW_SENTHISTORY, true).toBool());
   m_ui->spellCheckCheckBox->setChecked(core->setting(Settings::S_CHATWINDOW_SPELLCHECK_ENABLED, false).toBool());
 
   m_ui->spellCheckDictionaryComboBox->clear();

@@ -7,6 +7,7 @@
 #include <QtCore/QFileInfoList>
 #include <QtCore/QDir>
 
+using namespace Kitty;
 using namespace KittySDK;
 
 Kitty::MainSettings::MainSettings(QWidget *parent): KittySDK::SettingPage(parent), m_ui(new Ui::MainSettings)

@@ -22,6 +22,7 @@
 #include <QtGui/QToolButton>
 #include <QtGui/QMenu>
 
+using namespace Kitty;
 using namespace KittySDK;
 
 Kitty::MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), m_ui(new Ui::MainWindow)
@@ -31,8 +32,8 @@ Kitty::MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), m_ui(new Ui
   setWindowFlags(windowFlags() | Qt::Tool);
   qDebug() << "Creating MainWindow";
 
-  m_model = new Kitty::RosterItemModel(m_ui->rosterTreeView);
-  m_proxy = new Kitty::RosterSortProxy(m_ui->rosterTreeView);
+  m_model = new RosterItemModel(m_ui->rosterTreeView);
+  m_proxy = new RosterSortProxy(m_ui->rosterTreeView);
   m_proxy->setSourceModel(m_model);
 
   m_ui->rosterTreeView->setModel(m_proxy);
@@ -163,9 +164,9 @@ void Kitty::MainWindow::addToolbarAction(const QString &tb, QAction *action)
 
 void Kitty::MainWindow::loadContacts()
 {
-  QList<KittySDK::Contact*> contacts = Kitty::ContactManager::inst()->contacts();
-  foreach(KittySDK::Contact *cnt, contacts) {
-    Kitty::RosterContact *contact = new Kitty::RosterContact(cnt, m_model->groupItem(cnt->group()));
+  QList<Contact*> contacts = ContactManager::inst()->contacts();
+  foreach(Contact *cnt, contacts) {
+    RosterContact *contact = new RosterContact(cnt, m_model->groupItem(cnt->group()));
 
     m_model->addContact(contact, m_model->groupItem(cnt->group()));
   }
@@ -218,7 +219,7 @@ void Kitty::MainWindow::applySettings()
 void Kitty::MainWindow::showAccountStatusMenu()
 {
   QAction *action = qobject_cast<QAction*>(sender());
-  KittySDK::Account *account = Kitty::AccountManager::inst()->account(action->property("protocol").toString(), action->property("uid").toString());
+  Account *account = AccountManager::inst()->account(action->property("protocol").toString(), action->property("uid").toString());
   if(account) {
     QMenu *menu = account->statusMenu();
     if(menu) {
@@ -231,10 +232,10 @@ void Kitty::MainWindow::showAccountStatusMenu()
 
 void Kitty::MainWindow::updateAccountStatusIcon()
 {
-  KittySDK::Account *account = dynamic_cast<KittySDK::Account*>(sender());
+  Account *account = dynamic_cast<Account*>(sender());
   foreach(QAction *action, m_ui->networksToolBar->actions()) {
     if((action->property("protocol").toString() == account->protocol()->protoInfo()->protoName()) && (action->property("uid").toString() == account->uid())) {
-      action->setIcon(Kitty::Core::inst()->icon(account->protocol()->statusIcon(account->status())));
+      action->setIcon(Core::inst()->icon(account->protocol()->statusIcon(account->status())));
     }
   }
 }

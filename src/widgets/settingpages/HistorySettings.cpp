@@ -3,6 +3,7 @@
 
 #include "SDK/constants.h"
 
+using namespace Kitty;
 using namespace KittySDK;
 
 Kitty::HistorySettings::HistorySettings(QWidget *parent): KittySDK::SettingPage(parent), m_ui(new Ui::HistorySettings)

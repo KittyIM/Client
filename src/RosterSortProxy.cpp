@@ -10,6 +10,7 @@
 #include <QtCore/QDebug>
 
 using namespace Kitty;
+using namespace KittySDK;
 
 Kitty::RosterSortProxy::RosterSortProxy(QObject *parent): QSortFilterProxyModel(parent)
 {
@@ -39,11 +40,11 @@ bool Kitty::RosterSortProxy::filterAcceptsRow(int source_row, const QModelIndex&
 {
   QModelIndex index = sourceModel()->index(source_row, 0, source_parent);
 
-  if(Core::inst()->setting(KittySDK::Settings::S_ROSTER_HIDE_OFFLINE, false).toBool()) {
+  if(Core::inst()->setting(Settings::S_ROSTER_HIDE_OFFLINE, false).toBool()) {
     if(index.data(RosterItem::TypeRole).toInt() == RosterItem::Group) {
       return true;
     } else {
-      return index.data(RosterItem::StatusRole).toInt() < KittySDK::Protocol::Offline;
+      return index.data(RosterItem::StatusRole).toInt() < Protocol::Offline;
     }
   } else {
     return true;

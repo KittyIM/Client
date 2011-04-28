@@ -8,13 +8,14 @@
 #include <QtCore/QDebug>
 #include <QtGui/QApplication>
 
+using namespace Kitty;
 using namespace KittySDK;
 
 void Kitty::ActionManager::loadDefaults()
 {
   qDebug() << "ActionManager is loading default actions";
 
-  Kitty::Core *core = Kitty::Core::inst();
+  Core *core = Core::inst();
 
   QAction *actQuit = new QAction(tr("Quit"), this);
   actQuit->setProperty("icon_id", Icons::I_QUIT);
@@ -62,7 +63,7 @@ void Kitty::ActionManager::updateIcons()
 {
   qDebug() << "ActionManager is updating icons";
 
-  Kitty::Core *core = Kitty::Core::inst();
+  Core *core = Core::inst();
 
   QHashIterator<QString, QPointer<QAction> > it(m_actions);
   while(it.hasNext()) {

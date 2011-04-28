@@ -5,17 +5,18 @@
 #include "Core.h"
 
 using namespace Kitty;
+using namespace KittySDK;
 
-const QList<KittySDK::Chat*> &Kitty::ChatManager::chats() const
+const QList<Chat*> &Kitty::ChatManager::chats() const
 {
   return m_chats;
 }
 
-const QList<KittySDK::Chat*> Kitty::ChatManager::chatsByAccount(KittySDK::Account *account) const
+const QList<Chat*> Kitty::ChatManager::chatsByAccount(Account *account) const
 {
-  QList<KittySDK::Chat*> chats;
+  QList<Chat*> chats;
 
-  foreach(KittySDK::Chat *chat, m_chats) {
+  foreach(Chat *chat, m_chats) {
     if(chat->account() == account) {
       chats.append(chat);
     }
@@ -24,9 +25,9 @@ const QList<KittySDK::Chat*> Kitty::ChatManager::chatsByAccount(KittySDK::Accoun
   return chats;
 }
 
-KittySDK::Chat *Kitty::ChatManager::chat(KittySDK::Contact *me, const QList<KittySDK::Contact*> &contacts) const
+Chat *Kitty::ChatManager::chat(Contact *me, const QList<Contact*> &contacts) const
 {
-  foreach(KittySDK::Chat *chat, chatsByAccount(me->account())) {
+  foreach(Chat *chat, chatsByAccount(me->account())) {
     if(chat->contacts() == contacts) {
       return chat;
     }
@@ -35,18 +36,15 @@ KittySDK::Chat *Kitty::ChatManager::chat(KittySDK::Contact *me, const QList<Kitt
   return 0;
 }
 
-void Kitty::ChatManager::startChat(KittySDK::Contact *me, const QList<KittySDK::Contact*> &contacts)
+void Kitty::ChatManager::startChat(Contact *me, const QList<Contact*> &contacts)
 {
-  KittySDK::Chat *ch = chat(me, contacts);
+  Chat *ch = chat(me, contacts);
   if(!ch) {
-    ch = new KittySDK::Chat(me, contacts);
+    ch = new Chat(me, contacts);
     m_chats.append(ch);
-
-    Core::inst()->chatWindow()->startChat(ch);
-  } else {
-    Core::inst()->chatWindow()->switchTo(ch);
   }
 
+  Core::inst()->chatWindow()->startChat(ch);
   Core::inst()->chatWindow()->show();
   Core::inst()->chatWindow()->activateWindow();
 }

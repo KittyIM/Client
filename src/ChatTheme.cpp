@@ -119,7 +119,7 @@ void Kitty::ChatTheme::load(const QString &name)
   }
 }
 
-void Kitty::ChatTheme::loadFile(const Kitty::ChatTheme::Type &type, const QString &fileName)
+void Kitty::ChatTheme::loadFile(const ChatTheme::Type &type, const QString &fileName)
 {
   QFile file(fileName);
   if(file.open(QFile::ReadOnly)) {

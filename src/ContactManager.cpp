@@ -8,12 +8,15 @@
 #include <QtXml/QDomDocument>
 #include <QtXml/QDomElement>
 
-const QList<KittySDK::Contact*> &Kitty::ContactManager::contacts() const
+using namespace Kitty;
+using namespace KittySDK;
+
+const QList<Contact*> &Kitty::ContactManager::contacts() const
 {
   return m_contacts;
 }
 
-void Kitty::ContactManager::add(KittySDK::Contact *contact)
+void Kitty::ContactManager::add(Contact *contact)
 {
   m_contacts.append(contact);
 }
@@ -22,7 +25,7 @@ void Kitty::ContactManager::load(const QString &profile)
 {
   qDebug() << "Loading contacts for" << profile;
 
-  QFile file(Kitty::Core::inst()->profilesDir() + profile + "/contacts.dat");
+  QFile file(Core::inst()->profilesDir() + profile + "/contacts.dat");
   if(file.exists()) {
     if(file.open(QIODevice::ReadOnly)) {
       QVariantMap map = Json::parse(qUncompress(file.readAll())).toMap();
@@ -32,9 +35,9 @@ void Kitty::ContactManager::load(const QString &profile)
           QVariantMap settings = item.toMap();
 
           if(settings.contains("protocol") && settings.contains("account")) {
-            KittySDK::Account *account = Kitty::AccountManager::inst()->account(settings.value("protocol").toString(), settings.value("account").toString());
+            Account *account = AccountManager::inst()->account(settings.value("protocol").toString(), settings.value("account").toString());
             if(account) {
-              KittySDK::Contact *cnt = account->newContact(settings.value("uid").toString());
+              Contact *cnt = account->newContact(settings.value("uid").toString());
               cnt->setDisplay(settings.value("display").toString());
               cnt->setGroup(settings.value("group").toString());
 
@@ -68,7 +71,7 @@ void Kitty::ContactManager::save(const QString &profile)
 
   QVariantList list;
 
-  foreach(KittySDK::Contact *contact, m_contacts) {
+  foreach(Contact *contact, m_contacts) {
     QMap<QString, QVariant> settings = contact->saveSettings();
     settings.insert("protocol", contact->account()->protocol()->protoInfo()->protoName());
     settings.insert("account", contact->account()->uid());

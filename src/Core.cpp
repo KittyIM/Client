@@ -32,6 +32,9 @@
 #include <QtGui/QApplication>
 #include <QtGui/QMenu>
 
+using namespace Kitty;
+using namespace KittySDK;
+
 Kitty::Core::Core()
 {
   m_profilesWindow = 0;
@@ -115,12 +118,12 @@ void Kitty::Core::loadProfile(const QString &name)
 {
   profile()->load(name);
 
-  DebugWindow::inst()->restoreGeometry(setting(KittySDK::Settings::S_DEBUGWINDOW_GEOMETRY).toByteArray());
+  DebugWindow::inst()->restoreGeometry(setting(Settings::S_DEBUGWINDOW_GEOMETRY).toByteArray());
 
   //mainWindow();
 }
 
-Kitty::MainWindow *Kitty::Core::mainWindow()
+MainWindow *Kitty::Core::mainWindow()
 {
   if(!m_mainWindow) {
     m_mainWindow = new Kitty::MainWindow();
@@ -129,7 +132,7 @@ Kitty::MainWindow *Kitty::Core::mainWindow()
   return m_mainWindow;
 }
 
-Kitty::ChatWindow *Kitty::Core::chatWindow()
+ChatWindow *Kitty::Core::chatWindow()
 {
   if(!m_chatWindow) {
     m_chatWindow = new Kitty::ChatWindow();
@@ -138,7 +141,7 @@ Kitty::ChatWindow *Kitty::Core::chatWindow()
   return m_chatWindow;
 }
 
-Kitty::AboutWindow *Kitty::Core::aboutWindow()
+AboutWindow *Kitty::Core::aboutWindow()
 {
   if(!m_aboutWindow) {
     ActionManager::inst()->loadDefaults();
@@ -148,7 +151,7 @@ Kitty::AboutWindow *Kitty::Core::aboutWindow()
   return m_aboutWindow;
 }
 
-Kitty::ProfilesWindow *Kitty::Core::profilesWindow()
+ProfilesWindow *Kitty::Core::profilesWindow()
 {
   if(!m_profilesWindow) {
     m_profilesWindow = new Kitty::ProfilesWindow();
@@ -157,7 +160,7 @@ Kitty::ProfilesWindow *Kitty::Core::profilesWindow()
   return m_profilesWindow;
 }
 
-Kitty::SettingsWindow *Kitty::Core::settingsWindow()
+SettingsWindow *Kitty::Core::settingsWindow()
 {
   if(!m_settingsWindow) {
     m_settingsWindow = new Kitty::SettingsWindow();
@@ -190,22 +193,22 @@ void Kitty::Core::showSettingsWindow()
 QSystemTrayIcon *Kitty::Core::trayIcon()
 {
   if(!m_trayIcon) {
-    m_trayIcon = new QSystemTrayIcon(icon(KittySDK::Icons::I_KITTY));
+    m_trayIcon = new QSystemTrayIcon(icon(Icons::I_KITTY));
     m_trayIcon->setToolTip(QString("KittyIM v%1").arg(Constants::VERSION));
     connect(m_trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(trayIconActivated(QSystemTrayIcon::ActivationReason)));
 
     QMenu *menu = new QMenu();
-    menu->addAction(action(KittySDK::Actions::A_SHOW_HIDE));
+    menu->addAction(action(Actions::A_SHOW_HIDE));
     menu->addSeparator();
-    menu->addAction(action(KittySDK::Actions::A_SETTINGS));
-    menu->addAction(action(KittySDK::Actions::A_QUIT));
+    menu->addAction(action(Actions::A_SETTINGS));
+    menu->addAction(action(Actions::A_QUIT));
     m_trayIcon->setContextMenu(menu);
   }
 
   return m_trayIcon;
 }
 
-Kitty::Profile *Kitty::Core::profile()
+Profile *Kitty::Core::profile()
 {
   if(!m_profile) {
     m_profile = new Kitty::Profile(this);
@@ -217,8 +220,8 @@ Kitty::Profile *Kitty::Core::profile()
 Hunspell *Kitty::Core::hunspell()
 {
   if(!m_hunspell) {
-    QByteArray dic = QString(qApp->applicationDirPath() + "/data/dictionaries/" + setting(KittySDK::Settings::S_CHATWINDOW_SPELLCHECK_DICT).toString() + ".dic").toLocal8Bit();
-    QByteArray aff = QString(qApp->applicationDirPath() + "/data/dictionaries/" + setting(KittySDK::Settings::S_CHATWINDOW_SPELLCHECK_DICT).toString() + ".aff").toLocal8Bit();
+    QByteArray dic = QString(qApp->applicationDirPath() + "/data/dictionaries/" + setting(Settings::S_CHATWINDOW_SPELLCHECK_DICT).toString() + ".dic").toLocal8Bit();
+    QByteArray aff = QString(qApp->applicationDirPath() + "/data/dictionaries/" + setting(Settings::S_CHATWINDOW_SPELLCHECK_DICT).toString() + ".aff").toLocal8Bit();
 
     m_hunspell = new Hunspell(aff.constData(), dic.constData());
   }
@@ -226,7 +229,7 @@ Hunspell *Kitty::Core::hunspell()
   return m_hunspell;
 }
 
-Kitty::JsonSettings *Kitty::Core::settings()
+JsonSettings *Kitty::Core::settings()
 {
   return profile()->settings();
 }
@@ -259,7 +262,7 @@ void Kitty::Core::restart()
 void Kitty::Core::trayIconActivated(QSystemTrayIcon::ActivationReason reason)
 {
   if(reason == QSystemTrayIcon::Trigger) {
-    action(KittySDK::Actions::A_SHOW_HIDE)->trigger();
+    action(Actions::A_SHOW_HIDE)->trigger();
   }
 }
 

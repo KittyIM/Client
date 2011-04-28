@@ -136,7 +136,7 @@ FORMS      += widgets/windows/DebugWindow.ui \
               widgets/windows/ChatWindow.ui \
               widgets/ChatTab.ui
 
-RESOURCES  += ../res.qrc
+RESOURCES  += ../res/res.qrc
 RC_FILE     = ../res.rc
 
 LIBS += -lhunspell
