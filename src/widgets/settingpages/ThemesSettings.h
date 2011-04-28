@@ -21,6 +21,10 @@ namespace Kitty
       void apply();
       void reset();
 
+    private slots:
+      void updateChatPreview();
+      void updateVariantList();
+
     private:
       Ui::ThemesSettings *m_ui;
   };

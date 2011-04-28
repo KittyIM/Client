@@ -49,7 +49,9 @@ SOURCES    += main.cpp \
               RosterGroup.cpp \
               JsonSettings.cpp \
               3rdparty/json/json.cpp \
-    ChatManager.cpp
+    ChatManager.cpp \
+    ChatTheme.cpp \
+    widgets/ChatWebView.cpp
 
 HEADERS    += constants.h \
               SDK/constants.h \
@@ -108,7 +110,9 @@ HEADERS    += constants.h \
               3rdparty/json/json.h \
     SDK/Message.h \
     SDK/Chat.h \
-    ChatManager.h
+    ChatManager.h \
+    ChatTheme.h \
+    widgets/ChatWebView.h
 
 FORMS      += widgets/windows/DebugWindow.ui \
               widgets/windows/MainWindow.ui \

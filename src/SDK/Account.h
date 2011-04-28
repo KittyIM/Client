@@ -30,6 +30,9 @@ namespace KittySDK
       QString password() const { return m_password; }
       void setPassword(const QString &password) { m_password = password; }
 
+      KittySDK::Contact *me() const { return m_me; }
+      void setMe(KittySDK::Contact *me) { m_me = me; }
+
       const QMap<QString, KittySDK::Contact*> &contacts() { return m_contacts; }
       virtual void insertContact(const QString &uid, KittySDK::Contact *contact) { m_contacts.insert(uid, contact); }
 
@@ -49,6 +52,7 @@ namespace KittySDK
     protected:
       QString m_uid;
       QString m_password;
+      KittySDK::Contact *m_me;
       QMap<QString, KittySDK::Contact*> m_contacts;
       KittySDK::Protocol *m_protocol;
   };

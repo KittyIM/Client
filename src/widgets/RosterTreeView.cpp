@@ -56,7 +56,7 @@ void Kitty::RosterTreeView::sendMessage()
     if(index.data(RosterItem::TypeRole) == RosterItem::Contact) {
       RosterContact *cnt = static_cast<RosterContact*>(index.internalPointer());
 
-      ChatManager::inst()->startChat(cnt->contact()->account(), QList<KittySDK::Contact*>() << cnt->contact());
+      ChatManager::inst()->startChat(cnt->contact()->account()->me(), QList<KittySDK::Contact*>() << cnt->contact());
     }
   }
 }

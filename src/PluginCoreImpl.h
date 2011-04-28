@@ -19,6 +19,8 @@ namespace Kitty
       QVariant setting(const QString &key, const QVariant &defaultValue = QVariant());
       void setSetting(const QString &key, const QVariant &value);
 
+      QString profileName();
+
       void addSettingPage(KittySDK::SettingPage *page, const QString &parent);
       void addToolbarAction(const QString &tb, QAction *action);
       void addAccount(KittySDK::Account *account);

@@ -1,0 +1,11 @@
+@import url("../Main.css");
+
+.in {
+  color: #f64848;
+  border-bottom: 1px solid #f64848;
+}
+
+.out {
+  color: #fd4df0;
+  border-bottom: 1px solid #fd4df0;
+}

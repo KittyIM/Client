@@ -18,9 +18,9 @@ namespace Kitty
       const QList<KittySDK::Chat*> &chats() const;
       const QList<KittySDK::Chat*> chatsByAccount(KittySDK::Account *account) const;
 
-      KittySDK::Chat *chat(KittySDK::Account *account, const QList<KittySDK::Contact*> &contacts) const;
+      KittySDK::Chat *chat(KittySDK::Contact *me, const QList<KittySDK::Contact*> &contacts) const;
 
-      void startChat(KittySDK::Account *account, const QList<KittySDK::Contact*> &contacts);
+      void startChat(KittySDK::Contact *me, const QList<KittySDK::Contact*> &contacts);
 
     signals:
 

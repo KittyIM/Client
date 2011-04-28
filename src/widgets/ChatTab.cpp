@@ -1,16 +1,21 @@
 #include "ChatTab.h"
 #include "ui_ChatTab.h"
 
+#include "widgets/windows/ChatWindow.h"
 #include "PluginManager.h"
 #include "SDK/constants.h"
 #include "SDK/Protocol.h"
+#include "SDK/Contact.h"
 #include "SDK/Message.h"
 #include "IconManager.h"
+#include "ChatTheme.h"
 #include "SDK/Chat.h"
 #include "Profile.h"
 #include "Core.h"
 
+#include <QtCore/QFile>
 #include <QtGui/QToolBar>
+#include <QtWebKit/QWebElement>
 #include <QtWebKit/QWebFrame>
 #include <QtWebKit/QWebPage>
 
@@ -21,8 +26,6 @@ Kitty::ChatTab::ChatTab(KittySDK::Chat *chat, QWidget *parent): QWidget(parent),
   m_ui->setupUi(this);
 
   connect(m_ui->textEdit, SIGNAL(returnPressed()), this, SLOT(sendMessage()));
-
-  Kitty::Core *core = Kitty::Core::inst();
 
   m_toolBar = new QToolBar(this);
   m_toolBar->setIconSize(QSize(16, 16));
@@ -88,6 +91,8 @@ Kitty::ChatTab::ChatTab(KittySDK::Chat *chat, QWidget *parent): QWidget(parent),
   historyAction->setProperty("icon_id", Icons::I_HISTORY);
 
   updateIcons();
+
+  m_ui->webView->clear();
 }
 
 Kitty::ChatTab::~ChatTab()
@@ -106,12 +111,19 @@ void Kitty::ChatTab::updateIcons()
   }
 }
 
+void Kitty::ChatTab::setEditFocus()
+{
+  m_ui->textEdit->setFocus();
+}
+
+void Kitty::ChatTab::applySettings()
+{
+}
+
 void Kitty::ChatTab::sendMessage()
 {
-  KittySDK::Message msg(0, m_chat->contacts());
+  KittySDK::Message msg(m_chat->me(), m_chat->contacts());
   msg.setBody(m_ui->textEdit->toPlainText());
-
-  m_ui->webView->setHtml(m_ui->webView->page()->mainFrame()->toHtml() + QString("<b>%1:</b><br>%2<br>").arg(Kitty::Core::inst()->profile()->name()).arg(msg.body()));
 
   QList<Kitty::Plugin*> plugins = Kitty::PluginManager::inst()->plugins();
   foreach(Kitty::Plugin *plugin, plugins) {
@@ -120,6 +132,7 @@ void Kitty::ChatTab::sendMessage()
     }
   }
 
+  m_ui->webView->appendMessage(msg);
 
   m_chat->account()->sendMessage(msg);
   m_ui->textEdit->clear();

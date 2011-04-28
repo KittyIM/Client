@@ -22,14 +22,21 @@ void Kitty::ChatTabWidget::switchTo(KittySDK::Chat *chat)
   }
 }
 
+void Kitty::ChatTabWidget::setCurrentIndex(int index)
+{
+  QTabWidget::setCurrentIndex(index);
+
+  static_cast<Kitty::ChatTab*>(widget(index))->setEditFocus();
+}
+
 void Kitty::ChatTabWidget::tabRemoved(int index)
 {
   QTabWidget::tabRemoved(index);
 
   if(count() > 1) {
-    tabBar()->show();
+    //tabBar()->show();
   } else {
-    tabBar()->hide();
+    //tabBar()->hide();
   }
 }
 

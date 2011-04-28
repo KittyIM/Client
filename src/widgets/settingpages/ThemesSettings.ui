@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>343</width>
-    <height>413</height>
+    <width>324</width>
+    <height>390</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -34,6 +34,9 @@
       </item>
       <item row="1" column="0">
        <widget class="QWebView" name="iconThemeWebView">
+        <property name="contextMenuPolicy">
+         <enum>Qt::NoContextMenu</enum>
+        </property>
         <property name="url">
          <url>
           <string>about:blank</string>
@@ -49,18 +52,38 @@
      <property name="title">
       <string>Chat theme</string>
      </property>
-     <layout class="QGridLayout" name="gridLayout">
+     <layout class="QFormLayout" name="formLayout">
       <item row="0" column="0">
+       <widget class="QLabel" name="chatThemeLabel">
+        <property name="text">
+         <string>Theme:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
        <widget class="QComboBox" name="chatThemeComboBox"/>
       </item>
-      <item row="1" column="0">
-       <widget class="QWebView" name="chatThemeWebView">
+      <item row="2" column="0" colspan="2">
+       <widget class="Kitty::ChatWebView" name="chatThemeWebView">
+        <property name="contextMenuPolicy">
+         <enum>Qt::NoContextMenu</enum>
+        </property>
         <property name="url">
          <url>
           <string>about:blank</string>
          </url>
         </property>
        </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="chatThemeVariantLabel">
+        <property name="text">
+         <string>Variant:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QComboBox" name="chatThemeVariantComboBox"/>
       </item>
      </layout>
     </widget>
@@ -103,6 +126,11 @@
    <extends>QWidget</extends>
    <header>SDK/SettingPage.h</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>Kitty::ChatWebView</class>
+   <extends>QWebView</extends>
+   <header>widgets/ChatWebView.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

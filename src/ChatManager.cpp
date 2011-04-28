@@ -24,9 +24,9 @@ const QList<KittySDK::Chat*> Kitty::ChatManager::chatsByAccount(KittySDK::Accoun
   return chats;
 }
 
-KittySDK::Chat *Kitty::ChatManager::chat(KittySDK::Account *account, const QList<KittySDK::Contact*> &contacts) const
+KittySDK::Chat *Kitty::ChatManager::chat(KittySDK::Contact *me, const QList<KittySDK::Contact*> &contacts) const
 {
-  foreach(KittySDK::Chat *chat, chatsByAccount(account)) {
+  foreach(KittySDK::Chat *chat, chatsByAccount(me->account())) {
     if(chat->contacts() == contacts) {
       return chat;
     }
@@ -35,11 +35,11 @@ KittySDK::Chat *Kitty::ChatManager::chat(KittySDK::Account *account, const QList
   return 0;
 }
 
-void Kitty::ChatManager::startChat(KittySDK::Account *account, const QList<KittySDK::Contact*> &contacts)
+void Kitty::ChatManager::startChat(KittySDK::Contact *me, const QList<KittySDK::Contact*> &contacts)
 {
-  KittySDK::Chat *ch = chat(account, contacts);
+  KittySDK::Chat *ch = chat(me, contacts);
   if(!ch) {
-    ch = new KittySDK::Chat(account, contacts);
+    ch = new KittySDK::Chat(me, contacts);
     m_chats.append(ch);
 
     Core::inst()->chatWindow()->startChat(ch);
@@ -48,4 +48,5 @@ void Kitty::ChatManager::startChat(KittySDK::Account *account, const QList<Kitty
   }
 
   Core::inst()->chatWindow()->show();
+  Core::inst()->chatWindow()->activateWindow();
 }

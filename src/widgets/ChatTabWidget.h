@@ -19,6 +19,9 @@ namespace Kitty
 
       void switchTo(KittySDK::Chat *chat);
 
+    public slots:
+      void setCurrentIndex(int index);
+
     protected:
       void tabRemoved(int index);
       void mousePressEvent(QMouseEvent *event);

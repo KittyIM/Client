@@ -30,6 +30,8 @@ namespace Kitty
 
     public slots:
       void updateIcons();
+      void setEditFocus();
+      void applySettings();
 
     private slots:
       void sendMessage();

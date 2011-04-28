@@ -83,6 +83,8 @@ namespace KittySDK
     const char * const S_PROFILE_PASSWORD              = "Profile.Password";
 
     const char * const S_ICON_THEME                    = "Profile.Themes.Icon";
+    const char * const S_CHAT_THEME                    = "Profile.Themes.Chat.Name";
+    const char * const S_CHAT_THEME_VARIANT            = "Profile.Themes.Chat.Variant";
 
     const char * const S_PROXY_ENABLED                 = "Kitty.Proxy.Enabled";
     const char * const S_PROXY_SERVER                  = "Kitty.Proxy.Server";

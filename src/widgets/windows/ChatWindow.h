@@ -15,6 +15,7 @@ namespace Ui
 
 namespace Kitty
 {
+  class ChatTheme;
   class ChatTab;
 
   class ChatWindow: public QWidget
@@ -25,7 +26,10 @@ namespace Kitty
       explicit ChatWindow(QWidget *parent = 0);
       ~ChatWindow();
 
+      Kitty::ChatTheme *theme() const { return m_theme; }
+
     public slots:
+      void applySettings();
       void updateIcons();
       void startChat(KittySDK::Chat *chat);
       void switchTo(KittySDK::Chat *chat);
@@ -33,9 +37,10 @@ namespace Kitty
     private slots:
       void on_tabWidget_tabCloseRequested(int index);
 
-  private:
+    private:
       Ui::ChatWindow *m_ui;
       QList<ChatTab*> m_tabs;
+      Kitty::ChatTheme *m_theme;
   };
 }
 
