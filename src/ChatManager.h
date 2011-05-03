@@ -19,11 +19,12 @@ namespace Kitty
       const QList<KittySDK::Chat*> chatsByAccount(KittySDK::Account *account) const;
 
       KittySDK::Chat *chat(KittySDK::Contact *me, const QList<KittySDK::Contact*> &contacts) const;
+      KittySDK::Chat *chat(KittySDK::Contact *me, KittySDK::Contact *sender) const;
 
       void startChat(KittySDK::Contact *me, const QList<KittySDK::Contact*> &contacts);
 
-    signals:
-
+    public slots:
+      void receiveMessage(KittySDK::Message &msg);
 
     private:
       ChatManager(QObject *parent = 0): QObject(parent) { }

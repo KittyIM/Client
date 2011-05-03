@@ -19,6 +19,9 @@
 #include <QtWebKit/QWebFrame>
 #include <QtWebKit/QWebPage>
 
+#define qDebug() qDebug() << "[ChatTab]"
+#define qWarning() qWarning() << "[ChatTab]"
+
 using namespace Kitty;
 using namespace KittySDK;
 
@@ -27,6 +30,7 @@ Kitty::ChatTab::ChatTab(Chat *chat, QWidget *parent): QWidget(parent), m_ui(new 
   m_ui->setupUi(this);
 
   connect(m_ui->textEdit, SIGNAL(returnPressed()), this, SLOT(sendMessage()));
+  connect(chat->contacts().first(), SIGNAL(statusChanged(KittySDK::Protocol::Status,QString)), this, SLOT(changeStatus(KittySDK::Protocol::Status, QString)));
 
   m_toolBar = new QToolBar(this);
   m_toolBar->setIconSize(QSize(16, 16));
@@ -50,9 +54,9 @@ Kitty::ChatTab::ChatTab(Chat *chat, QWidget *parent): QWidget(parent), m_ui(new 
     underlineAction->setProperty("icon_id", Icons::I_UNDERLINE);
   }
 
-  if(proto->abilities().testFlag(Protocol::TextStriketrough)) {
-    QAction *striketroughAction = m_toolBar->addAction(tr("Striketrough"));
-    striketroughAction->setProperty("icon_id", Icons::I_STRIKETROUGH);
+  if(proto->abilities().testFlag(Protocol::TextStrikethrough)) {
+    QAction *strikethroughAction = m_toolBar->addAction(tr("Strikethrough"));
+    strikethroughAction->setProperty("icon_id", Icons::I_STRIKETHROUGH);
   }
 
   if(m_toolBar->actions().count() > 0) {
@@ -122,6 +126,11 @@ void Kitty::ChatTab::applySettings()
   m_ui->textEdit->clearHistory();
 }
 
+void Kitty::ChatTab::appendMessage(KittySDK::Message &msg)
+{
+  m_ui->webView->appendMessage(msg);
+}
+
 void Kitty::ChatTab::sendMessage()
 {
   if(!m_ui->textEdit->toPlainText().isEmpty()) {
@@ -146,6 +155,11 @@ void Kitty::ChatTab::sendMessage()
   }
 }
 
+void Kitty::ChatTab::changeStatus(KittySDK::Protocol::Status status, QString description)
+{
+  emit tabChanged();
+}
+
 void Kitty::ChatTab::changeEvent(QEvent *event)
 {
   if(event->type() == QEvent::LanguageChange) {
@@ -164,3 +178,5 @@ void Kitty::ChatTab::changeEvent(QEvent *event)
 
   QWidget::changeEvent(event);
 }
+
+

@@ -9,6 +9,9 @@
 
 #include <QtCore/QDebug>
 
+#define qDebug() qDebug() << "[RosterSortProxy]"
+#define qWarning() qWarning() << "[RosterSortProxy]"
+
 using namespace Kitty;
 using namespace KittySDK;
 

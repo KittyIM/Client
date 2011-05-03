@@ -27,7 +27,7 @@ namespace KittySDK
     const char * const I_BOLD           = "Kitty.Bold";
     const char * const I_ITALIC         = "Kitty.Italic";
     const char * const I_UNDERLINE      = "Kitty.Underline";
-    const char * const I_STRIKETROUGH   = "Kitty.Striketrough";
+    const char * const I_STRIKETHROUGH   = "Kitty.Striketrough";
     const char * const I_COLOR          = "Kitty.Color";
     const char * const I_IMAGE          = "Kitty.Image";
     const char * const I_FILE           = "Kitty.File";
@@ -35,7 +35,7 @@ namespace KittySDK
     const char * const I_DELETE         = "Kitty.Delete";
     const char * const I_COPY           = "Kitty.Copy";
     const char * const I_GROUP          = "Kitty.Group";
-
+    const char * const I_SOUND          = "Kitty.Sound";
 
   }
 
@@ -105,8 +105,6 @@ namespace KittySDK
     const char * const S_ROSTER_HIDE_OFFLINE           = "Kitty.Roster.HideOffline";
     const char * const S_ROSTER_GROUPS_AS_TABS         = "Kitty.Roster.GroupsAsTabs";
     const char * const S_ROSTER_GROUPS_ON_MAIN         = "Kitty.Roster.GroupsOnMain";
-    const char * const S_ROSTER_PHONE_ICON             = "Kitty.Roster.Icons.Phone";
-    const char * const S_ROSTER_EMAIL_ICON             = "Kitty.Roster.Icons.Email";
     const char * const S_ROSTER_TIPS                   = "Kitty.Roster.Tips.Enabled";
     const char * const S_ROSTER_TIPS_DELAY             = "Kitty.Roster.Tips.Delay";
     const char * const S_ROSTER_TIPS_IP                = "Kitty.Roster.Tips.IP";

@@ -22,6 +22,9 @@
 #include <QtGui/QToolButton>
 #include <QtGui/QMenu>
 
+#define qDebug() qDebug() << "[MainWindow]"
+#define qWarning() qWarning() << "[MainWindow]"
+
 using namespace Kitty;
 using namespace KittySDK;
 
@@ -30,7 +33,7 @@ Kitty::MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), m_ui(new Ui
   m_ui->setupUi(this);
 
   setWindowFlags(windowFlags() | Qt::Tool);
-  qDebug() << "Creating MainWindow";
+  qDebug() << "Creating";
 
   m_model = new RosterItemModel(m_ui->rosterTreeView);
   m_proxy = new RosterSortProxy(m_ui->rosterTreeView);
@@ -107,7 +110,7 @@ bool Kitty::MainWindow::isObscured()
 
 void Kitty::MainWindow::initToolbars()
 {
-  qDebug() << "  Initializing toolbars";
+  qDebug() << "Initializing toolbars";
 
   Core *core = Core::inst();
 

@@ -6,11 +6,14 @@
 
 #include <QtCore/QDebug>
 
+#define qDebug() qDebug() << "[RosterItemModel]"
+#define qWarning() qWarning() << "[RosterItemModel]"
+
 using namespace Kitty;
 
 Kitty::RosterItemModel::RosterItemModel(QObject *parent): QAbstractItemModel(parent)
 {
-  qDebug() << "Creating RosterItemModel";
+  qDebug() << "Creating";
 
   m_root = new RosterItem();
 }

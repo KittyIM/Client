@@ -8,12 +8,15 @@
 #include <QtCore/QDebug>
 #include <QtGui/QApplication>
 
+#define qDebug() qDebug() << "[ActionManager]"
+#define qWarning() qWarning() << "[ActionManager]"
+
 using namespace Kitty;
 using namespace KittySDK;
 
 void Kitty::ActionManager::loadDefaults()
 {
-  qDebug() << "ActionManager is loading default actions";
+  qDebug() << "Loading default actions";
 
   Core *core = Core::inst();
 
@@ -61,7 +64,7 @@ void Kitty::ActionManager::loadDefaults()
 
 void Kitty::ActionManager::updateIcons()
 {
-  qDebug() << "ActionManager is updating icons";
+  qDebug() << "Updating icons";
 
   Core *core = Core::inst();
 

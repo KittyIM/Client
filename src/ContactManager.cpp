@@ -8,6 +8,9 @@
 #include <QtXml/QDomDocument>
 #include <QtXml/QDomElement>
 
+#define qDebug() qDebug() << "[ContactManager]"
+#define qWarning() qWarning() << "[ContactManager]"
+
 using namespace Kitty;
 using namespace KittySDK;
 

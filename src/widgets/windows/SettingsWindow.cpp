@@ -25,6 +25,9 @@
 #include <QtGui/QTreeWidgetItem>
 #include <QtGui/QPushButton>
 
+#define qDebug() qDebug() << "[SettingsWindow]"
+#define qWarning() qWarning() << "[SettingsWindow]"
+
 using namespace Kitty;
 using namespace KittySDK;
 
@@ -38,7 +41,7 @@ Kitty::SettingsWindow::SettingsWindow(QWidget *parent): QDialog(parent), m_ui(ne
 
   setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
 
-  qDebug() << "Creating SettingsWindow";
+  qDebug() << "Creating";
 
   Core *core = Core::inst();
 
@@ -127,7 +130,7 @@ void Kitty::SettingsWindow::updateIcons()
 
 void Kitty::SettingsWindow::resetSettings()
 {
-  qDebug() << "Resetting settings on all pages [" << m_pages.count() << "]";
+  qDebug() << "Resetting all pages [" << m_pages.count() << "]";
   foreach(SettingPage *page, m_pages) {
     page->reset();
   }
@@ -135,7 +138,7 @@ void Kitty::SettingsWindow::resetSettings()
 
 void Kitty::SettingsWindow::addDefaultPages()
 {
-  qDebug() << "  Adding default pages";
+  qDebug() << "Adding default pages";
 
   addPage(new MainSettings(this));
   addPage(new StartupSettings(this), SettingPages::S_SETTINGS);
@@ -193,7 +196,7 @@ void Kitty::SettingsWindow::on_treeWidget_currentItemChanged(QTreeWidgetItem *cu
 
 void Kitty::SettingsWindow::applySettings()
 {
-  qDebug() << "Applying settings on all pages [" << m_pages.count() << "]";
+  qDebug() << "Applying all pages [" << m_pages.count() << "]";
 
   foreach(SettingPage *page, m_pages) {
     page->apply();

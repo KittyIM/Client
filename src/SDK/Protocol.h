@@ -45,7 +45,7 @@ namespace KittySDK
         TextBold         = 0x01,
         TextItalics      = 0x02,
         TextUnderline    = 0x04,
-        TextStriketrough = 0x08,
+        TextStrikethrough = 0x08,
         TextColor        = 0x10,
         BackgroundColor  = 0x20,
 

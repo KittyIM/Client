@@ -9,11 +9,14 @@
 #include <QtCore/QRect>
 #include <QtCore/QSize>
 
+#define qDebug() qDebug() << "[JsonSettings]"
+#define qWarning() qWarning() << "[JsonSettings]"
+
 QSettings::Format Kitty::JsonSettings::jsonFormat = QSettings::registerFormat("json", jsonRead, jsonWrite);
 
 Kitty::JsonSettings::JsonSettings(const QString &fileName, QObject *parent): QSettings(fileName, JsonSettings::jsonFormat, parent)
 {
-  qDebug() << "JsonSettings loading" << fileName;
+  qDebug() << "Loading" << fileName;
 }
 
 void Kitty::JsonSettings::readMap(SettingsMap &map, const QVariant &root, const QString &name)
@@ -62,19 +65,19 @@ void Kitty::JsonSettings::writeMap(QVariant &root, const QString &key, const QVa
 
 bool Kitty::JsonSettings::jsonRead(QIODevice &device, SettingsMap &map)
 {
-  qDebug() << "JsonSettings reading";
+  qDebug() << "Reading";
 
   QVariant vmap = Json::parse(qUncompress(device.readAll()));
   readMap(map, vmap, "");
 
-  qDebug() << "  Read" << map.count() << "positions";
+  qDebug() << "Read" << map.count() << "positions";
 
   return true;
 }
 
 bool Kitty::JsonSettings::jsonWrite(QIODevice &device, const SettingsMap &map)
 {
-  qDebug() << "JsonSettings writing";
+  qDebug() << "Writing";
 
   QVariant vmap;
 

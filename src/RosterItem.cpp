@@ -3,6 +3,9 @@
 #include "SDK/constants.h"
 #include "Core.h"
 
+#define qDebug() qDebug() << "[RosterItem]"
+#define qWarning() qWarning() << "[RosterItem]"
+
 using namespace Kitty;
 
 Kitty::RosterItem::RosterItem(RosterItem *parent): QStandardItem(), m_parent(parent)

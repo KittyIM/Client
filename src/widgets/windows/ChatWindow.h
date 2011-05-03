@@ -6,6 +6,7 @@
 namespace KittySDK
 {
   class Chat;
+  class Message;
 }
 
 namespace Ui
@@ -28,24 +29,21 @@ namespace Kitty
 
       Kitty::ChatTheme *theme() const { return m_theme; }
 
-      QString createLabel(KittySDK::Chat *chat);
-
     public slots:
       void applySettings();
-      void updateIcons();
-      void startChat(KittySDK::Chat *chat);
+      ChatTab *startChat(KittySDK::Chat *chat);
       void switchTo(KittySDK::Chat *chat);
 
     private slots:
       void on_tabWidget_tabCloseRequested(int index);
+      void on_tabWidget_currentChanged(int index);
 
-    protected:
+  protected:
       void keyPressEvent(QKeyEvent *event);
       void closeEvent(QCloseEvent *event);
 
     private:
       Ui::ChatWindow *m_ui;
-      QList<ChatTab*> m_tabs;
       Kitty::ChatTheme *m_theme;
   };
 }

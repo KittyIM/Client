@@ -16,6 +16,9 @@
 #include <QtWebKit/QWebFrame>
 #include <QtWebKit/QWebView>
 
+#define qDebug() qDebug() << "[DebugWindow]"
+#define qWarning() qWarning() << "[DebugWindow]"
+
 using namespace Kitty;
 
 Kitty::DebugWindow *Kitty::DebugWindow::m_inst = 0;

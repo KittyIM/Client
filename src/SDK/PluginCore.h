@@ -20,7 +20,11 @@ namespace KittySDK
       virtual QVariant setting(const QString &key, const QVariant &defaultValue = QVariant()) = 0;
       virtual void setSetting(const QString &key, const QVariant &value) = 0;
 
+      virtual void execPluginAction(const QString &plugin, const QString &name, const QMap<QString, QVariant> &args) = 0;
+
       virtual QString profileName() = 0;
+      virtual QString kittyDir() = 0;
+      virtual QString profilesDir() = 0;
 
       virtual void addSettingPage(SettingPage *page, const QString &parent) = 0;
       virtual void addToolbarAction(const QString &tb, QAction *action) = 0;
@@ -28,6 +32,9 @@ namespace KittySDK
 
       virtual QPixmap icon(const QString &id) = 0;
       virtual void addIcon(const QString &id, const QPixmap &pixmap, bool replace = true) = 0;
+
+    signals:
+      void allPluginsLoaded();
   };
 }
 

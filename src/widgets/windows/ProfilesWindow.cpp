@@ -15,6 +15,9 @@
 #include <QtGui/QKeyEvent>
 #include <QtGui/QPainter>
 
+#define qDebug() qDebug() << "[ProfilesWindow]"
+#define qWarning() qWarning() << "[ProfilesWindow]"
+
 using namespace Kitty;
 using namespace KittySDK;
 
@@ -25,7 +28,7 @@ Kitty::ProfilesWindow::ProfilesWindow(QWidget *parent): QDialog(parent), m_ui(ne
 
   setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
 
-  qDebug() << "Creating ProfilesWindow";
+  qDebug() << "Creating";
 
   if(QtWin::isCompositionEnabled()) {
     QtWin::extendFrameIntoClientArea(this);

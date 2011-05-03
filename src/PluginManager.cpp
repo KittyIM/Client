@@ -9,6 +9,9 @@
 #include <QtCore/QDir>
 #include <QtGui/QApplication>
 
+#define qDebug() qDebug() << "[PluginManager]"
+#define qWarning() qWarning() << "[PluginManager]"
+
 using namespace Kitty;
 using namespace KittySDK;
 
@@ -99,9 +102,18 @@ Kitty::Plugin *Kitty::PluginManager::pluginByFileName(const QString &fileName) c
   return 0;
 }
 
+void Kitty::PluginManager::execAction(const QString &pluginName, const QString &name, const QMap<QString, QVariant> &args)
+{
+  foreach(Plugin *plugin, m_plugins) {
+    if(pluginName.isEmpty() || (plugin->plugin()->info()->name() == pluginName)) {
+      plugin->plugin()->execAction(name, args);
+    }
+  }
+}
+
 void Kitty::PluginManager::load()
 {
-  qDebug() << "PluginManager starting";
+  qDebug() << "Starting";
   QDir dir(qApp->applicationDirPath() + "/plugins");
   QStringList filter;
 
@@ -116,10 +128,12 @@ void Kitty::PluginManager::load()
 
   QFileInfoList files = dir.entryInfoList(filter, QDir::Files);
   foreach(const QFileInfo &info, files) {
-    qDebug() << "  Found file: " << info.fileName();
+    qDebug() << "Found file: " << info.fileName();
 
     Plugin *plug = new Plugin(info.absoluteFilePath());
     plug->load();
     m_plugins.append(plug);
   }
+
+  emit allPluginsLoaded();
 }

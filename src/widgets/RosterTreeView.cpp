@@ -19,6 +19,9 @@
 #include <QtGui/QClipboard>
 #include <QtGui/QMenu>
 
+#define qDebug() qDebug() << "[RosterTreeView]"
+#define qWarning() qWarning() << "[RosterTreeView]"
+
 using namespace Kitty;
 
 Kitty::RosterTreeView::RosterTreeView(QWidget *parent): QTreeView(parent)

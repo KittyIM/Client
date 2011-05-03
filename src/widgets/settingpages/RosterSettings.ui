@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>352</height>
+    <width>408</width>
+    <height>285</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -29,25 +29,66 @@
       <string/>
      </property>
      <layout class="QFormLayout">
-      <item row="0" column="0" colspan="2">
-       <widget class="QCheckBox" name="displayDescriptionCheckBox">
-        <property name="text">
-         <string>Display status description</string>
-        </property>
-       </widget>
-      </item>
+      <property name="fieldGrowthPolicy">
+       <enum>QFormLayout::ExpandingFieldsGrow</enum>
+      </property>
       <item row="1" column="0" colspan="2">
-       <widget class="QCheckBox" name="displayAvatarsCheckBox">
-        <property name="text">
-         <string>Display avatars</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0" colspan="2">
        <widget class="QCheckBox" name="hideOfflineContactsCheckBox">
         <property name="text">
          <string>Hide offline contacts</string>
         </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>Status description:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QComboBox" name="comboBox">
+        <item>
+         <property name="text">
+          <string>Don't show</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Right side</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Under contact</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>Avatars:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QComboBox" name="comboBox_2">
+        <item>
+         <property name="text">
+          <string>Don't show</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Right side</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Left side</string>
+         </property>
+        </item>
        </widget>
       </item>
      </layout>
@@ -70,29 +111,6 @@
        <widget class="QCheckBox" name="groupsOnMainCheckBox">
         <property name="text">
          <string>Display groups on main tab</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item>
-    <widget class="QGroupBox" name="iconsGroupBox">
-     <property name="title">
-      <string>Icons</string>
-     </property>
-     <layout class="QFormLayout" name="_3">
-      <item row="0" column="0" colspan="2">
-       <widget class="QCheckBox" name="phoneIconCheckBox">
-        <property name="text">
-         <string>Display phone icon</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0" colspan="2">
-       <widget class="QCheckBox" name="emailIconCheckBox">
-        <property name="text">
-         <string>Display email icon</string>
         </property>
        </widget>
       </item>

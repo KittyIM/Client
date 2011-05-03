@@ -11,6 +11,10 @@
 #include <QtCore/QProcess>
 #include <QtCore/QDebug>
 #include <QtCore/QFile>
+#include <QtNetwork/QNetworkProxy>
+
+#define qDebug() qDebug() << "[App]"
+#define qWarning() qWarning() << "[App]"
 
 using namespace Kitty;
 using namespace KittySDK;
@@ -39,17 +43,17 @@ Kitty::App::App(int &argc, char **argv): QApplication(argc, argv)
   while(it.hasNext()) {
     QString arg = it.next();
     if(arg == "-debug") {
-      qDebug() << "  -debug found, showing debug console";
+      qDebug() << "-debug found, showing debug console";
       DebugWindow::inst()->show();
     } else if(arg == "-profile") {
       if(it.hasNext()) {
         profile = it.next();
-        qDebug() << "  -profile found, profile is" << profile;
+        qDebug() << "-profile found, profile is" << profile;
       } else {
-        qWarning() << "  -profile found but nothing more";
+        qWarning() << "-profile found but nothing more";
       }
     } else if(arg == "-portable") {
-      qDebug() << "  -portable found, we are going portable";
+      qDebug() << "-portable found, we are going portable";
       core->setPortable(true);
     }
   }

@@ -4,6 +4,9 @@
 #include "Profile.h"
 #include "Core.h"
 
+#define qDebug() qDebug() << "[RosterContact]"
+#define qWarning() qWarning() << "[RosterContact]"
+
 using namespace Kitty;
 using namespace KittySDK;
 

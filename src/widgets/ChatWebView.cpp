@@ -19,6 +19,9 @@
 #include <QtWebKit/QWebElement>
 #include <QtWebKit/QWebFrame>
 
+#define qDebug() qDebug() << "[ChatWebPage]"
+#define qWarning() qWarning() << "[ChatWebPage]"
+
 using namespace Kitty;
 using namespace KittySDK;
 

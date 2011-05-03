@@ -4,12 +4,13 @@
 #include <QtCore/QDir>
 #include <QtGui/QApplication>
 
+#define qDebug() qDebug() << "[ChatTheme]"
+#define qWarning() qWarning() << "[ChatTheme]"
 
 Kitty::ChatTheme::ChatTheme(const QString &name, QObject *parent): QObject(parent)
 {
   load(name);
 }
-
 
 QString Kitty::ChatTheme::getCode(const Type &type) const
 {

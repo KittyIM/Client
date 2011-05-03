@@ -13,6 +13,9 @@
 #include <QtCore/QDebug>
 #include <QtGui/QKeyEvent>
 
+#define qDebug() qDebug() << "ChatWindow"
+#define qWarning() qWarning() << "ChatWindow"
+
 using namespace Kitty;
 using namespace KittySDK;
 
@@ -20,10 +23,11 @@ Kitty::ChatWindow::ChatWindow(QWidget *parent): QWidget(parent), m_ui(new Ui::Ch
 {
   m_ui->setupUi(this);
 
-  connect(IconManager::inst(), SIGNAL(iconsUpdated()), this, SLOT(updateIcons()));
+  connect(IconManager::inst(), SIGNAL(iconsUpdated()), m_ui->tabWidget, SLOT(updateIcons()));
   connect(Core::inst()->settingsWindow(), SIGNAL(settingsApplied()), this, SLOT(applySettings()));
+  connect(Core::inst()->settingsWindow(), SIGNAL(settingsApplied()), m_ui->tabWidget, SLOT(applySettings()));
 
-  qDebug() << "Creating ChatWindow";
+  qDebug() << "Creating";
 
   Core *core = Core::inst();
 
@@ -45,84 +49,23 @@ Kitty::ChatWindow::~ChatWindow()
 
 void Kitty::ChatWindow::applySettings()
 {
-  if(!m_theme) {
-    m_theme = new ChatTheme(Core::inst()->setting(Settings::S_CHAT_THEME).toString(), this);
-  } else {
-    m_theme->load(Core::inst()->setting(Settings::S_CHAT_THEME).toString());
-  }
-
-  for(int i = 0; i < m_ui->tabWidget->count(); i++) {
-    ChatTab *tab = qobject_cast<ChatTab*>(m_ui->tabWidget->widget(i));
-    tab->applySettings();
-  }
-
   Core *core = Core::inst();
 
-  switch(core->setting(Settings::S_CHATWINDOW_TABBAR_POS).toInt()) {
-    case 0:
-      m_ui->tabWidget->setTabPosition(QTabWidget::North);
-    break;
-
-    case 1:
-      m_ui->tabWidget->setTabPosition(QTabWidget::South);
-    break;
-
-    case 2:
-      m_ui->tabWidget->setTabPosition(QTabWidget::West);
-    break;
-
-    case 3:
-      m_ui->tabWidget->setTabPosition(QTabWidget::East);
-    break;
-  }
-
-  m_ui->tabWidget->updateTabBar();
-}
-
-void Kitty::ChatWindow::updateIcons()
-{
-  for(int i = 0; i < m_ui->tabWidget->count(); i++) {
-    ChatTab *tab = qobject_cast<ChatTab*>(m_ui->tabWidget->widget(i));
-    tab->updateIcons();
-  }
-}
-
-void Kitty::ChatWindow::startChat(Chat *chat)
-{
-  ChatTab *chatTab = 0;
-  foreach(ChatTab *tab, m_tabs) {
-    if(tab->chat() == chat) {
-      chatTab = tab;
-    }
-  }
-
-  if(!chatTab) {
-    chatTab = new ChatTab(chat, this);
-    m_tabs.append(chatTab);
-
-    int index = m_ui->tabWidget->addTab(chatTab, createLabel(chat));
-    m_ui->tabWidget->setCurrentIndex(index);
+  if(!m_theme) {
+    m_theme = new ChatTheme(core->setting(Settings::S_CHAT_THEME).toString(), this);
   } else {
-    int index = -1;
-
-    for(int i = 0; i < m_ui->tabWidget->count(); i++) {
-      ChatTab *tab = static_cast<ChatTab*>(m_ui->tabWidget->widget(i));
-      if(tab->chat() == chat) {
-        index = i;
-      }
-    }
-
-    if(index == -1) {
-      int i = m_ui->tabWidget->addTab(chatTab, createLabel(chatTab->chat()));
-      m_ui->tabWidget->setCurrentIndex(i);
-    } else {
-      m_ui->tabWidget->setCurrentIndex(index);
-    }
+    m_theme->load(core->setting(Settings::S_CHAT_THEME).toString());
   }
+}
+
+ChatTab *Kitty::ChatWindow::startChat(Chat *chat)
+{
+  return m_ui->tabWidget->startChat(chat);
 }
 
 void Kitty::ChatWindow::switchTo(Chat *chat)
 {
+  m_ui->tabWidget->switchTo(chat);
 }
 
 void Kitty::ChatWindow::on_tabWidget_tabCloseRequested(int index)
@@ -132,18 +75,6 @@ void Kitty::ChatWindow::on_tabWidget_tabCloseRequested(int index)
   if(m_ui->tabWidget->count() == 0) {
     close();
   }
-}
-
-QString Kitty::ChatWindow::createLabel(Chat *chat)
-{
-  QString label = Core::inst()->setting(Settings::S_CHATTAB_CAPTION, "%name%").toString();
-
-  label.replace("%nick%", chat->contacts().first()->display());
-  //label.replace("%status%", chat->contacts().first()->status());
-  label.replace("%description%", chat->contacts().first()->description());
-  label.replace("%unread%", QString::number(0));
-
-  return label;
 }
 
 void Kitty::ChatWindow::keyPressEvent(QKeyEvent *event)
@@ -168,4 +99,23 @@ void Kitty::ChatWindow::closeEvent(QCloseEvent *event)
       m_ui->tabWidget->removeTab(i);
     }
   }
+}
+
+void Kitty::ChatWindow::on_tabWidget_currentChanged(int index)
+{
+  ChatTab *tab = qobject_cast<ChatTab*>(m_ui->tabWidget->widget(index));
+  Contact *cnt = tab->chat()->contacts().first();
+
+  QString title = Core::inst()->setting(Settings::S_CHATWINDOW_CAPTION).toString();
+  title.replace("%nick%", cnt->display());
+  title.replace("%status%", Core::inst()->statusToString(cnt->status()));
+  title.replace("%description%", cnt->description());
+  title.replace("%uid%", cnt->uid());
+  /*title.replace("%gender%", );
+  title.replace("%birthday%", );
+  title.replace("%phone%", );
+  title.replace("%email%", );
+  title.replace("%city%", );*/
+
+  setWindowTitle(title);
 }

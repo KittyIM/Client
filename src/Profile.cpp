@@ -25,6 +25,9 @@
 #include <QtXml/QDomDocument>
 #include <QtXml/QDomElement>
 
+#define qDebug() qDebug() << "[Profile]"
+#define qWarning() qWarning() << "[Profile]"
+
 using namespace Kitty;
 using namespace KittySDK;
 

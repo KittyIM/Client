@@ -8,6 +8,9 @@
 #include <QtGui/QApplication>
 #include <QtGui/QPainter>
 
+#define qDebug() qDebug() << "[RosterItemDelegate]"
+#define qWarning() qWarning() << "[RosterItemDelegate]"
+
 using namespace KittySDK;
 
 Kitty::RosterItemDelegate::RosterItemDelegate(QObject *parent): QStyledItemDelegate(parent)

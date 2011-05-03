@@ -1,6 +1,8 @@
 #ifndef CHATTAB_H
 #define CHATTAB_H
 
+#include "SDK/Protocol.h"
+
 #include <QtGui/QWidget>
 
 class QToolBar;
@@ -28,13 +30,18 @@ namespace Kitty
 
       KittySDK::Chat *chat() const { return m_chat; }
 
+    signals:
+      void tabChanged();
+
     public slots:
       void updateIcons();
       void setEditFocus();
       void applySettings();
+      void appendMessage(KittySDK::Message &msg);
 
     private slots:
       void sendMessage();
+      void changeStatus(KittySDK::Protocol::Status status, QString description);
 
     protected:
       void changeEvent(QEvent *event);

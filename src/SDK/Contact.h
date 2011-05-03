@@ -18,7 +18,7 @@ namespace KittySDK
     Q_PROPERTY(KittySDK::Protocol::Status status READ status WRITE setStatus)
 
     public:
-      Contact(const QString &uid, KittySDK::Account *account): QObject(account), m_uid(uid), m_account(account) { }
+      Contact(const QString &uid, KittySDK::Account *account): QObject(account), m_uid(uid), m_status(KittySDK::Protocol::Offline), m_account(account) { }
 
       QString uid() const { return m_uid; }
       void setUid(const QString &uid) { m_uid = uid; }

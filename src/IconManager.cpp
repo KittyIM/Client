@@ -5,6 +5,9 @@
 #include <QtCore/QMap>
 #include <QtCore/QDebug>
 
+#define qDebug() qDebug() << "[IconManager]"
+#define qWarning() qWarning() << "[IconManager]"
+
 using namespace KittySDK;
 
 Kitty::IconManager::IconManager(QObject *parent): QObject(parent)
@@ -42,7 +45,7 @@ void Kitty::IconManager::loadDefaults()
   defaults.insert(Icons::I_BOLD, ":/glyphs/bold.png");
   defaults.insert(Icons::I_ITALIC, ":/glyphs/italic.png");
   defaults.insert(Icons::I_UNDERLINE, ":/glyphs/underline.png");
-  defaults.insert(Icons::I_STRIKETROUGH, ":/glyphs/striketrough.png");
+  defaults.insert(Icons::I_STRIKETHROUGH, ":/glyphs/strikethrough.png");
   defaults.insert(Icons::I_COLOR, ":/glyphs/color.png");
   defaults.insert(Icons::I_IMAGE, ":/glyphs/image.png");
   defaults.insert(Icons::I_FILE, ":/glyphs/file.png");
@@ -50,8 +53,9 @@ void Kitty::IconManager::loadDefaults()
   defaults.insert(Icons::I_DELETE, ":/glyphs/delete.png");
   defaults.insert(Icons::I_COPY, ":/glyphs/copy.png");
   defaults.insert(Icons::I_GROUP, ":/glyphs/group.png");
+  defaults.insert(Icons::I_SOUND, ":/glyphs/sound.png");
 
-  qDebug() << "IconManager is loading default icons [" << defaults.count() << "]";
+  qDebug() << "Loading default icons [" << defaults.count() << "]";
 
   QMapIterator<QString, QString> i(defaults);
   while(i.hasNext()) {

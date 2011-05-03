@@ -40,7 +40,12 @@ namespace Kitty
       Plugin *pluginByName(const QString &name) const;
       Plugin *pluginByFileName(const QString &fileName) const;
 
+      void execAction(const QString &plugin, const QString &name, const QMap<QString, QVariant> &args);
+
       void load();
+
+    signals:
+      void allPluginsLoaded();
 
     private:
       explicit PluginManager(QObject *parent = 0): QObject(parent) { }

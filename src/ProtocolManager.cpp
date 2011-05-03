@@ -2,6 +2,9 @@
 
 #include <QtCore/QDebug>
 
+#define qDebug() qDebug() << "[ProtocolManager]"
+#define qWarning() qWarning() << "[ProtocolManager]"
+
 using namespace KittySDK;
 
 const QList<Protocol*> &Kitty::ProtocolManager::protocols() const

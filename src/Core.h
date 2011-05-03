@@ -20,7 +20,6 @@ namespace Kitty
   class MainWindow;
   class Profile;
 
-
   class Core: public QObject, public Singleton<Core>
   {
     Q_OBJECT
@@ -31,6 +30,8 @@ namespace Kitty
 
     public:
       ~Core();
+
+      QString statusToString(const int &status);
 
       QAction *action(const QString &id) const;
       QPixmap icon(const QString &id) const;

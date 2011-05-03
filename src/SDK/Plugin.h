@@ -53,7 +53,7 @@ namespace KittySDK
     Q_OBJECT
 
     public:
-      Plugin(PluginCore *core): QObject(0), m_core(core) { }
+      Plugin(PluginCore *core): QObject(0), m_info(0), m_core(core) { }
 
       enum { Type = 1 };
       virtual int type() const { return Type; }
@@ -70,6 +70,7 @@ namespace KittySDK
       virtual void updateIcons() { }
       virtual void receiveMessage(const Message &msg) { }
       virtual void processMessage(Message &msg) { }
+      virtual void execAction(const QString &name, const QMap<QString, QVariant> &args) { }
 
     protected:
       PluginInfo *m_info;

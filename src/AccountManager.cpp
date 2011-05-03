@@ -5,6 +5,7 @@
 #include "ProtocolManager.h"
 #include "PluginManager.h"
 #include "SDK/constants.h"
+#include "ChatManager.h"
 #include "Core.h"
 
 #include <QtCore/QDebug>
@@ -12,6 +13,9 @@
 #include <QtGui/QAction>
 #include <QtXml/QDomDocument>
 #include <QtXml/QDomElement>
+
+#define qDebug() qDebug() << "[AccountManager]"
+#define qWarning() qWarning() << "[AccountManager]"
 
 using namespace Kitty;
 using namespace KittySDK;
@@ -68,6 +72,8 @@ bool Kitty::AccountManager::add(Account *account)
       return false;
     }
   }
+
+  connect(account, SIGNAL(messageReceived(KittySDK::Message&)), ChatManager::inst(), SLOT(receiveMessage(KittySDK::Message&)));
 
   if(account->protocol()->abilities().testFlag(Protocol::ChangeStatus)) {
     QAction *action = new QAction(this);

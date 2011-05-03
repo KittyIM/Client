@@ -12,6 +12,9 @@
 #include <QtGui/QKeyEvent>
 #include <QtGui/QMenu>
 
+#define qDebug() qDebug() << "[ChatEdit]"
+#define qWarning() qWarning() << "[ChatEdit]"
+
 using namespace Kitty;
 using namespace KittySDK;
 

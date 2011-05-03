@@ -38,8 +38,15 @@ void Kitty::PluginsSettings::reset()
   foreach(Plugin *plugin, PluginManager::inst()->plugins()) {
     QTreeWidgetItem *item = new QTreeWidgetItem();
 
-    item->setText(0, plugin->plugin()->info()->name());
-    item->setText(1, plugin->plugin()->info()->version());
+    PluginInfo *info = plugin->plugin()->info();
+    if(info) {
+      item->setText(0, plugin->plugin()->info()->name());
+      item->setText(1, plugin->plugin()->info()->version());
+    } else {
+      item->setText(0, tr("Unknown"));
+      item->setText(1, tr("Unknown"));
+    }
+
     item->setText(2, QFileInfo(plugin->fileName()).fileName());
     item->setText(3, (plugin->isLoaded())?tr("Loaded"):tr("Not loaded"));
 

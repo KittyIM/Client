@@ -5,6 +5,9 @@
 
 #include <QtCore/QDebug>
 
+#define qDebug() qDebug() << "[AboutWindow]"
+#define qWarning() qWarning() << "[AboutWindow]"
+
 using namespace Kitty;
 
 Kitty::AboutWindow::AboutWindow(QWidget *parent): QDialog(parent), m_ui(new Ui::AboutWindow)
@@ -13,7 +16,7 @@ Kitty::AboutWindow::AboutWindow(QWidget *parent): QDialog(parent), m_ui(new Ui::
 
   setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
 
-  qDebug() << "Creating AboutWindow";
+  qDebug() << "Creating";
 }
 
 Kitty::AboutWindow::~AboutWindow()

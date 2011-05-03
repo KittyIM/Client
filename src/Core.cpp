@@ -32,6 +32,9 @@
 #include <QtGui/QApplication>
 #include <QtGui/QMenu>
 
+#define qDebug() qDebug() << "[Core]"
+#define qWarning() qWarning() << "[Core]"
+
 using namespace Kitty;
 using namespace KittySDK;
 
@@ -92,6 +95,37 @@ Kitty::Core::~Core()
   PluginManager::destr();
 
   DebugWindow::destroy();
+}
+
+QString Kitty::Core::statusToString(const int &status)
+{
+  switch(status) {
+    case Protocol::Online:
+      return tr("Online");
+    break;
+
+    case Protocol::Away:
+      return tr("Away");
+    break;
+
+    case Protocol::FFC:
+      return tr("Free for chat");
+    break;
+
+    case Protocol::DND:
+      return tr("Do not disturb");
+    break;
+
+    case Protocol::Invisible:
+      return tr("Invisible");
+    break;
+
+    case Protocol::Offline:
+      return tr("Offline");
+    break;
+  }
+
+  return tr("Unknown");
 }
 
 QAction *Kitty::Core::action(const QString &id) const
@@ -291,3 +325,4 @@ void Kitty::Core::openProfilesFolder()
 {
   QDesktopServices::openUrl(QUrl(profilesDir()));
 }
+

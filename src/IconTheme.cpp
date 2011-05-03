@@ -9,6 +9,9 @@
 #include <QtXml/QDomDocument>
 #include <QtXml/QDomElement>
 
+#define qDebug() qDebug() << "[IconTheme]"
+#define qWarning() qWarning() << "[IconTheme]"
+
 Kitty::IconTheme::IconTheme(const QString &name)
 {
   if(QDir(qApp->applicationDirPath() + "/themes/icon/" + name).exists()) {
