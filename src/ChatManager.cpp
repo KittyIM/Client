@@ -70,7 +70,7 @@ void Kitty::ChatManager::receiveMessage(KittySDK::Message &msg)
     }
   }
 
-  if(msg.direction() == Message::Incoming) {
+  if((msg.direction() == Message::Incoming) || (msg.direction() == Message::System)) {
     Contact *me = msg.to().first();
 
     Chat *ch = chat(me, msg.from());
