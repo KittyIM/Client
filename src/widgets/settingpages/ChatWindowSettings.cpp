@@ -31,6 +31,7 @@ void Kitty::ChatWindowSettings::apply()
   core->setSetting(Settings::S_CHATWINDOW_SENTHISTORY, m_ui->sentMessagesHistoryCheckBox->isChecked());
   core->setSetting(Settings::S_CHATWINDOW_SPELLCHECK_ENABLED, m_ui->spellCheckCheckBox->isChecked());
   core->setSetting(Settings::S_CHATWINDOW_SPELLCHECK_DICT, m_ui->spellCheckDictionaryComboBox->itemData(m_ui->spellCheckDictionaryComboBox->currentIndex()).toString());
+  core->setSetting(Settings::S_CHATWINDOW_UNDERLINE_LINKS, m_ui->underlineMessageLinksCheckBox->isChecked());
 }
 
 void Kitty::ChatWindowSettings::reset()
@@ -40,6 +41,7 @@ void Kitty::ChatWindowSettings::reset()
   m_ui->copySelectionToClipboardCheckBox->setChecked(core->setting(Settings::S_CHATWINDOW_COPYSELECTION, false).toBool());
   m_ui->sentMessagesHistoryCheckBox->setChecked(core->setting(Settings::S_CHATWINDOW_SENTHISTORY, true).toBool());
   m_ui->spellCheckCheckBox->setChecked(core->setting(Settings::S_CHATWINDOW_SPELLCHECK_ENABLED, false).toBool());
+  m_ui->underlineMessageLinksCheckBox->setChecked(core->setting(Settings::S_CHATWINDOW_UNDERLINE_LINKS, true).toBool());
 
   m_ui->spellCheckDictionaryComboBox->clear();
   m_ui->spellCheckDictionaryComboBox->addItem(tr("None"), QString());

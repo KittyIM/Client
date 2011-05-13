@@ -27,7 +27,21 @@ using namespace KittySDK;
 
 bool Kitty::ChatWebPage::acceptNavigationRequest(QWebFrame *frame, const QNetworkRequest &request, QWebPage::NavigationType type)
 {
-  if(request.url().toString() != "about:blank") {
+  QString scheme = request.url().scheme();
+
+  if(scheme == "kitty") {
+    QString command = request.url().toString().mid(6);
+
+    if(command.left(3) == "img") {
+      QWebElement div = mainFrame()->documentElement().findFirst(QString("#%1").arg(command));
+
+      if(div.attribute("style") == "display: none;") {
+        div.setAttribute("style", "display: block;");
+      } else {
+        div.setAttribute("style", "display: none;");
+      }
+    }
+  } else if(scheme != "about") {
     QDesktopServices::openUrl(request.url());
   }
 
@@ -39,10 +53,12 @@ Kitty::ChatWebView::ChatWebView(QWidget *parent): QWebView(parent)
   m_page = new ChatWebPage();
   setPage(m_page);
 
+  m_imageCount = 0;
+
   page()->settings()->setAttribute(QWebSettings::PrivateBrowsingEnabled, true);
-  page()->settings()->setAttribute(QWebSettings::JavascriptEnabled, false);
+  page()->settings()->setAttribute(QWebSettings::JavascriptEnabled, true);
   page()->settings()->setAttribute(QWebSettings::JavaEnabled, false);
-  page()->settings()->setAttribute(QWebSettings::PluginsEnabled, false);
+  page()->settings()->setAttribute(QWebSettings::PluginsEnabled, true);
   page()->settings()->setAttribute(QWebSettings::LinksIncludedInFocusChain, false);
 
   connect(this->page(), SIGNAL(downloadRequested(QNetworkRequest)), this, SLOT(handleDownload(QNetworkRequest)));
@@ -93,7 +109,12 @@ void Kitty::ChatWebView::appendMessage(const KittySDK::Message &msg, Kitty::Chat
     style.replace(QRegExp("%textbackgroundcolor{*}%", Qt::CaseInsensitive, QRegExp::Wildcard), "");
   }
 
-  style.replace("%message%", msg.body());
+  QString body = msg.body();
+  if(core->setting(Settings::S_CHATWINDOW_UNDERLINE_LINKS, true).toBool()) {
+    body = core->processUrls(body);
+  }
+
+  style.replace("%message%", body);
   style.replace("%time%", msg.timeStamp().toString("hh:mm:ss"));
   style.replace("%shortTime%", msg.timeStamp().toString("hh:mm"));
   style.replace(QRegExp("%time{*}%", Qt::CaseInsensitive, QRegExp::Wildcard), msg.timeStamp().toString("hh:mm:ss"));
@@ -109,6 +130,19 @@ void Kitty::ChatWebView::appendMessage(const KittySDK::Message &msg, Kitty::Chat
 
   elem.appendInside(style);
 
+  if(msg.direction() == Message::Incoming) {
+    QString images = findImages(body, theme);
+    if(!images.isEmpty()) {
+      elem.appendInside(images);
+    }
+
+    QString youtubes = findYoutubes(body, theme);
+    if(!youtubes.isEmpty()) {
+      elem.appendInside(youtubes);
+    }
+  }
+
+  //without the timer, the scollbars wouldn't update
   if(page()->mainFrame()->scrollBarValue(Qt::Vertical) == page()->mainFrame()->scrollBarMaximum(Qt::Vertical)) {
     QTimer::singleShot(0, this, SLOT(updateScrollbar()));
   }
@@ -167,12 +201,15 @@ void Kitty::ChatWebView::showContextMenu(QPoint pos)
   QMenu menu;
 
   QWebHitTestResult test = page()->mainFrame()->hitTestContent(pos);
+
+  //if clicked on a link
   if(!test.linkUrl().isEmpty()) {
     menu.addAction(pageAction(QWebPage::OpenLink));
     menu.addAction(pageAction(QWebPage::CopyLinkToClipboard));
     menu.addSeparator();
   }
 
+  //if clicked on image
   if(!test.imageUrl().isEmpty()) {
     menu.addAction(pageAction(QWebPage::DownloadImageToDisk));
     menu.addSeparator();
@@ -192,10 +229,14 @@ void Kitty::ChatWebView::handleDownload(QNetworkRequest req)
 
 void Kitty::ChatWebView::keyPressEvent(QKeyEvent *event)
 {
-  if((event->key() == Qt::Key_C) && (event->modifiers().testFlag(Qt::ControlModifier))) {
-    if(!selectedText().isEmpty()) {
-      qApp->clipboard()->setText(selectedText());
+  if(event->modifiers().testFlag(Qt::ControlModifier)) {
+    if(event->key() == Qt::Key_C) {
+      if(!selectedText().isEmpty()) {
+        qApp->clipboard()->setText(selectedText());
+      }
     }
+  } else {
+    emit keyPressed();
   }
 }
 
@@ -206,11 +247,83 @@ void Kitty::ChatWebView::mouseReleaseEvent(QMouseEvent *event)
     if(!selectedText().isEmpty()) {
       qApp->clipboard()->setText(selectedText());
 
+      //clear selection
       page()->settings()->setAttribute(QWebSettings::JavascriptEnabled, true);
       page()->mainFrame()->evaluateJavaScript("document.execCommand('unselect');");
       page()->settings()->setAttribute(QWebSettings::JavascriptEnabled, false);
     }
   }
 
-  QWebView::mouseReleaseEvent(event);
+ QWebView::mouseReleaseEvent(event);
+}
+
+QString Kitty::ChatWebView::findImages(const QString &body, Kitty::ChatTheme *theme)
+{
+  QString result;
+
+  //load Status theme style
+  QString style = theme->getCode(ChatTheme::Status);
+  style.replace("%messageClasses%", "status");
+  style.replace("%time%", "");
+  style.replace("%shortTime%", "");
+  style.replace(QRegExp("%time{*}%", Qt::CaseInsensitive, QRegExp::Wildcard), "");
+  style.replace("%service%", "");
+  style.replace("%variant%", Core::inst()->setting(Settings::S_CHAT_THEME_VARIANT, QString()).toString().remove(".css").replace(" ", "_"));
+  style.replace("%userIcons%", "showIcons");
+
+  QStringList added;
+  QRegExp imgs("http://[-A-Z0-9+&@#/%?=~_|$!:,.;]*\\.(png|gif|jpeg|jpg|tiff|bmp)", Qt::CaseInsensitive);
+  int pos = 0;
+  while((pos = imgs.indexIn(body, pos)) != -1) {
+    QString url = imgs.cap(0);
+
+    //add only once
+    if(!added.contains(url)) {
+      QString code = style;
+      code.replace("%message%", QString("<a href=\"kitty:img%2\">%1</a><div id=\"img%2\" style=\"display: none;\"><img src=\"%1\" style=\"max-width: 100%;\"></div>").arg(url).arg(m_imageCount));
+      result.append(code);
+      added << imgs.cap(0);
+    }
+
+    pos += imgs.matchedLength();
+    m_imageCount++;
+  }
+
+  return result;
+}
+
+QString Kitty::ChatWebView::findYoutubes(const QString &body, Kitty::ChatTheme *theme)
+{
+  QString result;
+
+  //load Status theme style
+  QString style = theme->getCode(ChatTheme::Status);
+  style.replace("%messageClasses%", "status");
+  style.replace("%time%", "");
+  style.replace("%shortTime%", "");
+  style.replace(QRegExp("%time{*}%", Qt::CaseInsensitive, QRegExp::Wildcard), "");
+  style.replace("%service%", "");
+  style.replace("%variant%", Core::inst()->setting(Settings::S_CHAT_THEME_VARIANT, QString()).toString().remove(".css").replace(" ", "_"));
+  style.replace("%userIcons%", "showIcons");
+
+  QStringList added;
+  QRegExp youtubes("http://\\w{0,3}.?youtube+\\.\\w{2,3}/watch\\?(?:[A-z0-9]*=[A-z0-9]*&)*v=([\\w-]{11})", Qt::CaseInsensitive);
+  int pos = 0;
+  while((pos = youtubes.indexIn(body, pos)) != -1) {
+    QString url = youtubes.cap(0);
+    QString id = youtubes.cap(1);
+
+    //add only once
+    if(!added.contains(url)) {
+      QString code = style;
+      code.replace("%message%", QString("<a href=\"kitty:img%2\">%1</a><div id=\"img%2\" style=\"display: none;\"><object type=\"application/x-shockwave-flash\" style=\"width:450px; height:366px;\" data=\"http://www.youtube.com/v/%3?rel=0&fs=1\"><param name=\"movie\" value=\"http://www.youtube.com/v/%3?rel=0&fs=1\"><param name=\"allowFullScreen\" value=\"true\"></object></div>").arg(url).arg(m_imageCount).arg(id));
+      result.append(code);
+      added << youtubes.cap(0);
+    }
+
+    pos += youtubes.matchedLength();
+    m_imageCount++;
+  }
+
+  return result;
 }

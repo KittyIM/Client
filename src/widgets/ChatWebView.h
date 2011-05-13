@@ -33,6 +33,9 @@ namespace Kitty
 
       void appendMessage(const KittySDK::Message &msg, Kitty::ChatTheme *theme = 0);
 
+    signals:
+      void keyPressed();
+
     public slots:
       void clear();
       void clearTo(bool custom = false, const QString &theme = QString(), const QString &variant = QString());
@@ -47,7 +50,12 @@ namespace Kitty
       void mouseReleaseEvent(QMouseEvent *event);
 
     private:
+      QString findImages(const QString &body, Kitty::ChatTheme *theme);
+      QString findYoutubes(const QString &body, Kitty::ChatTheme *theme);
+
+    private:
       ChatWebPage *m_page;
+      int m_imageCount;
   };
 }
 

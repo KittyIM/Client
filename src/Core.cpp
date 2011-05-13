@@ -24,6 +24,7 @@
   #include <winuser.h>
 #endif
 
+#include <QtCore/QRegExp>
 #include <QtCore/QDebug>
 #include <QtCore/QMutex>
 #include <QtCore/QUrl>
@@ -126,6 +127,43 @@ QString Kitty::Core::statusToString(const int &status)
   }
 
   return tr("Unknown");
+}
+
+QString Kitty::Core::processUrls(const QString &text)
+{
+  QString result = text;
+
+  QRegExp urls("\\b((?:(?:https?|ftp|file)://|www\\.|ftp\\.))([-A-Z0-9+&@#/%=~_|$?!:,.]*[A-Z0-9+&@#/%=~_|$])", Qt::CaseInsensitive);
+  int pos = 0;
+  while((pos = urls.indexIn(result, pos)) != -1) {
+    QString url = urls.cap(0);
+
+    if(urls.cap(1) == "www.") {
+      url.prepend("http://");
+    } else if(urls.cap(1) == "ftp.") {
+      url.prepend("ftp://");
+    }
+
+    QString link = QString("<a href=\"%1\">%2</a>").arg(url).arg(urls.cap(0));
+    result.replace(pos, urls.cap(0).length(), link);
+    pos += link.size();
+  }
+
+  QRegExp emails("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", Qt::CaseInsensitive);
+  pos = 0;
+  while((pos = emails.indexIn(result, pos)) != -1) {
+    QString mail = emails.cap(0);
+    QString link = QString("<a href=\"mailto:%1\">%1</a>").arg(mail);
+    result.replace(pos, mail.length(), link);
+    pos += link.size();
+  }
+
+  return result;
+}
+
+QString Kitty::Core::processEmoticons(const QString &text)
+{
+  return text;
 }
 
 QAction *Kitty::Core::action(const QString &id) const
@@ -325,4 +363,3 @@ void Kitty::Core::openProfilesFolder()
 {
   QDesktopServices::openUrl(QUrl(profilesDir()));
 }
-

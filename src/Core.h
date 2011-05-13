@@ -32,6 +32,8 @@ namespace Kitty
       ~Core();
 
       QString statusToString(const int &status);
+      QString processUrls(const QString &text);
+      QString processEmoticons(const QString &text);
 
       QAction *action(const QString &id) const;
       QPixmap icon(const QString &id) const;

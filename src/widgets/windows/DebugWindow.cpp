@@ -110,11 +110,15 @@ void Kitty::DebugWindow::execCommand()
       msg = QString("<div>%1</div>").arg(tr("Commands:<br><i>help</i> - prints this text<br><i>uptime</i> - show uptime<br><i>quit</i> - quit KittyIM"));
     } else if(commands.at(0) == "quit") {
       qApp->quit();
+    } else if(commands.at(0) == "clear") {
+      m_wvLog->setHtml("<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"><style type=\"text/css\">body { font-family: Tahoma; font-size: 11px; margin: 2px; }</style></head><body></body></html>");
+      msg = "";
     } else if(commands.at(0) == "uptime") {
       int secs = static_cast<App*>(qApp)->startDate().secsTo(QDateTime::currentDateTime());
 
       msg = QString("Uptime: %1h %2m %3s").arg(secs / 3600).arg((secs / 60) % 60).arg(secs % 60);
     } else if(commands.at(0) == "theme") {
+      //FIXME remove this
       Core::inst()->profile()->loadIconTheme("Fugue");
     }
 
