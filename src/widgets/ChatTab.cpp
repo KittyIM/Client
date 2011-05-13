@@ -2,6 +2,7 @@
 #include "ui_ChatTab.h"
 
 #include "widgets/windows/ChatWindow.h"
+#include "widgets/ChatColorPicker.h"
 #include "PluginManager.h"
 #include "SDK/constants.h"
 #include "SDK/Protocol.h"
@@ -30,6 +31,7 @@ Kitty::ChatTab::ChatTab(Chat *chat, QWidget *parent): QWidget(parent), m_ui(new 
   m_ui->setupUi(this);
 
   connect(m_ui->textEdit, SIGNAL(returnPressed()), this, SLOT(sendMessage()));
+  connect(m_ui->textEdit, SIGNAL(cursorPositionChanged()), this, SLOT(updateButtons()));
   connect(chat->contacts().first(), SIGNAL(statusChanged(KittySDK::Protocol::Status,QString)), this, SLOT(changeStatus(KittySDK::Protocol::Status, QString)));
 
   m_toolBar = new QToolBar(this);
@@ -37,26 +39,41 @@ Kitty::ChatTab::ChatTab(Chat *chat, QWidget *parent): QWidget(parent), m_ui(new 
   m_toolBar->setStyleSheet("QToolBar { border: 0; }");
   m_ui->verticalLayout->addWidget(m_toolBar);
 
+  m_colorPicker = new ChatColorPicker(this);
+  connect(m_colorPicker, SIGNAL(colorSelected(QColor)), m_ui->textEdit, SLOT(colorText(QColor)));
+
   Protocol *proto = chat->account()->protocol();
 
   if(proto->abilities().testFlag(Protocol::TextBold)) {
-    QAction *boldAction = m_toolBar->addAction(tr("Bold"));
-    boldAction->setProperty("icon_id", Icons::I_BOLD);
+    m_boldAction = m_toolBar->addAction(tr("Bold"), m_ui->textEdit, SLOT(boldText()));
+    m_boldAction->setCheckable(true);
+    m_boldAction->setProperty("icon_id", Icons::I_BOLD);
+  } else {
+    m_boldAction = 0;
   }
 
   if(proto->abilities().testFlag(Protocol::TextItalics)) {
-    QAction *italicAction = m_toolBar->addAction(tr("Italic"));
-    italicAction->setProperty("icon_id", Icons::I_ITALIC);
+    m_italicAction = m_toolBar->addAction(tr("Italic"), m_ui->textEdit, SLOT(italicText()));
+    m_italicAction->setCheckable(true);
+    m_italicAction->setProperty("icon_id", Icons::I_ITALIC);
+  } else {
+    m_italicAction = 0;
   }
 
   if(proto->abilities().testFlag(Protocol::TextUnderline)) {
-    QAction *underlineAction = m_toolBar->addAction(tr("Underline"));
-    underlineAction->setProperty("icon_id", Icons::I_UNDERLINE);
+    m_underlineAction = m_toolBar->addAction(tr("Underline"), m_ui->textEdit, SLOT(underlineText()));
+    m_underlineAction->setCheckable(true);
+    m_underlineAction->setProperty("icon_id", Icons::I_UNDERLINE);
+  } else {
+    m_underlineAction = 0;
   }
 
   if(proto->abilities().testFlag(Protocol::TextStrikethrough)) {
-    QAction *strikethroughAction = m_toolBar->addAction(tr("Strikethrough"));
-    strikethroughAction->setProperty("icon_id", Icons::I_STRIKETHROUGH);
+    m_strikethroughAction = m_toolBar->addAction(tr("Strikethrough"));
+    m_strikethroughAction->setCheckable(true);
+    m_strikethroughAction->setProperty("icon_id", Icons::I_STRIKETHROUGH);
+  } else {
+    m_strikethroughAction = 0;
   }
 
   if(m_toolBar->actions().count() > 0) {
@@ -64,7 +81,7 @@ Kitty::ChatTab::ChatTab(Chat *chat, QWidget *parent): QWidget(parent), m_ui(new 
   }
 
   if(proto->abilities().testFlag(Protocol::TextColor)) {
-    QAction *colorAction = m_toolBar->addAction(tr("Color"));
+    QAction *colorAction = m_toolBar->addAction(tr("Color"), this, SLOT(showColorPicker()));
     colorAction->setProperty("icon_id", Icons::I_COLOR);
   }
 
@@ -134,6 +151,8 @@ void Kitty::ChatTab::appendMessage(KittySDK::Message &msg)
 void Kitty::ChatTab::sendMessage()
 {
   if(!m_ui->textEdit->toPlainText().isEmpty()) {
+    qDebug() << m_ui->textEdit->toHtml().replace("<", "&lt;");
+
     Message msg(m_chat->me(), m_chat->contacts());
     msg.setBody(m_ui->textEdit->toPlainText());
 
@@ -179,4 +198,34 @@ void Kitty::ChatTab::changeEvent(QEvent *event)
   QWidget::changeEvent(event);
 }
 
+void Kitty::ChatTab::updateButtons()
+{
+  QTextCharFormat fmt = m_ui->textEdit->currentCharFormat();
 
+  if(m_boldAction) {
+    m_boldAction->setChecked(fmt.fontWeight() == QFont::Bold);
+  }
+
+  if(m_italicAction) {
+    m_italicAction->setChecked(fmt.fontItalic());
+  }
+
+  if(m_underlineAction) {
+    m_underlineAction->setChecked(fmt.fontUnderline());
+  }
+
+  if(m_strikethroughAction) {
+    m_strikethroughAction->setChecked(fmt.fontStrikeOut());
+  }
+}
+
+void Kitty::ChatTab::showColorPicker()
+{
+  QAction *action = qobject_cast<QAction*>(sender());
+  if(action) {
+    QWidget *widget = m_toolBar->widgetForAction(action);
+    if(widget) {
+      m_colorPicker->showAt(widget->mapToGlobal(QPoint(0, widget->height())));
+    }
+  }
+}

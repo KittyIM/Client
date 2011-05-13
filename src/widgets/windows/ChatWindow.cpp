@@ -94,11 +94,13 @@ void Kitty::ChatWindow::closeEvent(QCloseEvent *event)
 {
   Core *core = Core::inst();
 
+  //Close all tabs
   if(core->setting(Settings::S_CHATWINDOW_TABBAR_CLOSE_WND, false).toBool()) {
-    for(int i = m_ui->tabWidget->count() - 1; i >= 0; i--) {
-      m_ui->tabWidget->removeTab(i);
-    }
+    //FIXME This freezes the window for some reason
+    //m_ui->tabWidget->clear();
   }
+
+  event->accept();
 }
 
 void Kitty::ChatWindow::on_tabWidget_currentChanged(int index)

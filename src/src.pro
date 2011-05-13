@@ -51,7 +51,8 @@ SOURCES    += main.cpp \
               3rdparty/json/json.cpp \
               ChatManager.cpp \
               ChatTheme.cpp \
-              widgets/ChatWebView.cpp
+              widgets/ChatWebView.cpp \
+    widgets/ChatColorPicker.cpp
 
 HEADERS    += constants.h \
               SDK/constants.h \
@@ -112,7 +113,8 @@ HEADERS    += constants.h \
               SDK/Chat.h \
               ChatManager.h \
               ChatTheme.h \
-              widgets/ChatWebView.h
+              widgets/ChatWebView.h \
+    widgets/ChatColorPicker.h
 
 FORMS      += widgets/windows/DebugWindow.ui \
               widgets/windows/MainWindow.ui \

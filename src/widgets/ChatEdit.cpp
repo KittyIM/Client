@@ -176,3 +176,37 @@ void Kitty::ChatEdit::replaceWord()
     insertPlainText(action->text());
   }
 }
+
+void Kitty::ChatEdit::boldText()
+{
+  QTextCharFormat fmt = currentCharFormat();
+
+  if(fmt.fontWeight() == QFont::Bold) {
+    fmt.setFontWeight(QFont::Normal);
+  } else {
+    fmt.setFontWeight(QFont::Bold);
+  }
+
+  setCurrentCharFormat(fmt);
+}
+
+void Kitty::ChatEdit::italicText()
+{
+  QTextCharFormat fmt = currentCharFormat();
+  fmt.setFontItalic(!fmt.fontItalic());
+  setCurrentCharFormat(fmt);
+}
+
+void Kitty::ChatEdit::underlineText()
+{
+  QTextCharFormat fmt = currentCharFormat();
+  fmt.setFontUnderline(!fmt.fontUnderline());
+  setCurrentCharFormat(fmt);
+}
+
+void Kitty::ChatEdit::colorText(QColor color)
+{
+  QTextCharFormat fmt = currentCharFormat();
+  fmt.setForeground(color);
+  setCurrentCharFormat(fmt);
+}

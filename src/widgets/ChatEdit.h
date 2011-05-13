@@ -35,6 +35,10 @@ namespace Kitty
 
     private slots:
       void replaceWord();
+      void boldText();
+      void italicText();
+      void underlineText();
+      void colorText(QColor color);
 
     protected:
       void keyPressEvent(QKeyEvent *event);

@@ -20,6 +20,8 @@ namespace Ui
 
 namespace Kitty
 {
+  class ChatColorPicker;
+
   class ChatTab: public QWidget
   {
     Q_OBJECT
@@ -40,6 +42,8 @@ namespace Kitty
       void appendMessage(KittySDK::Message &msg);
 
     private slots:
+      void updateButtons();
+      void showColorPicker();
       void sendMessage();
       void changeStatus(KittySDK::Protocol::Status status, QString description);
 
@@ -50,6 +54,11 @@ namespace Kitty
       Ui::ChatTab *m_ui;
       KittySDK::Chat *m_chat;
       QToolBar *m_toolBar;
+      ChatColorPicker *m_colorPicker;
+      QAction *m_boldAction;
+      QAction *m_italicAction;
+      QAction *m_underlineAction;
+      QAction *m_strikethroughAction;
   };
 }
 
