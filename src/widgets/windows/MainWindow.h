@@ -13,6 +13,7 @@ namespace Kitty
 {
   class RosterItemModel;
   class RosterSortProxy;
+  class RosterHeader;
 
   class MainWindow: public QMainWindow
   {
@@ -42,6 +43,7 @@ namespace Kitty
     private:
       QTimer m_hideTimer;
       Ui::MainWindow *m_ui;
+      RosterHeader *m_header;
       RosterItemModel *m_model;
       RosterSortProxy *m_proxy;
   };

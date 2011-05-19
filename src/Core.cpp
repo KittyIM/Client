@@ -269,7 +269,7 @@ QSystemTrayIcon *Kitty::Core::trayIcon()
     m_trayIcon->setToolTip(QString("KittyIM v%1").arg(Constants::VERSION));
     connect(m_trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(trayIconActivated(QSystemTrayIcon::ActivationReason)));
 
-    QMenu *menu = new QMenu();
+    QMenu *menu = new QMenu(m_mainWindow);
     menu->addAction(action(Actions::A_SHOW_HIDE));
     menu->addSeparator();
     menu->addAction(action(Actions::A_SETTINGS));

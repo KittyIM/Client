@@ -1,6 +1,7 @@
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
 
+#include "widgets/RosterHeader.h"
 #include "RosterItemModel.h"
 #include "RosterSortProxy.h"
 #include "ContactManager.h"
@@ -33,7 +34,12 @@ Kitty::MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), m_ui(new Ui
   m_ui->setupUi(this);
 
   setWindowFlags(windowFlags() | Qt::Tool);
+
   qDebug() << "Creating";
+
+  m_header = new RosterHeader(this);
+  m_ui->headerToolBar->addWidget(m_header);
+  connect(m_header, SIGNAL(descriptionChanged(QString)), AccountManager::inst(), SLOT(changeDescription(QString)));
 
   m_model = new RosterItemModel(m_ui->rosterTreeView);
   m_proxy = new RosterSortProxy(m_ui->rosterTreeView);
@@ -114,6 +120,7 @@ void Kitty::MainWindow::initToolbars()
 
   Core *core = Core::inst();
 
+  // Main menu
   QMenu *mnuMain = new QMenu(this);
   mnuMain->addAction(core->action(Actions::A_ABOUT));
   mnuMain->addAction(core->action(Actions::A_DEBUG));
@@ -131,17 +138,19 @@ void Kitty::MainWindow::initToolbars()
   btnMain->setPopupMode(QToolButton::MenuButtonPopup);
 
 
+  // User menu
   QMenu *mnuUser = new QMenu(this);
-  //mnuUser->addAction(core->getAction(Actions::A_OPEN_KITTY_FOLDER));
+  mnuUser->addAction(core->action(Actions::A_ADD_CONTACT));
+  mnuUser->addAction(core->action(Actions::A_HISTORY));
 
-  QToolButton *btnUser = new QToolButton();
-  btnUser->setObjectName("userButton");
-  btnUser->setText(tr("User"));
+  m_ui->mainToolBar->addAction(core->action(Actions::A_ADD_CONTACT));
+
+  QToolButton *btnUser = qobject_cast<QToolButton*>(m_ui->mainToolBar->widgetForAction(core->action(Actions::A_ADD_CONTACT)));
   btnUser->setMenu(mnuUser);
   btnUser->setPopupMode(QToolButton::MenuButtonPopup);
-  m_ui->mainToolBar->addWidget(btnUser);
 
 
+  //Settings menu
   QMenu *mnuSettings = new QMenu(this);
   mnuSettings->addAction(core->action(Actions::A_SETTINGS));
 
@@ -180,6 +189,8 @@ void Kitty::MainWindow::loadContacts()
 void Kitty::MainWindow::applySettings()
 {
   Core *core = Core::inst();
+
+  m_header->applySettings();
 
   if(core->setting(Settings::S_MAINWINDOW_TRANSPARENCY).toBool()) {
     setWindowOpacity(core->setting(Settings::S_MAINWINDOW_TRANSPARENCY_VALUE, 80).toReal() / 100.0);

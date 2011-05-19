@@ -102,5 +102,7 @@
         <file>chat/Variants/Yellow vs. Pink.css</file>
         <file>chat/Variants/Yellow vs. Red.css</file>
         <file>glyphs/sound.png</file>
+        <file>header/header_bg.png</file>
+        <file>header/style.css</file>
     </qresource>
 </RCC>

@@ -85,8 +85,8 @@ Kitty::App::App(int &argc, char **argv): QApplication(argc, argv)
 
 void Kitty::App::applySettings()
 {
-  QTranslator *translator = new QTranslator();
-  QTranslator *qtTranslator = new QTranslator();
+  QTranslator *translator = new QTranslator(this);
+  QTranslator *qtTranslator = new QTranslator(this);
 
   QString locale = QLocale::system().name();
   locale = Core::inst()->setting(Settings::S_LANGUAGE, locale).toString();
@@ -98,6 +98,11 @@ void Kitty::App::applySettings()
   } else {
     translator->load(QString());
   }
+
+  QFile file(":/header/style.css");
+  file.open(QFile::ReadOnly);
+  setStyleSheet(file.readAll());
+  file.close();
 }
 
 void Kitty::App::cleanUp()

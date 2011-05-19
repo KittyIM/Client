@@ -181,10 +181,9 @@ void Kitty::DebugWindow::on_refreshActionsButton_clicked()
       if(items.count() > 0) {
         items.at(0)->addChild(item);
       } else {
-        QTreeWidgetItem *parent = new QTreeWidgetItem();
+        QTreeWidgetItem *parent = new QTreeWidgetItem(m_ui->actionsWidget);
         parent->setText(0, prefix);
         parent->addChild(item);
-        m_ui->actionsWidget->addTopLevelItem(parent);
       }
     }
   }
@@ -215,10 +214,9 @@ void Kitty::DebugWindow::on_refreshIconsButton_clicked()
       if(items.count() > 0) {
         items.at(0)->addChild(item);
       } else {
-        QTreeWidgetItem *parent = new QTreeWidgetItem();
+        QTreeWidgetItem *parent = new QTreeWidgetItem(m_ui->iconsWidget);
         parent->setText(0, prefix);
         parent->addChild(item);
-        m_ui->iconsWidget->addTopLevelItem(parent);
       }
     }
   }

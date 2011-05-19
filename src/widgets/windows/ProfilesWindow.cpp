@@ -55,23 +55,20 @@ void Kitty::ProfilesWindow::showEvent(QShowEvent *event)
   if(dir.exists()) {
     QFileInfoList profiles = dir.entryInfoList(QDir::Dirs | QDir::NoDotAndDotDot, QDir::Name);
     foreach(QFileInfo info, profiles) {
-      QTreeWidgetItem *item = new QTreeWidgetItem();
+      QTreeWidgetItem *item = new QTreeWidgetItem(m_ui->profilesWidget);
       item->setText(0, info.baseName());
       item->setIcon(0, QIcon(":/icons/main.ico"));
 
       if(QFile::exists(info.absoluteFilePath() + "/avatar.png")) {
         item->setIcon(0, QIcon(info.absoluteFilePath() + "/avatar.png"));
       }
-
-      m_ui->profilesWidget->addTopLevelItem(item);
     }
   }
 
-  QTreeWidgetItem *item = new QTreeWidgetItem();
+  QTreeWidgetItem *item = new QTreeWidgetItem(m_ui->profilesWidget);
   item->setText(0, tr("Add new profile"));
   item->setIcon(0, QIcon(":/icons/main.ico"));
   item->setData(0, Qt::UserRole, true);
-  m_ui->profilesWidget->addTopLevelItem(item);
 }
 
 void Kitty::ProfilesWindow::paintEvent(QPaintEvent *event)

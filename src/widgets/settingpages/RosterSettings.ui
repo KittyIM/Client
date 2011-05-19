@@ -81,12 +81,12 @@
         </item>
         <item>
          <property name="text">
-          <string>Right side</string>
+          <string>Left side</string>
          </property>
         </item>
         <item>
          <property name="text">
-          <string>Left side</string>
+          <string>Right side</string>
          </property>
         </item>
        </widget>

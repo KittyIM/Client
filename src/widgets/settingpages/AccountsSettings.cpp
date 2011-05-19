@@ -40,13 +40,11 @@ void Kitty::AccountsSettings::refreshAccounts()
 {
   foreach(Account *account, AccountManager::inst()->accounts()) {
     if(m_ui->treeWidget->findItems(account->uid(), Qt::MatchExactly).count() == 0) {
-      QTreeWidgetItem *item = new QTreeWidgetItem();
+      QTreeWidgetItem *item = new QTreeWidgetItem(m_ui->treeWidget);
 
       item->setIcon(0, Core::inst()->icon(account->protocol()->protoInfo()->protoIcon()));
       item->setText(0, account->uid());
       item->setText(1, account->protocol()->protoInfo()->protoName());
-
-      m_ui->treeWidget->addTopLevelItem(item);
     }
   }
 }

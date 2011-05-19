@@ -110,6 +110,16 @@
         <source>Show / Hide</source>
         <translation>Pokaż / Ukryj</translation>
     </message>
+    <message>
+        <location filename="../src/ActionManager.cpp" line="62"/>
+        <source>Add contact</source>
+        <translation>Dodaj kontakt</translation>
+    </message>
+    <message>
+        <location filename="../src/ActionManager.cpp" line="66"/>
+        <source>History</source>
+        <translation>Historia</translation>
+    </message>
 </context>
 <context>
     <name>Kitty::DebugWindow</name>
@@ -125,27 +135,19 @@
     </message>
 </context>
 <context>
-    <name>Kitty::MainWindow</name>
-    <message>
-        <location filename="../src/widgets/windows/MainWindow.cpp" line="139"/>
-        <source>User</source>
-        <translation>Użytkownik</translation>
-    </message>
-</context>
-<context>
     <name>Kitty::ProfilesWindow</name>
     <message>
-        <location filename="../src/widgets/windows/ProfilesWindow.cpp" line="71"/>
+        <location filename="../src/widgets/windows/ProfilesWindow.cpp" line="69"/>
         <source>Add new profile</source>
         <translation>Dodaj nowy profil</translation>
     </message>
     <message>
-        <location filename="../src/widgets/windows/ProfilesWindow.cpp" line="142"/>
+        <location filename="../src/widgets/windows/ProfilesWindow.cpp" line="139"/>
         <source>Wrong password</source>
         <translation>Błędne hasło</translation>
     </message>
     <message>
-        <location filename="../src/widgets/windows/ProfilesWindow.cpp" line="142"/>
+        <location filename="../src/widgets/windows/ProfilesWindow.cpp" line="139"/>
         <source>The password you supplied is wrong.</source>
         <translation>Podane hasło nie jest poprawne.</translation>
     </message>
@@ -370,7 +372,7 @@
         <location filename="../src/ui_ChatWindowSettings.h" line="240"/>
         <location filename="../src/ui_ChatWindowSettings.h" line="241"/>
         <source>Clean chat window every:</source>
-        <translation type="unfinished"></translation>
+        <translation>Czyść czyść czat co:</translation>
     </message>
 </context>
 <context>
@@ -655,39 +657,39 @@
         <location filename="../src/widgets/settingpages/RosterSettings.ui"/>
         <location filename="../src/ui_RosterSettings.h" line="161"/>
         <source>Status description:</source>
-        <translation type="unfinished"></translation>
+        <translation>Opis statusu:</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/RosterSettings.ui"/>
         <location filename="../src/ui_RosterSettings.h" line="164"/>
         <location filename="../src/ui_RosterSettings.h" line="171"/>
         <source>Don&apos;t show</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie pokazuj</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/RosterSettings.ui"/>
         <location filename="../src/ui_RosterSettings.h" line="165"/>
-        <location filename="../src/ui_RosterSettings.h" line="172"/>
+        <location filename="../src/ui_RosterSettings.h" line="173"/>
         <source>Right side</source>
-        <translation type="unfinished"></translation>
+        <translation>Prawa strona</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/RosterSettings.ui"/>
         <location filename="../src/ui_RosterSettings.h" line="166"/>
         <source>Under contact</source>
-        <translation type="unfinished"></translation>
+        <translation>Pod kontaktem</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/RosterSettings.ui"/>
         <location filename="../src/ui_RosterSettings.h" line="168"/>
         <source>Avatars:</source>
-        <translation type="unfinished"></translation>
+        <translation>Awatar:</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/RosterSettings.ui"/>
-        <location filename="../src/ui_RosterSettings.h" line="173"/>
+        <location filename="../src/ui_RosterSettings.h" line="172"/>
         <source>Left side</source>
-        <translation type="unfinished"></translation>
+        <translation>Lewa strona</translation>
     </message>
 </context>
 <context>
@@ -761,19 +763,19 @@
         <location filename="../src/widgets/settingpages/ThemesSettings.ui"/>
         <location filename="../src/ui_ThemesSettings.h" line="141"/>
         <source>Theme:</source>
-        <translation type="unfinished"></translation>
+        <translation>Styl:</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/ThemesSettings.ui"/>
         <location filename="../src/ui_ThemesSettings.h" line="142"/>
         <source>Variant:</source>
-        <translation type="unfinished"></translation>
+        <translation>Wariacja:</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/ThemesSettings.ui"/>
         <location filename="../src/ui_ThemesSettings.h" line="143"/>
         <source>Roster theme</source>
-        <translation type="unfinished"></translation>
+        <translation>Styl listy kontaktów</translation>
     </message>
 </context>
 <context>
@@ -783,19 +785,6 @@
         <location filename="../src/ui_UserSettings.h" line="40"/>
         <source>User</source>
         <translation>Użytkownik</translation>
-    </message>
-</context>
-<context>
-    <name>Settings</name>
-    <message>
-        <location filename="../src/ui_Settings.h" line="76"/>
-        <source>Settings</source>
-        <translation>Ustawienia</translation>
-    </message>
-    <message>
-        <location filename="../src/ui_Settings.h" line="80"/>
-        <source>Language:</source>
-        <translation>Język:</translation>
     </message>
 </context>
 <context>
@@ -1010,52 +999,52 @@
 <context>
     <name>Kitty::ChatTab</name>
     <message>
-        <location filename="../src/widgets/ChatTab.cpp" line="43"/>
+        <location filename="../src/widgets/ChatTab.cpp" line="49"/>
         <source>Bold</source>
-        <translation type="unfinished"></translation>
+        <translation>Pogrubienie</translation>
     </message>
     <message>
-        <location filename="../src/widgets/ChatTab.cpp" line="48"/>
+        <location filename="../src/widgets/ChatTab.cpp" line="57"/>
         <source>Italic</source>
-        <translation type="unfinished"></translation>
+        <translation>Pochylenie</translation>
     </message>
     <message>
-        <location filename="../src/widgets/ChatTab.cpp" line="53"/>
+        <location filename="../src/widgets/ChatTab.cpp" line="65"/>
         <source>Underline</source>
-        <translation type="unfinished"></translation>
+        <translation>Podkreślenie</translation>
     </message>
     <message>
-        <location filename="../src/widgets/ChatTab.cpp" line="58"/>
+        <location filename="../src/widgets/ChatTab.cpp" line="73"/>
         <source>Strikethrough</source>
-        <translation type="unfinished"></translation>
+        <translation>Przekreślenie</translation>
     </message>
     <message>
-        <location filename="../src/widgets/ChatTab.cpp" line="67"/>
+        <location filename="../src/widgets/ChatTab.cpp" line="85"/>
         <source>Color</source>
         <translation>Kolor</translation>
     </message>
     <message>
-        <location filename="../src/widgets/ChatTab.cpp" line="71"/>
+        <location filename="../src/widgets/ChatTab.cpp" line="89"/>
         <source>Smilies</source>
         <translation>Emotikonki</translation>
     </message>
     <message>
-        <location filename="../src/widgets/ChatTab.cpp" line="79"/>
+        <location filename="../src/widgets/ChatTab.cpp" line="97"/>
         <source>Send image</source>
         <translation>Wyślij obrazek</translation>
     </message>
     <message>
-        <location filename="../src/widgets/ChatTab.cpp" line="84"/>
+        <location filename="../src/widgets/ChatTab.cpp" line="102"/>
         <source>Send file</source>
         <translation>Wyślij plik</translation>
     </message>
     <message>
-        <location filename="../src/widgets/ChatTab.cpp" line="92"/>
+        <location filename="../src/widgets/ChatTab.cpp" line="110"/>
         <source>Profile</source>
         <translation>Profil</translation>
     </message>
     <message>
-        <location filename="../src/widgets/ChatTab.cpp" line="95"/>
+        <location filename="../src/widgets/ChatTab.cpp" line="113"/>
         <source>History</source>
         <translation>Historia</translation>
     </message>
@@ -1063,7 +1052,7 @@
 <context>
     <name>Kitty::ChatWindowSettings</name>
     <message>
-        <location filename="../src/widgets/settingpages/ChatWindowSettings.cpp" line="45"/>
+        <location filename="../src/widgets/settingpages/ChatWindowSettings.cpp" line="47"/>
         <source>None</source>
         <translation>Brak</translation>
     </message>
@@ -1071,7 +1060,7 @@
 <context>
     <name>Kitty::AccountsSettings</name>
     <message>
-        <location filename="../src/widgets/settingpages/AccountsSettings.cpp" line="76"/>
+        <location filename="../src/widgets/settingpages/AccountsSettings.cpp" line="74"/>
         <source>No protocols available</source>
         <translation>Brak dostępnych protokołów</translation>
     </message>
@@ -1086,7 +1075,7 @@
     <message>
         <location filename="../src/widgets/RosterTreeView.cpp" line="124"/>
         <source>Choose a name for the new group:</source>
-        <translation type="unfinished"></translation>
+        <translation>Podaj nazwę nowej grupy:</translation>
     </message>
     <message>
         <location filename="../src/widgets/RosterTreeView.cpp" line="161"/>
@@ -1155,7 +1144,7 @@
         <location filename="../src/widgets/settingpages/PluginsSettings.cpp" line="46"/>
         <location filename="../src/widgets/settingpages/PluginsSettings.cpp" line="47"/>
         <source>Unknown</source>
-        <translation type="unfinished">Nieznany</translation>
+        <translation>Nieznany</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/PluginsSettings.cpp" line="51"/>
@@ -1171,9 +1160,9 @@
 <context>
     <name>Kitty::ChatWebView</name>
     <message>
-        <location filename="../src/widgets/ChatWebView.cpp" line="184"/>
+        <location filename="../src/widgets/ChatWebView.cpp" line="221"/>
         <source>Clear</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyczyść</translation>
     </message>
 </context>
 <context>
@@ -1182,45 +1171,103 @@
         <location filename="../src/widgets/settingpages/ThemesSettings.cpp" line="83"/>
         <location filename="../src/widgets/settingpages/ThemesSettings.cpp" line="98"/>
         <source>Default</source>
-        <translation type="unfinished"></translation>
+        <translation>Domyślny</translation>
     </message>
 </context>
 <context>
     <name>Kitty::Core</name>
     <message>
-        <location filename="../src/Core.cpp" line="104"/>
+        <location filename="../src/Core.cpp" line="105"/>
         <source>Online</source>
         <translation>Dostępny</translation>
     </message>
     <message>
-        <location filename="../src/Core.cpp" line="108"/>
+        <location filename="../src/Core.cpp" line="109"/>
         <source>Away</source>
         <translation>Zaraz wracam</translation>
     </message>
     <message>
-        <location filename="../src/Core.cpp" line="112"/>
+        <location filename="../src/Core.cpp" line="113"/>
         <source>Free for chat</source>
         <translation>Chętny do rozmowy</translation>
     </message>
     <message>
-        <location filename="../src/Core.cpp" line="116"/>
+        <location filename="../src/Core.cpp" line="117"/>
         <source>Do not disturb</source>
         <translation>Nie przeszkadzać</translation>
     </message>
     <message>
-        <location filename="../src/Core.cpp" line="120"/>
+        <location filename="../src/Core.cpp" line="121"/>
         <source>Invisible</source>
         <translation>Niewidoczny</translation>
     </message>
     <message>
-        <location filename="../src/Core.cpp" line="124"/>
+        <location filename="../src/Core.cpp" line="125"/>
         <source>Offline</source>
         <translation>Niedostępny</translation>
     </message>
     <message>
-        <location filename="../src/Core.cpp" line="128"/>
+        <location filename="../src/Core.cpp" line="129"/>
         <source>Unknown</source>
         <translation>Nieznany</translation>
+    </message>
+</context>
+<context>
+    <name>RosterHeader</name>
+    <message>
+        <location filename="../src/widgets/RosterHeader.ui"/>
+        <location filename="../src/ui_RosterHeader.h" line="114"/>
+        <source>Offline</source>
+        <translation>Niedostępny</translation>
+    </message>
+</context>
+<context>
+    <name>Kitty::ChatColorPicker</name>
+    <message>
+        <location filename="../src/widgets/ChatColorPicker.cpp" line="60"/>
+        <source>More...</source>
+        <translation>Więcej...</translation>
+    </message>
+</context>
+<context>
+    <name>Kitty::StatusChangeButton</name>
+    <message>
+        <location filename="../src/widgets/StatusChangeButton.cpp" line="13"/>
+        <source>Online</source>
+        <translation>Dostępny</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/StatusChangeButton.cpp" line="14"/>
+        <source>Away</source>
+        <translation>Zaraz wracam</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/StatusChangeButton.cpp" line="15"/>
+        <source>Free for chat</source>
+        <translation>Chętny do rozmowy</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/StatusChangeButton.cpp" line="16"/>
+        <source>Do not disturb</source>
+        <translation>Nie przeszkadzać</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/StatusChangeButton.cpp" line="17"/>
+        <source>Invisible</source>
+        <translation>Niewidoczny</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/StatusChangeButton.cpp" line="18"/>
+        <source>Offline</source>
+        <translation>Niedostępny</translation>
+    </message>
+</context>
+<context>
+    <name>Kitty::StatusLineEdit</name>
+    <message>
+        <location filename="../src/widgets/StatusTextWidget.cpp" line="55"/>
+        <source>Description...</source>
+        <translation>Opis...</translation>
     </message>
 </context>
 </TS>

@@ -1,6 +1,8 @@
 #include "AboutWindow.h"
 #include "ui_AboutWindow.h"
 
+#include "PluginManager.h"
+#include "SDK/Plugin.h"
 #include "constants.h"
 
 #include <QtCore/QDebug>
@@ -9,6 +11,7 @@
 #define qWarning() qWarning() << "[AboutWindow]"
 
 using namespace Kitty;
+using namespace KittySDK;
 
 Kitty::AboutWindow::AboutWindow(QWidget *parent): QDialog(parent), m_ui(new Ui::AboutWindow)
 {
@@ -29,16 +32,24 @@ void Kitty::AboutWindow::showEvent(QShowEvent *event)
   QDialog::showEvent(event);
 
   QMap<QString, QString> programmers;
+
   programmers.insert("Artur \"arturo182\" Pacholec", "arturo182@tlen.pl");
 
-  QString text = "<b>KittyIM v" + QString(Constants::VERSION) + "</b><br>" +
-                 "<br>" +
-                 "<i>" + tr("Programming:") + "</i><br>";
+  QString text = QString("<b>KittyIM v%1</b><br><br><i>%2</i><br>").arg(Constants::VERSION).arg(tr("Programming:"));
 
   QMapIterator<QString, QString> i(programmers);
   while(i.hasNext()) {
     i.next();
     text.append(QString("%1 &lt;<a href=\"mailto:%2\">%2</a>&gt;<br>").arg(i.key()).arg(i.value()));
+  }
+
+  text.append(QString("<br><b>%1</b><br>").arg(tr("Plugins")));
+
+  foreach(Plugin *plug, PluginManager::inst()->plugins()) {
+    PluginInfo *info = plug->plugin()->info();
+    if(info) {
+      text.append(QString("<br><i>%1 %2</i><br>%3 &lt;<a href=\"mailto:%4\">%4</a>&gt;<br><a href=\"%5\">%5</a><br>").arg(info->name()).arg(info->version()).arg(info->author()).arg(info->email()).arg(info->www()));
+    }
   }
 
   m_ui->aboutText->setText(text);

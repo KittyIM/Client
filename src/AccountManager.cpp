@@ -179,3 +179,10 @@ void Kitty::AccountManager::save(const QString &profile)
     file.close();
   }
 }
+
+void Kitty::AccountManager::changeDescription(const QString &description)
+{
+  foreach(Account *acc, m_accounts) {
+    //if(acc->co)
+  }
+}

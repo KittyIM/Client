@@ -26,6 +26,9 @@ namespace Kitty
       void load(const QString &profile);
       void save(const QString &profile);
 
+    public slots:
+      void changeDescription(const QString &description);
+
     signals:
       void accountAdded();
 

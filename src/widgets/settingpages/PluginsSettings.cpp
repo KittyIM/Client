@@ -36,7 +36,7 @@ void Kitty::PluginsSettings::reset()
   m_ui->pluginWidget->clear();
 
   foreach(Plugin *plugin, PluginManager::inst()->plugins()) {
-    QTreeWidgetItem *item = new QTreeWidgetItem();
+    QTreeWidgetItem *item = new QTreeWidgetItem(m_ui->pluginWidget);
 
     PluginInfo *info = plugin->plugin()->info();
     if(info) {
@@ -49,8 +49,6 @@ void Kitty::PluginsSettings::reset()
 
     item->setText(2, QFileInfo(plugin->fileName()).fileName());
     item->setText(3, (plugin->isLoaded())?tr("Loaded"):tr("Not loaded"));
-
-    m_ui->pluginWidget->addTopLevelItem(item);
   }
 }
 

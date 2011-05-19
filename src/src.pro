@@ -52,7 +52,10 @@ SOURCES    += main.cpp \
               ChatManager.cpp \
               ChatTheme.cpp \
               widgets/ChatWebView.cpp \
-    widgets/ChatColorPicker.cpp
+    widgets/ChatColorPicker.cpp \
+    widgets/RosterHeader.cpp \
+    widgets/StatusChangeButton.cpp \
+    widgets/StatusTextWidget.cpp
 
 HEADERS    += constants.h \
               SDK/constants.h \
@@ -114,7 +117,10 @@ HEADERS    += constants.h \
               ChatManager.h \
               ChatTheme.h \
               widgets/ChatWebView.h \
-    widgets/ChatColorPicker.h
+    widgets/ChatColorPicker.h \
+    widgets/RosterHeader.h \
+    widgets/StatusChangeButton.h \
+    widgets/StatusTextWidget.h
 
 FORMS      += widgets/windows/DebugWindow.ui \
               widgets/windows/MainWindow.ui \
@@ -136,7 +142,8 @@ FORMS      += widgets/windows/DebugWindow.ui \
               widgets/settingpages/SmiliesSettings.ui \
               widgets/settingpages/PluginsSettings.ui \
               widgets/windows/ChatWindow.ui \
-              widgets/ChatTab.ui
+              widgets/ChatTab.ui \
+    widgets/RosterHeader.ui
 
 RESOURCES  += ../res/res.qrc
 RC_FILE     = ../res.rc
