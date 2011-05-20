@@ -198,7 +198,7 @@ void Kitty::Core::loadProfile(const QString &name)
 MainWindow *Kitty::Core::mainWindow()
 {
   if(!m_mainWindow) {
-    m_mainWindow = new Kitty::MainWindow();
+    m_mainWindow = new MainWindow();
   }
 
   return m_mainWindow;
@@ -207,7 +207,7 @@ MainWindow *Kitty::Core::mainWindow()
 ChatWindow *Kitty::Core::chatWindow()
 {
   if(!m_chatWindow) {
-    m_chatWindow = new Kitty::ChatWindow();
+    m_chatWindow = new ChatWindow();
   }
 
   return m_chatWindow;
@@ -217,7 +217,7 @@ AboutWindow *Kitty::Core::aboutWindow()
 {
   if(!m_aboutWindow) {
     ActionManager::inst()->loadDefaults();
-    m_aboutWindow = new Kitty::AboutWindow();
+    m_aboutWindow = new AboutWindow();
   }
 
   return m_aboutWindow;
@@ -226,7 +226,7 @@ AboutWindow *Kitty::Core::aboutWindow()
 ProfilesWindow *Kitty::Core::profilesWindow()
 {
   if(!m_profilesWindow) {
-    m_profilesWindow = new Kitty::ProfilesWindow();
+    m_profilesWindow = new ProfilesWindow();
   }
 
   return m_profilesWindow;
@@ -235,7 +235,7 @@ ProfilesWindow *Kitty::Core::profilesWindow()
 SettingsWindow *Kitty::Core::settingsWindow()
 {
   if(!m_settingsWindow) {
-    m_settingsWindow = new Kitty::SettingsWindow();
+    m_settingsWindow = new SettingsWindow();
   }
 
   return m_settingsWindow;
@@ -283,7 +283,7 @@ QSystemTrayIcon *Kitty::Core::trayIcon()
 Profile *Kitty::Core::profile()
 {
   if(!m_profile) {
-    m_profile = new Kitty::Profile(this);
+    m_profile = new Profile(this);
   }
 
   return m_profile;

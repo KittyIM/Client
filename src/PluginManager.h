@@ -49,6 +49,7 @@ namespace Kitty
 
     private:
       explicit PluginManager(QObject *parent = 0): QObject(parent) { }
+      ~PluginManager();
 
     private:
       QList<Plugin*> m_plugins;

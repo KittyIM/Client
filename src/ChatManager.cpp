@@ -89,3 +89,8 @@ void Kitty::ChatManager::receiveMessage(KittySDK::Message &msg)
     Core::inst()->chatWindow()->activateWindow();
   }
 }
+
+Kitty::ChatManager::~ChatManager()
+{
+  qDeleteAll(m_chats);
+}

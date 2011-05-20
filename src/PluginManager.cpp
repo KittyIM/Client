@@ -142,3 +142,8 @@ void Kitty::PluginManager::load()
 
   emit allPluginsLoaded();
 }
+
+Kitty::PluginManager::~PluginManager()
+{
+  qDeleteAll(m_plugins);
+}

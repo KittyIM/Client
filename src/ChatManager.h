@@ -28,6 +28,7 @@ namespace Kitty
 
     private:
       ChatManager(QObject *parent = 0): QObject(parent) { }
+      ~ChatManager();
 
     private:
       QList<KittySDK::Chat*> m_chats;

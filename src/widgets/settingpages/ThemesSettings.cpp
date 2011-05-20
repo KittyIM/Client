@@ -46,6 +46,11 @@ class KittyProto: public Protocol
       m_info = new ProtocolInfo("", "", "", "", "", "KittyIM");
     }
 
+    ~KittyProto()
+    {
+      delete m_info;
+    }
+
     Account *newAccount(const QString &uid) { return new KittyAccount(uid, this); }
     QWidget *editWindow(Account *) { return 0; }
 };

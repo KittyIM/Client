@@ -50,7 +50,7 @@ bool Kitty::ChatWebPage::acceptNavigationRequest(QWebFrame *frame, const QNetwor
 
 Kitty::ChatWebView::ChatWebView(QWidget *parent): QWebView(parent)
 {
-  m_page = new ChatWebPage();
+  m_page = new ChatWebPage(this);
   setPage(m_page);
 
   m_imageCount = 0;
