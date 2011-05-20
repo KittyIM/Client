@@ -104,5 +104,11 @@
         <file>glyphs/sound.png</file>
         <file>header/header_bg.png</file>
         <file>header/style.css</file>
+        <file>glyphs/status_invisible.png</file>
+        <file>glyphs/status_away.png</file>
+        <file>glyphs/status_dnd.png</file>
+        <file>glyphs/status_online.png</file>
+        <file>glyphs/status_offline.png</file>
+        <file>glyphs/status_ffc.png</file>
     </qresource>
 </RCC>

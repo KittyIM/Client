@@ -1,24 +1,30 @@
 #include "StatusChangeButton.h"
 
+#include "SDK/constants.h"
+#include "Core.h"
+
 #include <QtGui/QStyleOptionToolButton>
 #include <QtGui/QStylePainter>
 #include <QtGui/QMenu>
 
 using namespace Kitty;
+using namespace KittySDK;
 
 Kitty::StatusChangeButton::StatusChangeButton(QWidget *parent): QToolButton(parent)
 {
+  Core *core = Core::inst();
   QMenu *menu = new QMenu(this);
 
-  menu->addAction(tr("Online"));
-  menu->addAction(tr("Away"));
-  menu->addAction(tr("Free for chat"));
-  menu->addAction(tr("Do not disturb"));
-  menu->addAction(tr("Invisible"));
-  menu->addAction(tr("Offline"));
+  menu->addAction(core->icon(Icons::I_STATUS_ONLINE), tr("Online"));
+  menu->addAction(core->icon(Icons::I_STATUS_AWAY), tr("Away"));
+  menu->addAction(core->icon(Icons::I_STATUS_FFC), tr("Free for chat"));
+  menu->addAction(core->icon(Icons::I_STATUS_DND), tr("Do not disturb"));
+  menu->addAction(core->icon(Icons::I_STATUS_INVIS), tr("Invisible"));
+  menu->addAction(core->icon(Icons::I_STATUS_OFFLINE), tr("Offline"));
 
   setMenu(menu);
   setPopupMode(QToolButton::InstantPopup);
+  setIcon(core->icon(Icons::I_STATUS_OFFLINE));
 }
 
 QSize Kitty::StatusChangeButton::sizeHint() const
