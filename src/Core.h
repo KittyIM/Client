@@ -68,6 +68,7 @@ namespace Kitty
       void showChatWindow();
       void showProfilesWindow();
       void showSettingsWindow();
+      void showAddContactWindow();
       void toggleMainWindow();
       void openKittyFolder();
       void openProfilesFolder();

@@ -21,6 +21,7 @@ namespace Kitty
       void copyUid();
       void copyDescription();
       void moveToGroup();
+      void showVCard();
 
     private slots:
       void itemExpanded(const QModelIndex &index);

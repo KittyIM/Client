@@ -14,6 +14,7 @@ namespace Kitty
 
     public:
       const QList<KittySDK::Contact*> &contacts() const;
+      const QStringList groups() const;
 
       void add(KittySDK::Contact *contact);
 

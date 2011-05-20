@@ -61,6 +61,7 @@ void Kitty::ActionManager::loadDefaults()
 
   QAction *actAddContact = new QAction(tr("Add contact"), this);
   actAddContact->setProperty("icon_id", Icons::I_USER);
+  connect(actAddContact, SIGNAL(triggered()), core, SLOT(showAddContactWindow()));
   insert(Actions::A_ADD_CONTACT, actAddContact);
 
   QAction *actHistory = new QAction(tr("History"), this);

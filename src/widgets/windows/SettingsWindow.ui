@@ -20,7 +20,7 @@
    <string>Settings</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../../../res.qrc">
+   <iconset resource="../../../res/res.qrc">
     <normaloff>:/icons/settings.ico</normaloff>:/icons/settings.ico</iconset>
   </property>
   <layout class="QGridLayout">
@@ -101,7 +101,7 @@
   <tabstop>buttonBox</tabstop>
  </tabstops>
  <resources>
-  <include location="../../../res.qrc"/>
+  <include location="../../../res/res.qrc"/>
  </resources>
  <connections/>
 </ui>

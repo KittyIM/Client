@@ -164,9 +164,14 @@
 <context>
     <name>Kitty::AboutWindow</name>
     <message>
-        <location filename="../src/widgets/windows/AboutWindow.cpp" line="36"/>
+        <location filename="../src/widgets/windows/AboutWindow.cpp" line="38"/>
         <source>Programming:</source>
         <translation>Programowanie:</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/windows/AboutWindow.cpp" line="46"/>
+        <source>Plugins</source>
+        <translation type="unfinished">Wtyczki</translation>
     </message>
 </context>
 <context>
@@ -1168,8 +1173,8 @@
 <context>
     <name>Kitty::ThemesSettings</name>
     <message>
-        <location filename="../src/widgets/settingpages/ThemesSettings.cpp" line="83"/>
-        <location filename="../src/widgets/settingpages/ThemesSettings.cpp" line="98"/>
+        <location filename="../src/widgets/settingpages/ThemesSettings.cpp" line="88"/>
+        <location filename="../src/widgets/settingpages/ThemesSettings.cpp" line="103"/>
         <source>Default</source>
         <translation>Domyślny</translation>
     </message>
@@ -1232,32 +1237,32 @@
 <context>
     <name>Kitty::StatusChangeButton</name>
     <message>
-        <location filename="../src/widgets/StatusChangeButton.cpp" line="13"/>
+        <location filename="../src/widgets/StatusChangeButton.cpp" line="18"/>
         <source>Online</source>
         <translation>Dostępny</translation>
     </message>
     <message>
-        <location filename="../src/widgets/StatusChangeButton.cpp" line="14"/>
+        <location filename="../src/widgets/StatusChangeButton.cpp" line="19"/>
         <source>Away</source>
         <translation>Zaraz wracam</translation>
     </message>
     <message>
-        <location filename="../src/widgets/StatusChangeButton.cpp" line="15"/>
+        <location filename="../src/widgets/StatusChangeButton.cpp" line="20"/>
         <source>Free for chat</source>
         <translation>Chętny do rozmowy</translation>
     </message>
     <message>
-        <location filename="../src/widgets/StatusChangeButton.cpp" line="16"/>
+        <location filename="../src/widgets/StatusChangeButton.cpp" line="21"/>
         <source>Do not disturb</source>
         <translation>Nie przeszkadzać</translation>
     </message>
     <message>
-        <location filename="../src/widgets/StatusChangeButton.cpp" line="17"/>
+        <location filename="../src/widgets/StatusChangeButton.cpp" line="22"/>
         <source>Invisible</source>
         <translation>Niewidoczny</translation>
     </message>
     <message>
-        <location filename="../src/widgets/StatusChangeButton.cpp" line="18"/>
+        <location filename="../src/widgets/StatusChangeButton.cpp" line="23"/>
         <source>Offline</source>
         <translation>Niedostępny</translation>
     </message>
@@ -1268,6 +1273,51 @@
         <location filename="../src/widgets/StatusTextWidget.cpp" line="55"/>
         <source>Description...</source>
         <translation>Opis...</translation>
+    </message>
+</context>
+<context>
+    <name>ContactWindow</name>
+    <message>
+        <location filename="../src/widgets/windows/ContactWindow.ui"/>
+        <location filename="../src/ui_ContactWindow.h" line="123"/>
+        <source>Summary</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/windows/ContactWindow.ui"/>
+        <location filename="../src/ui_ContactWindow.h" line="125"/>
+        <source>General</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/windows/ContactWindow.ui"/>
+        <location filename="../src/ui_ContactWindow.h" line="127"/>
+        <source>Contact</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/windows/ContactWindow.ui"/>
+        <location filename="../src/ui_ContactWindow.h" line="129"/>
+        <source>Location</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/windows/ContactWindow.ui"/>
+        <location filename="../src/ui_ContactWindow.h" line="131"/>
+        <source>Work</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/windows/ContactWindow.ui"/>
+        <location filename="../src/ui_ContactWindow.h" line="133"/>
+        <source>More</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/windows/ContactWindow.ui"/>
+        <location filename="../src/ui_ContactWindow.h" line="135"/>
+        <source>Settings</source>
+        <translation type="unfinished">Ustawienia</translation>
     </message>
 </context>
 </TS>

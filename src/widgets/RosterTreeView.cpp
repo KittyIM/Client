@@ -1,6 +1,7 @@
 #include "RosterTreeView.h"
 
 #include "widgets/windows/SettingsWindow.h"
+#include "widgets/windows/ContactWindow.h"
 #include "RosterItemDelegate.h"
 #include "RosterSortProxy.h"
 #include "RosterItemModel.h"
@@ -133,6 +134,23 @@ void Kitty::RosterTreeView::moveToGroup()
   }
 }
 
+void Kitty::RosterTreeView::showVCard()
+{
+  QModelIndexList list = selectedIndexes();
+
+  foreach(QModelIndex in, list) {
+    RosterSortProxy *proxy = static_cast<RosterSortProxy*>(model());
+
+    QModelIndex index = proxy->mapToSource(in);
+    if(index.data(RosterItem::TypeRole) == RosterItem::Contact) {
+      RosterContact *cnt = static_cast<RosterContact*>(index.internalPointer());
+
+      ContactWindow *wnd = new ContactWindow(cnt->contact());
+      wnd->show();
+    }
+  }
+}
+
 void Kitty::RosterTreeView::itemExpanded(const QModelIndex &index)
 {
   if(index.data(RosterItem::TypeRole) == RosterItem::Group) {
@@ -162,7 +180,7 @@ void Kitty::RosterTreeView::mousePressEvent(QMouseEvent *event)
           menu.addSeparator();
 
           menu.addAction(Core::inst()->icon(KittySDK::Icons::I_HISTORY), tr("History"));
-          menu.addAction(Core::inst()->icon(KittySDK::Icons::I_PROFILE), tr("vCard"));
+          menu.addAction(Core::inst()->icon(KittySDK::Icons::I_PROFILE), tr("vCard"), this, SLOT(showVCard()));
           menu.addSeparator();
 
           QMenu *copyMenu = menu.addMenu(Core::inst()->icon(KittySDK::Icons::I_COPY), tr("Copy"));
@@ -181,18 +199,14 @@ void Kitty::RosterTreeView::mousePressEvent(QMouseEvent *event)
           groupMenu->addSeparator();
 
           // TODO
-          QStringList groups;
-          foreach(KittySDK::Contact *contact, ContactManager::inst()->contacts()) {
-            if(!contact->group().isEmpty() && !groups.contains(contact->group())) {
-              QAction *action = groupMenu->addAction(contact->group(), this, SLOT(moveToGroup()));
-              action->setProperty("group", contact->group());
+          QStringList groups = ContactManager::inst()->groups();
+          foreach(QString group, groups) {
+            QAction *action = groupMenu->addAction(group, this, SLOT(moveToGroup()));
+            action->setProperty("group", group);
 
-              if(contact->group() == cnt->contact()->group()) {
-                action->setCheckable(true);
-                action->setChecked(true);
-              }
-
-              groups.append(contact->group());
+            if(cnt->contact()->group() == group) {
+              action->setCheckable(true);
+              action->setChecked(true);
             }
           }
 

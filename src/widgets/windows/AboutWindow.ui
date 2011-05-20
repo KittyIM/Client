@@ -14,7 +14,7 @@
    <string>About</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../../res.qrc">
+   <iconset resource="../../../res/res.qrc">
     <normaloff>:/icons/about.ico</normaloff>:/icons/about.ico</iconset>
   </property>
   <layout class="QGridLayout">
@@ -44,7 +44,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="../../res.qrc"/>
+  <include location="../../../res/res.qrc"/>
  </resources>
  <connections>
   <connection>

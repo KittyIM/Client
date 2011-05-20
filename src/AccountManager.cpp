@@ -81,7 +81,7 @@ bool Kitty::AccountManager::add(Account *account)
     action->setIcon(Core::inst()->icon(account->protocol()->statusIcon(account->status())));
     action->setProperty("protocol", account->protocol()->protoInfo()->protoName());
     action->setProperty("uid", account->uid());
-    connect(account, SIGNAL(statusChanged()), Core::inst()->mainWindow(), SLOT(updateAccountStatusIcon()));
+    connect(account, SIGNAL(statusChanged(KittySDK::Protocol::Status, QString)), Core::inst()->mainWindow(), SLOT(updateAccountStatusIcon()));
     connect(action, SIGNAL(triggered()), Core::inst()->mainWindow(), SLOT(showAccountStatusMenu()));
 
     Core::inst()->mainWindow()->addToolbarAction(Toolbars::TB_NETWORKS, action);

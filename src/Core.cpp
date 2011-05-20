@@ -2,6 +2,7 @@
 
 #include "widgets/windows/ProfilesWindow.h"
 #include "widgets/windows/SettingsWindow.h"
+#include "widgets/windows/ContactWindow.h"
 #include "3rdparty/hunspell/hunspell.hxx"
 #include "widgets/windows/DebugWindow.h"
 #include "widgets/windows/AboutWindow.h"
@@ -260,6 +261,12 @@ void Kitty::Core::showSettingsWindow()
 {
   settingsWindow()->show();
   settingsWindow()->activateWindow();
+}
+
+void Kitty::Core::showAddContactWindow()
+{
+  ContactWindow *wnd = new ContactWindow();
+  wnd->show();
 }
 
 QSystemTrayIcon *Kitty::Core::trayIcon()

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>287</width>
-    <height>260</height>
+    <height>356</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -29,6 +29,9 @@
       <string/>
      </property>
      <layout class="QFormLayout" name="formLayout">
+      <property name="fieldGrowthPolicy">
+       <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+      </property>
       <item row="0" column="0">
        <widget class="QCheckBox" name="sleepDisconnectCheckBox">
         <property name="text">
@@ -145,19 +148,6 @@
         </property>
        </widget>
       </item>
-      <item row="7" column="0" colspan="2">
-       <spacer name="spacer">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>20</width>
-          <height>126</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
       <item row="4" column="0">
        <widget class="QLabel" name="passwordLabel">
         <property name="text">
@@ -177,6 +167,19 @@
       </item>
      </layout>
     </widget>
+   </item>
+   <item>
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>83</height>
+      </size>
+     </property>
+    </spacer>
    </item>
   </layout>
  </widget>

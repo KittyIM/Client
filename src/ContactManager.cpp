@@ -19,6 +19,19 @@ const QList<Contact*> &Kitty::ContactManager::contacts() const
   return m_contacts;
 }
 
+const QStringList Kitty::ContactManager::groups() const
+{
+  QStringList list;
+
+  foreach(Contact *cnt, m_contacts) {
+    if(!cnt->group().isEmpty() && !list.contains(cnt->group())) {
+      list.append(cnt->group());
+    }
+  }
+
+  return list;
+}
+
 void Kitty::ContactManager::add(Contact *contact)
 {
   m_contacts.append(contact);
