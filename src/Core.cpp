@@ -322,6 +322,11 @@ QString Kitty::Core::profilesDir() const
   }
 }
 
+QString Kitty::Core::currentProfileDir()
+{
+  return profilesDir() + profile()->name() + "/";
+}
+
 void Kitty::Core::showTrayIcon()
 {
   trayIcon()->show();

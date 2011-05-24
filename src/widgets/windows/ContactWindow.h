@@ -28,7 +28,11 @@ namespace Kitty
     private slots:
       void on_treeWidget_currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous);
 
-    protected:
+      void on_buttonBox_accepted();
+
+      void on_changeAvatarButton_clicked();
+
+  protected:
       void showEvent(QShowEvent *event);
 
     private:

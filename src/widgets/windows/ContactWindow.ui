@@ -98,10 +98,10 @@
       <property name="margin">
        <number>6</number>
       </property>
-      <item row="0" column="0">
+      <item row="1" column="0">
        <widget class="QStackedWidget" name="stackedWidget">
         <property name="currentIndex">
-         <number>4</number>
+         <number>1</number>
         </property>
         <widget class="QWidget" name="summaryPage">
          <layout class="QGridLayout" name="gridLayout_3">
@@ -118,6 +118,50 @@
           <property name="margin">
            <number>0</number>
           </property>
+          <item>
+           <widget class="QGroupBox" name="accountGroupBox">
+            <property name="title">
+             <string>Account and UID</string>
+            </property>
+            <layout class="QHBoxLayout" name="horizontalLayout">
+             <property name="leftMargin">
+              <number>6</number>
+             </property>
+             <property name="topMargin">
+              <number>3</number>
+             </property>
+             <property name="rightMargin">
+              <number>6</number>
+             </property>
+             <property name="bottomMargin">
+              <number>6</number>
+             </property>
+             <item>
+              <widget class="QComboBox" name="accountComboBox">
+               <property name="sizeAdjustPolicy">
+                <enum>QComboBox::AdjustToContents</enum>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLineEdit" name="uidEdit"/>
+             </item>
+             <item>
+              <spacer name="horizontalSpacer">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>151</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </widget>
+          </item>
           <item>
            <widget class="QGroupBox" name="displayGroupBox">
             <property name="title">
@@ -151,12 +195,19 @@
                 <enum>QComboBox::NoInsert</enum>
                </property>
                <property name="sizeAdjustPolicy">
-                <enum>QComboBox::AdjustToContents</enum>
+                <enum>QComboBox::AdjustToContentsOnFirstShow</enum>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QComboBox" name="groupComboBox"/>
+              <widget class="QComboBox" name="groupComboBox">
+               <property name="editable">
+                <bool>true</bool>
+               </property>
+               <property name="insertPolicy">
+                <enum>QComboBox::NoInsert</enum>
+               </property>
+              </widget>
              </item>
              <item>
               <spacer name="spacer">
@@ -763,5 +814,22 @@
   <tabstop>summaryTextBrowser</tabstop>
  </tabstops>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>clearAvatarButton</sender>
+   <signal>clicked()</signal>
+   <receiver>avatarLabel</receiver>
+   <slot>clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>542</x>
+     <y>222</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>517</x>
+     <y>160</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

@@ -35,11 +35,20 @@ const QStringList Kitty::ContactManager::groups() const
 void Kitty::ContactManager::add(Contact *contact)
 {
   m_contacts.append(contact);
+
+  connect(contact, SIGNAL(statusChanged(KittySDK::Protocol::Status,QString)), this, SIGNAL(statusUpdated()));
+
+  emit contactAdded(contact);
 }
 
 void Kitty::ContactManager::load(const QString &profile)
 {
   qDebug() << "Loading contacts for" << profile;
+
+  /*Contact *cnt = AccountManager::inst()->account("Gadu-Gadu", "13752968")->newContact("1021494");
+  cnt->setGroup("Friends");
+  cnt->setDisplay("arturo182");
+  add(cnt);*/
 
   QFile file(Core::inst()->profilesDir() + profile + "/contacts.dat");
   if(file.exists()) {
@@ -56,8 +65,6 @@ void Kitty::ContactManager::load(const QString &profile)
               Contact *cnt = account->newContact(settings.value("uid").toString());
               cnt->setDisplay(settings.value("display").toString());
               cnt->setGroup(settings.value("group").toString());
-
-              connect(cnt, SIGNAL(statusChanged(KittySDK::Protocol::Status,QString)), this, SIGNAL(statusUpdated()));
 
               settings.remove("protocol");
               settings.remove("account");

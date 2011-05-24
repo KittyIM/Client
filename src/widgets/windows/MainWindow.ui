@@ -43,6 +43,9 @@
    </layout>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
+   <property name="contextMenuPolicy">
+    <enum>Qt::CustomContextMenu</enum>
+   </property>
    <property name="windowTitle">
     <string/>
    </property>
@@ -54,6 +57,9 @@
    </attribute>
   </widget>
   <widget class="QToolBar" name="pluginsToolBar">
+   <property name="contextMenuPolicy">
+    <enum>Qt::CustomContextMenu</enum>
+   </property>
    <property name="windowTitle">
     <string/>
    </property>
@@ -71,6 +77,9 @@
    </attribute>
   </widget>
   <widget class="QToolBar" name="networksToolBar">
+   <property name="contextMenuPolicy">
+    <enum>Qt::CustomContextMenu</enum>
+   </property>
    <property name="windowTitle">
     <string notr="true"/>
    </property>
@@ -88,6 +97,9 @@
    </attribute>
   </widget>
   <widget class="QToolBar" name="headerToolBar">
+   <property name="contextMenuPolicy">
+    <enum>Qt::CustomContextMenu</enum>
+   </property>
    <property name="windowTitle">
     <string/>
    </property>

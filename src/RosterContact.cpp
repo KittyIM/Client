@@ -4,6 +4,8 @@
 #include "Profile.h"
 #include "Core.h"
 
+#include <QtCore/QCryptographicHash>
+
 #define qDebug() qDebug() << "[RosterContact]"
 #define qWarning() qWarning() << "[RosterContact]"
 
@@ -43,7 +45,7 @@ QVariant Kitty::RosterContact::data(int role) const
     break;
 
     case RosterItem::AvatarRole:
-      return Core::inst()->profilesDir() + Core::inst()->profile()->name() + "/avatars/avatar_" + m_contact->uid() + ".png";
+      return Core::inst()->currentProfileDir() + "avatars/" + QCryptographicHash::hash(QString("avatar_" + m_contact->protocol()->protoInfo()->protoName() + "_" + m_contact->uid()).toAscii(), QCryptographicHash::Md5).toHex() + ".png";
     break;
 
     case Qt::ToolTipRole:

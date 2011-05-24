@@ -69,8 +69,6 @@ void Kitty::Profile::load(const QString &name)
 
   ContactManager::inst()->load(name);
 
-  core->mainWindow()->loadContacts();
-
   qDebug() << "Profile " + name + " loaded!";
 }
 

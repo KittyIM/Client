@@ -9,6 +9,11 @@ namespace Ui
   class MainWindow;
 }
 
+namespace KittySDK
+{
+  class Contact;
+}
+
 namespace Kitty
 {
   class RosterItemModel;
@@ -28,12 +33,19 @@ namespace Kitty
       void initToolbars();
       void addToolbarAction(const QString &tb, QAction *action);
 
-      void loadContacts();
-
     public slots:
+      void addContact(KittySDK::Contact *contact);
       void applySettings();
       void showAccountStatusMenu();
       void updateAccountStatusIcon();
+
+    private slots:
+      void showToolbarMenu(QPoint pos);
+      void setToolbarIconsOnly();
+      void setToolbarTextOnly();
+      void setToolbarTextBeside();
+      void setToolbarTextUnder();
+      void toggleToolbarLock();
 
     protected:
       void changeEvent(QEvent *event);

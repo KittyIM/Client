@@ -45,6 +45,8 @@ Kitty::MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), m_ui(new Ui
   m_proxy = new RosterSortProxy(m_ui->rosterTreeView);
   m_proxy->setSourceModel(m_model);
 
+  connect(ContactManager::inst(), SIGNAL(contactAdded(KittySDK::Contact*)), this, SLOT(addContact(KittySDK::Contact*)));
+
   m_ui->rosterTreeView->setModel(m_proxy);
   m_ui->rosterTreeView->setSortingEnabled(true);
 
@@ -59,8 +61,19 @@ Kitty::MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), m_ui(new Ui
 
   initToolbars();
 
+  connect(m_ui->mainToolBar, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(showToolbarMenu(QPoint)));
+  connect(m_ui->networksToolBar, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(showToolbarMenu(QPoint)));
+  connect(m_ui->pluginsToolBar, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(showToolbarMenu(QPoint)));
+
   restoreState(core->setting(Settings::S_MAINWINDOW_STATE).toByteArray());
   restoreGeometry(core->setting(Settings::S_MAINWINDOW_GEOMETRY).toByteArray());
+
+  /*QMap<QString, QVariant> styles = core->setting(Settings::S_MAINWINDOW_TB_STYLES).toMap();
+  if(!styles.isEmpty()) {
+    m_ui->mainToolBar->setMovable(styles.value(Toolbars::TB_MAIN, true).toBool());
+    m_ui->networksToolBar->setMovable(styles.value(Toolbars::TB_NETWORKS, true).toBool());
+    m_ui->pluginsToolBar->setMovable(styles.value(Toolbars::TB_PLUGINS, true).toBool());
+  }*/
 
   applySettings();
 
@@ -75,6 +88,18 @@ Kitty::MainWindow::~MainWindow()
 
   core->setSetting(Settings::S_MAINWINDOW_STATE, saveState());
   core->setSetting(Settings::S_MAINWINDOW_GEOMETRY, saveGeometry());
+
+  /*QMap<QString, QVariant> styles;
+  styles.insert(Toolbars::TB_MAIN, m_ui->mainToolBar->toolButtonStyle());
+  styles.insert(Toolbars::TB_NETWORKS, m_ui->networksToolBar->toolButtonStyle());
+  styles.insert(Toolbars::TB_PLUGINS, m_ui->pluginsToolBar->toolButtonStyle());
+  core->setSetting(Settings::S_MAINWINDOW_TB_STYLES, styles);
+
+  QMap<QString, QVariant> locks;
+  locks.insert(Toolbars::TB_MAIN, m_ui->mainToolBar->isMovable());
+  locks.insert(Toolbars::TB_NETWORKS, m_ui->networksToolBar->isMovable());
+  locks.insert(Toolbars::TB_PLUGINS, m_ui->pluginsToolBar->isMovable());
+  core->setSetting(Settings::S_MAINWINDOW_TB_LOCKS, locks);*/
 
   delete m_ui;
 }
@@ -174,18 +199,6 @@ void Kitty::MainWindow::addToolbarAction(const QString &tb, QAction *action)
   }
 }
 
-void Kitty::MainWindow::loadContacts()
-{
-  QList<Contact*> contacts = ContactManager::inst()->contacts();
-  foreach(Contact *cnt, contacts) {
-    RosterContact *contact = new RosterContact(cnt, m_model->groupItem(cnt->group()));
-
-    m_model->addContact(contact, m_model->groupItem(cnt->group()));
-  }
-
-  m_proxy->invalidate();
-}
-
 void Kitty::MainWindow::applySettings()
 {
   Core *core = Core::inst();
@@ -254,6 +267,99 @@ void Kitty::MainWindow::updateAccountStatusIcon()
   }
 }
 
+void Kitty::MainWindow::showToolbarMenu(QPoint pos)
+{
+  QToolBar *toolbar = qobject_cast<QToolBar*>(sender());
+
+  if(toolbar) {
+    QMenu menu(this);
+
+    QAction *lock = menu.addAction(tr("Lock"), this, SLOT(toggleToolbarLock()));
+    lock->setProperty("toolbar", toolbar->objectName());
+    lock->setCheckable(true);
+    lock->setChecked(!toolbar->isMovable());
+
+    menu.addSeparator();
+
+    QAction *iconsOnly = menu.addAction(tr("Icons only"), this, SLOT(setToolbarIconsOnly()));
+    iconsOnly->setProperty("toolbar", toolbar->objectName());
+    iconsOnly->setCheckable(true);
+    iconsOnly->setChecked(toolbar->toolButtonStyle() == Qt::ToolButtonIconOnly);
+
+    QAction *textOnly = menu.addAction(tr("Text only"), this, SLOT(setToolbarTextOnly()));
+    textOnly->setProperty("toolbar", toolbar->objectName());
+    textOnly->setCheckable(true);
+    textOnly->setChecked(toolbar->toolButtonStyle() == Qt::ToolButtonTextOnly);
+
+    QAction *textBeside = menu.addAction(tr("Text beside icon"), this, SLOT(setToolbarTextBeside()));
+    textBeside->setProperty("toolbar", toolbar->objectName());
+    textBeside->setCheckable(true);
+    textBeside->setChecked(toolbar->toolButtonStyle() == Qt::ToolButtonTextBesideIcon);
+
+    QAction *textUnder = menu.addAction(tr("Text under icon"), this, SLOT(setToolbarTextUnder()));
+    textUnder->setProperty("toolbar", toolbar->objectName());
+    textUnder->setCheckable(true);
+    textUnder->setChecked(toolbar->toolButtonStyle() == Qt::ToolButtonTextUnderIcon);
+
+    menu.exec(toolbar->mapToGlobal(pos));
+  }
+}
+
+void Kitty::MainWindow::setToolbarIconsOnly()
+{
+  QAction *action = qobject_cast<QAction*>(sender());
+  if(action) {
+    QToolBar *toolbar = findChild<QToolBar*>(action->property("toolbar").toString());
+    if(toolbar) {
+      toolbar->setToolButtonStyle(Qt::ToolButtonIconOnly);
+    }
+  }
+}
+
+void Kitty::MainWindow::setToolbarTextOnly()
+{
+  QAction *action = qobject_cast<QAction*>(sender());
+  if(action) {
+    QToolBar *toolbar = findChild<QToolBar*>(action->property("toolbar").toString());
+    if(toolbar) {
+      toolbar->setToolButtonStyle(Qt::ToolButtonTextOnly);
+    }
+  }
+}
+
+void Kitty::MainWindow::setToolbarTextBeside()
+{
+  QAction *action = qobject_cast<QAction*>(sender());
+  if(action) {
+    QToolBar *toolbar = findChild<QToolBar*>(action->property("toolbar").toString());
+    if(toolbar) {
+      toolbar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+    }
+  }
+}
+
+void Kitty::MainWindow::setToolbarTextUnder()
+{
+  QAction *action = qobject_cast<QAction*>(sender());
+  if(action) {
+    QToolBar *toolbar = findChild<QToolBar*>(action->property("toolbar").toString());
+    if(toolbar) {
+      toolbar->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
+    }
+  }
+}
+
+void Kitty::MainWindow::toggleToolbarLock()
+{
+  QAction *action = qobject_cast<QAction*>(sender());
+  if(action) {
+    QToolBar *toolbar = findChild<QToolBar*>(action->property("toolbar").toString());
+    if(toolbar) {
+      toolbar->setMovable(!toolbar->isMovable());
+    }
+  }
+}
+
 void Kitty::MainWindow::changeEvent(QEvent *event)
 {
   if(event->type() == QEvent::LanguageChange) {
@@ -279,3 +385,10 @@ void Kitty::MainWindow::leaveEvent(QEvent *event)
   }
 }
 
+void Kitty::MainWindow::addContact(KittySDK::Contact *contact)
+{
+  RosterContact *cnt = new RosterContact(contact, m_model->groupItem(contact->group()));
+
+  m_model->addContact(cnt, m_model->groupItem(contact->group()));
+  m_proxy->invalidate();
+}

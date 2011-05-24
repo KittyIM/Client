@@ -22,7 +22,7 @@ namespace Kitty
       void save(const QString &profile);
 
     signals:
-      void contactAdded();
+      void contactAdded(KittySDK::Contact *contact);
       void statusUpdated();
 
     private:

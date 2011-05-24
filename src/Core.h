@@ -53,6 +53,7 @@ namespace Kitty
       JsonSettings *settings();
 
       QString profilesDir() const;
+      QString currentProfileDir();
 
       void setRestart(bool restart) { m_restart = restart; }
       bool hasToRestart() const { return m_restart; }

@@ -97,6 +97,7 @@ QString Json::stringify(const QVariant &variant, int indent)
     res += QString(" ").repeated(indent) + "}";
   } else if((variant.type() == QVariant::String) || (variant.type() == QVariant::ByteArray)) {
     res = "\"" + escape(variant) + "\"";
+
   } else if((variant.type() == QVariant::Double) || ((int)variant.type() == (int)QMetaType::Float)) {
     res.setNum(variant.toDouble(), 'g', 15);
   } else if(variant.type() == QVariant::Bool) {
@@ -121,7 +122,7 @@ QString Json::stringify(const QVariant &variant, int indent)
   } else if(variant.canConvert<qlonglong>()) {
     res = QString::number(variant.toLongLong());
   } else if(variant.canConvert<QString>()) {
-    res = stringify(variant);
+    res = stringify(variant.toString());
   }
 
   return res;
