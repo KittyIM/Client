@@ -8,9 +8,11 @@
 
 #include <QtCore/QTranslator>
 #include <QtCore/QTextCodec>
+#include <QtCore/QFileInfo>
 #include <QtCore/QProcess>
 #include <QtCore/QDebug>
 #include <QtCore/QFile>
+#include <QtCore/QDir>
 #include <QtNetwork/QNetworkProxy>
 
 #define qDebug() qDebug() << "[App]"
@@ -64,8 +66,19 @@ Kitty::App::App(int &argc, char **argv): QApplication(argc, argv)
     }
   }
 
-  //TODO: When only 1 profile with no password exists, skip profile selection
-  if(!profile.isEmpty()) {
+  // there was no info in arguments, but maybe there's only 1 account
+  if(profile.isEmpty()) {
+    QDir dir(Core::inst()->profilesDir());
+    QStringList profiles = dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
+    if(profiles.count() == 1) {
+      JsonSettings set(Core::inst()->profilesDir() + profiles[0] + "/settings.dat");
+      bool hasPassword = !set.value(Settings::S_PROFILE_PASSWORD).toString().isEmpty();
+      if(!hasPassword) {
+        qDebug() << "Only one profile with no password, load it!";
+        core->loadProfile(profiles[0]);
+      }
+    }
+  } else {
     JsonSettings set(Core::inst()->profilesDir() + profile + "/settings.dat");
     bool hasPassword = !set.value(Settings::S_PROFILE_PASSWORD).toString().isEmpty();
 

@@ -1,8 +1,8 @@
 #include "ProfilesWindow.h"
 #include "ui_ProfilesWindow.h"
 
-#include "SDK/constants.h"
 #include "3rdparty/qtwin/qtwin.h"
+#include "SDK/constants.h"
 #include "JsonSettings.h"
 #include "constants.h"
 #include "Profile.h"
@@ -11,6 +11,7 @@
 #include <QtCore/QCryptographicHash>
 #include <QtCore/QDebug>
 #include <QtCore/QDir>
+#include <QtGui/QInputDialog>
 #include <QtGui/QMessageBox>
 #include <QtGui/QKeyEvent>
 #include <QtGui/QPainter>
@@ -53,7 +54,7 @@ void Kitty::ProfilesWindow::showEvent(QShowEvent *event)
 
   QDir dir(Core::inst()->profilesDir());
   if(dir.exists()) {
-    QFileInfoList profiles = dir.entryInfoList(QDir::Dirs | QDir::NoDotAndDotDot, QDir::Name);
+    QFileInfoList profiles = dir.entryInfoList(QDir::Dirs | QDir::NoDotAndDotDot, QDir::Name | QDir::IgnoreCase);
     foreach(QFileInfo info, profiles) {
       QTreeWidgetItem *item = new QTreeWidgetItem(m_ui->profilesWidget);
       item->setText(0, info.baseName());
@@ -110,7 +111,7 @@ void Kitty::ProfilesWindow::on_profilesWidget_currentItemChanged(QTreeWidgetItem
 
   if(current) {
     if(current->data(0, Qt::UserRole).toBool() == false) {
-      Kitty::JsonSettings set(Core::inst()->profilesDir() + current->text(0) + "/settings.dat");
+      JsonSettings set(Core::inst()->profilesDir() + current->text(0) + "/settings.dat");
       bool hasPassword = !set.value(Settings::S_PROFILE_PASSWORD).toString().isEmpty();
 
       m_ui->passwordEdit->clear();
@@ -129,7 +130,7 @@ void Kitty::ProfilesWindow::on_profilesWidget_itemDoubleClicked(QTreeWidgetItem 
 
   if(item) {
     if(item->data(0, Qt::UserRole).toBool() == false) {
-      Kitty::JsonSettings set(Core::inst()->profilesDir() + item->text(0) + "/settings.dat");
+      JsonSettings set(Core::inst()->profilesDir() + item->text(0) + "/settings.dat");
       bool hasPassword = !set.value(Settings::S_PROFILE_PASSWORD).toString().isEmpty();
 
       if(!hasPassword || (hasPassword && set.value(Settings::S_PROFILE_PASSWORD).toString() == QCryptographicHash::hash(m_ui->passwordEdit->text().toLocal8Bit(), QCryptographicHash::Sha1).toHex())) {
@@ -139,7 +140,19 @@ void Kitty::ProfilesWindow::on_profilesWidget_itemDoubleClicked(QTreeWidgetItem 
         QMessageBox::information(this, tr("Wrong password"), tr("The password you supplied is wrong."));
       }
     } else {
-      //new profile
+      QString profile = QInputDialog::getText(this, tr("New profile"), tr("Please input a name for the new profile:"));
+      if(!profile.isEmpty()) {
+        QDir dir(Core::inst()->profilesDir());
+        if(!dir.exists(profile)) {
+          if(dir.mkdir(profile)) {
+            showEvent(new QShowEvent());
+          } else {
+            QMessageBox::warning(this, tr("Error"), tr("There was a problem creating your profile."));
+          }
+        } else {
+          QMessageBox::warning(this, tr("Profile exists"), tr("Profile with this name already exists"));
+        }
+      }
     }
   }
 }
@@ -147,4 +160,25 @@ void Kitty::ProfilesWindow::on_profilesWidget_itemDoubleClicked(QTreeWidgetItem 
 void Kitty::ProfilesWindow::on_loginButton_clicked()
 {
   on_profilesWidget_itemDoubleClicked(m_ui->profilesWidget->currentItem(), 0);
+}
+
+void Kitty::ProfilesWindow::on_deleteButton_clicked()
+{
+  QTreeWidgetItem *item = m_ui->profilesWidget->currentItem();
+  if(item) {
+    QString profile = item->text(0);
+
+    if(m_ui->passwordEdit->isVisible()) {
+      JsonSettings set(Core::inst()->profilesDir() + profile + "/settings.dat");
+      if(set.value(Settings::S_PROFILE_PASSWORD).toString() != QCryptographicHash::hash(m_ui->passwordEdit->text().toLocal8Bit(), QCryptographicHash::Sha1).toHex()) {
+        QMessageBox::information(this, tr("Error"), tr("Please enter the password to delete this profile."));
+        return;
+      }
+    }
+
+    if(QMessageBox::question(this, tr("Delete profile"), tr("Do you really want to delete this profile?"), QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes) {
+      Core::inst()->removeDir(Core::inst()->profilesDir() + profile);
+      showEvent(new QShowEvent());
+    }
+  }
 }

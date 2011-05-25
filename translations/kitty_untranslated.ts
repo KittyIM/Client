@@ -137,18 +137,28 @@
 <context>
     <name>Kitty::ProfilesWindow</name>
     <message>
-        <location filename="../src/widgets/windows/ProfilesWindow.cpp" line="69"/>
+        <location filename="../src/widgets/windows/ProfilesWindow.cpp" line="70"/>
         <source>Add new profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/windows/ProfilesWindow.cpp" line="139"/>
+        <location filename="../src/widgets/windows/ProfilesWindow.cpp" line="140"/>
         <source>Wrong password</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/windows/ProfilesWindow.cpp" line="139"/>
+        <location filename="../src/widgets/windows/ProfilesWindow.cpp" line="140"/>
         <source>The password you supplied is wrong.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/windows/ProfilesWindow.cpp" line="143"/>
+        <source>New profile</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/windows/ProfilesWindow.cpp" line="143"/>
+        <source>Please input </source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1004,52 +1014,52 @@
 <context>
     <name>Kitty::ChatTab</name>
     <message>
-        <location filename="../src/widgets/ChatTab.cpp" line="49"/>
+        <location filename="../src/widgets/ChatTab.cpp" line="50"/>
         <source>Bold</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/ChatTab.cpp" line="57"/>
+        <location filename="../src/widgets/ChatTab.cpp" line="58"/>
         <source>Italic</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/ChatTab.cpp" line="65"/>
+        <location filename="../src/widgets/ChatTab.cpp" line="66"/>
         <source>Underline</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/ChatTab.cpp" line="73"/>
+        <location filename="../src/widgets/ChatTab.cpp" line="74"/>
         <source>Strikethrough</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/ChatTab.cpp" line="85"/>
+        <location filename="../src/widgets/ChatTab.cpp" line="86"/>
         <source>Color</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/ChatTab.cpp" line="89"/>
+        <location filename="../src/widgets/ChatTab.cpp" line="90"/>
         <source>Smilies</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/ChatTab.cpp" line="97"/>
+        <location filename="../src/widgets/ChatTab.cpp" line="98"/>
         <source>Send image</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/ChatTab.cpp" line="102"/>
+        <location filename="../src/widgets/ChatTab.cpp" line="103"/>
         <source>Send file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/ChatTab.cpp" line="110"/>
+        <location filename="../src/widgets/ChatTab.cpp" line="111"/>
         <source>Profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/ChatTab.cpp" line="113"/>
+        <location filename="../src/widgets/ChatTab.cpp" line="114"/>
         <source>History</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1279,251 +1289,261 @@
     <name>ContactWindow</name>
     <message>
         <location filename="../src/widgets/windows/ContactWindow.ui"/>
-        <location filename="../src/ui_ContactWindow.h" line="684"/>
+        <location filename="../src/ui_ContactWindow.h" line="716"/>
         <source>Summary</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/ContactWindow.ui"/>
-        <location filename="../src/ui_ContactWindow.h" line="686"/>
+        <location filename="../src/ui_ContactWindow.h" line="718"/>
         <source>General</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/ContactWindow.ui"/>
-        <location filename="../src/ui_ContactWindow.h" line="688"/>
+        <location filename="../src/ui_ContactWindow.h" line="720"/>
         <source>Contact</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/ContactWindow.ui"/>
-        <location filename="../src/ui_ContactWindow.h" line="692"/>
+        <location filename="../src/ui_ContactWindow.h" line="724"/>
         <source>Work</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/ContactWindow.ui"/>
-        <location filename="../src/ui_ContactWindow.h" line="694"/>
+        <location filename="../src/ui_ContactWindow.h" line="726"/>
         <source>More</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/ContactWindow.ui"/>
-        <location filename="../src/ui_ContactWindow.h" line="696"/>
+        <location filename="../src/ui_ContactWindow.h" line="728"/>
         <source>Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/ContactWindow.ui"/>
-        <location filename="../src/ui_ContactWindow.h" line="690"/>
+        <location filename="../src/ui_ContactWindow.h" line="722"/>
         <source>Home</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/ContactWindow.ui"/>
-        <location filename="../src/ui_ContactWindow.h" line="700"/>
+        <location filename="../src/ui_ContactWindow.h" line="733"/>
         <source>Display as</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/ContactWindow.ui"/>
-        <location filename="../src/ui_ContactWindow.h" line="701"/>
+        <location filename="../src/ui_ContactWindow.h" line="734"/>
         <source>Personal info</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/ContactWindow.ui"/>
-        <location filename="../src/ui_ContactWindow.h" line="702"/>
+        <location filename="../src/ui_ContactWindow.h" line="735"/>
         <source>Nickname:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/ContactWindow.ui"/>
-        <location filename="../src/ui_ContactWindow.h" line="703"/>
+        <location filename="../src/ui_ContactWindow.h" line="736"/>
         <source>First name:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/ContactWindow.ui"/>
-        <location filename="../src/ui_ContactWindow.h" line="704"/>
+        <location filename="../src/ui_ContactWindow.h" line="737"/>
         <source>Middle name:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/ContactWindow.ui"/>
-        <location filename="../src/ui_ContactWindow.h" line="705"/>
+        <location filename="../src/ui_ContactWindow.h" line="738"/>
         <source>Last name:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/ContactWindow.ui"/>
-        <location filename="../src/ui_ContactWindow.h" line="706"/>
+        <location filename="../src/ui_ContactWindow.h" line="739"/>
         <source>Date of birth:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/ContactWindow.ui"/>
-        <location filename="../src/ui_ContactWindow.h" line="707"/>
-        <source>d MMMM yyyy</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/widgets/windows/ContactWindow.ui"/>
-        <location filename="../src/ui_ContactWindow.h" line="708"/>
+        <location filename="../src/ui_ContactWindow.h" line="740"/>
         <source>Sex:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/ContactWindow.ui"/>
-        <location filename="../src/ui_ContactWindow.h" line="711"/>
+        <location filename="../src/ui_ContactWindow.h" line="743"/>
         <source>Unknown</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/ContactWindow.ui"/>
-        <location filename="../src/ui_ContactWindow.h" line="712"/>
+        <location filename="../src/ui_ContactWindow.h" line="744"/>
         <source>Female</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/ContactWindow.ui"/>
-        <location filename="../src/ui_ContactWindow.h" line="713"/>
+        <location filename="../src/ui_ContactWindow.h" line="745"/>
         <source>Male</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/ContactWindow.ui"/>
-        <location filename="../src/ui_ContactWindow.h" line="715"/>
+        <location filename="../src/ui_ContactWindow.h" line="747"/>
         <source>Avatar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/ContactWindow.ui"/>
-        <location filename="../src/ui_ContactWindow.h" line="717"/>
+        <location filename="../src/ui_ContactWindow.h" line="749"/>
         <source>Change</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/ContactWindow.ui"/>
-        <location filename="../src/ui_ContactWindow.h" line="718"/>
+        <location filename="../src/ui_ContactWindow.h" line="750"/>
         <source>Clear</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/ContactWindow.ui"/>
-        <location filename="../src/ui_ContactWindow.h" line="719"/>
+        <location filename="../src/ui_ContactWindow.h" line="751"/>
         <source>Email</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/ContactWindow.ui"/>
-        <location filename="../src/ui_ContactWindow.h" line="720"/>
+        <location filename="../src/ui_ContactWindow.h" line="752"/>
         <source>Phone</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/ContactWindow.ui"/>
-        <location filename="../src/ui_ContactWindow.h" line="722"/>
-        <location filename="../src/ui_ContactWindow.h" line="728"/>
+        <location filename="../src/ui_ContactWindow.h" line="754"/>
+        <location filename="../src/ui_ContactWindow.h" line="760"/>
         <source>Address:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/ContactWindow.ui"/>
-        <location filename="../src/ui_ContactWindow.h" line="723"/>
-        <location filename="../src/ui_ContactWindow.h" line="729"/>
+        <location filename="../src/ui_ContactWindow.h" line="755"/>
+        <location filename="../src/ui_ContactWindow.h" line="761"/>
         <source>Postal code:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/ContactWindow.ui"/>
-        <location filename="../src/ui_ContactWindow.h" line="724"/>
-        <location filename="../src/ui_ContactWindow.h" line="730"/>
+        <location filename="../src/ui_ContactWindow.h" line="756"/>
+        <location filename="../src/ui_ContactWindow.h" line="762"/>
         <source>City:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/ContactWindow.ui"/>
-        <location filename="../src/ui_ContactWindow.h" line="725"/>
-        <location filename="../src/ui_ContactWindow.h" line="731"/>
+        <location filename="../src/ui_ContactWindow.h" line="757"/>
+        <location filename="../src/ui_ContactWindow.h" line="763"/>
         <source>State:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/ContactWindow.ui"/>
-        <location filename="../src/ui_ContactWindow.h" line="726"/>
-        <location filename="../src/ui_ContactWindow.h" line="732"/>
+        <location filename="../src/ui_ContactWindow.h" line="758"/>
+        <location filename="../src/ui_ContactWindow.h" line="764"/>
         <source>Country:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/ContactWindow.ui"/>
-        <location filename="../src/ui_ContactWindow.h" line="733"/>
+        <location filename="../src/ui_ContactWindow.h" line="765"/>
         <source>Company:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/ContactWindow.ui"/>
-        <location filename="../src/ui_ContactWindow.h" line="734"/>
+        <location filename="../src/ui_ContactWindow.h" line="766"/>
         <source>Position:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/ContactWindow.ui"/>
-        <location filename="../src/ui_ContactWindow.h" line="735"/>
+        <location filename="../src/ui_ContactWindow.h" line="767"/>
         <source>Website:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/ContactWindow.ui"/>
-        <location filename="../src/ui_ContactWindow.h" line="736"/>
+        <location filename="../src/ui_ContactWindow.h" line="768"/>
         <source>Homepage:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/ContactWindow.ui"/>
-        <location filename="../src/ui_ContactWindow.h" line="737"/>
+        <location filename="../src/ui_ContactWindow.h" line="769"/>
         <source>Notes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/windows/ContactWindow.ui"/>
+        <location filename="../src/ui_ContactWindow.h" line="732"/>
+        <source>Account and UID</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>Kitty::ContactWindow</name>
     <message>
-        <location filename="../src/widgets/windows/ContactWindow.cpp" line="19"/>
+        <location filename="../src/widgets/windows/ContactWindow.cpp" line="28"/>
         <source>Edit contact</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/windows/ContactWindow.cpp" line="21"/>
+        <location filename="../src/widgets/windows/ContactWindow.cpp" line="30"/>
         <source>Add contact</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/windows/ContactWindow.cpp" line="224"/>
+        <source>Choose avatar file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/windows/ContactWindow.cpp" line="224"/>
+        <source>Image files</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>Kitty::MainWindow</name>
     <message>
-        <location filename="../src/widgets/windows/MainWindow.cpp" line="287"/>
+        <location filename="../src/widgets/windows/MainWindow.cpp" line="274"/>
         <source>Lock</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/windows/MainWindow.cpp" line="294"/>
+        <location filename="../src/widgets/windows/MainWindow.cpp" line="281"/>
         <source>Icons only</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/windows/MainWindow.cpp" line="299"/>
+        <location filename="../src/widgets/windows/MainWindow.cpp" line="286"/>
         <source>Text only</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/windows/MainWindow.cpp" line="304"/>
+        <location filename="../src/widgets/windows/MainWindow.cpp" line="291"/>
         <source>Text beside icon</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/windows/MainWindow.cpp" line="309"/>
+        <location filename="../src/widgets/windows/MainWindow.cpp" line="296"/>
         <source>Text under icon</source>
         <translation type="unfinished"></translation>
     </message>

@@ -25,9 +25,12 @@
   #include <winuser.h>
 #endif
 
+#include <QtCore/QFileInfo>
 #include <QtCore/QRegExp>
 #include <QtCore/QDebug>
 #include <QtCore/QMutex>
+#include <QtCore/QFile>
+#include <QtCore/QDir>
 #include <QtCore/QUrl>
 #include <QtGui/QDesktopServices>
 #include <QtGui/QSystemTrayIcon>
@@ -374,4 +377,29 @@ void Kitty::Core::openKittyFolder()
 void Kitty::Core::openProfilesFolder()
 {
   QDesktopServices::openUrl(QUrl(profilesDir()));
+}
+
+// function taken from http://john.nachtimwald.com/2010/06/08/qt-remove-directory-and-its-contents/
+bool Kitty::Core::removeDir(const QString &dirName)
+{
+  bool result = true;
+  QDir dir(dirName);
+
+  if(dir.exists(dirName)) {
+    foreach(QFileInfo info, dir.entryInfoList(QDir::NoDotAndDotDot | QDir::AllDirs | QDir::Files, QDir::DirsFirst)) {
+      if(info.isDir()) {
+        result = removeDir(info.absoluteFilePath());
+      } else {
+        result = QFile::remove(info.absoluteFilePath());
+      }
+
+      if(!result) {
+        return result;
+      }
+    }
+
+    result = dir.rmdir(dirName);
+  }
+
+  return result;
 }

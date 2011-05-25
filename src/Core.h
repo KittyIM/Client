@@ -54,6 +54,7 @@ namespace Kitty
 
       QString profilesDir() const;
       QString currentProfileDir();
+      bool removeDir(const QString &dirName);
 
       void setRestart(bool restart) { m_restart = restart; }
       bool hasToRestart() const { return m_restart; }

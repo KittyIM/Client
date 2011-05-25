@@ -22,7 +22,6 @@
 #include <QtGui/QLinearGradient>
 #include <QtGui/QToolButton>
 #include <QtGui/QMenu>
-#include <QtGui/QMessageBox>
 
 #define qDebug() qDebug() << "[MainWindow]"
 #define qWarning() qWarning() << "[MainWindow]"

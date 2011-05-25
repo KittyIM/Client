@@ -38,7 +38,6 @@ void Kitty::JsonSettings::readMap(SettingsMap &map, const QVariant &root, const 
     }
   } else {
     map.insert(name, stringToVariant(root.toString()));
-    qDebug() << name << stringToVariant(root.toString());
   }
 }
 
