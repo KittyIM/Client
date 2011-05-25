@@ -22,6 +22,7 @@
 #include <QtGui/QLinearGradient>
 #include <QtGui/QToolButton>
 #include <QtGui/QMenu>
+#include <QtGui/QMessageBox>
 
 #define qDebug() qDebug() << "[MainWindow]"
 #define qWarning() qWarning() << "[MainWindow]"
@@ -68,12 +69,13 @@ Kitty::MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), m_ui(new Ui
   restoreState(core->setting(Settings::S_MAINWINDOW_STATE).toByteArray());
   restoreGeometry(core->setting(Settings::S_MAINWINDOW_GEOMETRY).toByteArray());
 
-  /*QMap<QString, QVariant> styles = core->setting(Settings::S_MAINWINDOW_TB_STYLES).toMap();
-  if(!styles.isEmpty()) {
-    m_ui->mainToolBar->setMovable(styles.value(Toolbars::TB_MAIN, true).toBool());
-    m_ui->networksToolBar->setMovable(styles.value(Toolbars::TB_NETWORKS, true).toBool());
-    m_ui->pluginsToolBar->setMovable(styles.value(Toolbars::TB_PLUGINS, true).toBool());
-  }*/
+  m_ui->mainToolBar->setToolButtonStyle((Qt::ToolButtonStyle)core->setting(QString("%1.%2").arg(Settings::S_MAINWINDOW_TB_STYLES).arg(Toolbars::TB_MAIN), Qt::ToolButtonIconOnly).toInt());
+  m_ui->networksToolBar->setToolButtonStyle((Qt::ToolButtonStyle)core->setting(QString("%1.%2").arg(Settings::S_MAINWINDOW_TB_STYLES).arg(Toolbars::TB_NETWORKS), Qt::ToolButtonIconOnly).toInt());
+  m_ui->pluginsToolBar->setToolButtonStyle((Qt::ToolButtonStyle)core->setting(QString("%1.%2").arg(Settings::S_MAINWINDOW_TB_STYLES).arg(Toolbars::TB_PLUGINS), Qt::ToolButtonIconOnly).toInt());
+
+  m_ui->mainToolBar->setMovable(core->setting(QString("%1.%2").arg(Settings::S_MAINWINDOW_TB_LOCKS).arg(Toolbars::TB_MAIN), true).toBool());
+  m_ui->networksToolBar->setMovable(core->setting(QString("%1.%2").arg(Settings::S_MAINWINDOW_TB_LOCKS).arg(Toolbars::TB_NETWORKS), true).toBool());
+  m_ui->pluginsToolBar->setMovable(core->setting(QString("%1.%2").arg(Settings::S_MAINWINDOW_TB_LOCKS).arg(Toolbars::TB_PLUGINS), true).toBool());
 
   applySettings();
 
@@ -89,17 +91,13 @@ Kitty::MainWindow::~MainWindow()
   core->setSetting(Settings::S_MAINWINDOW_STATE, saveState());
   core->setSetting(Settings::S_MAINWINDOW_GEOMETRY, saveGeometry());
 
-  /*QMap<QString, QVariant> styles;
-  styles.insert(Toolbars::TB_MAIN, m_ui->mainToolBar->toolButtonStyle());
-  styles.insert(Toolbars::TB_NETWORKS, m_ui->networksToolBar->toolButtonStyle());
-  styles.insert(Toolbars::TB_PLUGINS, m_ui->pluginsToolBar->toolButtonStyle());
-  core->setSetting(Settings::S_MAINWINDOW_TB_STYLES, styles);
+  core->setSetting(QString("%1.%2").arg(Settings::S_MAINWINDOW_TB_STYLES).arg(Toolbars::TB_MAIN), m_ui->mainToolBar->toolButtonStyle());
+  core->setSetting(QString("%1.%2").arg(Settings::S_MAINWINDOW_TB_STYLES).arg(Toolbars::TB_NETWORKS), m_ui->networksToolBar->toolButtonStyle());
+  core->setSetting(QString("%1.%2").arg(Settings::S_MAINWINDOW_TB_STYLES).arg(Toolbars::TB_PLUGINS), m_ui->pluginsToolBar->toolButtonStyle());
 
-  QMap<QString, QVariant> locks;
-  locks.insert(Toolbars::TB_MAIN, m_ui->mainToolBar->isMovable());
-  locks.insert(Toolbars::TB_NETWORKS, m_ui->networksToolBar->isMovable());
-  locks.insert(Toolbars::TB_PLUGINS, m_ui->pluginsToolBar->isMovable());
-  core->setSetting(Settings::S_MAINWINDOW_TB_LOCKS, locks);*/
+  core->setSetting(QString("%1.%2").arg(Settings::S_MAINWINDOW_TB_LOCKS).arg(Toolbars::TB_MAIN), m_ui->mainToolBar->isMovable());
+  core->setSetting(QString("%1.%2").arg(Settings::S_MAINWINDOW_TB_LOCKS).arg(Toolbars::TB_NETWORKS), m_ui->networksToolBar->isMovable());
+  core->setSetting(QString("%1.%2").arg(Settings::S_MAINWINDOW_TB_LOCKS).arg(Toolbars::TB_PLUGINS), m_ui->pluginsToolBar->isMovable());
 
   delete m_ui;
 }

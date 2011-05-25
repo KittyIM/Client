@@ -38,6 +38,7 @@ void Kitty::JsonSettings::readMap(SettingsMap &map, const QVariant &root, const 
     }
   } else {
     map.insert(name, stringToVariant(root.toString()));
+    qDebug() << name << stringToVariant(root.toString());
   }
 }
 
@@ -47,7 +48,12 @@ void Kitty::JsonSettings::writeMap(QVariant &root, const QString &key, const QVa
 
   if(pos < 0) {
     QVariantMap map = root.toMap();
-    map.insert(key, variantToString(value));
+    if((value.type() == QVariant::Map) || (value.type() == QVariant::List)) {
+      map.insert(key, value);
+    } else {
+      map.insert(key, variantToString(value));
+    }
+
     root = map;
 
     return;
@@ -157,6 +163,7 @@ QString Kitty::JsonSettings::variantToString(const QVariant &v)
       result += QLatin1Char(')');
       break;
     }
+
     case QVariant::Point:
     {
       QPoint p = qvariant_cast<QPoint>(v);
