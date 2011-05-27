@@ -150,7 +150,7 @@ void Kitty::ProfilesWindow::on_profilesWidget_itemDoubleClicked(QTreeWidgetItem 
             QMessageBox::warning(this, tr("Error"), tr("There was a problem creating your profile."));
           }
         } else {
-          QMessageBox::warning(this, tr("Profile exists"), tr("Profile with this name already exists"));
+          QMessageBox::warning(this, tr("Profile exists"), tr("Profile with this name already exists."));
         }
       }
     }

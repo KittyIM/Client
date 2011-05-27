@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>408</width>
-    <height>285</height>
+    <height>328</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -40,14 +40,14 @@
        </widget>
       </item>
       <item row="3" column="0">
-       <widget class="QLabel" name="label">
+       <widget class="QLabel" name="descriptionLabel">
         <property name="text">
          <string>Status description:</string>
         </property>
        </widget>
       </item>
       <item row="3" column="1">
-       <widget class="QComboBox" name="comboBox">
+       <widget class="QComboBox" name="descriptionComboBox">
         <item>
          <property name="text">
           <string>Don't show</string>
@@ -66,14 +66,14 @@
        </widget>
       </item>
       <item row="2" column="0">
-       <widget class="QLabel" name="label_2">
+       <widget class="QLabel" name="avatarsLabel">
         <property name="text">
          <string>Avatars:</string>
         </property>
        </widget>
       </item>
       <item row="2" column="1">
-       <widget class="QComboBox" name="comboBox_2">
+       <widget class="QComboBox" name="avatarsComboBox">
         <item>
          <property name="text">
           <string>Don't show</string>
@@ -126,13 +126,6 @@
       <property name="fieldGrowthPolicy">
        <enum>QFormLayout::ExpandingFieldsGrow</enum>
       </property>
-      <item row="1" column="0">
-       <widget class="QLabel" name="tipDelayLabel">
-        <property name="text">
-         <string>Display tip after:</string>
-        </property>
-       </widget>
-      </item>
       <item row="0" column="0" colspan="2">
        <widget class="QCheckBox" name="tipsCheckBox">
         <property name="text">
@@ -140,7 +133,7 @@
         </property>
        </widget>
       </item>
-      <item row="2" column="0" colspan="2">
+      <item row="1" column="0" colspan="2">
        <widget class="QCheckBox" name="displayTipsIPCheckBox">
         <property name="enabled">
          <bool>false</bool>
@@ -150,16 +143,33 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="1">
-       <widget class="QSpinBox" name="tipDelaySpinBox">
+      <item row="2" column="0">
+       <widget class="QCheckBox" name="displayTipsEmailCheckBox">
         <property name="enabled">
          <bool>false</bool>
         </property>
-        <property name="suffix">
-         <string> ms</string>
+        <property name="text">
+         <string>Display email</string>
         </property>
-        <property name="maximum">
-         <number>2000</number>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QCheckBox" name="displayTipsPhoneCheckBox">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="text">
+         <string>Display phone</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0">
+       <widget class="QCheckBox" name="displayTipsDescriptionCheckBox">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="text">
+         <string>Display status description</string>
         </property>
        </widget>
       </item>
@@ -194,32 +204,64 @@
   <connection>
    <sender>tipsCheckBox</sender>
    <signal>toggled(bool)</signal>
-   <receiver>tipDelaySpinBox</receiver>
+   <receiver>displayTipsIPCheckBox</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>63</x>
-     <y>275</y>
+     <x>46</x>
+     <y>219</y>
     </hint>
     <hint type="destinationlabel">
-     <x>133</x>
-     <y>302</y>
+     <x>57</x>
+     <y>242</y>
     </hint>
    </hints>
   </connection>
   <connection>
    <sender>tipsCheckBox</sender>
    <signal>toggled(bool)</signal>
-   <receiver>displayTipsIPCheckBox</receiver>
+   <receiver>displayTipsEmailCheckBox</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>36</x>
-     <y>285</y>
+     <x>88</x>
+     <y>212</y>
     </hint>
     <hint type="destinationlabel">
-     <x>47</x>
-     <y>328</y>
+     <x>83</x>
+     <y>259</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>tipsCheckBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>displayTipsPhoneCheckBox</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>133</x>
+     <y>209</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>83</x>
+     <y>283</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>tipsCheckBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>displayTipsDescriptionCheckBox</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>198</x>
+     <y>213</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>135</x>
+     <y>303</y>
     </hint>
    </hints>
   </connection>

@@ -96,6 +96,7 @@ int Kitty::RosterItemModel::columnCount(const QModelIndex &parent) const
   return 1;
 }
 
+//FIXME
 /*Qt::ItemFlags Kitty::RosterItemModel::flags(const QModelIndex &index) const
 {
   Qt::ItemFlags basic = Qt::ItemIsEnabled | Qt::ItemIsSelectable;
@@ -115,21 +116,11 @@ QVariant Kitty::RosterItemModel::data(const QModelIndex &index, int role) const
   }
 
   RosterItem *item = static_cast<RosterItem*>(index.internalPointer());
-
-  if(item->data(RosterItem::TypeRole) == RosterItem::Group) {
-    switch(role) {
-      case Qt::ToolTipRole:
-        return QString("<b>%1</b><br>Items: %2").arg(item->text()).arg(item->childCount());
-      break;
-
-      // TODO
-      case RosterItem::ExpandedRole:
-        return true;
-      break;
-    }
+  if(item) {
+    return item->data(role);
+  } else {
+    return QVariant();
   }
-
-  return item->data(role);
 }
 
 QModelIndex Kitty::RosterItemModel::index(int row, int column, const QModelIndex &parent) const

@@ -6,6 +6,7 @@
 #include <QtGui/QDialog>
 
 class QTreeWidgetItem;
+class QListWidgetItem;
 
 namespace Ui
 {
@@ -27,13 +28,18 @@ namespace Kitty
 
     private slots:
       void on_treeWidget_currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous);
-
       void on_buttonBox_accepted();
-
       void on_changeAvatarButton_clicked();
+      void on_emailAddButton_clicked();
+      void on_emailRemoveButton_clicked();
+      void on_emailListWidget_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
+      void on_phoneAddButton_clicked();
+      void on_phoneRemoveButton_clicked();
+      void on_phoneListWidget_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
 
-  protected:
+   protected:
       void showEvent(QShowEvent *event);
+      void closeEvent(QCloseEvent *event);
 
     private:
       Ui::ContactWindow *m_ui;

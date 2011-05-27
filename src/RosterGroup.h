@@ -9,6 +9,8 @@ namespace Kitty
   {
     public:
       explicit RosterGroup(RosterItem *parent = 0);
+
+      QVariant data(int role = Qt::UserRole + 1) const;
   };
 }
 

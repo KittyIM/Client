@@ -183,6 +183,13 @@ void Kitty::AccountManager::save(const QString &profile)
 void Kitty::AccountManager::changeDescription(const QString &description)
 {
   foreach(Account *acc, m_accounts) {
-    //if(acc->co)
+    acc->changeStatus(acc->status(), description);
+  }
+}
+
+void Kitty::AccountManager::changeStatus(KittySDK::Protocol::Status status)
+{
+  foreach(Account *acc, m_accounts) {
+    acc->changeStatus(status, acc->description());
   }
 }

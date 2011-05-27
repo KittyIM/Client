@@ -28,6 +28,7 @@ namespace Kitty
 
     public slots:
       void changeDescription(const QString &description);
+      void changeStatus(KittySDK::Protocol::Status status);
 
     signals:
       void accountAdded();

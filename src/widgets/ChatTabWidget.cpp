@@ -45,7 +45,7 @@ int Kitty::ChatTabWidget::indexByChat(KittySDK::Chat *chat)
 
 QString Kitty::ChatTabWidget::createLabel(Chat *chat)
 {
-  QString label = Core::inst()->setting(Settings::S_CHATTAB_CAPTION, "%name%").toString();
+  QString label = Core::inst()->setting(Settings::S_CHATTAB_CAPTION, "%nick%").toString();
   Contact *cnt = chat->contacts().first();
 
   label.replace("%nick%", cnt->display());

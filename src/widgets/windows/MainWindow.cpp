@@ -40,6 +40,7 @@ Kitty::MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), m_ui(new Ui
   m_header = new RosterHeader(this);
   m_ui->headerToolBar->addWidget(m_header);
   connect(m_header, SIGNAL(descriptionChanged(QString)), AccountManager::inst(), SLOT(changeDescription(QString)));
+  connect(m_header, SIGNAL(statusChanged(KittySDK::Protocol::Status)), AccountManager::inst(), SLOT(changeStatus(KittySDK::Protocol::Status)));
 
   m_model = new RosterItemModel(m_ui->rosterTreeView);
   m_proxy = new RosterSortProxy(m_ui->rosterTreeView);

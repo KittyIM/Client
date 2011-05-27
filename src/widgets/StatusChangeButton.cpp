@@ -15,12 +15,12 @@ Kitty::StatusChangeButton::StatusChangeButton(QWidget *parent): QToolButton(pare
   Core *core = Core::inst();
   QMenu *menu = new QMenu(this);
 
-  menu->addAction(core->icon(Icons::I_STATUS_ONLINE), tr("Online"));
-  menu->addAction(core->icon(Icons::I_STATUS_AWAY), tr("Away"));
-  menu->addAction(core->icon(Icons::I_STATUS_FFC), tr("Free for chat"));
-  menu->addAction(core->icon(Icons::I_STATUS_DND), tr("Do not disturb"));
-  menu->addAction(core->icon(Icons::I_STATUS_INVIS), tr("Invisible"));
-  menu->addAction(core->icon(Icons::I_STATUS_OFFLINE), tr("Offline"));
+  menu->addAction(core->icon(Icons::I_STATUS_ONLINE), tr("Online"), this, SLOT(setStatusOnline()));
+  menu->addAction(core->icon(Icons::I_STATUS_AWAY), tr("Away"), this, SLOT(setStatusAway()));
+  menu->addAction(core->icon(Icons::I_STATUS_FFC), tr("Free for chat"), this, SLOT(setStatusFFC()));
+  menu->addAction(core->icon(Icons::I_STATUS_DND), tr("Do not disturb"), this, SLOT(setStatusDND()));
+  menu->addAction(core->icon(Icons::I_STATUS_INVIS), tr("Invisible"), this, SLOT(setStatusInvisible()));
+  menu->addAction(core->icon(Icons::I_STATUS_OFFLINE), tr("Offline"), this, SLOT(setStatusOffline()));
 
   setMenu(menu);
   setPopupMode(QToolButton::InstantPopup);
@@ -59,4 +59,64 @@ void Kitty::StatusChangeButton::paintEvent(QPaintEvent *event)
   opt.initFrom(this);
   opt.rect = QRect(width() - 15, height() / 2 - 6, 11, 13);
   painter.drawPrimitive(QStyle::PE_IndicatorArrowDown, opt);
+}
+
+void Kitty::StatusChangeButton::setStatusOnline()
+{
+  Core *core = Core::inst();
+
+  setIcon(core->icon(Icons::I_STATUS_ONLINE));
+  setText(core->statusToString(Protocol::Online));
+
+  emit statusChanged(Protocol::Online);
+}
+
+void Kitty::StatusChangeButton::setStatusAway()
+{
+  Core *core = Core::inst();
+
+  setIcon(core->icon(Icons::I_STATUS_AWAY));
+  setText(core->statusToString(Protocol::Away));
+
+  emit statusChanged(Protocol::Away);
+}
+
+void Kitty::StatusChangeButton::setStatusFFC()
+{
+  Core *core = Core::inst();
+
+  setIcon(core->icon(Icons::I_STATUS_FFC));
+  setText(core->statusToString(Protocol::FFC));
+
+  emit statusChanged(Protocol::FFC);
+}
+
+void Kitty::StatusChangeButton::setStatusDND()
+{
+  Core *core = Core::inst();
+
+  setIcon(core->icon(Icons::I_STATUS_DND));
+  setText(core->statusToString(Protocol::DND));
+
+  emit statusChanged(Protocol::DND);
+}
+
+void Kitty::StatusChangeButton::setStatusInvisible()
+{
+  Core *core = Core::inst();
+
+  setIcon(core->icon(Icons::I_STATUS_INVIS));
+  setText(core->statusToString(Protocol::Invisible));
+
+  emit statusChanged(Protocol::Invisible);
+}
+
+void Kitty::StatusChangeButton::setStatusOffline()
+{
+  Core *core = Core::inst();
+
+  setIcon(core->icon(Icons::I_STATUS_OFFLINE));
+  setText(core->statusToString(Protocol::Offline));
+
+  emit statusChanged(Protocol::Offline);
 }

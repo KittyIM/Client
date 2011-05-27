@@ -1,11 +1,13 @@
 #ifndef ROSTERTREEVIEW_H
 #define ROSTERTREEVIEW_H
 
+#include <QtCore/QPointer>
 #include <QtGui/QTreeView>
 
 namespace Kitty
 {
   class RosterItemDelegate;
+  class ContactWindow;
 
   class RosterTreeView: public QTreeView
   {
@@ -33,6 +35,7 @@ namespace Kitty
 
     private:
       RosterItemDelegate *m_delegate;
+      QMap<QString, QPointer<Kitty::ContactWindow> > m_windows;
   };
 }
 

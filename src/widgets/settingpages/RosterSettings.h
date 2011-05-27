@@ -21,7 +21,10 @@ namespace Kitty
       void apply();
       void reset();
 
-    private:
+  private slots:
+      void on_descriptionComboBox_currentIndexChanged(int index);
+
+  private:
       Ui::RosterSettings *m_ui;
   };
 }

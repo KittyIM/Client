@@ -12,6 +12,7 @@ Kitty::RosterHeader::RosterHeader(QWidget *parent): QWidget(parent), m_ui(new Ui
 {
   m_ui->setupUi(this);
   connect(m_ui->statusTextEdit, SIGNAL(returnPressed(QString)), this, SIGNAL(descriptionChanged(QString)));
+  connect(m_ui->statusChangeButton, SIGNAL(statusChanged(KittySDK::Protocol::Status)), this, SIGNAL(statusChanged(KittySDK::Protocol::Status)));
 }
 
 Kitty::RosterHeader::~RosterHeader()

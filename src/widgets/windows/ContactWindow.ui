@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string notr="true"/>
   </property>
+  <property name="windowIcon">
+   <iconset resource="../../../res/res.qrc">
+    <normaloff>:/icons/user.ico</normaloff>:/icons/user.ico</iconset>
+  </property>
   <layout class="QGridLayout" name="gridLayout">
    <property name="margin">
     <number>6</number>
@@ -101,7 +105,7 @@
       <item row="1" column="0">
        <widget class="QStackedWidget" name="stackedWidget">
         <property name="currentIndex">
-         <number>1</number>
+         <number>2</number>
         </property>
         <widget class="QWidget" name="summaryPage">
          <layout class="QGridLayout" name="gridLayout_3">
@@ -109,7 +113,11 @@
            <number>0</number>
           </property>
           <item row="0" column="0">
-           <widget class="QTextBrowser" name="summaryTextBrowser"/>
+           <widget class="QTextBrowser" name="summaryTextBrowser">
+            <property name="openExternalLinks">
+             <bool>true</bool>
+            </property>
+           </widget>
           </item>
          </layout>
         </widget>
@@ -448,10 +456,33 @@
              <item row="0" column="1">
               <layout class="QVBoxLayout" name="_5">
                <item>
-                <widget class="QToolButton" name="emailAddButton"/>
+                <widget class="QToolButton" name="emailAddButton">
+                 <property name="minimumSize">
+                  <size>
+                   <width>25</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string notr="true">+</string>
+                 </property>
+                </widget>
                </item>
                <item>
-                <widget class="QToolButton" name="emailRemoveButton"/>
+                <widget class="QToolButton" name="emailRemoveButton">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>25</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string notr="true">-</string>
+                 </property>
+                </widget>
                </item>
                <item>
                 <spacer name="spacer_3">
@@ -495,10 +526,33 @@
              <item row="0" column="1">
               <layout class="QVBoxLayout" name="_6">
                <item>
-                <widget class="QToolButton" name="phoneAddButton"/>
+                <widget class="QToolButton" name="phoneAddButton">
+                 <property name="minimumSize">
+                  <size>
+                   <width>25</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string notr="true">+</string>
+                 </property>
+                </widget>
                </item>
                <item>
-                <widget class="QToolButton" name="phoneRemoveButton"/>
+                <widget class="QToolButton" name="phoneRemoveButton">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>25</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string notr="true">-</string>
+                 </property>
+                </widget>
                </item>
                <item>
                 <spacer name="spacer_4">
@@ -813,7 +867,9 @@
   <tabstop>notesEdit</tabstop>
   <tabstop>summaryTextBrowser</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="../../../res/res.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>clearAvatarButton</sender>
@@ -822,12 +878,28 @@
    <slot>clear()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>542</x>
-     <y>222</y>
+     <x>571</x>
+     <y>284</y>
     </hint>
     <hint type="destinationlabel">
      <x>517</x>
      <y>160</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>ContactWindow</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>551</x>
+     <y>370</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>593</x>
+     <y>334</y>
     </hint>
    </hints>
   </connection>

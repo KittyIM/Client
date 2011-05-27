@@ -9,6 +9,7 @@
 
 #include <QtCore/QCryptographicHash>
 #include <QtCore/QFile>
+#include <QtGui/QInputDialog>
 #include <QtGui/QFileDialog>
 
 using namespace Kitty;
@@ -17,7 +18,7 @@ using namespace KittySDK;
 #define qDebug() qDebug() << "[ContactWindow]"
 #define qWarning() qWarning() << "[ContactWindow]"
 
-Kitty::ContactWindow::ContactWindow(Contact *cnt, QWidget *parent): QDialog(parent), m_ui(new Ui::ContactWindow), m_contact(cnt)
+Kitty::ContactWindow::ContactWindow(Contact *cnt, QWidget *parent): QDialog(parent, Qt::Window), m_ui(new Ui::ContactWindow), m_contact(cnt)
 {
   m_ui->setupUi(this);
 
@@ -62,13 +63,157 @@ void Kitty::ContactWindow::on_treeWidget_currentItemChanged(QTreeWidgetItem *cur
 
 void Kitty::ContactWindow::showEvent(QShowEvent *event)
 {
+  QDialog::showEvent(event);
+
   Core *core = Core::inst();
 
-  if(m_contact) {
-    m_ui->treeWidget->setCurrentItem(m_ui->treeWidget->topLevelItem(0));
+  if(!m_contact) {
+    //remove summary when adding contact
+    m_ui->stackedWidget->removeWidget(m_ui->stackedWidget->widget(0));
+    delete m_ui->treeWidget->topLevelItem(0);
   } else {
-    m_ui->treeWidget->setCurrentItem(m_ui->treeWidget->topLevelItem(1));
+    //create summary
+    QString summary;
+    if(m_contact->data(ContactInfos::I_FIRSTNAME).toBool() || m_contact->data(ContactInfos::I_MIDDLENAME).toBool() || m_contact->data(ContactInfos::I_NICKNAME).toBool() || m_contact->data(ContactInfos::I_LASTNAME).toBool()) {
+      QString nickname = m_contact->data(ContactInfos::I_NICKNAME).toString();
+      if(!nickname.isEmpty()) {
+        nickname.prepend("\"");
+        nickname.append("\" ");
+      }
+
+      summary += QString("<center><b>%1%2%3%4</b></center>").arg(Qt::escape(m_contact->data(ContactInfos::I_FIRSTNAME).toString()).append(" ")).arg(Qt::escape(m_contact->data(ContactInfos::I_MIDDLENAME).toString()).append(" ")).arg(Qt::escape(nickname)).arg(Qt::escape(m_contact->data(ContactInfos::I_LASTNAME).toString()).append(" "));
+    } else {
+      summary += QString("<center><b>%1</b></center>").arg(Qt::escape(m_contact->display()));
+    }
+
+    summary += "<center>";
+    if(m_contact->data(ContactInfos::I_SEX).toInt() == 1) {
+      summary += tr("female");
+    } else if(m_contact->data(ContactInfos::I_SEX).toInt() == 2) {
+      summary += tr("male");
+    }
+
+    summary += " <b>";
+
+    QDate birthday = m_contact->data(ContactInfos::I_BIRTHDAY).toDate();
+    int years = QDate::currentDate().year() - birthday.year();
+    if(QDate::currentDate() < birthday.addYears(years)) {
+      years--;
+    }
+    summary += QString(tr("%1 years old")).arg(years);
+    summary += "</b></center>";
+    summary += "<br>";
+
+    summary += "<b>" + tr("Account") + ":</b> " + Qt::escape(m_contact->protocol()->protoInfo()->protoName()) + " " + m_contact->account()->uid();
+    summary += "<br>";
+
+    summary += "<b>" + tr("UID") + ":</b> " + Qt::escape(m_contact->uid());
+    summary += "<br>";
+
+    QString description = m_contact->description();
+    if(!description.isEmpty()) {
+      description.prepend(" \"");
+      description.append("\"");
+    }
+    summary += "<b>" + tr("Status") + ":</b> " + Core::inst()->statusToString(m_contact->status()) + Qt::escape(description);
+    summary += "<br>";
+
+    if(!m_contact->data(ContactInfos::I_HOMEPAGE).toString().isEmpty()) {
+      summary += "<b>" + tr("Homepage") + ":</b> " + QString("<a href=\"%1\">%1</a>").arg(Qt::escape(m_contact->data(ContactInfos::I_HOMEPAGE).toString()));
+      summary += "<br>";
+    }
+
+    if(!m_contact->data(ContactInfos::I_EMAILS).toString().isEmpty()) {
+      QStringList list = m_contact->data(ContactInfos::I_EMAILS).toString().split(",");
+      QString emails;
+      foreach(QString email, list) {
+        emails += QString("<a href=\"mailto:%1\">%1</a>, ").arg(Qt::escape(email));
+      }
+
+      emails.chop(2);
+
+      summary += "<b>" + tr("Email(s)", "", list.count()) + ":</b> " + emails;
+      summary += "<br>";
+    }
+
+    if(!m_contact->data(ContactInfos::I_PHONES).toString().isEmpty()) {
+      summary += "<b>" + tr("Phone(s)", "", m_contact->data(ContactInfos::I_PHONES).toString().split(",").count()) + ":</b> " + Qt::escape(m_contact->data(ContactInfos::I_PHONES).toString());
+      summary += "<br>";
+    }
+
+    QString address = m_contact->data(ContactInfos::I_HOME_ADDRESS).toString();
+    QString city = m_contact->data(ContactInfos::I_HOME_CITY).toString();
+    QString country = m_contact->data(ContactInfos::I_HOME_COUNTRY).toString();
+    QString code = m_contact->data(ContactInfos::I_HOME_POSTALCODE).toString();
+    QString state = m_contact->data(ContactInfos::I_HOME_STATE).toString();
+
+    if(!state.isEmpty() || !code.isEmpty() || !country.isEmpty() || !city.isEmpty() || !address.isEmpty()) {
+      summary += "<center><b><u>" + tr("Home") + "</u></b><br>";
+
+      if(!address.isEmpty()) {
+        summary += Qt::escape(address) + "<br>";
+      }
+
+      if(!code.isEmpty() || !city.isEmpty()) {
+        summary += Qt::escape(code) + " " + Qt::escape(city) + "<br>";
+      }
+
+      if(!state.isEmpty()) {
+        summary += Qt::escape(state) + "<br>";
+      }
+
+      if(!country.isEmpty()) {
+        summary += Qt::escape(country) + "<br>";
+      }
+    }
+
+    address = m_contact->data(ContactInfos::I_WORK_ADDRESS).toString();
+    city = m_contact->data(ContactInfos::I_WORK_CITY).toString();
+    country = m_contact->data(ContactInfos::I_WORK_COUNTRY).toString();
+    code = m_contact->data(ContactInfos::I_WORK_POSTALCODE).toString();
+    state = m_contact->data(ContactInfos::I_WORK_STATE).toString();
+    QString company = m_contact->data(ContactInfos::I_WORK_COMPANY).toString();
+    QString position = m_contact->data(ContactInfos::I_WORK_POSITION).toString();
+    QString website = m_contact->data(ContactInfos::I_WORK_WEBSITE).toString();
+
+    if(!state.isEmpty() || !code.isEmpty() || !country.isEmpty() || !city.isEmpty() || !address.isEmpty() || !company.isEmpty() || !position.isEmpty() || !website.isEmpty()) {
+      summary += "<center><b><u>" + tr("Work") + "</u></b><br>";
+
+      if(!company.isEmpty() || !position.isEmpty()) {
+        summary += Qt::escape(position);
+
+        if(!company.isEmpty() && !position.isEmpty()) {
+          summary += " " + tr("in") + " ";
+        }
+
+        summary += Qt::escape(company) + "<br>";
+      }
+
+      if(!address.isEmpty()) {
+        summary += Qt::escape(address) + "<br>";
+      }
+
+      if(!code.isEmpty() || !city.isEmpty()) {
+        summary += Qt::escape(code) + " " + Qt::escape(city) + "<br>";
+      }
+
+      if(!state.isEmpty()) {
+        summary += Qt::escape(state) + "<br>";
+      }
+
+      if(!country.isEmpty()) {
+        summary += Qt::escape(country) + "<br>";
+      }
+
+      if(!website.isEmpty()) {
+        summary += QString("<a href=\"%1\">%1</a>").arg(Qt::escape(website));
+      }
+    }
+
+    m_ui->summaryTextBrowser->setHtml(summary);
   }
+
+  m_ui->treeWidget->setCurrentItem(m_ui->treeWidget->topLevelItem(0));
 
   //add empty group
   m_ui->groupComboBox->addItem("");
@@ -122,6 +267,13 @@ void Kitty::ContactWindow::showEvent(QShowEvent *event)
       m_ui->avatarLabel->setPixmap(QPixmap(fileName));
     }
 
+    //contact
+    QStringList emails = m_contact->data(ContactInfos::I_EMAILS).toString().split(",");
+    m_ui->emailListWidget->addItems(emails);
+
+    QStringList phones = m_contact->data(ContactInfos::I_PHONES).toString().split(",");
+    m_ui->phoneListWidget->addItems(phones);
+
     //home
     m_ui->homeAddressEdit->setText(m_contact->data(ContactInfos::I_HOME_ADDRESS).toString());
     m_ui->homeCityEdit->setText(m_contact->data(ContactInfos::I_HOME_CITY).toString());
@@ -140,11 +292,9 @@ void Kitty::ContactWindow::showEvent(QShowEvent *event)
     m_ui->workWebsiteEdit->setText(m_contact->data(ContactInfos::I_WORK_WEBSITE).toString());
 
     //more
-    m_ui->homepageEdit->setText(m_contact->data(ContactInfos::I_WEBSITE).toString());
+    m_ui->homepageEdit->setText(m_contact->data(ContactInfos::I_HOMEPAGE).toString());
     m_ui->notesEdit->setPlainText(m_contact->data(ContactInfos::I_NOTES).toString());
   }
-
-  QDialog::showEvent(event);
 }
 
 void Kitty::ContactWindow::on_buttonBox_accepted()
@@ -202,6 +352,21 @@ void Kitty::ContactWindow::on_buttonBox_accepted()
   m_contact->setData(ContactInfos::I_HOME_STATE, m_ui->homeStateEdit->text());
   m_contact->setData(ContactInfos::I_HOME_COUNTRY, m_ui->homeCountryEdit->text());
 
+  //contact
+  QStringList emails;
+  foreach(QListWidgetItem *item, m_ui->emailListWidget->findItems("*", Qt::MatchWildcard)) {
+    emails.append(item->text());
+  }
+  emails.removeDuplicates();
+  m_contact->setData(ContactInfos::I_EMAILS, emails.join(","));
+
+  QStringList phones;
+  foreach(QListWidgetItem *item, m_ui->phoneListWidget->findItems("*", Qt::MatchWildcard)) {
+    phones.append(item->text());
+  }
+  phones.removeDuplicates();
+  m_contact->setData(ContactInfos::I_PHONES, phones.join(","));
+
   //work
   m_contact->setData(ContactInfos::I_WORK_COMPANY, m_ui->workCompanyEdit->text());
   m_contact->setData(ContactInfos::I_WORK_POSITION, m_ui->workPositionEdit->text());
@@ -213,10 +378,10 @@ void Kitty::ContactWindow::on_buttonBox_accepted()
   m_contact->setData(ContactInfos::I_WORK_WEBSITE, m_ui->workWebsiteEdit->text());
 
   //more
-  m_contact->setData(ContactInfos::I_WEBSITE, m_ui->homepageEdit->text());
+  m_contact->setData(ContactInfos::I_HOMEPAGE, m_ui->homepageEdit->text());
   m_contact->setData(ContactInfos::I_NOTES, m_ui->notesEdit->toPlainText());
 
-  close();
+  accept();
 }
 
 void Kitty::ContactWindow::on_changeAvatarButton_clicked()
@@ -230,4 +395,55 @@ void Kitty::ContactWindow::on_changeAvatarButton_clicked()
 
     m_ui->avatarLabel->setPixmap(pix);
   }
+}
+
+void Kitty::ContactWindow::closeEvent(QCloseEvent *event)
+{
+  emit rejected();
+
+  QWidget::closeEvent(event);
+}
+
+void Kitty::ContactWindow::on_emailAddButton_clicked()
+{
+  QString email = QInputDialog::getText(this, tr("Email"), tr("Please specify an email address:"));
+  if(!email.isEmpty()) {
+    if(m_ui->emailListWidget->findItems(email, Qt::MatchExactly).count() == 0) {
+      m_ui->emailListWidget->addItem(email);
+    }
+  }
+}
+
+void Kitty::ContactWindow::on_emailRemoveButton_clicked()
+{
+  if(m_ui->emailListWidget->selectedItems().count() > 0) {
+    delete m_ui->emailListWidget->currentItem();
+  }
+}
+
+void Kitty::ContactWindow::on_emailListWidget_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous)
+{
+  m_ui->emailRemoveButton->setEnabled(current != 0);
+}
+
+void Kitty::ContactWindow::on_phoneAddButton_clicked()
+{
+  QString phone = QInputDialog::getText(this, tr("Phone"), tr("Please specify a phone number:"));
+  if(!phone.isEmpty()) {
+    if(m_ui->phoneListWidget->findItems(phone, Qt::MatchExactly).count() == 0) {
+      m_ui->phoneListWidget->addItem(phone);
+    }
+  }
+}
+
+void Kitty::ContactWindow::on_phoneRemoveButton_clicked()
+{
+  if(m_ui->phoneListWidget->selectedItems().count() > 0) {
+    delete m_ui->phoneListWidget->currentItem();
+  }
+}
+
+void Kitty::ContactWindow::on_phoneListWidget_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous)
+{
+  m_ui->phoneListWidget->setEnabled(current != 0);
 }

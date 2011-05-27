@@ -261,173 +261,183 @@
 <context>
     <name>ContactWindow</name>
     <message>
-        <location filename="../src/ui_ContactWindow.h" line="716"/>
+        <location filename="../src/ui_ContactWindow.h" line="724"/>
         <source>Summary</source>
         <translation>Podsumowanie</translation>
     </message>
     <message>
-        <location filename="../src/ui_ContactWindow.h" line="718"/>
+        <location filename="../src/ui_ContactWindow.h" line="726"/>
         <source>General</source>
         <translation>Ogólne</translation>
     </message>
     <message>
-        <location filename="../src/ui_ContactWindow.h" line="720"/>
+        <location filename="../src/ui_ContactWindow.h" line="728"/>
         <source>Contact</source>
         <translation>Kontakt</translation>
     </message>
     <message>
-        <location filename="../src/ui_ContactWindow.h" line="724"/>
+        <location filename="../src/ui_ContactWindow.h" line="732"/>
         <source>Work</source>
         <translation>Praca</translation>
     </message>
     <message>
-        <location filename="../src/ui_ContactWindow.h" line="726"/>
+        <location filename="../src/ui_ContactWindow.h" line="734"/>
         <source>More</source>
         <translation>Więcej</translation>
     </message>
     <message>
-        <location filename="../src/ui_ContactWindow.h" line="728"/>
+        <location filename="../src/ui_ContactWindow.h" line="736"/>
         <source>Settings</source>
         <translation>Ustawienia</translation>
     </message>
     <message>
-        <location filename="../src/ui_ContactWindow.h" line="722"/>
+        <location filename="../src/ui_ContactWindow.h" line="730"/>
         <source>Home</source>
         <translation>Dom</translation>
     </message>
     <message>
-        <location filename="../src/ui_ContactWindow.h" line="733"/>
+        <location filename="../src/ui_ContactWindow.h" line="741"/>
         <source>Display as</source>
         <translation>Wyświetlaj jako</translation>
     </message>
     <message>
-        <location filename="../src/ui_ContactWindow.h" line="734"/>
+        <location filename="../src/ui_ContactWindow.h" line="742"/>
         <source>Personal info</source>
         <translation>Informacje osobiste</translation>
     </message>
     <message>
-        <location filename="../src/ui_ContactWindow.h" line="735"/>
+        <location filename="../src/ui_ContactWindow.h" line="743"/>
         <source>Nickname:</source>
         <translation>Nick:</translation>
     </message>
     <message>
-        <location filename="../src/ui_ContactWindow.h" line="736"/>
+        <location filename="../src/ui_ContactWindow.h" line="744"/>
         <source>First name:</source>
         <translation>Imię:</translation>
     </message>
     <message>
-        <location filename="../src/ui_ContactWindow.h" line="737"/>
+        <location filename="../src/ui_ContactWindow.h" line="745"/>
         <source>Middle name:</source>
         <translation>Drugie imię:</translation>
     </message>
     <message>
-        <location filename="../src/ui_ContactWindow.h" line="738"/>
+        <location filename="../src/ui_ContactWindow.h" line="746"/>
         <source>Last name:</source>
         <translation>Nazwisko:</translation>
     </message>
     <message>
-        <location filename="../src/ui_ContactWindow.h" line="739"/>
+        <location filename="../src/ui_ContactWindow.h" line="747"/>
         <source>Date of birth:</source>
         <translation>Data urodzenia:</translation>
     </message>
     <message>
-        <location filename="../src/ui_ContactWindow.h" line="740"/>
+        <location filename="../src/ui_ContactWindow.h" line="748"/>
         <source>Sex:</source>
         <translation>Płeć:</translation>
     </message>
     <message>
-        <location filename="../src/ui_ContactWindow.h" line="743"/>
+        <location filename="../src/ui_ContactWindow.h" line="751"/>
         <source>Unknown</source>
         <translation>Nieznana</translation>
     </message>
     <message>
-        <location filename="../src/ui_ContactWindow.h" line="744"/>
+        <location filename="../src/ui_ContactWindow.h" line="752"/>
         <source>Female</source>
         <translation>Kobieta</translation>
     </message>
     <message>
-        <location filename="../src/ui_ContactWindow.h" line="745"/>
+        <location filename="../src/ui_ContactWindow.h" line="753"/>
         <source>Male</source>
         <translation>Mężczyzna</translation>
     </message>
     <message>
-        <location filename="../src/ui_ContactWindow.h" line="747"/>
+        <location filename="../src/ui_ContactWindow.h" line="755"/>
         <source>Avatar</source>
         <translation>Awatar</translation>
     </message>
     <message>
-        <location filename="../src/ui_ContactWindow.h" line="749"/>
+        <location filename="../src/ui_ContactWindow.h" line="757"/>
         <source>Change</source>
         <translation>Zmień</translation>
     </message>
     <message>
-        <location filename="../src/ui_ContactWindow.h" line="750"/>
+        <location filename="../src/ui_ContactWindow.h" line="758"/>
         <source>Clear</source>
         <translation>Wyczyść</translation>
     </message>
     <message>
-        <location filename="../src/ui_ContactWindow.h" line="751"/>
+        <location filename="../src/ui_ContactWindow.h" line="759"/>
         <source>Email</source>
         <translation>Email</translation>
     </message>
     <message>
-        <location filename="../src/ui_ContactWindow.h" line="752"/>
+        <location filename="../src/ui_ContactWindow.h" line="762"/>
         <source>Phone</source>
         <translation>Telefon</translation>
     </message>
     <message>
-        <location filename="../src/ui_ContactWindow.h" line="760"/>
+        <location filename="../src/ui_ContactWindow.h" line="772"/>
         <source>Address:</source>
         <translation>Adres:</translation>
     </message>
     <message>
-        <location filename="../src/ui_ContactWindow.h" line="761"/>
+        <location filename="../src/ui_ContactWindow.h" line="773"/>
         <source>Postal code:</source>
         <translation>Kod pocztowy:</translation>
     </message>
     <message>
-        <location filename="../src/ui_ContactWindow.h" line="762"/>
+        <location filename="../src/ui_ContactWindow.h" line="774"/>
         <source>City:</source>
         <translation>Miasto:</translation>
     </message>
     <message>
-        <location filename="../src/ui_ContactWindow.h" line="763"/>
+        <location filename="../src/ui_ContactWindow.h" line="775"/>
         <source>State:</source>
         <translation>Województwo:</translation>
     </message>
     <message>
-        <location filename="../src/ui_ContactWindow.h" line="764"/>
+        <location filename="../src/ui_ContactWindow.h" line="776"/>
         <source>Country:</source>
         <translation>Państwo:</translation>
     </message>
     <message>
-        <location filename="../src/ui_ContactWindow.h" line="765"/>
+        <location filename="../src/ui_ContactWindow.h" line="777"/>
         <source>Company:</source>
         <translation>Firma:</translation>
     </message>
     <message>
-        <location filename="../src/ui_ContactWindow.h" line="766"/>
+        <location filename="../src/ui_ContactWindow.h" line="778"/>
         <source>Position:</source>
         <translation>Pozycja:</translation>
     </message>
     <message>
-        <location filename="../src/ui_ContactWindow.h" line="767"/>
+        <location filename="../src/ui_ContactWindow.h" line="779"/>
         <source>Website:</source>
         <translation>Strona:</translation>
     </message>
     <message>
-        <location filename="../src/ui_ContactWindow.h" line="768"/>
+        <location filename="../src/ui_ContactWindow.h" line="780"/>
         <source>Homepage:</source>
         <translation>Strona domowa:</translation>
     </message>
     <message>
-        <location filename="../src/ui_ContactWindow.h" line="769"/>
+        <location filename="../src/ui_ContactWindow.h" line="781"/>
         <source>Notes</source>
         <translation>Notatki</translation>
     </message>
     <message>
-        <location filename="../src/ui_ContactWindow.h" line="732"/>
+        <location filename="../src/ui_ContactWindow.h" line="740"/>
         <source>Account and UID</source>
+        <translation>Konto i UID</translation>
+    </message>
+    <message>
+        <location filename="../src/ui_ContactWindow.h" line="763"/>
+        <source>+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui_ContactWindow.h" line="764"/>
+        <source>-</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -734,60 +744,123 @@
 <context>
     <name>Kitty::ContactWindow</name>
     <message>
-        <location filename="../src/widgets/windows/ContactWindow.cpp" line="28"/>
+        <location filename="../src/widgets/windows/ContactWindow.cpp" line="29"/>
         <source>Edit contact</source>
         <translation>Edytuj kontakt</translation>
     </message>
     <message>
-        <location filename="../src/widgets/windows/ContactWindow.cpp" line="30"/>
+        <location filename="../src/widgets/windows/ContactWindow.cpp" line="31"/>
         <source>Add contact</source>
         <translation>Dodaj kontakt</translation>
     </message>
     <message>
-        <location filename="../src/widgets/windows/ContactWindow.cpp" line="224"/>
+        <location filename="../src/widgets/windows/ContactWindow.cpp" line="89"/>
+        <source>female</source>
+        <translation>kobieta</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/windows/ContactWindow.cpp" line="91"/>
+        <source>male</source>
+        <translation>mężczyzna</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/windows/ContactWindow.cpp" line="101"/>
+        <source>%1 years old</source>
+        <translation>lat %1</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/windows/ContactWindow.cpp" line="105"/>
+        <source>Account</source>
+        <translation>Konto</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/windows/ContactWindow.cpp" line="108"/>
+        <source>UID</source>
+        <translation>UID</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/windows/ContactWindow.cpp" line="116"/>
+        <source>Status</source>
+        <translation>Status</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/windows/ContactWindow.cpp" line="120"/>
+        <source>Homepage</source>
+        <translation>Strona domowa</translation>
+    </message>
+    <message numerus="yes">
+        <location filename="../src/widgets/windows/ContactWindow.cpp" line="340"/>
+        <source>Email</source>
+        <translation>
+            <numerusform>Email</numerusform>
+            <numerusform></numerusform>
+            <numerusform>Emaile</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <location filename="../src/widgets/windows/ContactWindow.cpp" line="362"/>
+        <source>Phone</source>
+        <translation>
+            <numerusform>Telefon</numerusform>
+            <numerusform></numerusform>
+            <numerusform>Telefony</numerusform>
+        </translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/windows/ContactWindow.cpp" line="320"/>
         <source>Choose avatar file</source>
         <translation>Wybierz plik awatara</translation>
     </message>
     <message>
-        <location filename="../src/widgets/windows/ContactWindow.cpp" line="224"/>
+        <location filename="../src/widgets/windows/ContactWindow.cpp" line="320"/>
         <source>Image files</source>
         <translation>Pliki obrazków</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/windows/ContactWindow.cpp" line="340"/>
+        <source>Please specify an email address:</source>
+        <translation>Podaj adres email:</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/windows/ContactWindow.cpp" line="362"/>
+        <source>Please specify a phone number:</source>
+        <translation>Podaj numer telefonu:</translation>
     </message>
 </context>
 <context>
     <name>Kitty::Core</name>
     <message>
-        <location filename="../src/Core.cpp" line="106"/>
+        <location filename="../src/Core.cpp" line="109"/>
         <source>Online</source>
         <translation>Dostępny</translation>
     </message>
     <message>
-        <location filename="../src/Core.cpp" line="110"/>
+        <location filename="../src/Core.cpp" line="113"/>
         <source>Away</source>
         <translation>Zaraz wracam</translation>
     </message>
     <message>
-        <location filename="../src/Core.cpp" line="114"/>
+        <location filename="../src/Core.cpp" line="117"/>
         <source>Free for chat</source>
         <translation>Chętny do rozmowy</translation>
     </message>
     <message>
-        <location filename="../src/Core.cpp" line="118"/>
+        <location filename="../src/Core.cpp" line="121"/>
         <source>Do not disturb</source>
         <translation>Nie przeszkadzać</translation>
     </message>
     <message>
-        <location filename="../src/Core.cpp" line="122"/>
+        <location filename="../src/Core.cpp" line="125"/>
         <source>Invisible</source>
         <translation>Niewidoczny</translation>
     </message>
     <message>
-        <location filename="../src/Core.cpp" line="126"/>
+        <location filename="../src/Core.cpp" line="129"/>
         <source>Offline</source>
         <translation>Niedostępny</translation>
     </message>
     <message>
-        <location filename="../src/Core.cpp" line="130"/>
+        <location filename="../src/Core.cpp" line="133"/>
         <source>Unknown</source>
         <translation>Nieznany</translation>
     </message>
@@ -951,8 +1024,43 @@
     </message>
     <message>
         <location filename="../src/widgets/windows/ProfilesWindow.cpp" line="143"/>
-        <source>Please input </source>
-        <translation type="unfinished"></translation>
+        <source>Please input a name for the new profile:</source>
+        <translation>Podaj nazwę nowego profilu:</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/windows/ProfilesWindow.cpp" line="174"/>
+        <source>Error</source>
+        <translation>Błąd</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/windows/ProfilesWindow.cpp" line="150"/>
+        <source>There was a problem creating your profile.</source>
+        <translation>Wystąpił błąd podczas tworzenia profilu.</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/windows/ProfilesWindow.cpp" line="153"/>
+        <source>Profile exists</source>
+        <translation>Profil istnieje</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/windows/ProfilesWindow.cpp" line="153"/>
+        <source>Profile with this name already exists</source>
+        <translation>Taki profil już istnieje</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/windows/ProfilesWindow.cpp" line="174"/>
+        <source>Please enter the password to delete this profile.</source>
+        <translation>Podaj hasło by usunąć profil.</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/windows/ProfilesWindow.cpp" line="179"/>
+        <source>Delete profile</source>
+        <translation>Usuń profil</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/windows/ProfilesWindow.cpp" line="179"/>
+        <source>Do you really want to delete this profile?</source>
+        <translation>Czy na pewno chcesz usunąć profil?</translation>
     </message>
 </context>
 <context>
@@ -968,62 +1076,62 @@
         <translation>Podaj nazwę nowej grupy:</translation>
     </message>
     <message>
-        <location filename="../src/widgets/RosterTreeView.cpp" line="179"/>
+        <location filename="../src/widgets/RosterTreeView.cpp" line="187"/>
         <source>Send message</source>
         <translation>Wyślij wiadomość</translation>
     </message>
     <message>
-        <location filename="../src/widgets/RosterTreeView.cpp" line="182"/>
+        <location filename="../src/widgets/RosterTreeView.cpp" line="190"/>
         <source>History</source>
         <translation>Historia</translation>
     </message>
     <message>
-        <location filename="../src/widgets/RosterTreeView.cpp" line="183"/>
+        <location filename="../src/widgets/RosterTreeView.cpp" line="191"/>
         <source>vCard</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/widgets/RosterTreeView.cpp" line="186"/>
+        <location filename="../src/widgets/RosterTreeView.cpp" line="194"/>
         <source>Copy</source>
         <translation>Kopiuj</translation>
     </message>
     <message>
-        <location filename="../src/widgets/RosterTreeView.cpp" line="187"/>
+        <location filename="../src/widgets/RosterTreeView.cpp" line="195"/>
         <source>Name</source>
         <translation>Nazwa</translation>
     </message>
     <message>
-        <location filename="../src/widgets/RosterTreeView.cpp" line="188"/>
+        <location filename="../src/widgets/RosterTreeView.cpp" line="196"/>
         <source>UID</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/widgets/RosterTreeView.cpp" line="189"/>
+        <location filename="../src/widgets/RosterTreeView.cpp" line="197"/>
         <source>Status description</source>
         <translation>Opis</translation>
     </message>
     <message>
-        <location filename="../src/widgets/RosterTreeView.cpp" line="191"/>
+        <location filename="../src/widgets/RosterTreeView.cpp" line="199"/>
         <source>Group</source>
         <translation>Grupa</translation>
     </message>
     <message>
-        <location filename="../src/widgets/RosterTreeView.cpp" line="192"/>
+        <location filename="../src/widgets/RosterTreeView.cpp" line="200"/>
         <source>None</source>
         <translation>Brak</translation>
     </message>
     <message>
-        <location filename="../src/widgets/RosterTreeView.cpp" line="217"/>
+        <location filename="../src/widgets/RosterTreeView.cpp" line="225"/>
         <source>Add new</source>
         <translation>Dodaj nową</translation>
     </message>
     <message>
-        <location filename="../src/widgets/RosterTreeView.cpp" line="225"/>
+        <location filename="../src/widgets/RosterTreeView.cpp" line="233"/>
         <source>Block</source>
         <translation>Zablokuj</translation>
     </message>
     <message>
-        <location filename="../src/widgets/RosterTreeView.cpp" line="229"/>
+        <location filename="../src/widgets/RosterTreeView.cpp" line="237"/>
         <source>Remove</source>
         <translation>Usuń</translation>
     </message>

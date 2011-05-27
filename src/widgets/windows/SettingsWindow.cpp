@@ -160,13 +160,13 @@ void Kitty::SettingsWindow::addDefaultPages()
 
 void Kitty::SettingsWindow::showEvent(QShowEvent *event)
 {
+  QDialog::showEvent(event);
+
   resetSettings();
 
   m_ui->treeWidget->expandAll();
   m_ui->treeWidget->setCurrentItem(m_ui->treeWidget->topLevelItem(0));
   m_ui->buttonBox->setFocus();
-
-  QDialog::showEvent(event);
 }
 
 void Kitty::SettingsWindow::changeEvent(QEvent *event)
