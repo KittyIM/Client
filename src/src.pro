@@ -97,7 +97,7 @@ HEADERS    += constants.h \
               widgets/ChatEdit.h \
               widgets/ChatTab.h \
               widgets/ChatTabWidget.h \
-              3rdparty/hunspell/hunspell.hxx \
+              ../lib/hunspell/hunspell.hxx \
               RosterItemModel.h \
               RosterItemDelegate.h \
               RosterItem.h \
@@ -154,7 +154,7 @@ RC_FILE     = ../res.rc
 LIBS += -lhunspell
 
 debug {
-  LIBS += -L3rdparty/hunspell/debug
+  LIBS += -L../lib/hunspell/debug
 } else {
-  LIBS += -L3rdparty/hunspell/release
+  LIBS += -L../lib/hunspell/release
 }

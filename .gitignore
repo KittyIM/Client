@@ -17,8 +17,8 @@
 /src/*/*.o
 /src/*/qrc_res.cpp
 /src/*object_script.*
-/src/3rdparty/hunspell/*Makefile*
-/src/3rdparty/hunspell/*.pro.user*
-/src/3rdparty/hunspell/*object_script.*
-/src/3rdparty/hunspell/debug/*
-/src/3rdparty/hunspell/release/*
+/lib/hunspell/*Makefile*
+/lib/hunspell/*.pro.user*
+/lib/hunspell/*object_script.*
+/lib/hunspell/debug/*
+/lib/hunspell/release/*

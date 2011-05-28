@@ -1,6 +1,6 @@
 #include "ChatEdit.h"
 
-#include "3rdparty/hunspell/hunspell.hxx"
+#include "../lib/hunspell/hunspell.hxx"
 #include "SDK/constants.h"
 #include "Core.h"
 #include "App.h"

@@ -1,5 +1,5 @@
 TEMPLATE = subdirs
-SUBDIRS  = src\\3rdparty\\hunspell src
+SUBDIRS  = lib src
 CONFIG += ordered warn_on
 
 LANGUAGES = pl

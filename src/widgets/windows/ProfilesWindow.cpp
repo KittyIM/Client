@@ -144,7 +144,7 @@ void Kitty::ProfilesWindow::on_profilesWidget_itemDoubleClicked(QTreeWidgetItem 
       if(!profile.isEmpty()) {
         QDir dir(Core::inst()->profilesDir());
         if(!dir.exists(profile)) {
-          if(dir.mkdir(profile)) {
+          if(dir.mkpath(profile)) {
             showEvent(new QShowEvent());
           } else {
             QMessageBox::warning(this, tr("Error"), tr("There was a problem creating your profile."));
