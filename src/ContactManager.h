@@ -16,10 +16,11 @@ namespace Kitty
       const QList<KittySDK::Contact*> &contacts() const;
       const QStringList groups() const;
 
-      void add(KittySDK::Contact *contact);
-
       void load(const QString &profile);
       void save(const QString &profile);
+
+    public slots:
+      void add(KittySDK::Contact *contact);
 
     signals:
       void contactAdded(KittySDK::Contact *contact);
@@ -27,6 +28,7 @@ namespace Kitty
 
     private:
       ContactManager(QObject *parent = 0): QObject(parent) { }
+      ~ContactManager();
 
     private:
       QList<KittySDK::Contact*> m_contacts;

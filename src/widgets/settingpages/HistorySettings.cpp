@@ -6,7 +6,7 @@
 using namespace Kitty;
 using namespace KittySDK;
 
-Kitty::HistorySettings::HistorySettings(QWidget *parent): KittySDK::SettingPage(parent), m_ui(new Ui::HistorySettings)
+Kitty::HistorySettings::HistorySettings(QWidget *parent): SettingPage(0, parent), m_ui(new Ui::HistorySettings)
 {
   m_ui->setupUi(this);
 

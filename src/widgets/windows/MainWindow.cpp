@@ -21,6 +21,7 @@
 #include <QtCore/QFile>
 #include <QtGui/QLinearGradient>
 #include <QtGui/QToolButton>
+#include <QtGui/QKeyEvent>
 #include <QtGui/QMenu>
 
 #define qDebug() qDebug() << "[MainWindow]"
@@ -45,6 +46,11 @@ Kitty::MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), m_ui(new Ui
   m_model = new RosterItemModel(m_ui->rosterTreeView);
   m_proxy = new RosterSortProxy(m_ui->rosterTreeView);
   m_proxy->setSourceModel(m_model);
+
+  m_ui->filterEdit->hide();
+  m_ui->filterEdit->installEventFilter(this);
+  m_ui->rosterTreeView->installEventFilter(this);
+  connect(m_ui->filterEdit, SIGNAL(textChanged(QString)), this, SLOT(setFilterText(QString)));
 
   connect(ContactManager::inst(), SIGNAL(contactAdded(KittySDK::Contact*)), this, SLOT(addContact(KittySDK::Contact*)));
 
@@ -192,6 +198,19 @@ void Kitty::MainWindow::addToolbarAction(const QString &tb, QAction *action)
     m_ui->networksToolBar->addAction(action);
   } else if(tb == Toolbars::TB_PLUGINS) {
     m_ui->pluginsToolBar->addAction(action);
+  } else {
+    qWarning() << "Unknown ToolBar" << tb;
+  }
+}
+
+QToolButton * Kitty::MainWindow::buttonForAction(const QString &tb, QAction *action)
+{
+  if(tb == Toolbars::TB_MAIN) {
+    return qobject_cast<QToolButton*>(m_ui->mainToolBar->widgetForAction(action));
+  } else if(tb == Toolbars::TB_NETWORKS) {
+    return qobject_cast<QToolButton*>(m_ui->networksToolBar->widgetForAction(action));
+  } else if(tb == Toolbars::TB_PLUGINS) {
+    return qobject_cast<QToolButton*>(m_ui->pluginsToolBar->widgetForAction(action));
   } else {
     qWarning() << "Unknown ToolBar" << tb;
   }
@@ -347,6 +366,11 @@ void Kitty::MainWindow::setToolbarTextUnder()
   }
 }
 
+void Kitty::MainWindow::setFilterText(const QString &text)
+{
+  m_proxy->setFilterWildcard(text);
+}
+
 void Kitty::MainWindow::toggleToolbarLock()
 {
   QAction *action = qobject_cast<QAction*>(sender());
@@ -389,4 +413,30 @@ void Kitty::MainWindow::addContact(KittySDK::Contact *contact)
 
   m_model->addContact(cnt, m_model->groupItem(contact->group()));
   m_proxy->invalidate();
+}
+
+bool Kitty::MainWindow::eventFilter(QObject *obj, QEvent *event)
+{
+  if(event->type() == QEvent::KeyPress) {
+    QKeyEvent *ev = static_cast<QKeyEvent*>(event);
+    if(ev) {
+      if(obj == m_ui->rosterTreeView) {
+        if(!ev->text().isEmpty() && ev->text().at(0).isPrint()) {
+          m_ui->filterEdit->show();
+          m_ui->filterEdit->setText(ev->text());
+          m_ui->filterEdit->setFocus();
+        }
+      } else if(obj == m_ui->filterEdit) {
+        if(ev->key() == Qt::Key_Escape) {
+          m_ui->filterEdit->clear();
+          m_ui->filterEdit->hide();
+          m_ui->rosterTreeView->setFocus();
+        } else if((ev->key() == Qt::Key_Down) || (ev->key() == Qt::Key_Up)) {
+          qApp->postEvent(m_ui->rosterTreeView, new QKeyEvent(QEvent::KeyPress, ev->key(), Qt::NoModifier));
+        }
+      }
+    }
+  }
+
+  return QMainWindow::eventFilter(obj, event);
 }

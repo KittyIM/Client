@@ -15,7 +15,9 @@
 #include "Core.h"
 
 #include <QtCore/QFile>
+#include <QtGui/QToolButton>
 #include <QtGui/QToolBar>
+#include <QtGui/QMenu>
 #include <QtWebKit/QWebElement>
 #include <QtWebKit/QWebFrame>
 #include <QtWebKit/QWebPage>
@@ -97,6 +99,25 @@ Kitty::ChatTab::ChatTab(Chat *chat, QWidget *parent): QWidget(parent), m_ui(new 
   if(proto->abilities().testFlag(Protocol::SendImages)) {
     QAction *imageAction = m_toolBar->addAction(tr("Send image"));
     imageAction->setProperty("icon_id", Icons::I_IMAGE);
+
+    QMenu *imageMenu = new QMenu(this);
+    imageMenu->addAction(tr("From file..."));
+    imageMenu->addAction(tr("Desktop snapshot"));
+
+#ifdef Q_WS_WIN32
+    QAction *windowAction = imageMenu->addAction(tr("Window snapshot"));
+
+    QMenu *windowMenu = new QMenu(this);
+
+    windowAction->setMenu(windowMenu);
+#endif
+
+    imageMenu->addAction(tr("Clipboard contents"));
+
+    imageAction->setMenu(imageMenu);
+
+    QToolButton *imageButton = qobject_cast<QToolButton*>(m_toolBar->widgetForAction(imageAction));
+    imageButton->setPopupMode(QToolButton::InstantPopup);
   }
 
   if(proto->abilities().testFlag(Protocol::SendFiles)) {

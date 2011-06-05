@@ -14,7 +14,7 @@
 using namespace Kitty;
 using namespace KittySDK;
 
-Kitty::AccountsSettings::AccountsSettings(QWidget *parent): SettingPage(parent), m_ui(new Ui::AccountsSettings)
+Kitty::AccountsSettings::AccountsSettings(QWidget *parent): KittySDK::SettingPage(0, parent), m_ui(new Ui::AccountsSettings)
 {
   m_ui->setupUi(this);
 
@@ -34,6 +34,11 @@ void Kitty::AccountsSettings::apply()
 
 void Kitty::AccountsSettings::reset()
 {
+  Core *core = Core::inst();
+
+  m_ui->addButton->setIcon(core->icon(Icons::I_ADD));
+  m_ui->editButton->setIcon(core->icon(Icons::I_EDIT));
+  m_ui->deleteButton->setIcon(core->icon(Icons::I_DELETE));
 }
 
 void Kitty::AccountsSettings::refreshAccounts()
@@ -52,12 +57,21 @@ void Kitty::AccountsSettings::refreshAccounts()
 void Kitty::AccountsSettings::addAccount()
 {
   QAction *action = qobject_cast<QAction*>(sender());
-  Protocol *proto = ProtocolManager::inst()->protocolByName(action->text());
-  if(proto) {
-    proto->editWindow()->setWindowModality(Qt::ApplicationModal);
-    proto->editWindow()->show();
+  if(action) {
+    Protocol *proto = ProtocolManager::inst()->protocolByName(action->text());
+    if(proto) {
+      QWidget *wnd = proto->editWindow();
+      if(wnd) {
+        wnd->setWindowModality(Qt::ApplicationModal);
+        wnd->show();
+      } else {
+        qWarning() << "editWindow() returned 0";
+      }
+    } else {
+      qWarning() << "Invalid protocol" << action->text();
+    }
   } else {
-    qWarning() << "Invalid protocol" << action->text();
+    qWarning() << "QAction cast failed";
   }
 }
 
@@ -91,8 +105,13 @@ void Kitty::AccountsSettings::on_editButton_clicked()
     if(proto) {
       Account *acc = AccountManager::inst()->account(proto, list.first()->text(0));
       if(acc) {
-        proto->editWindow(acc)->setWindowModality(Qt::ApplicationModal);
-        proto->editWindow(acc)->show();
+        QWidget *wnd = proto->editWindow(acc);
+        if(wnd) {
+          wnd->setWindowModality(Qt::ApplicationModal);
+          wnd->show();
+        } else {
+          qWarning() << "editWindow() returned 0";
+        }
       } else {
         qWarning() << "Account not found" << list.first()->text(0) << list.first()->text(1);
       }

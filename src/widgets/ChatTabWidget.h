@@ -18,6 +18,7 @@ namespace Kitty
 
     public:
       explicit ChatTabWidget(QWidget *parent = 0);
+      ~ChatTabWidget();
 
       ChatTab *tabByChat(KittySDK::Chat *chat);
       int indexByChat(KittySDK::Chat *chat);

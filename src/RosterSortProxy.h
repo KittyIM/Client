@@ -12,9 +12,15 @@ namespace Kitty
     public:
       explicit RosterSortProxy(QObject *parent = 0);
 
+      void setGroupFilter(const QString &groupFilter) { m_groupFilter = groupFilter; }
+      QString groupFilter() { return m_groupFilter; }
+
     private:
       bool lessThan(const QModelIndex &left, const QModelIndex &right) const;
       bool filterAcceptsRow(int source_row, const QModelIndex& source_parent) const;
+
+    private:
+      QString m_groupFilter;
   };
 }
 

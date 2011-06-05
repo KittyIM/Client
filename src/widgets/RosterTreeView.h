@@ -32,9 +32,9 @@ namespace Kitty
     protected:
       void mousePressEvent(QMouseEvent *event);
       void mouseDoubleClickEvent(QMouseEvent *event);
+      void keyPressEvent(QKeyEvent *event);
 
     private:
-      RosterItemDelegate *m_delegate;
       QMap<QString, QPointer<Kitty::ContactWindow> > m_windows;
   };
 }

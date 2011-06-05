@@ -45,7 +45,7 @@ Kitty::SettingsWindow::SettingsWindow(QWidget *parent): QDialog(parent), m_ui(ne
 
   Core *core = Core::inst();
 
-  connect(this, SIGNAL(settingsApplied()), static_cast<App*>(qApp), SLOT(applySettings()));
+  connect(this, SIGNAL(settingsApplied()), dynamic_cast<App*>(qApp), SLOT(applySettings()));
   connect(this, SIGNAL(settingsApplied()), core->mainWindow(), SLOT(applySettings()));
 
   restoreGeometry(core->setting(Settings::S_SETTINGSWINDOW_GEOMETRY).toByteArray());
@@ -60,6 +60,8 @@ Kitty::SettingsWindow::~SettingsWindow()
   Core *core = Core::inst();
 
   core->setSetting(Settings::S_SETTINGSWINDOW_GEOMETRY, saveGeometry());
+
+  qDeleteAll(m_pages);
 
   delete m_ui;
 }

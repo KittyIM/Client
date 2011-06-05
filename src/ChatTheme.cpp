@@ -7,68 +7,72 @@
 #define qDebug() qDebug() << "[ChatTheme]"
 #define qWarning() qWarning() << "[ChatTheme]"
 
-Kitty::ChatTheme::ChatTheme(const QString &name, QObject *parent): QObject(parent)
+Kitty::ChatTheme::ChatTheme(const QString &name, QObject *parent): QObject(parent), m_name(name)
 {
-  load(name);
+  if(name.isEmpty() || (name == tr("Default"))) {
+    loadDefaults();
+  } else {
+    load(name);
+  }
 }
 
-QString Kitty::ChatTheme::getCode(const Type &type) const
+QString Kitty::ChatTheme::code(const Type &type) const
 {
-  QString code = m_codes.value(type);
+  QString result = m_codes.value(type);
 
   switch(type) {
     case IncomingNextContent:
     {
-      if(code.isEmpty()) {
-        return getCode(IncomingContent);
+      if(result.isEmpty()) {
+        return code(IncomingContent);
       }
     }
     break;
 
     case OutgoingContent:
     {
-      if(code.isEmpty()) {
-        return getCode(IncomingContent);
+      if(result.isEmpty()) {
+        return code(IncomingContent);
       }
     }
     break;
 
     case OutgoingNextContent:
     {
-      if(code.isEmpty()) {
-        return getCode(OutgoingContent);
+      if(result.isEmpty()) {
+        return code(OutgoingContent);
       }
     }
     break;
 
     case IncomingContext:
     {
-      if(code.isEmpty()) {
-        return getCode(IncomingContent);
+      if(result.isEmpty()) {
+        return code(IncomingContent);
       }
     }
     break;
 
     case OutgoingContext:
     {
-      if(code.isEmpty()) {
-        return getCode(OutgoingContent);
+      if(result.isEmpty()) {
+        return code(OutgoingContent);
       }
     }
     break;
 
     case IncomingNextContext:
     {
-      if(code.isEmpty()) {
-        return getCode(IncomingNextContent);
+      if(result.isEmpty()) {
+        return code(IncomingNextContent);
       }
     }
     break;
 
     case OutgoingNextContext:
     {
-      if(code.isEmpty()) {
-        return getCode(OutgoingNextContent);
+      if(result.isEmpty()) {
+        return code(OutgoingNextContent);
       }
     }
     break;
@@ -76,8 +80,8 @@ QString Kitty::ChatTheme::getCode(const Type &type) const
     case IncomingContent:
     case Status:
     {
-      if(code.isEmpty()) {
-        return getCode(Content);
+      if(result.isEmpty()) {
+        return code(Content);
       }
     }
     break;
@@ -86,12 +90,29 @@ QString Kitty::ChatTheme::getCode(const Type &type) const
     break;
   }
 
-  return code;
+  return result;
+}
+
+QString Kitty::ChatTheme::iconPath(const IconType &type)
+{
+  switch(type) {
+    case Incoming:
+      return qApp->applicationDirPath() + "/themes/chat/" + m_name + "/Incoming/buddy_icon.png";
+    break;
+
+    case Outgoing:
+      return qApp->applicationDirPath() + "/themes/chat/" + m_name + "/Outgoing/buddy_icon.png";
+    break;
+
+    default:
+      return "";
+    break;
+  }
 }
 
 void Kitty::ChatTheme::load(const QString &name)
 {
-  loadDefaults();
+  m_codes.clear();
 
   QDir dir(qApp->applicationDirPath() + "/themes/chat/" + name);
   if(dir.exists()) {

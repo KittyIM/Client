@@ -12,7 +12,7 @@ QVariant Kitty::RosterGroup::data(int role) const
       QString tooltip;
 
       tooltip += QString("<b>%1</b><br>").arg(data(Qt::DisplayRole).toString());
-      tooltip += QString("<font size=\"2\"><b>%1:</b> %2</font>").arg(QObject::tr("Contacts")).arg(childCount());
+      tooltip += QString("<font size=\"2\"><b>%1:</b> %2</font>").arg(QObject::tr("Contacts")).arg(rowCount());
 
       return tooltip;
     }

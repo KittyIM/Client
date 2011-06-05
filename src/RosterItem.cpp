@@ -20,6 +20,7 @@ Kitty::RosterItem::~RosterItem()
 
 void Kitty::RosterItem::appendChild(RosterItem *item)
 {
+  item->m_parent = this;
   m_children.append(item);
 }
 
@@ -46,8 +47,11 @@ RosterItem *Kitty::RosterItem::parent()
 int Kitty::RosterItem::row() const
 {
   if(m_parent) {
-    return m_parent->m_children.indexOf(const_cast<Kitty::RosterItem*>(this));
+    RosterItem *item = const_cast<Kitty::RosterItem*>(this);
+    if(item) {
+      return m_parent->m_children.indexOf(item);
+    }
   }
 
-  return 0;
+  return -1;
 }

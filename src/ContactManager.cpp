@@ -14,6 +14,11 @@
 using namespace Kitty;
 using namespace KittySDK;
 
+Kitty::ContactManager::~ContactManager()
+{
+  qDeleteAll(m_contacts);
+}
+
 const QList<Contact*> &Kitty::ContactManager::contacts() const
 {
   return m_contacts;
@@ -44,11 +49,6 @@ void Kitty::ContactManager::add(Contact *contact)
 void Kitty::ContactManager::load(const QString &profile)
 {
   qDebug() << "Loading contacts for" << profile;
-
-  /*Contact *cnt = AccountManager::inst()->account("Gadu-Gadu", "13752968")->newContact("1021494");
-  cnt->setGroup("Friends");
-  cnt->setDisplay("arturo182");
-  add(cnt);*/
 
   QFile file(Core::inst()->profilesDir() + profile + "/contacts.dat");
   if(file.exists()) {

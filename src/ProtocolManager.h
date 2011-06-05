@@ -22,6 +22,7 @@ namespace Kitty
 
     private:
       ProtocolManager(QObject *parent = 0): QObject(parent) { }
+      ~ProtocolManager();
 
     private:
       QList<KittySDK::Protocol*> m_protocols;

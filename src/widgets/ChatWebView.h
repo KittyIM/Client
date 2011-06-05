@@ -1,12 +1,15 @@
 #ifndef CHATWEBVIEW_H
 #define CHATWEBVIEW_H
 
+#include <QtCore/QDateTime>
 #include <QtNetwork/QNetworkRequest>
 #include <QtWebKit/QWebView>
 
+#include "SDK/Message.h"
+
 namespace KittySDK
 {
-  class Message;
+  class Contact;
 }
 
 namespace Kitty
@@ -56,6 +59,9 @@ namespace Kitty
     private:
       ChatWebPage *m_page;
       int m_imageCount;
+      KittySDK::Contact *m_lastFrom;
+      QDateTime m_lastTimeStamp;
+      KittySDK::Message::Direction m_lastDirection;
   };
 }
 

@@ -9,7 +9,7 @@
 using namespace Kitty;
 using namespace KittySDK;
 
-Kitty::DisplaySettings::DisplaySettings(QWidget *parent): KittySDK::SettingPage(parent), m_ui(new Ui::DisplaySettings)
+Kitty::DisplaySettings::DisplaySettings(QWidget *parent): KittySDK::SettingPage(0, parent), m_ui(new Ui::DisplaySettings)
 {
   m_ui->setupUi(this);
 
@@ -49,8 +49,8 @@ void Kitty::DisplaySettings::reset()
   m_ui->dockToEdgesCheckBox->setChecked(core->setting(Settings::S_MAINWINDOW_DOCKING).toBool());
   m_ui->dockDistanceSpinBox->setValue(core->setting(Settings::S_MAINWINDOW_DOCKING_DISTANCE).toInt());
   m_ui->mainWindowCaptionEdit->setText(core->setting(Settings::S_MAINWINDOW_CAPTION, "KittyIM %version% [%profile%]").toString());
-  m_ui->chatWindowCaptionEdit->setText(core->setting(Settings::S_CHATWINDOW_CAPTION, "%nick% [%status%] \"%description%\"").toString());
-  m_ui->chatTabCaptionEdit->setText(core->setting(Settings::S_CHATTAB_CAPTION, "%nick%").toString());
+  m_ui->chatWindowCaptionEdit->setText(core->setting(Settings::S_CHATWINDOW_CAPTION, "%display% [%status%] \"%description%\"").toString());
+  m_ui->chatTabCaptionEdit->setText(core->setting(Settings::S_CHATTAB_CAPTION, "%display%").toString());
 }
 
 void Kitty::DisplaySettings::updateIcons()
@@ -70,23 +70,32 @@ void Kitty::DisplaySettings::on_mainWindowCaptionHelpButton_clicked()
 void Kitty::DisplaySettings::on_chatWindowCaptionHelpButton_clicked()
 {
   QToolTip::showText(m_ui->chatWindowCaptionHelpButton->mapToGlobal(QPoint(0, 2)), tr("Available variables:") +
-                                                                                   "<br><i>%nick%</i> - " + tr("user's nickname") +
-                                                                                   "<br><i>%status%</i> - " + tr("user's status") +
-                                                                                   "<br><i>%description%</i> - " + tr("user's status description") +
-                                                                                   "<br><i>%uid%</i> -" + tr("user's id") +
-                                                                                   "<br><i>%gender%</i> -" + tr("user's gender") +
-                                                                                   "<br><i>%birthday%</i> -" + tr("user's birthday") +
-                                                                                   "<br><i>%phone%</i> -" + tr("user's phone") +
-                                                                                   "<br><i>%email%</i> -" + tr("user's email") +
-                                                                                   "<br><i>%city%</i> -" + tr("user's city"));
+                                                                                   "<br><i>%display%</i> - " + tr("contact's name") +
+                                                                                   "<br><i>%nickname%</i> - " + tr("contact's nickname") +
+                                                                                   "<br><i>%firstname%</i> - " + tr("contact's first name") +
+                                                                                   "<br><i>%lastname%</i> - " + tr("contact's last name") +
+                                                                                   "<br><i>%status%</i> - " + tr("contact's status") +
+                                                                                   "<br><i>%description%</i> - " + tr("contact's status description") +
+                                                                                   "<br><i>%uid%</i> -" + tr("contact's id") +
+                                                                                   "<br><i>%sex%</i> -" + tr("contact's sex") +
+                                                                                   "<br><i>%birthday%</i> -" + tr("contact's birthday") +
+                                                                                   "<br><i>%phone%</i> -" + tr("contact's phone") +
+                                                                                   "<br><i>%email%</i> -" + tr("contact's email"));
 }
 
 void Kitty::DisplaySettings::on_chatTabCaptionHelpButton_clicked()
 {
   QToolTip::showText(m_ui->chatTabCaptionHelpButton->mapToGlobal(QPoint(0, 2)), tr("Available variables:") +
-                                                                                   "<br><i>%nick%</i> - " + tr("user's nickname") +
-                                                                                   "<br><i>%status%</i> - " + tr("user's status") +
-                                                                                   "<br><i>%description%</i> - " + tr("user's status description") +
-                                                                                   "<br><i>%unread%</i> -" + tr("unread messages"));
+                                                                                "<br><i>%display%</i> - " + tr("contact's name") +
+                                                                                "<br><i>%nickname%</i> - " + tr("contact's nickname") +
+                                                                                "<br><i>%firstname%</i> - " + tr("contact's first name") +
+                                                                                "<br><i>%lastname%</i> - " + tr("contact's last name") +
+                                                                                "<br><i>%status%</i> - " + tr("contact's status") +
+                                                                                "<br><i>%description%</i> - " + tr("contact's status description") +
+                                                                                "<br><i>%uid%</i> -" + tr("contact's id") +
+                                                                                "<br><i>%sex%</i> -" + tr("contact's sex") +
+                                                                                "<br><i>%birthday%</i> -" + tr("contact's birthday") +
+                                                                                "<br><i>%phone%</i> -" + tr("contact's phone") +
+                                                                                "<br><i>%email%</i> -" + tr("contact's email"));
 
 }

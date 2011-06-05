@@ -10,6 +10,11 @@
 class QAction;
 class Hunspell;
 
+namespace KittySDK
+{
+  class Contact;
+}
+
 namespace Kitty
 {
   class ProfilesWindow;
@@ -52,6 +57,7 @@ namespace Kitty
       Hunspell *hunspell();
       JsonSettings *settings();
 
+      QString avatarPath(KittySDK::Contact *contact);
       QString profilesDir() const;
       QString currentProfileDir();
       bool removeDir(const QString &dirName);

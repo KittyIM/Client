@@ -3,6 +3,8 @@
 
 #include "SDK/SettingPage.h"
 
+#include <QtGui/QStyledItemDelegate>
+
 namespace Ui
 {
   class SmiliesSettings;
@@ -10,6 +12,17 @@ namespace Ui
 
 namespace Kitty
 {
+  class SmiliesDelegate: public QStyledItemDelegate
+  {
+    Q_OBJECT
+
+    public:
+      SmiliesDelegate(QObject *parent = 0): QStyledItemDelegate(parent) { }
+
+      void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+      QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const;
+  };
+
   class SmiliesSettings: public KittySDK::SettingPage
   {
       Q_OBJECT

@@ -35,6 +35,7 @@ namespace Kitty
 
     private:
       AccountManager(QObject *parent = 0): QObject(parent) { }
+      ~AccountManager();
 
     private:
       QList<KittySDK::Account*> m_accounts;

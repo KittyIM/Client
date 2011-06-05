@@ -7,6 +7,11 @@
 
 using namespace KittySDK;
 
+Kitty::ProtocolManager::~ProtocolManager()
+{
+  qDeleteAll(m_protocols);
+}
+
 const QList<Protocol*> &Kitty::ProtocolManager::protocols() const
 {
   return m_protocols;

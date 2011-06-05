@@ -450,13 +450,29 @@
              <property name="bottomMargin">
               <number>6</number>
              </property>
+             <property name="spacing">
+              <number>3</number>
+             </property>
              <item row="0" column="0">
               <widget class="QListWidget" name="emailListWidget"/>
              </item>
-             <item row="0" column="1">
-              <layout class="QVBoxLayout" name="_5">
+             <item row="1" column="0">
+              <layout class="QHBoxLayout" name="horizontalLayout_3">
                <item>
-                <widget class="QToolButton" name="emailAddButton">
+                <spacer name="horizontalSpacer_2">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item>
+                <widget class="QPushButton" name="emailAddButton">
                  <property name="minimumSize">
                   <size>
                    <width>25</width>
@@ -464,12 +480,12 @@
                   </size>
                  </property>
                  <property name="text">
-                  <string notr="true">+</string>
+                  <string notr="true">Add</string>
                  </property>
                 </widget>
                </item>
                <item>
-                <widget class="QToolButton" name="emailRemoveButton">
+                <widget class="QPushButton" name="emailDeleteButton">
                  <property name="enabled">
                   <bool>false</bool>
                  </property>
@@ -480,22 +496,9 @@
                   </size>
                  </property>
                  <property name="text">
-                  <string notr="true">-</string>
+                  <string notr="true">Delete</string>
                  </property>
                 </widget>
-               </item>
-               <item>
-                <spacer name="spacer_3">
-                 <property name="orientation">
-                  <enum>Qt::Vertical</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0">
-                  <size>
-                   <width>20</width>
-                   <height>40</height>
-                  </size>
-                 </property>
-                </spacer>
                </item>
               </layout>
              </item>
@@ -520,13 +523,29 @@
              <property name="bottomMargin">
               <number>6</number>
              </property>
+             <property name="spacing">
+              <number>3</number>
+             </property>
              <item row="0" column="0">
               <widget class="QListWidget" name="phoneListWidget"/>
              </item>
-             <item row="0" column="1">
-              <layout class="QVBoxLayout" name="_6">
+             <item row="1" column="0">
+              <layout class="QHBoxLayout" name="horizontalLayout_4">
                <item>
-                <widget class="QToolButton" name="phoneAddButton">
+                <spacer name="horizontalSpacer_3">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item>
+                <widget class="QPushButton" name="phoneAddButton">
                  <property name="minimumSize">
                   <size>
                    <width>25</width>
@@ -534,12 +553,12 @@
                   </size>
                  </property>
                  <property name="text">
-                  <string notr="true">+</string>
+                  <string notr="true">Add</string>
                  </property>
                 </widget>
                </item>
                <item>
-                <widget class="QToolButton" name="phoneRemoveButton">
+                <widget class="QPushButton" name="phoneDeleteButton">
                  <property name="enabled">
                   <bool>false</bool>
                  </property>
@@ -550,22 +569,9 @@
                   </size>
                  </property>
                  <property name="text">
-                  <string notr="true">-</string>
+                  <string notr="true">Delete</string>
                  </property>
                 </widget>
-               </item>
-               <item>
-                <spacer name="spacer_4">
-                 <property name="orientation">
-                  <enum>Qt::Vertical</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0">
-                  <size>
-                   <width>20</width>
-                   <height>40</height>
-                  </size>
-                 </property>
-                </spacer>
                </item>
               </layout>
              </item>
@@ -848,7 +854,7 @@
   <tabstop>clearAvatarButton</tabstop>
   <tabstop>emailListWidget</tabstop>
   <tabstop>emailAddButton</tabstop>
-  <tabstop>emailRemoveButton</tabstop>
+  <tabstop>emailDeleteButton</tabstop>
   <tabstop>phoneListWidget</tabstop>
   <tabstop>homeAddressEdit</tabstop>
   <tabstop>homeCityEdit</tabstop>

@@ -11,7 +11,7 @@
 using namespace Kitty;
 using namespace KittySDK;
 
-Kitty::PluginsSettings::PluginsSettings(QWidget *parent): SettingPage(parent), m_ui(new Ui::PluginsSettings)
+Kitty::PluginsSettings::PluginsSettings(QWidget *parent): SettingPage(0, parent), m_ui(new Ui::PluginsSettings)
 {
   m_ui->setupUi(this);
 
@@ -55,13 +55,20 @@ void Kitty::PluginsSettings::reset()
 void Kitty::PluginsSettings::on_pluginWidget_currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous)
 {
   if(current) {
-    Plugin *plug = PluginManager::inst()->pluginByName(current->text(0));
+    Plugin *plug = PluginManager::inst()->pluginByFileName(current->text(2));
     if(plug) {
       PluginInfo *info = plug->plugin()->info();
-      m_ui->pluginNameValueLabel->setText(info->name());
-      m_ui->pluginAuthorValueLabel->setText(QString("%1 &lt;<a href=\"mailto:%2\">%2</a>&gt;").arg(info->author()).arg(info->email()));
-      m_ui->pluginVersionValueLabel->setText(info->version());
-      m_ui->pluginWWWValueLabel->setText(QString("<a href=\"%1\">%1</a>").arg(info->www()));
+      if(info) {
+        m_ui->pluginNameValueLabel->setText(info->name());
+        m_ui->pluginAuthorValueLabel->setText(QString("%1 &lt;<a href=\"mailto:%2\">%2</a>&gt;").arg(info->author()).arg(info->email()));
+        m_ui->pluginVersionValueLabel->setText(info->version());
+        m_ui->pluginWWWValueLabel->setText(QString("<a href=\"%1\">%1</a>").arg(info->www()));
+      } else {
+        m_ui->pluginNameValueLabel->setText(tr("Unknown"));
+        m_ui->pluginAuthorValueLabel->setText(tr("Unknown"));
+        m_ui->pluginVersionValueLabel->setText(tr("Unknown"));
+        m_ui->pluginWWWValueLabel->setText(tr("Unknown"));
+      }
     }
 
     m_ui->pluginInfoGroupBox->show();

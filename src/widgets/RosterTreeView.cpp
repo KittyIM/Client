@@ -27,8 +27,7 @@ using namespace Kitty;
 
 Kitty::RosterTreeView::RosterTreeView(QWidget *parent): QTreeView(parent)
 {
-  m_delegate = new RosterItemDelegate(this);
-  setItemDelegate(m_delegate);
+  setItemDelegate(new RosterItemDelegate(this));
   //setDragEnabled(true);
   //viewport()->setAcceptDrops(true);
   //setDropIndicatorShown(true);
@@ -54,7 +53,7 @@ void Kitty::RosterTreeView::sendMessage()
   QModelIndexList list = selectedIndexes();
 
   foreach(QModelIndex in, list) {
-    RosterSortProxy *proxy = static_cast<RosterSortProxy*>(model());
+    RosterSortProxy *proxy = dynamic_cast<RosterSortProxy*>(model());
 
     QModelIndex index = proxy->mapToSource(in);
     if(index.data(RosterItem::TypeRole) == RosterItem::Contact) {
@@ -68,7 +67,7 @@ void Kitty::RosterTreeView::sendMessage()
 void Kitty::RosterTreeView::copyName()
 {
   QModelIndexList list = selectedIndexes();
-  RosterSortProxy* proxy = static_cast<RosterSortProxy*>(model());
+  RosterSortProxy* proxy = dynamic_cast<RosterSortProxy*>(model());
   QString names;
 
   foreach(QModelIndex index, list) {
@@ -86,7 +85,7 @@ void Kitty::RosterTreeView::copyName()
 void Kitty::RosterTreeView::copyUid()
 {
   QModelIndexList list = selectedIndexes();
-  RosterSortProxy* proxy = static_cast<RosterSortProxy*>(model());
+  RosterSortProxy* proxy = dynamic_cast<RosterSortProxy*>(model());
   QString uids;
 
   foreach(QModelIndex index, list) {
@@ -105,42 +104,51 @@ void Kitty::RosterTreeView::copyDescription()
 {
   QModelIndexList list = selectedIndexes();
   if(list.size() > 0) {
-    QModelIndex index = static_cast<RosterSortProxy*>(model())->mapToSource(list.first());
+    QModelIndex index = dynamic_cast<RosterSortProxy*>(model())->mapToSource(list.first());
     qApp->clipboard()->setText(index.data(RosterItem::DescriptionRole).toString());
   }
 }
 
 void Kitty::RosterTreeView::moveToGroup()
 {
-  QAction *action = dynamic_cast<QAction*>(sender());
+
+  QAction *action = qobject_cast<QAction*>(sender());
   QModelIndexList list = selectedIndexes();
+  RosterSortProxy *proxy = dynamic_cast<RosterSortProxy*>(model());
+  RosterItemModel *itemModel = dynamic_cast<RosterItemModel*>(proxy->sourceModel());
 
-  // TODO
-  if(action && (list.size() > 0)) {
-    RosterSortProxy *proxy = static_cast<RosterSortProxy*>(model());
-    RosterItemModel *itemModel = static_cast<RosterItemModel*>(proxy->sourceModel());
-
-    QString group = action->property("group").toString();
-    if(action->property("group_new").toBool()) {
-      group = QInputDialog::getText(this, tr("Add new group"), tr("Choose a name for the new group:"));
-    }
-
-    QModelIndex index = proxy->mapToSource(list.first());
-    RosterContact *cnt = static_cast<RosterContact*>(index.internalPointer());
-
-    itemModel->moveToGroup(cnt, group);
-
-    proxy->invalidate();
+  QString group = action->property("group").toString();
+  if(action->property("group_new").toBool()) {
+    group = QInputDialog::getText(this, tr("Add new group"), tr("Choose a name for the new group:"));
   }
+
+  QList<RosterContact*> contacts;
+  foreach(QModelIndex in, list) {
+    QModelIndex index = proxy->mapToSource(in);
+
+    if(index.isValid()) {
+      if(index.data(RosterItem::TypeRole) == RosterItem::Contact) {
+        RosterContact *cnt = static_cast<RosterContact*>(index.internalPointer());
+        if(cnt) {
+          contacts.append(cnt);
+        }
+      }
+    }
+  }
+
+  foreach(RosterContact *cnt, contacts) {
+    itemModel->moveToGroup(cnt, group);
+  }
+
+  proxy->invalidate();
 }
 
 void Kitty::RosterTreeView::showVCard()
 {
   QModelIndexList list = selectedIndexes();
+  RosterSortProxy *proxy = dynamic_cast<RosterSortProxy*>(model());
 
   foreach(QModelIndex in, list) {
-    RosterSortProxy *proxy = static_cast<RosterSortProxy*>(model());
-
     QModelIndex index = proxy->mapToSource(in);
     if(index.data(RosterItem::TypeRole) == RosterItem::Contact) {
       RosterContact *cnt = static_cast<RosterContact*>(index.internalPointer());
@@ -175,7 +183,7 @@ void Kitty::RosterTreeView::itemCollapsed(const QModelIndex &index)
 void Kitty::RosterTreeView::mousePressEvent(QMouseEvent *event)
 {
   QTreeView::mousePressEvent(event);
-  QModelIndex index = static_cast<RosterSortProxy*>(model())->mapToSource(indexAt(event->pos()));
+  QModelIndex index = dynamic_cast<RosterSortProxy*>(model())->mapToSource(indexAt(event->pos()));
 
   if(index.isValid()) {
     if(event->button() == Qt::RightButton) {
@@ -249,4 +257,13 @@ void Kitty::RosterTreeView::mouseDoubleClickEvent(QMouseEvent *event)
   sendMessage();
 
   QTreeView::mouseDoubleClickEvent(event);
+}
+
+void Kitty::RosterTreeView::keyPressEvent(QKeyEvent *event)
+{
+  if((event->key() == Qt::Key_Enter) || (event->key() == Qt::Key_Return)) {
+    sendMessage();
+  }
+
+  QTreeView::keyPressEvent(event);
 }

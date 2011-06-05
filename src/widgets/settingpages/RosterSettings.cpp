@@ -7,7 +7,7 @@
 using namespace Kitty;
 using namespace KittySDK;
 
-Kitty::RosterSettings::RosterSettings(QWidget *parent): SettingPage(parent), m_ui(new Ui::RosterSettings)
+Kitty::RosterSettings::RosterSettings(QWidget *parent): SettingPage(0, parent), m_ui(new Ui::RosterSettings)
 {
   m_ui->setupUi(this);
 

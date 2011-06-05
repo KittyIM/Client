@@ -2,9 +2,12 @@
 
 #include "widgets/windows/SettingsWindow.h"
 #include "widgets/windows/MainWindow.h"
+#include "3rdparty/json/json.h"
 #include "SDK/SettingPage.h"
-#include "PluginManager.h"
 #include "AccountManager.h"
+#include "ContactManager.h"
+#include "PluginManager.h"
+#include "SDK/constants.h"
 #include "IconManager.h"
 #include "Profile.h"
 #include "Core.h"
@@ -51,6 +54,21 @@ QString Kitty::PluginCoreImpl::profilesDir()
   return Core::inst()->profilesDir();
 }
 
+QString Kitty::PluginCoreImpl::avatarPath(Contact *contact)
+{
+  return Core::inst()->avatarPath(contact);
+}
+
+QVariant Kitty::PluginCoreImpl::jsonParse(const QString &json)
+{
+  return Json::parse(json);
+}
+
+QString Kitty::PluginCoreImpl::jsonStringify(const QVariant &json, int indent)
+{
+  return Json::stringify(json, indent);
+}
+
 void Kitty::PluginCoreImpl::addSettingPage(SettingPage *page, const QString &parent)
 {
   Core::inst()->settingsWindow()->addPage(page, parent);
@@ -74,4 +92,56 @@ QPixmap Kitty::PluginCoreImpl::icon(const QString &id)
 void Kitty::PluginCoreImpl::addIcon(const QString &id, const QPixmap &pixmap, bool replace)
 {
   IconManager::inst()->insert(id, pixmap, replace);
+}
+
+int Kitty::PluginCoreImpl::contactCount()
+{
+  return ContactManager::inst()->contacts().count();
+}
+
+Contact *Kitty::PluginCoreImpl::contact(const int &id)
+{
+  if((id >= 0) && (id < contactCount())) {
+    return ContactManager::inst()->contacts().at(id);
+  }
+
+  return 0;
+}
+
+QList<Contact*> Kitty::PluginCoreImpl::contacts(const QString &account, const QString &protocol)
+{
+  //return ContactManager::inst()->
+}
+
+QList<KittySDK::Contact*> Kitty::PluginCoreImpl::contacts(const QString &protocol)
+{
+
+}
+
+QStringList Kitty::PluginCoreImpl::plugins()
+{
+
+}
+
+void Kitty::PluginCoreImpl::removeSettingPage(SettingPage *page)
+{
+
+}
+
+void Kitty::PluginCoreImpl::removeToolbarAction(const QString &tb, QAction *action)
+{
+
+}
+
+QToolButton *Kitty::PluginCoreImpl::buttonForAction(const QString &tb, QAction *action)
+{
+  if((tb == Toolbars::TB_MAIN) || (tb == Toolbars::TB_PLUGINS) || (tb == Toolbars::TB_NETWORKS)) {
+    return Core::inst()->mainWindow()->buttonForAction(tb, action);
+  } else {
+    qWarning() << "buttonForAction() unsupported ToolBar" << tb;
+  }
+}
+
+void Kitty::PluginCoreImpl::removeIcon(const QString &id)
+{
 }

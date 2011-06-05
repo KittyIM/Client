@@ -20,6 +20,11 @@ Kitty::ChatTabWidget::ChatTabWidget(QWidget *parent): QTabWidget(parent)
 {
 }
 
+Kitty::ChatTabWidget::~ChatTabWidget()
+{
+  qDeleteAll(m_tabs);
+}
+
 Kitty::ChatTab *Kitty::ChatTabWidget::tabByChat(KittySDK::Chat *chat)
 {
   foreach(ChatTab *tab, m_tabs) {
@@ -34,7 +39,7 @@ Kitty::ChatTab *Kitty::ChatTabWidget::tabByChat(KittySDK::Chat *chat)
 int Kitty::ChatTabWidget::indexByChat(KittySDK::Chat *chat)
 {
   for(int i = 0; i < count(); i++) {
-    ChatTab *tab = static_cast<ChatTab*>(widget(i));
+    ChatTab *tab = qobject_cast<ChatTab*>(widget(i));
     if(tab->chat() == chat) {
       return i;
     }
@@ -45,13 +50,26 @@ int Kitty::ChatTabWidget::indexByChat(KittySDK::Chat *chat)
 
 QString Kitty::ChatTabWidget::createLabel(Chat *chat)
 {
-  QString label = Core::inst()->setting(Settings::S_CHATTAB_CAPTION, "%nick%").toString();
+  QString label = Core::inst()->setting(Settings::S_CHATTAB_CAPTION, "%display%").toString();
   Contact *cnt = chat->contacts().first();
 
-  label.replace("%nick%", cnt->display());
+  label.replace("%display%", cnt->display());
   label.replace("%status%", Core::inst()->statusToString(cnt->status()));
   label.replace("%description%", cnt->description());
   label.replace("%unread%", QString::number(0));
+  label.replace("%uid%", cnt->uid());
+  label.replace("%nickname%", cnt->data(ContactInfos::I_NICKNAME).toString());
+  label.replace("%firstname%", cnt->data(ContactInfos::I_FIRSTNAME).toString());
+  label.replace("%lastname%", cnt->data(ContactInfos::I_LASTNAME).toString());
+
+  int sex = cnt->data(ContactInfos::I_SEX).toInt();
+  if(sex == 0) {
+    label.replace("%sex%", tr("Unknown"));
+  } else if(sex == 1) {
+    label.replace("%sex%", tr("Female"));
+  } else {
+    label.replace("%sex%", tr("Male"));
+  }
 
   return label;
 }
@@ -76,7 +94,7 @@ void Kitty::ChatTabWidget::setCurrentIndex(int index)
   QTabWidget::setCurrentIndex(index);
 
   if(widget(index)) {
-    static_cast<ChatTab*>(widget(index))->setEditFocus();
+    qobject_cast<ChatTab*>(widget(index))->setEditFocus();
   }
 }
 

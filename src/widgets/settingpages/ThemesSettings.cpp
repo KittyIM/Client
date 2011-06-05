@@ -55,7 +55,7 @@ class KittyProto: public Protocol
     QWidget *editWindow(Account *) { return 0; }
 };
 
-Kitty::ThemesSettings::ThemesSettings(QWidget *parent): KittySDK::SettingPage(parent), m_ui(new Ui::ThemesSettings)
+Kitty::ThemesSettings::ThemesSettings(QWidget *parent): SettingPage(0, parent), m_ui(new Ui::ThemesSettings)
 {
   m_ui->setupUi(this);
 
@@ -125,12 +125,12 @@ void Kitty::ThemesSettings::updateChatPreview()
   Contact *kittyBot = acc->newContact("kittybot@kittyim.pl");
   kittyBot->setDisplay("KittyBot");
 
-  KittySDK::Message outgoing(acc->me(), kittyBot);
+  Message outgoing(acc->me(), kittyBot);
   outgoing.setBody("Hello KittyBot!");
   m_ui->chatThemeWebView->appendMessage(outgoing, &theme);
 
-  KittySDK::Message incoming(kittyBot, acc->me());
-  incoming.setDirection(KittySDK::Message::Incoming);
+  Message incoming(kittyBot, acc->me());
+  incoming.setDirection(Message::Incoming);
   incoming.setBody("Oh hi, I didn't notice you there ;)");
   m_ui->chatThemeWebView->appendMessage(incoming, &theme);
 
@@ -138,9 +138,9 @@ void Kitty::ThemesSettings::updateChatPreview()
   incoming.setBody("Could you please change your status to online?");
   m_ui->chatThemeWebView->appendMessage(incoming, &theme);
 
-  KittySDK::Message status(acc->me(), acc->me());
+  Message status(acc->me(), acc->me());
   status.setBody(QString("%1 changed status to online").arg(acc->me()->display()));
-  status.setDirection(KittySDK::Message::System);
+  status.setDirection(Message::System);
   m_ui->chatThemeWebView->appendMessage(status, &theme);
 
   outgoing.setTimeStamp(QDateTime::currentDateTime());

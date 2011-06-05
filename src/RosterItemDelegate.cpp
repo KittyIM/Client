@@ -124,6 +124,11 @@ void Kitty::RosterItemDelegate::paint(QPainter *painter, const QStyleOptionViewI
         painter->drawText(rect, Qt::TextSingleLine, painter->fontMetrics().elidedText(description, Qt::ElideRight, textRect.width()));
       }
     }
+
+    /*if(!index.parent().isValid()) {
+      painter->setPen(Qt::black);
+      painter->drawLine(option.rect.left(), option.rect.top(), option.rect.width(), option.rect.top());
+    }*/
   }
 
   painter->restore();

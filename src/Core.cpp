@@ -25,6 +25,7 @@
   #include <winuser.h>
 #endif
 
+#include <QtCore/QCryptographicHash>
 #include <QtCore/QFileInfo>
 #include <QtCore/QRegExp>
 #include <QtCore/QDebug>
@@ -196,7 +197,7 @@ void Kitty::Core::loadProfile(const QString &name)
 
   DebugWindow::inst()->restoreGeometry(setting(Settings::S_DEBUGWINDOW_GEOMETRY).toByteArray());
 
-  //mainWindow();
+  mainWindow();
 }
 
 MainWindow *Kitty::Core::mainWindow()
@@ -316,6 +317,17 @@ JsonSettings *Kitty::Core::settings()
   return profile()->settings();
 }
 
+QString Kitty::Core::avatarPath(KittySDK::Contact *contact)
+{
+  if(contact) {
+    Protocol *proto = contact->protocol();
+    if(proto) {
+      return currentProfileDir() + "avatars/" + QCryptographicHash::hash(QString("avatar_" + proto->protoInfo()->protoName() + "_" + contact->uid()).toAscii(), QCryptographicHash::Md5).toHex() + ".png";
+    }
+  }
+
+  return "";
+}
 QString Kitty::Core::profilesDir() const
 {
   if(isPortable()) {
@@ -403,3 +415,4 @@ bool Kitty::Core::removeDir(const QString &dirName)
 
   return result;
 }
+

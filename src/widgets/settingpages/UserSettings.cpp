@@ -6,7 +6,7 @@
 using namespace Kitty;
 using namespace KittySDK;
 
-Kitty::UserSettings::UserSettings(QWidget *parent): SettingPage(parent), m_ui(new Ui::UserSettings)
+Kitty::UserSettings::UserSettings(QWidget *parent): SettingPage(0, parent), m_ui(new Ui::UserSettings)
 {
   m_ui->setupUi(this);
 

@@ -6,6 +6,7 @@
 namespace KittySDK
 {
   class SettingPage;
+  class Contact;
   class Account;
 }
 
@@ -26,13 +27,30 @@ namespace Kitty
       QString profileName();
       QString kittyDir();
       QString profilesDir();
+      QString avatarPath(KittySDK::Contact *contact);
+
+      int contactCount();
+      KittySDK::Contact *contact(const int &id);
+      QList<KittySDK::Contact*> contacts(const QString &account, const QString &protocol);
+      QList<KittySDK::Contact*> contacts(const QString &protocol);
+
+      QStringList plugins();
+
+      QVariant jsonParse(const QString &json);
+      QString jsonStringify(const QVariant &json, int indent);
 
       void addSettingPage(KittySDK::SettingPage *page, const QString &parent);
+      void removeSettingPage(KittySDK::SettingPage *page);
+
       void addToolbarAction(const QString &tb, QAction *action);
+      void removeToolbarAction(const QString &tb, QAction *action);
+      QToolButton *buttonForAction(const QString &tb, QAction *action);
+
       void addAccount(KittySDK::Account *account);
 
       QPixmap icon(const QString &id);
       void addIcon(const QString &id, const QPixmap &pixmap, bool replace = true);
+      void removeIcon(const QString &id);
   };
 }
 

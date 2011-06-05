@@ -31,10 +31,10 @@ namespace Kitty
       void on_buttonBox_accepted();
       void on_changeAvatarButton_clicked();
       void on_emailAddButton_clicked();
-      void on_emailRemoveButton_clicked();
+      void on_emailDeleteButton_clicked();
       void on_emailListWidget_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
       void on_phoneAddButton_clicked();
-      void on_phoneRemoveButton_clicked();
+      void on_phoneDeleteButton_clicked();
       void on_phoneListWidget_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
 
    protected:

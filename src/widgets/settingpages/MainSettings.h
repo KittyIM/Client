@@ -15,7 +15,7 @@ namespace Kitty
     Q_OBJECT
 
     public:
-      explicit MainSettings(QWidget *parent = 0);
+      MainSettings(QWidget *parent = 0);
       ~MainSettings();
 
       void apply();

@@ -5,12 +5,12 @@
 #include "SDK/Protocol.h"
 #include "SDK/Account.h"
 #include "SDK/Contact.h"
-#include "SDK/Message.h"
 #include "ChatTheme.h"
 #include "Core.h"
 
 #include <QtCore/QDebug>
 #include <QtCore/QTimer>
+#include <QtCore/QFile>
 #include <QtGui/QDesktopServices>
 #include <QtGui/QApplication>
 #include <QtGui/QClipboard>
@@ -54,6 +54,7 @@ Kitty::ChatWebView::ChatWebView(QWidget *parent): QWebView(parent)
   setPage(m_page);
 
   m_imageCount = 0;
+  m_lastFrom = 0;
 
   page()->settings()->setAttribute(QWebSettings::PrivateBrowsingEnabled, true);
   page()->settings()->setAttribute(QWebSettings::JavascriptEnabled, true);
@@ -73,33 +74,65 @@ void Kitty::ChatWebView::appendMessage(const KittySDK::Message &msg, Kitty::Chat
     theme = Core::inst()->chatWindow()->theme();
   }
 
-  QString style;
+  //let's if this is a consecutive message (sent by same side within 5 minutes)
+  bool next = false;
+  if(core->setting(Settings::S_CHATWINDOW_GROUPING, true).toBool()) {
+    if(m_lastFrom) {
+      if((m_lastFrom == msg.from()) && (m_lastTimeStamp.secsTo(msg.timeStamp()) <= 300) && (m_lastDirection == msg.direction())) {
+        next = true;
+      }
+    }
+  }
 
+  QString style;
   switch(msg.direction()) {
     case Message::Outgoing:
     {
-     style = theme->getCode(ChatTheme::OutgoingContent);
-     style.replace("%messageClasses%", "message, outgoing");
+      if(next) {
+        style = theme->code(ChatTheme::OutgoingNextContent);
+        style.replace("%messageClasses%", "message, outgoing, consecutive");
+      } else {
+        style = theme->code(ChatTheme::OutgoingContent);
+        style.replace("%messageClasses%", "message, outgoing");
+      }
     }
     break;
 
     case Message::Incoming:
     {
-     style = theme->getCode(ChatTheme::IncomingContent);
-     style.replace("%messageClasses%", "message, incoming");
+      if(next) {
+        style = theme->code(ChatTheme::IncomingNextContent);
+        style.replace("%messageClasses%", "message, incoming, consecutive");
+      } else {
+        style = theme->code(ChatTheme::IncomingContent);
+        style.replace("%messageClasses%", "message, incoming");
+      }
     }
     break;
 
     case Message::System:
     {
-     style = theme->getCode(ChatTheme::Status);
-     style.replace("%messageClasses%", "status");
+      style = theme->code(ChatTheme::Status);
+      style.replace("%messageClasses%", "status");
     }
     break;
   }
 
   if((msg.direction() == Message::Incoming) || (msg.direction() == Message::Outgoing)) {
-    style.replace("%userIconPath%", "");
+    if(msg.direction() == Message::Incoming) {
+      QString avatar = core->avatarPath(msg.from());
+      if(!QFile::exists(avatar)) {
+        avatar = theme->iconPath(ChatTheme::Incoming);
+      }
+      style.replace("%userIconPath%", avatar);
+    } else {
+      QString avatar = core->currentProfileDir() + "avatar.png";
+      if(!QFile::exists(avatar)) {
+        avatar = theme->iconPath(ChatTheme::Outgoing);
+      }
+      style.replace("%userIconPath%", avatar);
+    }
+
     style.replace("%senderScreenName%", msg.from()->uid());
     style.replace("%sender%", msg.from()->display());
     style.replace("%senderColor%", "black");
@@ -114,6 +147,10 @@ void Kitty::ChatWebView::appendMessage(const KittySDK::Message &msg, Kitty::Chat
     body = core->processUrls(body);
   }
 
+  if(!core->setting(Settings::S_CHATWINDOW_FORMATTING, true).toBool()) {
+    body.remove(QRegExp("<[^>]*>"));
+  }
+
   style.replace("%message%", body);
   style.replace("%time%", msg.timeStamp().toString("hh:mm:ss"));
   style.replace("%shortTime%", msg.timeStamp().toString("hh:mm"));
@@ -124,8 +161,11 @@ void Kitty::ChatWebView::appendMessage(const KittySDK::Message &msg, Kitty::Chat
 
   QWebElement elem = page()->mainFrame()->documentElement().findFirst("body");
 
-  if(false) {
-    elem = page()->mainFrame()->documentElement().findAll("#insert").last();
+  if(next) {
+    QWebElement last = page()->mainFrame()->documentElement().findAll("#insert").last();
+    if(!last.isNull()) {
+      elem = last;
+    }
   }
 
   elem.appendInside(style);
@@ -136,9 +176,11 @@ void Kitty::ChatWebView::appendMessage(const KittySDK::Message &msg, Kitty::Chat
       elem.appendInside(images);
     }
 
-    QString youtubes = findYoutubes(body, theme);
-    if(!youtubes.isEmpty()) {
-      elem.appendInside(youtubes);
+    if(core->setting(Settings::S_CHATWINDOW_YOUTUBE_LINKS, true).toBool()) {
+      QString youtubes = findYoutubes(body, theme);
+      if(!youtubes.isEmpty()) {
+        elem.appendInside(youtubes);
+      }
     }
   }
 
@@ -146,6 +188,10 @@ void Kitty::ChatWebView::appendMessage(const KittySDK::Message &msg, Kitty::Chat
   if(page()->mainFrame()->scrollBarValue(Qt::Vertical) == page()->mainFrame()->scrollBarMaximum(Qt::Vertical)) {
     QTimer::singleShot(0, this, SLOT(updateScrollbar()));
   }
+
+  m_lastFrom = msg.from();
+  m_lastTimeStamp = msg.timeStamp();
+  m_lastDirection = msg.direction();
 }
 
 void Kitty::ChatWebView::clear()
@@ -189,6 +235,8 @@ void Kitty::ChatWebView::clearTo(bool custom, const QString &theme, const QStrin
   html += "</body>";
 
   setHtml(html);
+
+  m_lastFrom = 0;
 }
 
 void Kitty::ChatWebView::updateScrollbar()
@@ -262,7 +310,7 @@ QString Kitty::ChatWebView::findImages(const QString &body, Kitty::ChatTheme *th
   QString result;
 
   //load Status theme style
-  QString style = theme->getCode(ChatTheme::Status);
+  QString style = theme->code(ChatTheme::Status);
   style.replace("%messageClasses%", "status");
   style.replace("%time%", "");
   style.replace("%shortTime%", "");
@@ -297,7 +345,7 @@ QString Kitty::ChatWebView::findYoutubes(const QString &body, Kitty::ChatTheme *
   QString result;
 
   //load Status theme style
-  QString style = theme->getCode(ChatTheme::Status);
+  QString style = theme->code(ChatTheme::Status);
   style.replace("%messageClasses%", "status");
   style.replace("%time%", "");
   style.replace("%shortTime%", "");

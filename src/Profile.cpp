@@ -57,7 +57,7 @@ void Kitty::Profile::load(const QString &name)
     loadIconTheme(settings()->value(Settings::S_ICON_THEME).toString());
   }
 
-  static_cast<App*>(qApp)->applySettings();
+  dynamic_cast<App*>(qApp)->applySettings();
 
   ActionManager::inst()->loadDefaults();
 

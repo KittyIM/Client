@@ -30,14 +30,16 @@ RosterItem *Kitty::RosterItemModel::addGroup(const QString &name)
   item->setData(RosterItem::Group, RosterItem::TypeRole);
   item->setData(name, Qt::DisplayRole);
 
+  beginInsertRows(m_root->index(), m_root->rowCount(), m_root->rowCount());
   m_root->appendChild(item);
+  endInsertRows();
 
   return item;
 }
 
 void Kitty::RosterItemModel::removeGroup(RosterItem *group)
 {
-  beginRemoveRows(group->parent()->index(), group->row(), group->row() + 1);
+  beginRemoveRows(group->parent()->index(), group->row(), group->row());
 
   group->parent()->removeChild(group);
   delete group;
@@ -51,7 +53,9 @@ RosterItem *Kitty::RosterItemModel::addContact(RosterContact *item, RosterItem *
     parent = m_root;
   }
 
+  beginInsertRows(parent->index(), parent->rowCount(), parent->rowCount());
   parent->appendChild(item);
+  endInsertRows();
 
   return item;
 }
@@ -63,8 +67,10 @@ RosterItem *Kitty::RosterItemModel::groupItem(const QString &name)
   } else {
     for(int i = 0; i < m_root->childCount(); i++) {
       RosterItem *group = m_root->child(i);
-      if(group->data(Qt::DisplayRole).toString() == name) {
-        return group;
+      if(group) {
+        if(group->data(Qt::DisplayRole).toString() == name) {
+          return group;
+        }
       }
     }
 
@@ -78,10 +84,12 @@ void Kitty::RosterItemModel::moveToGroup(RosterContact *item, const QString &gro
   RosterItem *oldGroup = groupItem(item->contact()->group());
 
   if(newGroup != oldGroup) {
+    //beginMoveRows(oldGroup->index(), item->row(), item->row(), newGroup->index(), newGroup->rowCount());
     oldGroup->removeChild(item);
     newGroup->appendChild(item);
 
     item->contact()->setGroup(groupName);
+    //endMoveRows();
 
     if((oldGroup->childCount() == 0) && (oldGroup != m_root)) {
       removeGroup(oldGroup);

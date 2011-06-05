@@ -7,7 +7,7 @@
 using namespace Kitty;
 using namespace KittySDK;
 
-Kitty::ChatWindowTabsSettings::ChatWindowTabsSettings(QWidget *parent): SettingPage(parent), m_ui(new Ui::ChatWindowTabsSettings)
+Kitty::ChatWindowTabsSettings::ChatWindowTabsSettings(QWidget *parent): SettingPage(0, parent), m_ui(new Ui::ChatWindowTabsSettings)
 {
   m_ui->setupUi(this);
 

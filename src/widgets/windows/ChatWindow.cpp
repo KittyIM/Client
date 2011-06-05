@@ -2,6 +2,7 @@
 #include "ui_ChatWindow.h"
 
 #include "widgets/windows/SettingsWindow.h"
+#include "EmoticonManager.h"
 #include "SDK/constants.h"
 #include "IconManager.h"
 #include "SDK/Contact.h"
@@ -51,11 +52,15 @@ void Kitty::ChatWindow::applySettings()
 {
   Core *core = Core::inst();
 
+  EmoticonManager::inst()->load();
+
   if(!m_theme) {
     m_theme = new ChatTheme(core->setting(Settings::S_CHAT_THEME).toString(), this);
   } else {
     m_theme->load(core->setting(Settings::S_CHAT_THEME).toString());
   }
+
+  on_tabWidget_currentChanged(m_ui->tabWidget->currentIndex());
 }
 
 ChatTab *Kitty::ChatWindow::startChat(Chat *chat)
@@ -106,18 +111,31 @@ void Kitty::ChatWindow::closeEvent(QCloseEvent *event)
 void Kitty::ChatWindow::on_tabWidget_currentChanged(int index)
 {
   ChatTab *tab = qobject_cast<ChatTab*>(m_ui->tabWidget->widget(index));
-  Contact *cnt = tab->chat()->contacts().first();
+  if(tab) {
+    Contact *cnt = tab->chat()->contacts().first();
+    if(cnt) {
+      QString title = Core::inst()->setting(Settings::S_CHATWINDOW_CAPTION, "%display% [%status%] \"%description%\"").toString();
+      title.replace("%display%", cnt->display());
+      title.replace("%status%", Core::inst()->statusToString(cnt->status()));
+      title.replace("%description%", cnt->description());
+      title.replace("%uid%", cnt->uid());
+      title.replace("%nickname%", cnt->data(ContactInfos::I_NICKNAME).toString());
+      title.replace("%firstname%", cnt->data(ContactInfos::I_FIRSTNAME).toString());
+      title.replace("%lastname%", cnt->data(ContactInfos::I_LASTNAME).toString());
 
-  QString title = Core::inst()->setting(Settings::S_CHATWINDOW_CAPTION).toString();
-  title.replace("%nick%", cnt->display());
-  title.replace("%status%", Core::inst()->statusToString(cnt->status()));
-  title.replace("%description%", cnt->description());
-  title.replace("%uid%", cnt->uid());
-  /*title.replace("%gender%", );
-  title.replace("%birthday%", );
-  title.replace("%phone%", );
-  title.replace("%email%", );
-  title.replace("%city%", );*/
+      int sex = cnt->data(ContactInfos::I_SEX).toInt();
+      if(sex == 0) {
+        title.replace("%sex%", tr("Unknown"));
+      } else if(sex == 1) {
+        title.replace("%sex%", tr("Female"));
+      } else {
+        title.replace("%sex%", tr("Male"));
+      }
 
-  setWindowTitle(title);
+      //title.replace("%phone%", cnt->data(ContactInfos::I_NICKNAME));
+      //title.replace("%email%", cnt->data(ContactInfos::I_NICKNAME));
+
+      setWindowTitle(title);
+    }
+  }
 }

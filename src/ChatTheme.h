@@ -28,10 +28,17 @@ namespace Kitty
         OutgoingNextContext
       };
 
+      enum IconType
+      {
+        Incoming = 0,
+        Outgoing
+      };
+
     public:
       ChatTheme(const QString &name = QString(), QObject *parent = 0);
 
-      QString getCode(const Type &type) const;
+      QString code(const Type &type) const;
+      QString iconPath(const IconType &type);
       void load(const QString &name);
 
     private:
@@ -40,6 +47,7 @@ namespace Kitty
 
     private:
       QMap<Type, QString> m_codes;
+      QString m_name;
   };
 }
 

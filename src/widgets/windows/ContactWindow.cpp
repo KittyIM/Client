@@ -51,6 +51,12 @@ void Kitty::ContactWindow::applySettings()
     QTreeWidgetItem *item = m_ui->treeWidget->topLevelItem(i);
     item->setIcon(0, core->icon(Icons::I_BULLET));
   }
+
+  m_ui->phoneAddButton->setIcon(core->icon(Icons::I_ADD));
+  m_ui->emailAddButton->setIcon(core->icon(Icons::I_ADD));
+
+  m_ui->phoneDeleteButton->setIcon(core->icon(Icons::I_DELETE));
+  m_ui->emailDeleteButton->setIcon(core->icon(Icons::I_DELETE));
 }
 
 void Kitty::ContactWindow::on_treeWidget_currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous)
@@ -127,7 +133,9 @@ void Kitty::ContactWindow::showEvent(QShowEvent *event)
       QStringList list = m_contact->data(ContactInfos::I_EMAILS).toString().split(",");
       QString emails;
       foreach(QString email, list) {
-        emails += QString("<a href=\"mailto:%1\">%1</a>, ").arg(Qt::escape(email));
+        if(!email.isEmpty()) {
+          emails += QString("<a href=\"mailto:%1\">%1</a>, ").arg(Qt::escape(email));
+        }
       }
 
       emails.chop(2);
@@ -262,17 +270,27 @@ void Kitty::ContactWindow::showEvent(QShowEvent *event)
     m_ui->birthdayDateEdit->setDate(m_contact->data(ContactInfos::I_BIRTHDAY).toDate());
     m_ui->sexComboBox->setCurrentIndex(m_contact->data(ContactInfos::I_SEX).toInt());
 
-    QString fileName = Core::inst()->currentProfileDir() + "avatars/" + QCryptographicHash::hash(QString("avatar_" + m_contact->protocol()->protoInfo()->protoName() + "_" + m_contact->uid()).toAscii(), QCryptographicHash::Md5).toHex() + ".png";
+    QString fileName = Core::inst()->avatarPath(m_contact);
     if(QFile::exists(fileName)) {
       m_ui->avatarLabel->setPixmap(QPixmap(fileName));
     }
 
     //contact
     QStringList emails = m_contact->data(ContactInfos::I_EMAILS).toString().split(",");
-    m_ui->emailListWidget->addItems(emails);
+    foreach(QString email, emails) {
+      if(!email.isEmpty()) {
+        QListWidgetItem *item = new QListWidgetItem(email, m_ui->emailListWidget);
+        item->setFlags(item->flags() | Qt::ItemIsEditable);
+      }
+    }
 
     QStringList phones = m_contact->data(ContactInfos::I_PHONES).toString().split(",");
-    m_ui->phoneListWidget->addItems(phones);
+    foreach(QString phone, phones) {
+      if(!phone.isEmpty()) {
+        QListWidgetItem *item = new QListWidgetItem(phone, m_ui->phoneListWidget);
+        item->setFlags(item->flags() | Qt::ItemIsEditable);
+      }
+    }
 
     //home
     m_ui->homeAddressEdit->setText(m_contact->data(ContactInfos::I_HOME_ADDRESS).toString());
@@ -338,7 +356,7 @@ void Kitty::ContactWindow::on_buttonBox_accepted()
   m_contact->setData(ContactInfos::I_BIRTHDAY, m_ui->birthdayDateEdit->date());
   m_contact->setData(ContactInfos::I_SEX, m_ui->sexComboBox->currentIndex());
 
-  QString fileName = Core::inst()->currentProfileDir() + "avatars/" + QCryptographicHash::hash(QString("avatar_" + m_contact->protocol()->protoInfo()->protoName() + "_" + m_contact->uid()).toAscii(), QCryptographicHash::Md5).toHex() + ".png";
+  QString fileName = Core::inst()->avatarPath(m_contact);
   if(m_ui->avatarLabel->pixmap()) {
     m_ui->avatarLabel->pixmap()->save(fileName);
   } else {
@@ -355,14 +373,18 @@ void Kitty::ContactWindow::on_buttonBox_accepted()
   //contact
   QStringList emails;
   foreach(QListWidgetItem *item, m_ui->emailListWidget->findItems("*", Qt::MatchWildcard)) {
-    emails.append(item->text());
+    if(!item->text().isEmpty()) {
+      emails.append(item->text());
+    }
   }
   emails.removeDuplicates();
   m_contact->setData(ContactInfos::I_EMAILS, emails.join(","));
 
   QStringList phones;
   foreach(QListWidgetItem *item, m_ui->phoneListWidget->findItems("*", Qt::MatchWildcard)) {
-    phones.append(item->text());
+    if(!item->text().isEmpty()) {
+      phones.append(item->text());
+    }
   }
   phones.removeDuplicates();
   m_contact->setData(ContactInfos::I_PHONES, phones.join(","));
@@ -409,12 +431,13 @@ void Kitty::ContactWindow::on_emailAddButton_clicked()
   QString email = QInputDialog::getText(this, tr("Email"), tr("Please specify an email address:"));
   if(!email.isEmpty()) {
     if(m_ui->emailListWidget->findItems(email, Qt::MatchExactly).count() == 0) {
-      m_ui->emailListWidget->addItem(email);
+      QListWidgetItem *item = new QListWidgetItem(email, m_ui->emailListWidget);
+      item->setFlags(item->flags() | Qt::ItemIsEditable);
     }
   }
 }
 
-void Kitty::ContactWindow::on_emailRemoveButton_clicked()
+void Kitty::ContactWindow::on_emailDeleteButton_clicked()
 {
   if(m_ui->emailListWidget->selectedItems().count() > 0) {
     delete m_ui->emailListWidget->currentItem();
@@ -423,7 +446,7 @@ void Kitty::ContactWindow::on_emailRemoveButton_clicked()
 
 void Kitty::ContactWindow::on_emailListWidget_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous)
 {
-  m_ui->emailRemoveButton->setEnabled(current != 0);
+  m_ui->emailDeleteButton->setEnabled(current != 0);
 }
 
 void Kitty::ContactWindow::on_phoneAddButton_clicked()
@@ -431,12 +454,13 @@ void Kitty::ContactWindow::on_phoneAddButton_clicked()
   QString phone = QInputDialog::getText(this, tr("Phone"), tr("Please specify a phone number:"));
   if(!phone.isEmpty()) {
     if(m_ui->phoneListWidget->findItems(phone, Qt::MatchExactly).count() == 0) {
-      m_ui->phoneListWidget->addItem(phone);
+      QListWidgetItem *item = new QListWidgetItem(phone, m_ui->phoneListWidget);
+      item->setFlags(item->flags() | Qt::ItemIsEditable);
     }
   }
 }
 
-void Kitty::ContactWindow::on_phoneRemoveButton_clicked()
+void Kitty::ContactWindow::on_phoneDeleteButton_clicked()
 {
   if(m_ui->phoneListWidget->selectedItems().count() > 0) {
     delete m_ui->phoneListWidget->currentItem();
@@ -445,5 +469,5 @@ void Kitty::ContactWindow::on_phoneRemoveButton_clicked()
 
 void Kitty::ContactWindow::on_phoneListWidget_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous)
 {
-  m_ui->phoneListWidget->setEnabled(current != 0);
+  m_ui->phoneDeleteButton->setEnabled(current != 0);
 }

@@ -56,7 +56,9 @@ SOURCES    += main.cpp \
     widgets/RosterHeader.cpp \
     widgets/StatusChangeButton.cpp \
     widgets/StatusTextWidget.cpp \
-    widgets/windows/ContactWindow.cpp
+    widgets/windows/ContactWindow.cpp \
+    EmoticonManager.cpp \
+    EmoticonPack.cpp
 
 HEADERS    += constants.h \
               SDK/constants.h \
@@ -97,7 +99,6 @@ HEADERS    += constants.h \
               widgets/ChatEdit.h \
               widgets/ChatTab.h \
               widgets/ChatTabWidget.h \
-              ../lib/hunspell/hunspell.hxx \
               RosterItemModel.h \
               RosterItemDelegate.h \
               RosterItem.h \
@@ -122,7 +123,9 @@ HEADERS    += constants.h \
     widgets/RosterHeader.h \
     widgets/StatusChangeButton.h \
     widgets/StatusTextWidget.h \
-    widgets/windows/ContactWindow.h
+    widgets/windows/ContactWindow.h \
+    EmoticonManager.h \
+    EmoticonPack.h
 
 FORMS      += widgets/windows/DebugWindow.ui \
               widgets/windows/MainWindow.ui \
@@ -158,3 +161,7 @@ debug {
 } else {
   LIBS += -L../lib/hunspell/release
 }
+
+
+
+

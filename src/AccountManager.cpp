@@ -3,6 +3,7 @@
 #include "widgets/windows/MainWindow.h"
 #include "3rdparty/json/json.h"
 #include "ProtocolManager.h"
+#include "ContactManager.h"
 #include "PluginManager.h"
 #include "SDK/constants.h"
 #include "ChatManager.h"
@@ -19,6 +20,11 @@
 
 using namespace Kitty;
 using namespace KittySDK;
+
+Kitty::AccountManager::~AccountManager()
+{
+  qDeleteAll(m_accounts);
+}
 
 const QList<Account*> &Kitty::AccountManager::accounts() const
 {
@@ -74,6 +80,9 @@ bool Kitty::AccountManager::add(Account *account)
   }
 
   connect(account, SIGNAL(messageReceived(KittySDK::Message&)), ChatManager::inst(), SLOT(receiveMessage(KittySDK::Message&)));
+  connect(account, SIGNAL(contactAdded(KittySDK::Contact*)), ContactManager::inst(), SLOT(add(KittySDK::Contact*)));
+
+  account->loadSettings(QMap<QString, QVariant>());
 
   if(account->protocol()->abilities().testFlag(Protocol::ChangeStatus)) {
     QAction *action = new QAction(this);

@@ -28,7 +28,6 @@ namespace Kitty
       void addAccount();
       void on_addButton_clicked();
       void on_treeWidget_currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous);
-
       void on_editButton_clicked();
 
   private:

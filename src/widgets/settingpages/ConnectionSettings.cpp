@@ -7,7 +7,7 @@
 using namespace Kitty;
 using namespace KittySDK;
 
-Kitty::ConnectionSettings::ConnectionSettings(QWidget *parent): SettingPage(parent), m_ui(new Ui::ConnectionSettings)
+Kitty::ConnectionSettings::ConnectionSettings(QWidget *parent): KittySDK::SettingPage(0, parent), m_ui(new Ui::ConnectionSettings)
 {
   m_ui->setupUi(this);
 

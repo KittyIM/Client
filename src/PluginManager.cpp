@@ -26,27 +26,22 @@ Kitty::Plugin::Plugin(const QString &fileName): m_fileName(fileName)
   pluginInst inst = (pluginInst)lib.resolve("inst");
 
   if(inst) {
-    try {
-      m_plugin = dynamic_cast<KittySDK::Plugin*>(inst(new PluginCoreImpl()));
-      if(m_plugin) {
-        if(m_plugin->type() == KittySDK::Plugin::Type) {
-          //nothing for now
-        } else if(m_plugin->type() == Protocol::Type) {
-          Protocol *prot = dynamic_cast<Protocol*>(m_plugin);
-          if(prot) {
-            Kitty::ProtocolManager::inst()->add(prot);
-          } else {
-            qWarning() << "Could not cast to protocol for file" << QFileInfo(m_fileName).fileName();
-          }
+    m_plugin = dynamic_cast<KittySDK::Plugin*>(inst(new PluginCoreImpl()));
+    if(m_plugin) {
+      if(m_plugin->type() == KittySDK::Plugin::Type) {
+        //nothing for now
+      } else if(m_plugin->type() == Protocol::Type) {
+        Protocol *prot = dynamic_cast<Protocol*>(m_plugin);
+        if(prot) {
+          Kitty::ProtocolManager::inst()->add(prot);
         } else {
-          qWarning() << "Unknown type for file" << QFileInfo(m_fileName).fileName();
+          qWarning() << "Could not cast to protocol for file" << QFileInfo(m_fileName).fileName();
         }
       } else {
-        qWarning() << "Could not cast to Plugin for file" << QFileInfo(m_fileName).fileName();
+        qWarning() << "Unknown type for file" << QFileInfo(m_fileName).fileName();
       }
-
-    } catch(...) {
-      qDebug() << "cast fail";
+    } else {
+      qWarning() << "Could not cast to Plugin for file" << QFileInfo(m_fileName).fileName();
     }
   } else {
     qWarning() << "Resolve failed" << QFileInfo(m_fileName).fileName();
@@ -87,8 +82,10 @@ Kitty::Plugin *Kitty::PluginManager::pluginByName(const QString &name) const
 {
   foreach(Plugin *plugin, m_plugins) {
     if(plugin->isLoaded()) {
-      if(plugin->plugin()->info()->name() == name) {
-        return plugin;
+      if(plugin->plugin() && plugin->plugin()->info()) {
+        if(plugin->plugin()->info()->name() == name) {
+          return plugin;
+        }
       }
     }
   }
@@ -99,7 +96,7 @@ Kitty::Plugin *Kitty::PluginManager::pluginByName(const QString &name) const
 Kitty::Plugin *Kitty::PluginManager::pluginByFileName(const QString &fileName) const
 {
   foreach(Plugin *plugin, m_plugins) {
-    if(plugin->fileName() == fileName) {
+    if(QFileInfo(plugin->fileName()).fileName() == fileName) {
       return plugin;
     }
   }
