@@ -111,5 +111,7 @@
         <file>glyphs/status_offline.png</file>
         <file>glyphs/status_ffc.png</file>
         <file>icons/user.ico</file>
+        <file>glyphs/add.png</file>
+        <file>glyphs/edit.png</file>
     </qresource>
 </RCC>

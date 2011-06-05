@@ -20,4 +20,6 @@ body {
   border-top: 1px dashed gray;
   border-bottom: 1px dashed gray;
   margin-bottom: 4px;  
+  text-align: center;
+  font-size: 11px;
 }
