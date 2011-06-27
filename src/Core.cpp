@@ -391,6 +391,21 @@ void Kitty::Core::openProfilesFolder()
   QDesktopServices::openUrl(QUrl(profilesDir()));
 }
 
+void Kitty::Core::showContactWindow(KittySDK::Contact *cnt)
+{
+  Protocol *proto = cnt->protocol();
+  if(proto && proto->protoInfo()) {
+    ContactWindow *wnd = m_contactWindows.value(proto->protoInfo()->protoName() + cnt->uid());
+    if(!wnd) {
+      wnd = new ContactWindow(cnt);
+      m_contactWindows.insert(proto->protoInfo()->protoName() + cnt->uid(), wnd);
+    }
+
+    wnd->show();
+    wnd->raise();
+  }
+}
+
 // function taken from http://john.nachtimwald.com/2010/06/08/qt-remove-directory-and-its-contents/
 bool Kitty::Core::removeDir(const QString &dirName)
 {

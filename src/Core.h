@@ -3,6 +3,7 @@
 
 #include "Singleton.h"
 
+#include <QtCore/QPointer>
 #include <QtCore/QVariant>
 #include <QtCore/QObject>
 #include <QtGui/QSystemTrayIcon>
@@ -19,8 +20,9 @@ namespace Kitty
 {
   class ProfilesWindow;
   class SettingsWindow;
-  class AboutWindow;
+  class ContactWindow;
   class JsonSettings;
+  class AboutWindow;
   class ChatWindow;
   class MainWindow;
   class Profile;
@@ -80,6 +82,7 @@ namespace Kitty
       void toggleMainWindow();
       void openKittyFolder();
       void openProfilesFolder();
+      void showContactWindow(KittySDK::Contact *cnt);
 
     private slots:
       void trayIconActivated(QSystemTrayIcon::ActivationReason reason);
@@ -92,6 +95,7 @@ namespace Kitty
     private:
       bool m_restart;
       bool m_portable;
+      QMap<QString, QPointer<ContactWindow> > m_contactWindows;
       ProfilesWindow *m_profilesWindow;
       SettingsWindow *m_settingsWindow;
       QSystemTrayIcon *m_trayIcon;

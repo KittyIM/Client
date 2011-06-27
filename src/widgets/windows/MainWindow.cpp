@@ -38,6 +38,8 @@ Kitty::MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), m_ui(new Ui
 
   qDebug() << "Creating";
 
+  connect(m_ui->rosterTreeView, SIGNAL(vCardRequested(KittySDK::Contact*)), Core::inst(), SLOT(showContactWindow(KittySDK::Contact*)));
+
   m_header = new RosterHeader(this);
   m_ui->headerToolBar->addWidget(m_header);
   connect(m_header, SIGNAL(descriptionChanged(QString)), AccountManager::inst(), SLOT(changeDescription(QString)));

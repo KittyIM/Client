@@ -72,6 +72,12 @@ void Kitty::IconManager::loadDefaults()
   }
 }
 
+void Kitty::IconManager::remove(const QString &id)
+{
+  m_icons.remove(id);
+  emit iconsUpdated();
+}
+
 void Kitty::IconManager::insert(const QString &id, const QPixmap &pixmap, bool replace)
 {
   if(m_icons.contains(id) && !replace) {

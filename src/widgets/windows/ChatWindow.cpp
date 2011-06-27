@@ -117,7 +117,13 @@ void Kitty::ChatWindow::on_tabWidget_currentChanged(int index)
       QString title = Core::inst()->setting(Settings::S_CHATWINDOW_CAPTION, "%display% [%status%] \"%description%\"").toString();
       title.replace("%display%", cnt->display());
       title.replace("%status%", Core::inst()->statusToString(cnt->status()));
-      title.replace("%description%", cnt->description());
+
+      if(cnt->description().length() > 0) {
+        title.replace("%description%", QString("\"%1\"").arg(cnt->description()));
+      } else {
+        title.replace("%description%", "");
+      }
+
       title.replace("%uid%", cnt->uid());
       title.replace("%nickname%", cnt->data(ContactInfos::I_NICKNAME).toString());
       title.replace("%firstname%", cnt->data(ContactInfos::I_FIRSTNAME).toString());

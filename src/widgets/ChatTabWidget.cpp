@@ -55,7 +55,13 @@ QString Kitty::ChatTabWidget::createLabel(Chat *chat)
 
   label.replace("%display%", cnt->display());
   label.replace("%status%", Core::inst()->statusToString(cnt->status()));
-  label.replace("%description%", cnt->description());
+
+  if(cnt->description().length() > 0) {
+    label.replace("%description%", QString("\"%1\"").arg(cnt->description()));
+  } else {
+    label.replace("%description%", "");
+  }
+
   label.replace("%unread%", QString::number(0));
   label.replace("%uid%", cnt->uid());
   label.replace("%nickname%", cnt->data(ContactInfos::I_NICKNAME).toString());

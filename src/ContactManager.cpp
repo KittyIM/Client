@@ -24,6 +24,45 @@ const QList<Contact*> &Kitty::ContactManager::contacts() const
   return m_contacts;
 }
 
+const QList<Contact*> Kitty::ContactManager::contactsByProtocol(const QString &proto)
+{
+  QList<Contact*> contacts;
+
+  foreach(Contact *cnt, m_contacts) {
+    if(cnt->protocol()->protoInfo()->protoName() == proto) {
+      contacts.append(cnt);
+    }
+  }
+
+  return contacts;
+}
+
+const QList<Contact*> Kitty::ContactManager::contactsByProtocol(Protocol *proto)
+{
+  QList<Contact*> contacts;
+
+  foreach(Contact *cnt, m_contacts) {
+    if(cnt->protocol() == proto) {
+      contacts.append(cnt);
+    }
+  }
+
+  return contacts;
+}
+
+const QList<Contact*> Kitty::ContactManager::contactsByAccount(const QString &acc, const QString &proto)
+{
+  QList<Contact*> contacts;
+
+  foreach(Contact *cnt, m_contacts) {
+    if((cnt->protocol()->protoInfo()->protoName() == proto) && (cnt->account()->uid() == acc)) {
+      contacts.append(cnt);
+    }
+  }
+
+  return contacts;
+}
+
 const QStringList Kitty::ContactManager::groups() const
 {
   QStringList list;

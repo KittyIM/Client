@@ -110,17 +110,24 @@ Contact *Kitty::PluginCoreImpl::contact(const int &id)
 
 QList<Contact*> Kitty::PluginCoreImpl::contacts(const QString &account, const QString &protocol)
 {
-  //return ContactManager::inst()->
+  return ContactManager::inst()->contactsByAccount(account, protocol);
 }
 
 QList<KittySDK::Contact*> Kitty::PluginCoreImpl::contacts(const QString &protocol)
 {
-
+  return ContactManager::inst()->contactsByProtocol(protocol);
 }
 
 QStringList Kitty::PluginCoreImpl::plugins()
 {
+  QStringList result;
+  QList<Plugin*> plugins = PluginManager::inst()->plugins();
 
+  foreach(Plugin *plug, plugins) {
+    result.append(plug->plugin()->info()->name());
+  }
+
+  return result;
 }
 
 void Kitty::PluginCoreImpl::removeSettingPage(SettingPage *page)
@@ -140,8 +147,11 @@ QToolButton *Kitty::PluginCoreImpl::buttonForAction(const QString &tb, QAction *
   } else {
     qWarning() << "buttonForAction() unsupported ToolBar" << tb;
   }
+
+  return 0;
 }
 
 void Kitty::PluginCoreImpl::removeIcon(const QString &id)
 {
+  IconManager::inst()->remove(id);
 }

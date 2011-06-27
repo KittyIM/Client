@@ -14,6 +14,10 @@ namespace Kitty
 
     public:
       const QList<KittySDK::Contact*> &contacts() const;
+      const QList<KittySDK::Contact*> contactsByProtocol(const QString &proto);
+      const QList<KittySDK::Contact*> contactsByProtocol(KittySDK::Protocol *proto);
+      const QList<KittySDK::Contact*> contactsByAccount(const QString &acc, const QString &proto);
+
       const QStringList groups() const;
 
       void load(const QString &profile);

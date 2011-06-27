@@ -24,6 +24,7 @@ namespace Kitty
       QStringList keys() const { return m_icons.keys(); }
 
       void insert(const QString &id, const QPixmap &pixmap, bool replace = true);
+      void remove(const QString &id);
       QPixmap icon(const QString &id) const { return m_icons.value(id); }
 
     signals:

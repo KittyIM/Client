@@ -1,6 +1,7 @@
 #include "ChatTab.h"
 #include "ui_ChatTab.h"
 
+#include "widgets/windows/MainWindow.h"
 #include "widgets/windows/ChatWindow.h"
 #include "widgets/ChatColorPicker.h"
 #include "PluginManager.h"
@@ -13,6 +14,10 @@
 #include "SDK/Chat.h"
 #include "Profile.h"
 #include "Core.h"
+
+#ifdef Q_WS_WIN32
+#include <qt_windows.h>
+#endif
 
 #include <QtCore/QFile>
 #include <QtGui/QToolButton>
@@ -45,6 +50,16 @@ Kitty::ChatTab::ChatTab(Chat *chat, QWidget *parent): QWidget(parent), m_ui(new 
 
   m_colorPicker = new ChatColorPicker(this);
   connect(m_colorPicker, SIGNAL(colorSelected(QColor)), m_ui->textEdit, SLOT(colorText(QColor)));
+
+  if(chat->contacts().count() == 1) {
+    m_ui->treeWidget->hide();
+  } else {
+    foreach(Contact *cnt, chat->contacts()) {
+      QTreeWidgetItem *item = new QTreeWidgetItem(m_ui->treeWidget);
+      item->setIcon(0, QIcon(Core::inst()->avatarPath(cnt)));
+      item->setText(0, cnt->display());
+    }
+  }
 
   Protocol *proto = chat->account()->protocol();
 
@@ -103,11 +118,62 @@ Kitty::ChatTab::ChatTab(Chat *chat, QWidget *parent): QWidget(parent), m_ui(new 
     QMenu *imageMenu = new QMenu(this);
     imageMenu->addAction(tr("From file..."));
     imageMenu->addAction(tr("Desktop snapshot"));
+    imageMenu->addAction(tr("Desktop snapshot fragment"));
 
 #ifdef Q_WS_WIN32
     QAction *windowAction = imageMenu->addAction(tr("Window snapshot"));
 
     QMenu *windowMenu = new QMenu(this);
+
+    QList<HWND> visited;
+
+    HWND hWnd = GetWindow(GetDesktopWindow(), GW_CHILD);
+    while(hWnd) {
+      if(visited.contains(hWnd)) {
+        break;
+      }
+
+      visited.append(hWnd);
+
+      if((GetWindowTextLength(hWnd) > 0)) {
+        LONG style = GetWindowLong(hWnd, GWL_STYLE);
+
+        if((style & WS_VISIBLE) && (style & WS_CAPTION)) {
+          WCHAR *text = new WCHAR[255];
+          GetWindowText(hWnd, text, 250);
+
+          QAction *action = windowMenu->addAction(QString::fromWCharArray(text));
+          //QPixmap::grabWindow(hWnd).save(QString("C:/%1.png").arg((int)hWnd));
+
+          HICON hIcon = (HICON)SendMessage(hWnd, WM_GETICON, ICON_SMALL, NULL);
+          if(!hIcon) {
+            hIcon = (HICON)SendMessage(hWnd, WM_GETICON, 2, NULL);
+          }
+
+          if(!hIcon) {
+            hIcon = (HICON)SendMessage(hWnd, WM_GETICON, ICON_BIG, NULL);
+          }
+
+          if(!hIcon) {
+            hIcon = (HICON)GetClassLongPtr(hWnd, GCL_HICON);
+          }
+
+          if(!hIcon) {
+            hIcon = (HICON)GetClassLongPtr(hWnd, GCL_HICONSM);
+          }
+
+          if(hIcon) {
+            QPixmap icon = QPixmap::fromWinHICON(hIcon);
+            action->setIcon(icon);
+          }
+
+          delete text;
+          delete hIcon;
+        }
+      }
+
+      hWnd = GetWindow(hWnd, GW_HWNDNEXT);
+    }
 
     windowAction->setMenu(windowMenu);
 #endif
@@ -129,7 +195,7 @@ Kitty::ChatTab::ChatTab(Chat *chat, QWidget *parent): QWidget(parent), m_ui(new 
     m_toolBar->addSeparator();
   }
 
-  QAction *profileAction = m_toolBar->addAction(tr("Profile"));
+  QAction *profileAction = m_toolBar->addAction(tr("vCard"), this, SLOT(showContactWindow()));
   profileAction->setProperty("icon_id", Icons::I_PROFILE);
 
   QAction *historyAction = m_toolBar->addAction(tr("History"));
@@ -251,4 +317,9 @@ void Kitty::ChatTab::showColorPicker()
       m_colorPicker->showAt(widget->mapToGlobal(QPoint(0, widget->height())));
     }
   }
+}
+
+void Kitty::ChatTab::showContactWindow()
+{
+  Core::inst()->showContactWindow(m_chat->contacts().first());
 }

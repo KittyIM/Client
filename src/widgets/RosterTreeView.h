@@ -4,6 +4,11 @@
 #include <QtCore/QPointer>
 #include <QtGui/QTreeView>
 
+namespace KittySDK
+{
+  class Contact;
+}
+
 namespace Kitty
 {
   class RosterItemDelegate;
@@ -29,13 +34,13 @@ namespace Kitty
       void itemExpanded(const QModelIndex &index);
       void itemCollapsed(const QModelIndex &index);
 
+    signals:
+      void vCardRequested(KittySDK::Contact *cnt);
+
     protected:
       void mousePressEvent(QMouseEvent *event);
       void mouseDoubleClickEvent(QMouseEvent *event);
       void keyPressEvent(QKeyEvent *event);
-
-    private:
-      QMap<QString, QPointer<Kitty::ContactWindow> > m_windows;
   };
 }
 

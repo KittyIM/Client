@@ -71,11 +71,13 @@ void Kitty::ChatManager::receiveMessage(KittySDK::Message &msg)
   }
 
   if((msg.direction() == Message::Incoming) || (msg.direction() == Message::System)) {
-    Contact *me = msg.to().first();
+    QList<Contact*> contacts = msg.to();
+    Contact *me = contacts.takeFirst();
+    contacts.prepend(msg.from());
 
-    Chat *ch = chat(me, msg.from());
+    Chat *ch = chat(me, contacts);
     if(!ch) {
-      ch = new Chat(me, QList<Contact*>() << msg.from());
+      ch = new Chat(me, contacts);
       m_chats.append(ch);
     }
 

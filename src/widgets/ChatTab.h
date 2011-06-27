@@ -10,6 +10,7 @@ class QAction;
 
 namespace KittySDK
 {
+  class Contact;
   class Chat;
 }
 
@@ -46,6 +47,7 @@ namespace Kitty
       void showColorPicker();
       void sendMessage();
       void changeStatus(KittySDK::Protocol::Status status, QString description);
+      void showContactWindow();
 
     protected:
       void changeEvent(QEvent *event);

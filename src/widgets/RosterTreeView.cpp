@@ -152,16 +152,7 @@ void Kitty::RosterTreeView::showVCard()
     QModelIndex index = proxy->mapToSource(in);
     if(index.data(RosterItem::TypeRole) == RosterItem::Contact) {
       RosterContact *cnt = static_cast<RosterContact*>(index.internalPointer());
-
-      //check if window already opened
-      ContactWindow *wnd = m_windows.value(cnt->contact()->protocol()->protoInfo()->protoName() + cnt->contact()->uid());
-      if(!wnd) {
-        wnd = new ContactWindow(cnt->contact());
-        m_windows.insert(cnt->contact()->protocol()->protoInfo()->protoName() + cnt->contact()->uid(), wnd);
-      }
-
-      wnd->show();
-      wnd->raise();
+      emit vCardRequested(cnt->contact());
     }
   }
 }
