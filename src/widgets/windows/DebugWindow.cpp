@@ -43,6 +43,10 @@ Kitty::DebugWindow::DebugWindow(): QWidget(0), m_ui(new Ui::DebugWindow)
 
 Kitty::DebugWindow::~DebugWindow()
 {
+  qInstallMsgHandler(0);
+
+  delete m_wvLog;
+
   delete m_ui;
 }
 
@@ -69,8 +73,8 @@ void Kitty::DebugWindow::addMessage(QtMsgType type, const char *msg)
     break;
   }
 
-  m_wvLog->setHtml(m_wvLog->page()->mainFrame()->toHtml() + QString("<span style='background-color: %1;'>&nbsp;&nbsp;&nbsp;</span> <b>##%2</b> %3<br>").arg(color).arg(QDateTime::currentDateTime().toString("hh:mm:ss")).arg(QString::fromLocal8Bit(msg).replace(" ", "&nbsp;")));
-  m_wvLog->page()->mainFrame()->setScrollBarValue(Qt::Vertical, m_wvLog->page()->mainFrame()->scrollBarMaximum(Qt::Vertical));
+    m_wvLog->setHtml(m_wvLog->page()->mainFrame()->toHtml() + QString("<span style='background-color: %1;'>&nbsp;&nbsp;&nbsp;</span> <b>##%2</b> %3<br>").arg(color).arg(QDateTime::currentDateTime().toString("hh:mm:ss")).arg(QString::fromLocal8Bit(msg).replace(" ", "&nbsp;")));
+    m_wvLog->page()->mainFrame()->setScrollBarValue(Qt::Vertical, m_wvLog->page()->mainFrame()->scrollBarMaximum(Qt::Vertical));
 }
 
 void Kitty::DebugWindow::showEvent(QShowEvent *event)

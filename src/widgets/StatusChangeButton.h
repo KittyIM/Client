@@ -16,19 +16,27 @@ namespace Kitty
 
       QSize sizeHint() const;
 
+      KittySDK::Protocol::Status status() const { return m_status; }
+
+    public slots:
+      void setStatus(KittySDK::Protocol::Status status);
+
     signals:
       void statusChanged(KittySDK::Protocol::Status status);
 
     private slots:
-      void setStatusOnline();
-      void setStatusAway();
-      void setStatusFFC();
-      void setStatusDND();
-      void setStatusInvisible();
-      void setStatusOffline();
+      void setStatusOnline(bool signal = true);
+      void setStatusAway(bool signal = true);
+      void setStatusFFC(bool signal = true);
+      void setStatusDND(bool signal = true);
+      void setStatusInvisible(bool signal = true);
+      void setStatusOffline(bool signal = true);
 
     protected:
       void paintEvent(QPaintEvent *event);
+
+    private:
+      KittySDK::Protocol::Status m_status;
   };
 }
 

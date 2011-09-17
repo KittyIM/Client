@@ -3,6 +3,7 @@
 #include "SDK/constants.h"
 #include "Core.h"
 
+#include <QtCore/QDebug>
 #include <QtGui/QStyleOptionToolButton>
 #include <QtGui/QStylePainter>
 #include <QtGui/QMenu>
@@ -25,11 +26,48 @@ Kitty::StatusChangeButton::StatusChangeButton(QWidget *parent): QToolButton(pare
   setMenu(menu);
   setPopupMode(QToolButton::InstantPopup);
   setIcon(core->icon(Icons::I_STATUS_OFFLINE));
+
+  m_status = Protocol::Offline;
 }
 
 QSize Kitty::StatusChangeButton::sizeHint() const
 {
   return QSize(2 + iconSize().width() + 2 + fontMetrics().width(text()) + 24, 20);
+}
+
+void Kitty::StatusChangeButton::setStatus(KittySDK::Protocol::Status status)
+{
+  if(status != m_status) {
+    switch(status) {
+      case Protocol::Online:
+        setStatusOnline(false);
+      break;
+
+      case Protocol::Away:
+        setStatusAway(false);
+      break;
+
+      case Protocol::FFC:
+        setStatusFFC(false);
+      break;
+
+      case Protocol::DND:
+        setStatusDND(false);
+      break;
+
+      case Protocol::Invisible:
+        setStatusInvisible(false);
+      break;
+
+      case Protocol::Offline:
+        setStatusOffline(false);
+      break;
+
+      default:
+        qWarning() << "Unknown status" << status;
+      break;
+    }
+  }
 }
 
 void Kitty::StatusChangeButton::paintEvent(QPaintEvent *event)
@@ -61,62 +99,81 @@ void Kitty::StatusChangeButton::paintEvent(QPaintEvent *event)
   painter.drawPrimitive(QStyle::PE_IndicatorArrowDown, opt);
 }
 
-void Kitty::StatusChangeButton::setStatusOnline()
+void Kitty::StatusChangeButton::setStatusOnline(bool signal)
 {
   Core *core = Core::inst();
 
   setIcon(core->icon(Icons::I_STATUS_ONLINE));
   setText(core->statusToString(Protocol::Online));
 
-  emit statusChanged(Protocol::Online);
+  m_status = Protocol::Online;
+  if(signal) {
+    emit statusChanged(Protocol::Online);
+  }
 }
 
-void Kitty::StatusChangeButton::setStatusAway()
+void Kitty::StatusChangeButton::setStatusAway(bool signal)
 {
   Core *core = Core::inst();
 
   setIcon(core->icon(Icons::I_STATUS_AWAY));
   setText(core->statusToString(Protocol::Away));
 
-  emit statusChanged(Protocol::Away);
+  m_status = Protocol::Away;
+  if(signal) {
+    emit statusChanged(Protocol::Away);
+  }
 }
 
-void Kitty::StatusChangeButton::setStatusFFC()
+void Kitty::StatusChangeButton::setStatusFFC(bool signal)
 {
   Core *core = Core::inst();
 
   setIcon(core->icon(Icons::I_STATUS_FFC));
   setText(core->statusToString(Protocol::FFC));
 
-  emit statusChanged(Protocol::FFC);
+  m_status = Protocol::FFC;
+  if(signal) {
+    emit statusChanged(Protocol::FFC);
+  }
 }
 
-void Kitty::StatusChangeButton::setStatusDND()
+void Kitty::StatusChangeButton::setStatusDND(bool signal)
 {
   Core *core = Core::inst();
 
   setIcon(core->icon(Icons::I_STATUS_DND));
   setText(core->statusToString(Protocol::DND));
 
-  emit statusChanged(Protocol::DND);
+  m_status = Protocol::DND;
+  if(signal) {
+    emit statusChanged(Protocol::DND);
+  }
 }
 
-void Kitty::StatusChangeButton::setStatusInvisible()
+void Kitty::StatusChangeButton::setStatusInvisible(bool signal)
 {
   Core *core = Core::inst();
 
   setIcon(core->icon(Icons::I_STATUS_INVIS));
   setText(core->statusToString(Protocol::Invisible));
 
-  emit statusChanged(Protocol::Invisible);
+  m_status = Protocol::Invisible;
+  if(signal) {
+    emit statusChanged(Protocol::Invisible);
+  }
 }
 
-void Kitty::StatusChangeButton::setStatusOffline()
+void Kitty::StatusChangeButton::setStatusOffline(bool signal)
 {
   Core *core = Core::inst();
 
   setIcon(core->icon(Icons::I_STATUS_OFFLINE));
   setText(core->statusToString(Protocol::Offline));
 
-  emit statusChanged(Protocol::Offline);
+  m_status = Protocol::Offline;
+  if(signal) {
+    emit statusChanged(Protocol::Offline);
+  }
 }
+

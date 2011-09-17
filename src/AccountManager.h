@@ -32,6 +32,10 @@ namespace Kitty
 
     signals:
       void accountAdded();
+      void accountStatusChanged(KittySDK::Account *account, KittySDK::Protocol::Status status, const QString &description);
+
+    private slots:
+      void notifyStatusChange(KittySDK::Protocol::Status status, const QString &description);
 
     private:
       AccountManager(QObject *parent = 0): QObject(parent) { }

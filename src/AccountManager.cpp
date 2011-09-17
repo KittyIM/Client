@@ -79,6 +79,7 @@ bool Kitty::AccountManager::add(Account *account)
     }
   }
 
+  connect(account, SIGNAL(statusChanged(KittySDK::Protocol::Status,QString)), this, SLOT(notifyStatusChange(KittySDK::Protocol::Status,QString)));
   connect(account, SIGNAL(messageReceived(KittySDK::Message&)), ChatManager::inst(), SLOT(receiveMessage(KittySDK::Message&)));
   connect(account, SIGNAL(contactAdded(KittySDK::Contact*)), ContactManager::inst(), SLOT(add(KittySDK::Contact*)));
 
@@ -87,10 +88,17 @@ bool Kitty::AccountManager::add(Account *account)
   if(account->protocol()->abilities().testFlag(Protocol::ChangeStatus)) {
     QAction *action = new QAction(this);
     action->setText(QString("%1 (%2)").arg(account->uid()).arg(account->protocol()->protoInfo()->protoName()));
+
+    if(account->description().length() > 0) {
+      action->setToolTip(QString("%1<br>%2").arg(action->text()).arg(account->description()));
+    } else {
+      action->setToolTip(action->text());
+    }
+
     action->setIcon(Core::inst()->icon(account->protocol()->statusIcon(account->status())));
     action->setProperty("protocol", account->protocol()->protoInfo()->protoName());
     action->setProperty("uid", account->uid());
-    connect(account, SIGNAL(statusChanged(KittySDK::Protocol::Status, QString)), Core::inst()->mainWindow(), SLOT(updateAccountStatusIcon()));
+    //connect(account, SIGNAL(statusChanged(KittySDK::Protocol::Status, QString)), Core::inst()->mainWindow(), SLOT(updateAccountStatusIcon()));
     connect(action, SIGNAL(triggered()), Core::inst()->mainWindow(), SLOT(showAccountStatusMenu()));
 
     Core::inst()->mainWindow()->addToolbarAction(Toolbars::TB_NETWORKS, action);
@@ -192,7 +200,9 @@ void Kitty::AccountManager::save(const QString &profile)
 void Kitty::AccountManager::changeDescription(const QString &description)
 {
   foreach(Account *acc, m_accounts) {
-    acc->changeStatus(acc->status(), description);
+    if(acc->status() != Protocol::Offline) {
+      acc->changeStatus(acc->status(), description);
+    }
   }
 }
 
@@ -200,5 +210,14 @@ void Kitty::AccountManager::changeStatus(KittySDK::Protocol::Status status)
 {
   foreach(Account *acc, m_accounts) {
     acc->changeStatus(status, acc->description());
+  }
+}
+
+void Kitty::AccountManager::notifyStatusChange(KittySDK::Protocol::Status status, const QString &description)
+{
+  Account *account = dynamic_cast<Account*>(sender());
+  if(account) {
+    qDebug() << account->uid() << status;
+    emit accountStatusChanged(account, status, description);
   }
 }

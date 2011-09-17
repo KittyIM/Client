@@ -14,6 +14,7 @@ namespace Ui
 namespace KittySDK
 {
   class Contact;
+  class Account;
 }
 
 namespace Kitty
@@ -41,7 +42,7 @@ namespace Kitty
       void addContact(KittySDK::Contact *contact);
       void applySettings();
       void showAccountStatusMenu();
-      void updateAccountStatusIcon();
+      void updateAccountStatusIcon(KittySDK::Account *account);
 
     private slots:
       void showToolbarMenu(QPoint pos);
