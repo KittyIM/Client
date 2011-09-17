@@ -5,6 +5,7 @@
 #include <QtGui/QStylePainter>
 #include <QtGui/QKeyEvent>
 #include <QtGui/QToolTip>
+#include <QtGui/QMenu>
 
 using namespace Kitty;
 
@@ -15,7 +16,7 @@ Kitty::StatusLineEdit::StatusLineEdit(QWidget *parent): QLineEdit(parent)
 
 QSize Kitty::StatusLineEdit::sizeHint() const
 {
-  return QSize(fontMetrics().width(text()) + 4, 20);
+  return QSize(4 + fontMetrics().width(text()) + 2, 20);
 }
 
 void Kitty::StatusLineEdit::updateSize()
@@ -96,11 +97,14 @@ Kitty::StatusTextWidget::StatusTextWidget(QWidget *parent): QWidget(parent)
   m_lineEdit = new StatusLineEdit(this);
   connect(m_lineEdit, SIGNAL(returnPressed()), this, SLOT(changeText()));
 
+  StatusArrowButton *arrow = new StatusArrowButton(this);
+  connect(arrow, SIGNAL(clicked()), this, SLOT(showHistory()));
+
   QHBoxLayout *lay = new QHBoxLayout(this);
   lay->setContentsMargins(QMargins());
   lay->setSpacing(0);
   lay->addWidget(m_lineEdit);
-  lay->addWidget(new StatusArrowButton(this));
+  lay->addWidget(arrow);
   setLayout(lay);
 }
 
@@ -116,5 +120,24 @@ void Kitty::StatusTextWidget::setText(const QString &text)
 
 void Kitty::StatusTextWidget::changeText()
 {
+  if(!text().isEmpty()) {
+    m_history.removeAll(text());
+    m_history.prepend(text());
+  }
+
   emit returnPressed(text());
+}
+
+void Kitty::StatusTextWidget::showHistory()
+{
+  QMenu menu;
+  foreach(const QString &descr, m_history) {
+    QAction *action = menu.addAction((descr.count() > 65)?(descr.left(65) + "..."):descr, this, SLOT(applyHistory()));
+    action->setToolTip(descr);
+  }
+  menu.exec(mapToGlobal(QPoint(0, height())));
+}
+
+void Kitty::StatusTextWidget::applyHistory()
+{
 }

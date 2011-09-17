@@ -217,6 +217,8 @@ QToolButton * Kitty::MainWindow::buttonForAction(const QString &tb, QAction *act
   } else {
     qWarning() << "Unknown ToolBar" << tb;
   }
+
+  return 0;
 }
 
 void Kitty::MainWindow::applySettings()

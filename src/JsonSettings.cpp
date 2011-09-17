@@ -70,8 +70,6 @@ void Kitty::JsonSettings::writeMap(QVariant &root, const QString &key, const QVa
 
 bool Kitty::JsonSettings::jsonRead(QIODevice &device, SettingsMap &map)
 {
-  qDebug() << "Reading";
-
   QVariant vmap = Json::parse(qUncompress(device.readAll()));
   readMap(map, vmap, "");
 

@@ -51,9 +51,12 @@ namespace Kitty
 
     private slots:
       void changeText();
+      void showHistory();
+      void applyHistory();
 
     private:
       StatusLineEdit *m_lineEdit;
+      QStringList m_history;
 
   };
 }
