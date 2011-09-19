@@ -98,11 +98,13 @@ Kitty::App::App(int &argc, char **argv): QApplication(argc, argv)
 
 void Kitty::App::applySettings()
 {
+  Core *core = Core::inst();
+
   QTranslator *translator = new QTranslator(this);
   QTranslator *qtTranslator = new QTranslator(this);
 
   QString locale = QLocale::system().name();
-  locale = Core::inst()->setting(Settings::S_LANGUAGE, locale).toString();
+  locale = core->setting(Settings::S_LANGUAGE, locale).toString();
 
   QString dir = applicationDirPath() + "/data/translations/";
   if(translator->load("kitty_" + locale, dir) && qtTranslator->load("qt_" + locale, dir)) {
@@ -116,6 +118,20 @@ void Kitty::App::applySettings()
   file.open(QFile::ReadOnly);
   setStyleSheet(file.readAll());
   file.close();
+
+  QNetworkProxy proxy;
+  if(core->setting(Settings::S_PROXY_ENABLED, false).toBool()) {
+    proxy.setType(QNetworkProxy::HttpProxy);
+    proxy.setHostName(core->setting(Settings::S_PROXY_SERVER).toString());
+    proxy.setPort(core->setting(Settings::S_PROXY_PORT).toInt());
+
+    if(core->setting(Settings::S_PROXY_AUTH, false).toBool()) {
+      proxy.setUser(core->setting(Settings::S_PROXY_USERNAME).toString());
+      proxy.setPassword(core->setting(Settings::S_PROXY_PASSWORD).toString());
+    }
+  }
+
+  QNetworkProxy::setApplicationProxy(proxy);
 }
 
 void Kitty::App::cleanUp()
