@@ -21,6 +21,8 @@ Kitty::AccountsSettings::AccountsSettings(QWidget *parent): KittySDK::SettingPag
   connect(AccountManager::inst(), SIGNAL(accountAdded()), this, SLOT(refreshAccounts()));
 
   setIcon(Icons::I_KEY);
+
+  refreshAccounts();
 }
 
 Kitty::AccountsSettings::~AccountsSettings()
