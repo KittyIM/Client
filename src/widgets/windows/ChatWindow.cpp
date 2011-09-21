@@ -54,11 +54,11 @@ void Kitty::ChatWindow::applySettings()
 
   EmoticonManager::inst()->load();
 
-  if(!m_theme) {
-    m_theme = new ChatTheme(core->setting(Settings::S_CHAT_THEME).toString(), this);
-  } else {
-    m_theme->load(core->setting(Settings::S_CHAT_THEME).toString());
+  if(m_theme) {
+    delete m_theme;
   }
+
+  m_theme = new ChatTheme(core->setting(Settings::S_CHAT_THEME).toString(), this);
 
   on_tabWidget_currentChanged(m_ui->tabWidget->currentIndex());
 }

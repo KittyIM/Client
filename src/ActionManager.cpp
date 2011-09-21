@@ -66,6 +66,7 @@ void Kitty::ActionManager::loadDefaults()
 
   QAction *actHistory = new QAction(tr("History"), this);
   actHistory->setProperty("icon_id", Icons::I_HISTORY);
+  connect(actHistory, SIGNAL(triggered()), core, SLOT(showHistoryWindow()));
   insert(Actions::A_HISTORY, actHistory);
 
   updateIcons();

@@ -3,6 +3,7 @@
 
 #include "SDK/Protocol.h"
 
+#include <QtCore/QTimer>
 #include <QtGui/QWidget>
 
 class QToolBar;
@@ -41,6 +42,7 @@ namespace Kitty
       void setEditFocus();
       void applySettings();
       void appendMessage(KittySDK::Message &msg);
+      void clearMessages();
 
     private slots:
       void updateButtons();
@@ -61,6 +63,8 @@ namespace Kitty
       QAction *m_italicAction;
       QAction *m_underlineAction;
       QAction *m_strikethroughAction;
+      int m_messageCount;
+      QTimer m_cleanTimer;
   };
 }
 

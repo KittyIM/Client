@@ -21,6 +21,7 @@ namespace Kitty
   class ProfilesWindow;
   class SettingsWindow;
   class ContactWindow;
+  class HistoryWindow;
   class JsonSettings;
   class AboutWindow;
   class ChatWindow;
@@ -54,6 +55,7 @@ namespace Kitty
       AboutWindow *aboutWindow();
       ProfilesWindow *profilesWindow();
       SettingsWindow *settingsWindow();
+      HistoryWindow *historyWindow();
       QSystemTrayIcon *trayIcon();
       Profile *profile();
       Hunspell *hunspell();
@@ -78,6 +80,7 @@ namespace Kitty
       void showChatWindow();
       void showProfilesWindow();
       void showSettingsWindow();
+      void showHistoryWindow();
       void showAddContactWindow();
       void toggleMainWindow();
       void openKittyFolder();
@@ -96,14 +99,15 @@ namespace Kitty
       bool m_restart;
       bool m_portable;
       QMap<QString, QPointer<ContactWindow> > m_contactWindows;
-      ProfilesWindow *m_profilesWindow;
-      SettingsWindow *m_settingsWindow;
-      QSystemTrayIcon *m_trayIcon;
-      AboutWindow *m_aboutWindow;
-      MainWindow *m_mainWindow;
-      ChatWindow *m_chatWindow;
+      QPointer<ProfilesWindow> m_profilesWindow;
+      QPointer<SettingsWindow> m_settingsWindow;
+      QPointer<HistoryWindow> m_historyWindow;
+      QPointer<QSystemTrayIcon> m_trayIcon;
+      QPointer<AboutWindow> m_aboutWindow;
+      QPointer<MainWindow> m_mainWindow;
+      QPointer<ChatWindow> m_chatWindow;
+      QPointer<Profile> m_profile;
       Hunspell *m_hunspell;
-      Profile *m_profile;
   };
 }
 

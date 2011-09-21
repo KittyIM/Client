@@ -34,6 +34,7 @@ namespace Kitty
       void addHistory(const QString &msg);
 
     private slots:
+      void pasteFormatted();
       void replaceWord();
       void boldText();
       void italicText();

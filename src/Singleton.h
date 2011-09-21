@@ -1,6 +1,7 @@
 #ifndef SINGLETON_H
 #define SINGLETON_H
 
+#include <QtCore/QPointer>
 #include <QtCore/QMutex>
 
 namespace Kitty
@@ -31,7 +32,6 @@ namespace Kitty
         if(m_inst) {
           mutex.lock();
           delete m_inst;
-          m_inst = 0;
           mutex.unlock();
         }
       }
@@ -42,10 +42,10 @@ namespace Kitty
       void operator=(const T &) { }
 
     protected:
-      static T *m_inst;
+      static QPointer<T> m_inst;
   };
 
-  template <typename T> T* Singleton<T>::m_inst = 0;
+  template <typename T> QPointer<T> Singleton<T>::m_inst = 0;
 }
 
 #endif // SINGLETON_H

@@ -35,6 +35,8 @@
         <file>glyphs/block.png</file>
         <file>glyphs/group.png</file>
         <file>glyphs/copy.png</file>
+        <file>glyphs/printer.png</file>
+        <file>glyphs/filter.png</file>
         <file>images/kitty_logo.png</file>
         <file>roster/theme.css</file>
         <file>chat/Header.html</file>
@@ -111,6 +113,7 @@
         <file>glyphs/status_offline.png</file>
         <file>glyphs/status_ffc.png</file>
         <file>icons/user.ico</file>
+        <file>icons/history.ico</file>
         <file>glyphs/add.png</file>
         <file>glyphs/edit.png</file>
     </qresource>

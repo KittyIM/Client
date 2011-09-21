@@ -54,6 +54,8 @@ void Kitty::IconManager::loadDefaults()
   defaults.insert(Icons::I_COPY, ":/glyphs/copy.png");
   defaults.insert(Icons::I_GROUP, ":/glyphs/group.png");
   defaults.insert(Icons::I_SOUND, ":/glyphs/sound.png");
+  defaults.insert(Icons::I_PRINTER, ":/glyphs/printer.png");
+  defaults.insert(Icons::I_FILTER, ":/glyphs/filter.png");
   defaults.insert(Icons::I_ADD, ":/glyphs/add.png");
   defaults.insert(Icons::I_EDIT, ":/glyphs/edit.png");
   defaults.insert(Icons::I_STATUS_ONLINE, ":/glyphs/status_online.png");

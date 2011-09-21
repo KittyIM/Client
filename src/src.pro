@@ -58,7 +58,8 @@ SOURCES    += main.cpp \
     widgets/StatusTextWidget.cpp \
     widgets/windows/ContactWindow.cpp \
     EmoticonManager.cpp \
-    EmoticonPack.cpp
+    EmoticonPack.cpp \
+    widgets/windows/HistoryWindow.cpp
 
 HEADERS    += constants.h \
               SDK/constants.h \
@@ -125,7 +126,8 @@ HEADERS    += constants.h \
     widgets/StatusTextWidget.h \
     widgets/windows/ContactWindow.h \
     EmoticonManager.h \
-    EmoticonPack.h
+    EmoticonPack.h \
+    widgets/windows/HistoryWindow.h
 
 FORMS      += widgets/windows/DebugWindow.ui \
               widgets/windows/MainWindow.ui \
@@ -149,7 +151,8 @@ FORMS      += widgets/windows/DebugWindow.ui \
               widgets/windows/ChatWindow.ui \
               widgets/ChatTab.ui \
     widgets/RosterHeader.ui \
-    widgets/windows/ContactWindow.ui
+    widgets/windows/ContactWindow.ui \
+    widgets/windows/HistoryWindow.ui
 
 RESOURCES  += ../res/res.qrc
 RC_FILE     = ../res.rc
@@ -161,6 +164,9 @@ debug {
 } else {
   LIBS += -L../lib/hunspell/release
 }
+
+
+
 
 
 

@@ -37,6 +37,7 @@ namespace Kitty
     public:
       ChatTheme(const QString &name = QString(), QObject *parent = 0);
 
+      QString name() const { return m_name; }
       QString code(const Type &type) const;
       QString iconPath(const IconType &type);
       void load(const QString &name);

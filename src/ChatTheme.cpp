@@ -10,6 +10,7 @@
 Kitty::ChatTheme::ChatTheme(const QString &name, QObject *parent): QObject(parent), m_name(name)
 {
   if(name.isEmpty() || (name == tr("Default"))) {
+    m_name = tr("Default");
     loadDefaults();
   } else {
     load(name);

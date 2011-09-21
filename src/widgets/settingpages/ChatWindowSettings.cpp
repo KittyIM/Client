@@ -36,6 +36,8 @@ void Kitty::ChatWindowSettings::apply()
   core->setSetting(Settings::S_CHATWINDOW_STATUS_CHANGES, m_ui->displayStatusChangesCheckBox->isChecked());
   core->setSetting(Settings::S_CHATWINDOW_YOUTUBE_LINKS, m_ui->displayYouTubeMessagesCheckBox->isChecked());
   core->setSetting(Settings::S_CHATWINDOW_FORMATTING, m_ui->displayMessageFormattingCheckBox->isChecked());
+  core->setSetting(Settings::S_CHATWINDOW_CLEAR_MESSAGES, m_ui->clearMessagesAmountSpinBox->value());
+  core->setSetting(Settings::S_CHATWINDOW_CLEAR_INTERVAL, m_ui->clearMinutesAmountSpinBox->value());
 
 }
 
@@ -51,6 +53,8 @@ void Kitty::ChatWindowSettings::reset()
   m_ui->displayStatusChangesCheckBox->setChecked(core->setting(Settings::S_CHATWINDOW_STATUS_CHANGES, true).toBool());
   m_ui->displayYouTubeMessagesCheckBox->setChecked(core->setting(Settings::S_CHATWINDOW_YOUTUBE_LINKS, true).toBool());
   m_ui->displayMessageFormattingCheckBox->setChecked(core->setting(Settings::S_CHATWINDOW_FORMATTING, true).toBool());
+  m_ui->clearMessagesAmountSpinBox->setValue(core->setting(Settings::S_CHATWINDOW_CLEAR_MESSAGES).toInt());
+  m_ui->clearMinutesAmountSpinBox->setValue(core->setting(Settings::S_CHATWINDOW_CLEAR_INTERVAL).toInt());
 
   m_ui->spellCheckDictionaryComboBox->clear();
   m_ui->spellCheckDictionaryComboBox->addItem(tr("None"), QString());

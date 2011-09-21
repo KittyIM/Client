@@ -100,5 +100,22 @@
   </customwidget>
  </customwidgets>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>treeWidget</sender>
+   <signal>itemDoubleClicked(QTreeWidgetItem*,int)</signal>
+   <receiver>editButton</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>119</x>
+     <y>133</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>268</x>
+     <y>278</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

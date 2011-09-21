@@ -42,6 +42,7 @@ Kitty::ChatTab::ChatTab(Chat *chat, QWidget *parent): QWidget(parent), m_ui(new 
   connect(m_ui->webView, SIGNAL(keyPressed()), m_ui->textEdit, SLOT(setFocus()));
   connect(chat->contacts().first(), SIGNAL(statusChanged(KittySDK::Protocol::Status,QString)), this, SLOT(changeStatus(KittySDK::Protocol::Status, QString)));
   connect(chat->contacts().first(), SIGNAL(dataChanged()), this, SIGNAL(tabChanged()));
+  connect(&m_cleanTimer, SIGNAL(timeout()), this, SLOT(clearMessages()));
 
   m_toolBar = new QToolBar(this);
   m_toolBar->setIconSize(QSize(16, 16));
@@ -50,6 +51,8 @@ Kitty::ChatTab::ChatTab(Chat *chat, QWidget *parent): QWidget(parent), m_ui(new 
 
   m_colorPicker = new ChatColorPicker(this);
   connect(m_colorPicker, SIGNAL(colorSelected(QColor)), m_ui->textEdit, SLOT(colorText(QColor)));
+
+  m_messageCount = 0;
 
   if(chat->contacts().count() == 1) {
     m_ui->treeWidget->hide();
@@ -204,6 +207,8 @@ Kitty::ChatTab::ChatTab(Chat *chat, QWidget *parent): QWidget(parent), m_ui(new 
   updateIcons();
 
   m_ui->webView->clear();
+
+  applySettings();
 }
 
 Kitty::ChatTab::~ChatTab()
@@ -229,12 +234,40 @@ void Kitty::ChatTab::setEditFocus()
 
 void Kitty::ChatTab::applySettings()
 {
+  Core *core = Core::inst();
+
   m_ui->textEdit->clearHistory();
+
+  if(core->setting(Settings::S_CHATWINDOW_CLEAR_MESSAGES).toInt() == 0) {
+    m_messageCount = 0;
+  }
+
+  if(core->setting(Settings::S_CHATWINDOW_CLEAR_INTERVAL).toInt() == 0) {
+    m_cleanTimer.stop();
+  } else {
+    m_cleanTimer.setInterval(core->setting(Settings::S_CHATWINDOW_CLEAR_INTERVAL).toInt() * 60 * 1000);
+    m_cleanTimer.start();
+  }
 }
 
 void Kitty::ChatTab::appendMessage(KittySDK::Message &msg)
 {
+  Core *core = Core::inst();
+  if(core->setting(Settings::S_CHATWINDOW_CLEAR_MESSAGES).toInt() > 0) {
+    if(m_messageCount >= core->setting(Settings::S_CHATWINDOW_CLEAR_MESSAGES).toInt()) {
+      clearMessages();
+    }
+
+    m_messageCount++;
+  }
+
   m_ui->webView->appendMessage(msg);
+}
+
+void Kitty::ChatTab::clearMessages()
+{
+  m_messageCount = 0;
+  m_ui->webView->clear();
 }
 
 void Kitty::ChatTab::sendMessage()
@@ -252,7 +285,7 @@ void Kitty::ChatTab::sendMessage()
       }
     }
 
-    m_ui->webView->appendMessage(msg);
+    appendMessage(msg);
 
     if(Core::inst()->setting(Settings::S_CHATWINDOW_SENTHISTORY, true).toBool()) {
       m_ui->textEdit->addHistory(msg.body());

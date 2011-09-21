@@ -67,6 +67,11 @@ Kitty::ChatWebView::ChatWebView(QWidget *parent): QWebView(parent)
   connect(this, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(showContextMenu(QPoint)));
 }
 
+Kitty::ChatWebView::~ChatWebView()
+{
+  delete m_page;
+}
+
 void Kitty::ChatWebView::appendMessage(const KittySDK::Message &msg, Kitty::ChatTheme *theme)
 {
   Core *core = Core::inst();

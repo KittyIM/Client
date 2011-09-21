@@ -130,6 +130,8 @@ void Kitty::ChatEdit::contextMenuEvent(QContextMenuEvent *event)
   QString word = cursor.selection().toPlainText();
 
   QMenu *menu = QTextEdit::createStandardContextMenu();
+  QAction *actFormatted = menu->addAction(tr("Paste formatted"), this, SLOT(pasteFormatted()));
+  menu->insertAction(menu->actions().at(6), actFormatted);
 
   if(!cursor.selection().isEmpty()) {
     menu->insertAction(menu->actions().first(), new QAction("Add to dictionary", this));
@@ -151,6 +153,8 @@ void Kitty::ChatEdit::contextMenuEvent(QContextMenuEvent *event)
   }
 
   menu->exec(event->globalPos());
+
+  delete menu;
 }
 
 void Kitty::ChatEdit::clearHistory()
@@ -209,4 +213,11 @@ void Kitty::ChatEdit::colorText(QColor color)
   QTextCharFormat fmt = currentCharFormat();
   fmt.setForeground(color);
   setCurrentCharFormat(fmt);
+}
+
+void Kitty::ChatEdit::pasteFormatted()
+{
+  setAcceptRichText(true);
+  paste();
+  setAcceptRichText(false);
 }

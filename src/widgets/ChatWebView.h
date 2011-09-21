@@ -33,6 +33,7 @@ namespace Kitty
 
     public:
       explicit ChatWebView(QWidget *parent = 0);
+      ~ChatWebView();
 
       void appendMessage(const KittySDK::Message &msg, Kitty::ChatTheme *theme = 0);
 
