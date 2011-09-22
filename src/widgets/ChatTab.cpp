@@ -261,6 +261,8 @@ void Kitty::ChatTab::appendMessage(KittySDK::Message &msg)
     m_messageCount++;
   }
 
+  core->archiveMessage(msg);
+
   m_ui->webView->appendMessage(msg);
 }
 
@@ -277,6 +279,7 @@ void Kitty::ChatTab::sendMessage()
 
     Message msg(m_chat->me(), m_chat->contacts());
     msg.setBody(m_ui->textEdit->toPlainText());
+    msg.setChat(m_chat);
 
     QList<Plugin*> plugins = PluginManager::inst()->plugins();
     foreach(Plugin *plugin, plugins) {

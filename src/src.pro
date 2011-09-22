@@ -2,7 +2,7 @@ TARGET      = Kitty
 DESTDIR     = ../bin
 TEMPLATE    = app
 
-QT         += core gui xml network webkit
+QT         += core gui xml network webkit sql
 
 SOURCES    += main.cpp \
               3rdparty/qtwin/qtwin.cpp \

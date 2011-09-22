@@ -14,6 +14,7 @@ class Hunspell;
 namespace KittySDK
 {
   class Contact;
+  class Message;
 }
 
 namespace Kitty
@@ -65,6 +66,7 @@ namespace Kitty
       QString profilesDir() const;
       QString currentProfileDir();
       bool removeDir(const QString &dirName);
+      bool archiveMessage(const KittySDK::Message &msg);
 
       void setRestart(bool restart) { m_restart = restart; }
       bool hasToRestart() const { return m_restart; }

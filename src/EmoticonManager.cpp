@@ -21,7 +21,7 @@ void Kitty::EmoticonManager::load()
 {
   qDeleteAll(m_packs);
 
-  Core *core = Core::inst();
+  //Core *core = Core::inst();
 }
 
 void Kitty::EmoticonManager::applySettings()

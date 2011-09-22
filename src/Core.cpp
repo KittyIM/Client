@@ -15,10 +15,12 @@
 #include "PluginManager.h"
 #include "ActionManager.h"
 #include "SDK/constants.h"
+#include "SDK/Message.h"
 #include "JsonSettings.h"
 #include "ChatManager.h"
 #include "IconManager.h"
 #include "constants.h"
+#include "SDK/Chat.h"
 #include "Profile.h"
 
 #ifdef Q_WS_WIN32
@@ -38,6 +40,9 @@
 #include <QtGui/QSystemTrayIcon>
 #include <QtGui/QApplication>
 #include <QtGui/QMenu>
+#include <QtSql/QSqlDatabase>
+#include <QtSql/QSqlQuery>
+#include <QtSql/QSqlError>
 
 #define qDebug() qDebug() << "[Core]"
 #define qWarning() qWarning() << "[Core]"
@@ -51,9 +56,6 @@ Kitty::Core::Core()
 
   m_restart = false;
   m_portable = false;
-
-  int *p = 0;
-  delete p;
 }
 
 Kitty::Core::~Core()
@@ -423,4 +425,82 @@ bool Kitty::Core::removeDir(const QString &dirName)
   }
 
   return result;
+}
+
+// TODO: add to PluginCore
+bool Kitty::Core::archiveMessage(const KittySDK::Message &msg)
+{
+    if(setting(Settings::S_HISTORY_ENABLED, true).toBool()) {
+      QString protocol = msg.chat()->protocol()->protoInfo()->protoName();
+      QString account = msg.chat()->account()->uid();
+      QString fileName;
+
+      if(msg.direction() == Message::Outgoing) {
+        fileName = msg.singleTo()->uid();
+      } else {
+        fileName = msg.from()->uid();
+      }
+
+      //remove chars that are illegal in path names
+      protocol.replace(QRegExp("[/\\:*?\"<>|]"), "-");
+      account.replace(QRegExp("[/\\:*?\"<>|]"), "-");
+      fileName.replace(QRegExp("[/\\:*?\"<>|]"), "-");
+
+      fileName += ".db";
+
+      //let's be sure the path exists
+      QString path = QString("history/%1/%2/").arg(protocol).arg(account);
+      QDir dir(currentProfileDir() + path);
+      if(!dir.exists()) {
+        if(!dir.mkpath(".")) {
+          qDebug() << "Can't create history path" << dir.absolutePath();
+          return false;
+        }
+      }
+
+      QSqlDatabase db = QSqlDatabase::database();
+      if(!db.isValid()) {
+        db = QSqlDatabase::addDatabase("QSQLITE");
+      }
+
+      db.setDatabaseName(dir.absoluteFilePath(fileName));
+      if(!db.open()) {
+        qDebug() << "Failed to open history db" << db.databaseName() << db.lastError().text();
+        return false;
+      }
+
+      //create tables if necessary
+      if(!db.tables().count()) {
+        db.exec("CREATE TABLE 'messages' ("
+                " 'id' INTEGER PRIMARY KEY AUTOINCREMENT,"
+                " 'chatId' INTEGER,"
+                " 'timeStamp' INTEGER(11),"
+                " 'dir' TINYINT(1),"
+                " 'body' TEXT);");
+      }
+
+      //speed up sqlite
+      db.exec("PRAGMA synchronous=NORMAL;");
+      db.exec("PRAGMA temp_store=MEMORY;");
+      db.exec("PRAGMA count_changes=OFF;");
+      db.exec("PRAGMA journal_mode=OFF;");
+
+      QSqlQuery query;
+      query.prepare("INSERT INTO 'messages' ([chatID], [timeStamp], [dir], [body]) VALUES(:chatId, :timeStamp, :dir, :body);");
+      query.bindValue(":chatId", 10);
+      query.bindValue(":timeStamp", msg.timeStamp().toTime_t());
+      query.bindValue(":dir", msg.direction());
+      query.bindValue(":body", msg.body());
+
+      if(!query.exec()) {
+        qDebug() << "Insert failed" << query.lastError().text();
+        db.close();
+
+        return false;
+      }
+
+      db.close();
+    }
+
+    return true;
 }
