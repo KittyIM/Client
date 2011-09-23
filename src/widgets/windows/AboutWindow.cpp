@@ -18,12 +18,15 @@ Kitty::AboutWindow::AboutWindow(QWidget *parent): QDialog(parent), m_ui(new Ui::
   m_ui->setupUi(this);
 
   setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
+  setAttribute(Qt::WA_DeleteOnClose);
 
   qDebug() << "Creating";
 }
 
 Kitty::AboutWindow::~AboutWindow()
 {
+  qDebug() << "Destroying";
+
   delete m_ui;
 }
 
@@ -54,3 +57,4 @@ void Kitty::AboutWindow::showEvent(QShowEvent *event)
 
   m_ui->aboutText->setText(text);
 }
+

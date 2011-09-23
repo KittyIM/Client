@@ -105,7 +105,7 @@
       <item row="1" column="0">
        <widget class="QStackedWidget" name="stackedWidget">
         <property name="currentIndex">
-         <number>2</number>
+         <number>1</number>
         </property>
         <widget class="QWidget" name="summaryPage">
          <layout class="QGridLayout" name="gridLayout_3">
@@ -909,5 +909,88 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>nicknameEdit</sender>
+   <signal>editingFinished()</signal>
+   <receiver>ContactWindow</receiver>
+   <slot>finishEditing()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>279</x>
+     <y>141</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>200</x>
+     <y>352</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>firstNameEdit</sender>
+   <signal>editingFinished()</signal>
+   <receiver>ContactWindow</receiver>
+   <slot>finishEditing()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>281</x>
+     <y>166</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>94</x>
+     <y>353</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>middleNameEdit</sender>
+   <signal>editingFinished()</signal>
+   <receiver>ContactWindow</receiver>
+   <slot>finishEditing()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>323</x>
+     <y>193</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>414</x>
+     <y>352</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>lastNameEdit</sender>
+   <signal>editingFinished()</signal>
+   <receiver>ContactWindow</receiver>
+   <slot>finishEditing()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>290</x>
+     <y>224</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>369</x>
+     <y>382</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>uidEdit</sender>
+   <signal>editingFinished()</signal>
+   <receiver>ContactWindow</receiver>
+   <slot>finishEditing()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>321</x>
+     <y>42</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>305</x>
+     <y>352</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
+ <slots>
+  <slot>finishEditing()</slot>
+ </slots>
 </ui>

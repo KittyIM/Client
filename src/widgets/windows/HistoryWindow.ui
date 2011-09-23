@@ -193,6 +193,9 @@
            <height>16777215</height>
           </size>
          </property>
+         <property name="editTriggers">
+          <set>QAbstractItemView::NoEditTriggers</set>
+         </property>
          <property name="indentation">
           <number>10</number>
          </property>
@@ -307,6 +310,9 @@
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
+       <property name="indentation">
+        <number>0</number>
+       </property>
        <column>
         <property name="text">
          <string notr="true">Contact</string>
@@ -319,7 +325,7 @@
        </column>
        <column>
         <property name="text">
-         <string>Messages</string>
+         <string>Count</string>
         </property>
        </column>
       </widget>

@@ -203,7 +203,6 @@ ChatWindow *Kitty::Core::chatWindow()
 AboutWindow *Kitty::Core::aboutWindow()
 {
   if(!m_aboutWindow) {
-    ActionManager::inst()->loadDefaults();
     m_aboutWindow = new AboutWindow();
   }
 

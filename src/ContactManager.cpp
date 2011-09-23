@@ -73,6 +73,8 @@ const QStringList Kitty::ContactManager::groups() const
     }
   }
 
+  list.sort();
+
   return list;
 }
 

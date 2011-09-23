@@ -36,8 +36,9 @@ namespace Kitty
       void on_phoneAddButton_clicked();
       void on_phoneDeleteButton_clicked();
       void on_phoneListWidget_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
+      void finishEditing();
 
-   protected:
+      protected:
       void showEvent(QShowEvent *event);
       void closeEvent(QCloseEvent *event);
 

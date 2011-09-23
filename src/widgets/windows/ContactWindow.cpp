@@ -471,3 +471,47 @@ void Kitty::ContactWindow::on_phoneListWidget_currentItemChanged(QListWidgetItem
 {
   m_ui->phoneDeleteButton->setEnabled(current != 0);
 }
+
+void Kitty::ContactWindow::finishEditing()
+{
+  QString current = m_ui->displayComboBox->currentText();
+  m_ui->displayComboBox->clear();
+
+  if(!current.isEmpty()) {
+    m_ui->displayComboBox->addItem(current);
+  }
+
+  QString text = m_ui->nicknameEdit->text();
+  if(!text.isEmpty() && (text != current)) {
+    m_ui->displayComboBox->addItem(text);
+  }
+
+  text = m_ui->firstNameEdit->text();
+  if(!text.isEmpty() && (text != current)) {
+    m_ui->displayComboBox->addItem(text);
+  }
+
+  text = m_ui->lastNameEdit->text();
+  if(!text.isEmpty() && (text != current)) {
+    m_ui->displayComboBox->addItem(text);
+  }
+
+  if(!m_ui->firstNameEdit->text().isEmpty() && !m_ui->lastNameEdit->text().isEmpty()) {
+    text = QString("%1 %2").arg(m_ui->firstNameEdit->text()).arg(m_ui->lastNameEdit->text());
+    if(!text.isEmpty() && (text != current)) {
+    m_ui->displayComboBox->addItem(text);
+    }
+
+    if(!m_ui->nicknameEdit->text().isEmpty()) {
+      text = QString("%1 \"%2\" %3").arg(m_ui->firstNameEdit->text()).arg(m_ui->nicknameEdit->text()).arg(m_ui->lastNameEdit->text());
+      if(text != current) {
+        m_ui->displayComboBox->addItem(text);
+      }
+    }
+
+    text = QString("%2 %1").arg(m_ui->firstNameEdit->text()).arg(m_ui->lastNameEdit->text());
+    if(text != current) {
+      m_ui->displayComboBox->addItem(text);
+    }
+  }
+}

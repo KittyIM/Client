@@ -27,6 +27,22 @@ namespace Kitty
     Q_OBJECT
 
     public:
+      enum
+      {
+        ItemFolder = 1,
+        ItemAccount,
+        ItemContact
+      };
+
+      enum
+      {
+        RoleType = Qt::UserRole + 1,
+        RoleProtocol,
+        RoleAccount,
+        RolePathName
+      };
+
+    public:
       explicit HistoryWindow(QWidget *parent = 0);
       ~HistoryWindow();
 
@@ -36,9 +52,11 @@ namespace Kitty
 
     protected:
       void showEvent(QShowEvent *event);
+      bool eventFilter(QObject *obj, QEvent *event);
 
     private slots:
       void on_contactSearchEdit_textChanged(const QString &text);
+      void on_contactTree_clicked(const QModelIndex &index);
 
     private:
       Ui::HistoryWindow *m_ui;
