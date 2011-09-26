@@ -5,7 +5,6 @@
     <name>AboutWindow</name>
     <message>
         <location filename="../src/widgets/windows/AboutWindow.ui"/>
-        <location filename="../src/ui_AboutWindow.h" line="71"/>
         <source>About</source>
         <translation>O</translation>
     </message>
@@ -14,43 +13,36 @@
     <name>AccountsSettings</name>
     <message>
         <location filename="../src/widgets/settingpages/AccountsSettings.ui"/>
-        <location filename="../src/ui_AccountsSettings.h" line="88"/>
         <source>Accounts</source>
         <translation>Konta</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/AccountsSettings.ui"/>
-        <location filename="../src/ui_AccountsSettings.h" line="93"/>
         <source>Account</source>
         <translation>Konto</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/AccountsSettings.ui"/>
-        <location filename="../src/ui_AccountsSettings.h" line="92"/>
         <source>Protocol</source>
         <translation>Protokół</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/AccountsSettings.ui"/>
-        <location filename="../src/ui_AccountsSettings.h" line="91"/>
         <source>State</source>
         <translation>Stan</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/AccountsSettings.ui"/>
-        <location filename="../src/ui_AccountsSettings.h" line="94"/>
         <source>Add</source>
         <translation>Dodaj</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/AccountsSettings.ui"/>
-        <location filename="../src/ui_AccountsSettings.h" line="95"/>
         <source>Edit</source>
         <translation>Edytuj</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/AccountsSettings.ui"/>
-        <location filename="../src/ui_AccountsSettings.h" line="96"/>
         <source>Delete</source>
         <translation>Usuń</translation>
     </message>
@@ -67,111 +59,91 @@
     <name>ChatWindowSettings</name>
     <message>
         <location filename="../src/widgets/settingpages/ChatWindowSettings.ui"/>
-        <location filename="../src/ui_ChatWindowSettings.h" line="212"/>
         <source>Enable sent message history (Ctrl+Up and Ctrl+Down)</source>
         <translation>Włącz historię wysyłanych wiadomości (Ctrl+Góra i Ctrl+Dół)</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/ChatWindowSettings.ui"/>
-        <location filename="../src/ui_ChatWindowSettings.h" line="213"/>
         <source>Copy selection to clipboard</source>
         <translation>Kopiuj zaznaczenie do schowka</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/ChatWindowSettings.ui"/>
-        <location filename="../src/ui_ChatWindowSettings.h" line="214"/>
         <source>When starting a conversation load last:</source>
         <translation>Przy rozpoczęciu rozmowy, ładuj ostatnie:</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/ChatWindowSettings.ui"/>
-        <location filename="../src/ui_ChatWindowSettings.h" line="215"/>
-        <location filename="../src/ui_ChatWindowSettings.h" line="225"/>
         <source> messages</source>
         <translation> wiadomości</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/ChatWindowSettings.ui"/>
-        <location filename="../src/ui_ChatWindowSettings.h" line="217"/>
         <source>Display</source>
         <translation>Wygląd</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/ChatWindowSettings.ui"/>
-        <location filename="../src/ui_ChatWindowSettings.h" line="218"/>
         <source>Display status changes</source>
         <translation>Pokazuj zmiany statusu</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/ChatWindowSettings.ui"/>
-        <location filename="../src/ui_ChatWindowSettings.h" line="219"/>
         <source>Display YouTube movies</source>
         <translation>Pokazuj filmiki z YouTube</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/ChatWindowSettings.ui"/>
-        <location filename="../src/ui_ChatWindowSettings.h" line="220"/>
         <source>Display message formatting</source>
         <translation>Pokazuj formatowanie wiadomości</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/ChatWindowSettings.ui"/>
-        <location filename="../src/ui_ChatWindowSettings.h" line="221"/>
         <source>Underline links</source>
         <translation>Podkreślaj linki</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/ChatWindowSettings.ui"/>
-        <location filename="../src/ui_ChatWindowSettings.h" line="226"/>
         <source> min</source>
         <translation> min</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/ChatWindowSettings.ui"/>
-        <location filename="../src/ui_ChatWindowSettings.h" line="209"/>
         <source>Chat Window</source>
         <translation>Okno rozmowy</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/ChatWindowSettings.ui"/>
-        <location filename="../src/ui_ChatWindowSettings.h" line="227"/>
         <source>Spell checker</source>
         <translation>Sprawdzanie pisowni</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/ChatWindowSettings.ui"/>
-        <location filename="../src/ui_ChatWindowSettings.h" line="228"/>
         <source>Check spelling</source>
         <translation>Sprawdzaj pisownię</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/ChatWindowSettings.ui"/>
-        <location filename="../src/ui_ChatWindowSettings.h" line="229"/>
         <source>Dictionary:</source>
         <translation>Słownik:</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/ChatWindowSettings.ui"/>
-        <location filename="../src/ui_ChatWindowSettings.h" line="230"/>
         <source>Suggestions list:</source>
         <translation>Lista podpowiedzi:</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/ChatWindowSettings.ui"/>
-        <location filename="../src/ui_ChatWindowSettings.h" line="216"/>
         <source>Group messages</source>
         <translation>Grupuj wiadomości</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/ChatWindowSettings.ui"/>
-        <location filename="../src/ui_ChatWindowSettings.h" line="222"/>
         <source>Clearing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/ChatWindowSettings.ui"/>
-        <location filename="../src/ui_ChatWindowSettings.h" line="223"/>
-        <location filename="../src/ui_ChatWindowSettings.h" line="224"/>
         <source>Clear chat window every:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -180,55 +152,46 @@
     <name>ChatWindowTabsSettings</name>
     <message>
         <location filename="../src/widgets/settingpages/ChatWindowTabsSettings.ui"/>
-        <location filename="../src/ui_ChatWindowTabsSettings.h" line="97"/>
         <source>Tabs</source>
         <translation>Zakładki</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/ChatWindowTabsSettings.ui"/>
-        <location filename="../src/ui_ChatWindowTabsSettings.h" line="100"/>
         <source>Tab bar position:</source>
         <translation>Pozycja paska zakładek:</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/ChatWindowTabsSettings.ui"/>
-        <location filename="../src/ui_ChatWindowTabsSettings.h" line="103"/>
         <source>Top</source>
         <translation>Góra</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/ChatWindowTabsSettings.ui"/>
-        <location filename="../src/ui_ChatWindowTabsSettings.h" line="104"/>
         <source>Bottom</source>
         <translation>Dół</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/ChatWindowTabsSettings.ui"/>
-        <location filename="../src/ui_ChatWindowTabsSettings.h" line="105"/>
         <source>Left</source>
         <translation>Lewo</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/ChatWindowTabsSettings.ui"/>
-        <location filename="../src/ui_ChatWindowTabsSettings.h" line="106"/>
         <source>Right</source>
         <translation>Prawo</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/ChatWindowTabsSettings.ui"/>
-        <location filename="../src/ui_ChatWindowTabsSettings.h" line="108"/>
         <source>Hide tab bar when only one tab is opened</source>
         <translation>Ukryj pasek zakładek, gdy otwarta jest tylko jedna</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/ChatWindowTabsSettings.ui"/>
-        <location filename="../src/ui_ChatWindowTabsSettings.h" line="109"/>
         <source>Close all tabs when closing chat window</source>
         <translation>Zamknij wszystkie zakładki przy zamykaniu okna</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/ChatWindowTabsSettings.ui"/>
-        <location filename="../src/ui_ChatWindowTabsSettings.h" line="110"/>
         <source>Enable tab switching with F-keys</source>
         <translation>Włącz przełączanie zakładek klawiszami F1-F12</translation>
     </message>
@@ -237,61 +200,51 @@
     <name>ConnectionSettings</name>
     <message>
         <location filename="../src/widgets/settingpages/ConnectionSettings.ui"/>
-        <location filename="../src/ui_ConnectionSettings.h" line="174"/>
         <source>Connection</source>
         <translation>Połączenie</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/ConnectionSettings.ui"/>
-        <location filename="../src/ui_ConnectionSettings.h" line="180"/>
         <source>Proxy</source>
         <translation>Proxy</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/ConnectionSettings.ui"/>
-        <location filename="../src/ui_ConnectionSettings.h" line="181"/>
         <source>Use proxy</source>
         <translation>Włącz proxy</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/ConnectionSettings.ui"/>
-        <location filename="../src/ui_ConnectionSettings.h" line="182"/>
         <source>Server and port:</source>
         <translation>Serwer i port:</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/ConnectionSettings.ui"/>
-        <location filename="../src/ui_ConnectionSettings.h" line="183"/>
         <source>Server requires authentication:</source>
         <translation>Serwer wymaga zalogowania:</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/ConnectionSettings.ui"/>
-        <location filename="../src/ui_ConnectionSettings.h" line="184"/>
         <source>Username:</source>
         <translation>Nazwa użytkownika:</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/ConnectionSettings.ui"/>
-        <location filename="../src/ui_ConnectionSettings.h" line="185"/>
         <source>Password:</source>
         <translation>Hasło:</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/ConnectionSettings.ui"/>
-        <location filename="../src/ui_ConnectionSettings.h" line="177"/>
         <source>Disconnect when going to sleep</source>
         <translation>Rozłącz przy usypianiu</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/ConnectionSettings.ui"/>
-        <location filename="../src/ui_ConnectionSettings.h" line="178"/>
         <source>Reconnect on wake up</source>
         <translation>Połącz ponownie przy budzeniu</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/ConnectionSettings.ui"/>
-        <location filename="../src/ui_ConnectionSettings.h" line="179"/>
         <source>Reconnect after loosing connection</source>
         <translation>Połącz po stracie połączenia</translation>
     </message>
@@ -300,210 +253,171 @@
     <name>ContactWindow</name>
     <message>
         <location filename="../src/widgets/windows/ContactWindow.ui"/>
-        <location filename="../src/ui_ContactWindow.h" line="732"/>
         <source>Summary</source>
         <translation>Podsumowanie</translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/ContactWindow.ui"/>
-        <location filename="../src/ui_ContactWindow.h" line="734"/>
         <source>General</source>
         <translation>Ogólne</translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/ContactWindow.ui"/>
-        <location filename="../src/ui_ContactWindow.h" line="736"/>
         <source>Contact</source>
         <translation>Kontakt</translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/ContactWindow.ui"/>
-        <location filename="../src/ui_ContactWindow.h" line="740"/>
         <source>Work</source>
         <translation>Praca</translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/ContactWindow.ui"/>
-        <location filename="../src/ui_ContactWindow.h" line="742"/>
         <source>More</source>
         <translation>Więcej</translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/ContactWindow.ui"/>
-        <location filename="../src/ui_ContactWindow.h" line="744"/>
         <source>Settings</source>
         <translation>Ustawienia</translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/ContactWindow.ui"/>
-        <location filename="../src/ui_ContactWindow.h" line="738"/>
         <source>Home</source>
         <translation>Dom</translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/ContactWindow.ui"/>
-        <location filename="../src/ui_ContactWindow.h" line="749"/>
         <source>Display as</source>
         <translation>Wyświetlaj jako</translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/ContactWindow.ui"/>
-        <location filename="../src/ui_ContactWindow.h" line="750"/>
         <source>Personal info</source>
         <translation>Informacje osobiste</translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/ContactWindow.ui"/>
-        <location filename="../src/ui_ContactWindow.h" line="751"/>
         <source>Nickname:</source>
         <translation>Nick:</translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/ContactWindow.ui"/>
-        <location filename="../src/ui_ContactWindow.h" line="752"/>
         <source>First name:</source>
         <translation>Imię:</translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/ContactWindow.ui"/>
-        <location filename="../src/ui_ContactWindow.h" line="753"/>
         <source>Middle name:</source>
         <translation>Drugie imię:</translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/ContactWindow.ui"/>
-        <location filename="../src/ui_ContactWindow.h" line="754"/>
         <source>Last name:</source>
         <translation>Nazwisko:</translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/ContactWindow.ui"/>
-        <location filename="../src/ui_ContactWindow.h" line="755"/>
         <source>Date of birth:</source>
         <translation>Data urodzenia:</translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/ContactWindow.ui"/>
-        <location filename="../src/ui_ContactWindow.h" line="756"/>
         <source>Sex:</source>
         <translation>Płeć:</translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/ContactWindow.ui"/>
-        <location filename="../src/ui_ContactWindow.h" line="759"/>
         <source>Unknown</source>
         <translation>Nieznana</translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/ContactWindow.ui"/>
-        <location filename="../src/ui_ContactWindow.h" line="760"/>
         <source>Female</source>
         <translation>Kobieta</translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/ContactWindow.ui"/>
-        <location filename="../src/ui_ContactWindow.h" line="761"/>
         <source>Male</source>
         <translation>Mężczyzna</translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/ContactWindow.ui"/>
-        <location filename="../src/ui_ContactWindow.h" line="763"/>
         <source>Avatar</source>
         <translation>Awatar</translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/ContactWindow.ui"/>
-        <location filename="../src/ui_ContactWindow.h" line="765"/>
         <source>Change</source>
         <translation>Zmień</translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/ContactWindow.ui"/>
-        <location filename="../src/ui_ContactWindow.h" line="766"/>
         <source>Clear</source>
         <translation>Wyczyść</translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/ContactWindow.ui"/>
-        <location filename="../src/ui_ContactWindow.h" line="767"/>
         <source>Email</source>
         <translation>Email</translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/ContactWindow.ui"/>
-        <location filename="../src/ui_ContactWindow.h" line="768"/>
         <source>Phone</source>
         <translation>Telefon</translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/ContactWindow.ui"/>
-        <location filename="../src/ui_ContactWindow.h" line="770"/>
-        <location filename="../src/ui_ContactWindow.h" line="776"/>
         <source>Address:</source>
         <translation>Adres:</translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/ContactWindow.ui"/>
-        <location filename="../src/ui_ContactWindow.h" line="771"/>
-        <location filename="../src/ui_ContactWindow.h" line="777"/>
         <source>Postal code:</source>
         <translation>Kod pocztowy:</translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/ContactWindow.ui"/>
-        <location filename="../src/ui_ContactWindow.h" line="772"/>
-        <location filename="../src/ui_ContactWindow.h" line="778"/>
         <source>City:</source>
         <translation>Miasto:</translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/ContactWindow.ui"/>
-        <location filename="../src/ui_ContactWindow.h" line="773"/>
-        <location filename="../src/ui_ContactWindow.h" line="779"/>
         <source>State:</source>
         <translation>Województwo:</translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/ContactWindow.ui"/>
-        <location filename="../src/ui_ContactWindow.h" line="774"/>
-        <location filename="../src/ui_ContactWindow.h" line="780"/>
         <source>Country:</source>
         <translation>Państwo:</translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/ContactWindow.ui"/>
-        <location filename="../src/ui_ContactWindow.h" line="781"/>
         <source>Company:</source>
         <translation>Firma:</translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/ContactWindow.ui"/>
-        <location filename="../src/ui_ContactWindow.h" line="782"/>
         <source>Position:</source>
         <translation>Pozycja:</translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/ContactWindow.ui"/>
-        <location filename="../src/ui_ContactWindow.h" line="783"/>
         <source>Website:</source>
         <translation>Strona:</translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/ContactWindow.ui"/>
-        <location filename="../src/ui_ContactWindow.h" line="784"/>
         <source>Homepage:</source>
         <translation>Strona domowa:</translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/ContactWindow.ui"/>
-        <location filename="../src/ui_ContactWindow.h" line="785"/>
         <source>Notes</source>
         <translation>Notatki</translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/ContactWindow.ui"/>
-        <location filename="../src/ui_ContactWindow.h" line="748"/>
         <source>Account and UID</source>
         <translation>Konto i UID</translation>
     </message>
@@ -512,38 +426,31 @@
     <name>DebugWindow</name>
     <message>
         <location filename="../src/widgets/windows/DebugWindow.ui"/>
-        <location filename="../src/ui_DebugWindow.h" line="170"/>
         <source>Debug console</source>
         <translation>Konsola debugowania</translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/DebugWindow.ui"/>
-        <location filename="../src/ui_DebugWindow.h" line="172"/>
         <source>Console</source>
         <translation>Konsola</translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/DebugWindow.ui"/>
-        <location filename="../src/ui_DebugWindow.h" line="171"/>
         <source>Execute</source>
         <translation>Wykonaj</translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/DebugWindow.ui"/>
-        <location filename="../src/ui_DebugWindow.h" line="174"/>
         <source>Actions</source>
         <translation>Akcje</translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/DebugWindow.ui"/>
-        <location filename="../src/ui_DebugWindow.h" line="173"/>
-        <location filename="../src/ui_DebugWindow.h" line="175"/>
         <source>Refresh</source>
         <translation>Odśwież</translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/DebugWindow.ui"/>
-        <location filename="../src/ui_DebugWindow.h" line="176"/>
         <source>Icons</source>
         <translation>Ikony</translation>
     </message>
@@ -552,91 +459,76 @@
     <name>DisplaySettings</name>
     <message>
         <location filename="../src/widgets/settingpages/DisplaySettings.ui"/>
-        <location filename="../src/ui_DisplaySettings.h" line="241"/>
         <source>Display</source>
         <translation>Wygląd</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/DisplaySettings.ui"/>
-        <location filename="../src/ui_DisplaySettings.h" line="243"/>
         <source>Main window</source>
         <translation>Okno główne</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/DisplaySettings.ui"/>
-        <location filename="../src/ui_DisplaySettings.h" line="244"/>
         <source>Always on top</source>
         <translation>Zawsze na wierzchu</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/DisplaySettings.ui"/>
-        <location filename="../src/ui_DisplaySettings.h" line="245"/>
         <source>Transparency:</source>
         <translation>Przezroczystość:</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/DisplaySettings.ui"/>
-        <location filename="../src/ui_DisplaySettings.h" line="246"/>
         <source>Autohide after:</source>
         <translation>Automatycznie chowaj po:</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/DisplaySettings.ui"/>
-        <location filename="../src/ui_DisplaySettings.h" line="247"/>
         <source>0 sec</source>
         <translation>0 sek</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/DisplaySettings.ui"/>
-        <location filename="../src/ui_DisplaySettings.h" line="248"/>
         <source>120 sec</source>
         <translation>120 sek</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/DisplaySettings.ui"/>
-        <location filename="../src/ui_DisplaySettings.h" line="249"/>
         <source>Docking</source>
         <translation>Dokowanie</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/DisplaySettings.ui"/>
-        <location filename="../src/ui_DisplaySettings.h" line="250"/>
         <source>When closer than:</source>
         <translation>Gdy bliżej niż:</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/DisplaySettings.ui"/>
-        <location filename="../src/ui_DisplaySettings.h" line="252"/>
         <source>Dock to desktop edges</source>
         <translation>Dokuj do krawędzi pulpitu</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/DisplaySettings.ui"/>
-        <location filename="../src/ui_DisplaySettings.h" line="253"/>
         <source>Captions</source>
         <translation>Nagłówki</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/DisplaySettings.ui"/>
-        <location filename="../src/ui_DisplaySettings.h" line="254"/>
         <source>Main window:</source>
         <translation>Okna głównego:</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/DisplaySettings.ui"/>
-        <location filename="../src/ui_DisplaySettings.h" line="256"/>
         <source>Chat window:</source>
         <translation>Okna rozmowy:</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/DisplaySettings.ui"/>
-        <location filename="../src/ui_DisplaySettings.h" line="258"/>
         <source>Chat tab:</source>
         <translation>Zakładki okna rozmowy:</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/DisplaySettings.ui"/>
-        <location filename="../src/ui_DisplaySettings.h" line="251"/>
         <source> px</source>
         <translation> px</translation>
     </message>
@@ -645,43 +537,36 @@
     <name>HistorySettings</name>
     <message>
         <location filename="../src/widgets/settingpages/HistorySettings.ui"/>
-        <location filename="../src/ui_HistorySettings.h" line="104"/>
         <source>Enable history</source>
         <translation>Włącz historię rozmów</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/HistorySettings.ui"/>
-        <location filename="../src/ui_HistorySettings.h" line="105"/>
         <source>Delete messages older than:</source>
         <translation>Usuwaj wiadomości starsze niż:</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/HistorySettings.ui"/>
-        <location filename="../src/ui_HistorySettings.h" line="106"/>
         <source> days</source>
         <translation> dni</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/HistorySettings.ui"/>
-        <location filename="../src/ui_HistorySettings.h" line="107"/>
         <source>Underline links</source>
         <translation>Podkreślaj linki</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/HistorySettings.ui"/>
-        <location filename="../src/ui_HistorySettings.h" line="108"/>
         <source>Save messages from strangers</source>
         <translation>Zapisuj wiadomości od osób spoza listy</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/HistorySettings.ui"/>
-        <location filename="../src/ui_HistorySettings.h" line="109"/>
         <source>Display message format</source>
         <translation>Pokazuj formatowanie wiadomości</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/HistorySettings.ui"/>
-        <location filename="../src/ui_HistorySettings.h" line="101"/>
         <source>History</source>
         <translation>Historia</translation>
     </message>
@@ -689,12 +574,12 @@
 <context>
     <name>Kitty::AboutWindow</name>
     <message>
-        <location filename="../src/widgets/windows/AboutWindow.cpp" line="38"/>
+        <location filename="../src/widgets/windows/AboutWindow.cpp" line="41"/>
         <source>Programming:</source>
         <translation>Programowanie:</translation>
     </message>
     <message>
-        <location filename="../src/widgets/windows/AboutWindow.cpp" line="46"/>
+        <location filename="../src/widgets/windows/AboutWindow.cpp" line="49"/>
         <source>Plugins</source>
         <translation>Wtyczki</translation>
     </message>
@@ -1360,13 +1245,11 @@
     <name>MainSettings</name>
     <message>
         <location filename="../src/widgets/settingpages/MainSettings.ui"/>
-        <location filename="../src/ui_MainSettings.h" line="77"/>
         <source>Settings</source>
         <translation>Ustawienia</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/MainSettings.ui"/>
-        <location filename="../src/ui_MainSettings.h" line="80"/>
         <source>Language:</source>
         <translation>Język:</translation>
     </message>
@@ -1375,61 +1258,51 @@
     <name>PluginsSettings</name>
     <message>
         <location filename="../src/widgets/settingpages/PluginsSettings.ui"/>
-        <location filename="../src/ui_PluginsSettings.h" line="133"/>
         <source>Plugins</source>
         <translation>Wtyczki</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/PluginsSettings.ui"/>
-        <location filename="../src/ui_PluginsSettings.h" line="139"/>
         <source>Name</source>
         <translation>Nazwa</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/PluginsSettings.ui"/>
-        <location filename="../src/ui_PluginsSettings.h" line="138"/>
         <source>Version</source>
         <translation>Wersja</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/PluginsSettings.ui"/>
-        <location filename="../src/ui_PluginsSettings.h" line="137"/>
         <source>Filename</source>
         <translation>Nazwa pliku</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/PluginsSettings.ui"/>
-        <location filename="../src/ui_PluginsSettings.h" line="136"/>
         <source>State</source>
         <translation>Stan</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/PluginsSettings.ui"/>
-        <location filename="../src/ui_PluginsSettings.h" line="140"/>
         <source>Plugin info</source>
         <translation>Informacje o wtyczce</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/PluginsSettings.ui"/>
-        <location filename="../src/ui_PluginsSettings.h" line="141"/>
         <source>Name:</source>
         <translation>Nazwa:</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/PluginsSettings.ui"/>
-        <location filename="../src/ui_PluginsSettings.h" line="142"/>
         <source>Version:</source>
         <translation>Wersja:</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/PluginsSettings.ui"/>
-        <location filename="../src/ui_PluginsSettings.h" line="143"/>
         <source>Author:</source>
         <translation>Autor:</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/PluginsSettings.ui"/>
-        <location filename="../src/ui_PluginsSettings.h" line="144"/>
         <source>WWW:</source>
         <translation>WWW:</translation>
     </message>
@@ -1438,25 +1311,21 @@
     <name>PortabilityWindow</name>
     <message>
         <location filename="../src/widgets/windows/PortabilityWindow.ui"/>
-        <location filename="../src/ui_PortabilityWindow.h" line="75"/>
         <source>Please select where Kitty should store profiles:</source>
         <translation>Wybierz gdzie Kitty ma trzymać profile:</translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/PortabilityWindow.ui"/>
-        <location filename="../src/ui_PortabilityWindow.h" line="76"/>
         <source>User&apos;s application data folder</source>
         <translation>Folder danych aplikacji</translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/PortabilityWindow.ui"/>
-        <location filename="../src/ui_PortabilityWindow.h" line="77"/>
         <source>Kitty&apos;s folder</source>
         <translation>Folder Kitty</translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/PortabilityWindow.ui"/>
-        <location filename="../src/ui_PortabilityWindow.h" line="74"/>
         <source>Profiles location</source>
         <translation>Lokalizacja profili</translation>
     </message>
@@ -1465,25 +1334,21 @@
     <name>ProfilesWindow</name>
     <message>
         <location filename="../src/widgets/windows/ProfilesWindow.ui"/>
-        <location filename="../src/ui_ProfilesWindow.h" line="148"/>
         <source>Choose profile</source>
         <translation>Wybierz profil</translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/ProfilesWindow.ui"/>
-        <location filename="../src/ui_ProfilesWindow.h" line="151"/>
         <source>Password:</source>
         <translation>Hasło:</translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/ProfilesWindow.ui"/>
-        <location filename="../src/ui_ProfilesWindow.h" line="152"/>
         <source>Login</source>
         <translation>Zaloguj</translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/ProfilesWindow.ui"/>
-        <location filename="../src/ui_ProfilesWindow.h" line="153"/>
         <source>Delete</source>
         <translation>Usuń</translation>
     </message>
@@ -1520,7 +1385,6 @@
     <name>RosterHeader</name>
     <message>
         <location filename="../src/widgets/RosterHeader.ui"/>
-        <location filename="../src/ui_RosterHeader.h" line="114"/>
         <source>Offline</source>
         <translation>Niedostępny</translation>
     </message>
@@ -1529,105 +1393,86 @@
     <name>RosterSettings</name>
     <message>
         <location filename="../src/widgets/settingpages/RosterSettings.ui"/>
-        <location filename="../src/ui_RosterSettings.h" line="165"/>
         <source>Roster</source>
         <translation>Lista kontaktów</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/RosterSettings.ui"/>
-        <location filename="../src/ui_RosterSettings.h" line="168"/>
         <source>Hide offline contacts</source>
         <translation>Ukryj kontakty offline</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/RosterSettings.ui"/>
-        <location filename="../src/ui_RosterSettings.h" line="183"/>
         <source>Groups</source>
         <translation>Grupy</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/RosterSettings.ui"/>
-        <location filename="../src/ui_RosterSettings.h" line="184"/>
         <source>Display groups as tabs</source>
         <translation>Wyświetlaj grupy jako zakładki</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/RosterSettings.ui"/>
-        <location filename="../src/ui_RosterSettings.h" line="185"/>
         <source>Display groups on main tab</source>
         <translation>Wyświetlaj grupy na główej zakładce</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/RosterSettings.ui"/>
-        <location filename="../src/ui_RosterSettings.h" line="186"/>
         <source>Tips</source>
         <translation>Podpowiedzi</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/RosterSettings.ui"/>
-        <location filename="../src/ui_RosterSettings.h" line="187"/>
         <source>Enable tips</source>
         <translation>Włącz podpowiedzi</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/RosterSettings.ui"/>
-        <location filename="../src/ui_RosterSettings.h" line="188"/>
         <source>Display IP</source>
         <translation>Pokazuj IP</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/RosterSettings.ui"/>
-        <location filename="../src/ui_RosterSettings.h" line="169"/>
         <source>Status description:</source>
         <translation>Opis statusu:</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/RosterSettings.ui"/>
-        <location filename="../src/ui_RosterSettings.h" line="172"/>
-        <location filename="../src/ui_RosterSettings.h" line="179"/>
         <source>Don&apos;t show</source>
         <translation>Nie pokazuj</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/RosterSettings.ui"/>
-        <location filename="../src/ui_RosterSettings.h" line="173"/>
-        <location filename="../src/ui_RosterSettings.h" line="181"/>
         <source>Right side</source>
         <translation>Prawa strona</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/RosterSettings.ui"/>
-        <location filename="../src/ui_RosterSettings.h" line="174"/>
         <source>Under contact</source>
         <translation>Pod kontaktem</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/RosterSettings.ui"/>
-        <location filename="../src/ui_RosterSettings.h" line="176"/>
         <source>Avatars:</source>
         <translation>Awatar:</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/RosterSettings.ui"/>
-        <location filename="../src/ui_RosterSettings.h" line="180"/>
         <source>Left side</source>
         <translation>Lewa strona</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/RosterSettings.ui"/>
-        <location filename="../src/ui_RosterSettings.h" line="189"/>
         <source>Display email</source>
         <translation>Pokazuj email</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/RosterSettings.ui"/>
-        <location filename="../src/ui_RosterSettings.h" line="190"/>
         <source>Display phone</source>
         <translation>Pokazuj numer telefonu</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/RosterSettings.ui"/>
-        <location filename="../src/ui_RosterSettings.h" line="191"/>
         <source>Display status description</source>
         <translation>Pokazuj opis</translation>
     </message>
@@ -1636,7 +1481,6 @@
     <name>SettingsWindow</name>
     <message>
         <location filename="../src/widgets/windows/SettingsWindow.ui"/>
-        <location filename="../src/ui_SettingsWindow.h" line="96"/>
         <source>Settings</source>
         <translation>Ustawienia</translation>
     </message>
@@ -1645,31 +1489,26 @@
     <name>SmiliesSettings</name>
     <message>
         <location filename="../src/widgets/settingpages/SmiliesSettings.ui"/>
-        <location filename="../src/ui_SmiliesSettings.h" line="113"/>
         <source>Smilies</source>
         <translation>Emotikonki</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/SmiliesSettings.ui"/>
-        <location filename="../src/ui_SmiliesSettings.h" line="116"/>
         <source>Display smilies</source>
         <translation>Pokazuj emotikonki</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/SmiliesSettings.ui"/>
-        <location filename="../src/ui_SmiliesSettings.h" line="117"/>
         <source>Move up</source>
         <translation>Do góry</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/SmiliesSettings.ui"/>
-        <location filename="../src/ui_SmiliesSettings.h" line="118"/>
         <source>Move down</source>
         <translation>W dół</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/SmiliesSettings.ui"/>
-        <location filename="../src/ui_SmiliesSettings.h" line="119"/>
         <source>Autocomplete emoticons in chat edit</source>
         <translation>Dokańczaj emotki w oknie rozmów</translation>
     </message>
@@ -1678,31 +1517,26 @@
     <name>StartupSettings</name>
     <message>
         <location filename="../src/widgets/settingpages/StartupSettings.ui"/>
-        <location filename="../src/ui_StartupSettings.h" line="84"/>
         <source>Startup</source>
         <translation>Uruchamianie</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/StartupSettings.ui"/>
-        <location filename="../src/ui_StartupSettings.h" line="86"/>
         <source>On startup</source>
         <translation>Przy uruchamianiu</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/StartupSettings.ui"/>
-        <location filename="../src/ui_StartupSettings.h" line="87"/>
         <source>Hide main window</source>
         <translation>Ukryj okno główne</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/StartupSettings.ui"/>
-        <location filename="../src/ui_StartupSettings.h" line="88"/>
         <source>Autostart</source>
         <translation>Automatyczne uruchamianie</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/StartupSettings.ui"/>
-        <location filename="../src/ui_StartupSettings.h" line="89"/>
         <source>Lanch when system starts</source>
         <translation>Włączaj podczas startu systemu</translation>
     </message>
@@ -1711,13 +1545,11 @@
     <name>ThemesSettings</name>
     <message>
         <location filename="../src/widgets/settingpages/ThemesSettings.ui"/>
-        <location filename="../src/ui_ThemesSettings.h" line="139"/>
         <source>Themes</source>
         <translation>Skórki</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/ThemesSettings.ui"/>
-        <location filename="../src/ui_ThemesSettings.h" line="141"/>
         <source>Icon theme</source>
         <translation>Styl ikon</translation>
     </message>
@@ -1728,25 +1560,21 @@
     </message>
     <message>
         <location filename="../src/widgets/settingpages/ThemesSettings.ui"/>
-        <location filename="../src/ui_ThemesSettings.h" line="142"/>
         <source>Chat theme</source>
         <translation>Styl okna rozmów</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/ThemesSettings.ui"/>
-        <location filename="../src/ui_ThemesSettings.h" line="143"/>
         <source>Theme:</source>
         <translation>Styl:</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/ThemesSettings.ui"/>
-        <location filename="../src/ui_ThemesSettings.h" line="144"/>
         <source>Variant:</source>
         <translation>Wariacja:</translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/ThemesSettings.ui"/>
-        <location filename="../src/ui_ThemesSettings.h" line="145"/>
         <source>Roster theme</source>
         <translation>Styl listy kontaktów</translation>
     </message>
@@ -1755,7 +1583,6 @@
     <name>UserSettings</name>
     <message>
         <location filename="../src/widgets/settingpages/UserSettings.ui"/>
-        <location filename="../src/ui_UserSettings.h" line="40"/>
         <source>User</source>
         <translation>Użytkownik</translation>
     </message>
@@ -1809,80 +1636,66 @@
     <name>HistoryWindow</name>
     <message>
         <location filename="../src/widgets/windows/HistoryWindow.ui"/>
-        <location filename="../src/ui_HistoryWindow.h" line="253"/>
         <source>History</source>
         <translation type="unfinished">Historia</translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/HistoryWindow.ui"/>
-        <location filename="../src/ui_HistoryWindow.h" line="254"/>
         <source>Refresh</source>
         <translation type="unfinished">Odśwież</translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/HistoryWindow.ui"/>
-        <location filename="../src/ui_HistoryWindow.h" line="255"/>
         <source>Export</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/HistoryWindow.ui"/>
-        <location filename="../src/ui_HistoryWindow.h" line="256"/>
         <source>Import</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/HistoryWindow.ui"/>
-        <location filename="../src/ui_HistoryWindow.h" line="257"/>
         <source>Print</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/HistoryWindow.ui"/>
-        <location filename="../src/ui_HistoryWindow.h" line="258"/>
-        <location filename="../src/ui_HistoryWindow.h" line="261"/>
         <source>Filters</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/HistoryWindow.ui"/>
-        <location filename="../src/ui_HistoryWindow.h" line="259"/>
         <source>Search</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/HistoryWindow.ui"/>
-        <location filename="../src/ui_HistoryWindow.h" line="260"/>
         <source>Search contacts</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/HistoryWindow.ui"/>
-        <location filename="../src/ui_HistoryWindow.h" line="262"/>
         <source>From:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/HistoryWindow.ui"/>
-        <location filename="../src/ui_HistoryWindow.h" line="263"/>
         <source>To:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/HistoryWindow.ui"/>
-        <location filename="../src/ui_HistoryWindow.h" line="266"/>
         <source>Both directions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/HistoryWindow.ui"/>
-        <location filename="../src/ui_HistoryWindow.h" line="267"/>
         <source>Incoming</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/HistoryWindow.ui"/>
-        <location filename="../src/ui_HistoryWindow.h" line="268"/>
         <source>Outgoing</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1893,14 +1706,12 @@
     </message>
     <message>
         <location filename="../src/widgets/windows/HistoryWindow.ui"/>
-        <location filename="../src/ui_HistoryWindow.h" line="272"/>
         <source>Duration</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/windows/HistoryWindow.ui"/>
-        <location filename="../src/ui_HistoryWindow.h" line="271"/>
-        <source>Messages</source>
+        <source>Count</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1915,8 +1726,23 @@
 <context>
     <name>Kitty::HistoryWindow</name>
     <message>
-        <location filename="../src/widgets/windows/HistoryWindow.cpp" line="116"/>
+        <location filename="../src/widgets/windows/HistoryWindow.cpp" line="124"/>
         <source>Conversations</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/windows/HistoryWindow.cpp" line="229"/>
+        <source>Account</source>
+        <translation type="unfinished">Konto</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/windows/HistoryWindow.cpp" line="235"/>
+        <source>Contact</source>
+        <translation type="unfinished">Kontakt</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/windows/HistoryWindow.cpp" line="267"/>
+        <source>Message</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

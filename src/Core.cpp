@@ -498,6 +498,7 @@ bool Kitty::Core::archiveMessage(const KittySDK::Message &msg)
         return false;
       }
 
+      query.clear();
       db.close();
     }
 

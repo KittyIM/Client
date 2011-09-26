@@ -1,8 +1,10 @@
 #ifndef HISTORYWINDOW_H
 #define HISTORYWINDOW_H
 
+#include <QtGui/QSortFilterProxyModel>
 #include <QtGui/QWidget>
-#include <QSortFilterProxyModel>
+
+class QTreeWidgetItem;
 
 namespace Ui
 {
@@ -52,11 +54,11 @@ namespace Kitty
 
     protected:
       void showEvent(QShowEvent *event);
-      bool eventFilter(QObject *obj, QEvent *event);
 
     private slots:
+      void loadChats(const QModelIndex &index, const QModelIndex &previous);
       void on_contactSearchEdit_textChanged(const QString &text);
-      void on_contactTree_clicked(const QModelIndex &index);
+      void on_chatTree_currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous);
 
     private:
       Ui::HistoryWindow *m_ui;

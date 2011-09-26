@@ -161,7 +161,11 @@ void Kitty::ChatWebView::appendMessage(const KittySDK::Message &msg, Kitty::Chat
   style.replace("%time%", msg.timeStamp().toString("hh:mm:ss"));
   style.replace("%shortTime%", msg.timeStamp().toString("hh:mm"));
   style.replace(QRegExp("%time{*}%", Qt::CaseInsensitive, QRegExp::Wildcard), msg.timeStamp().toString("hh:mm:ss"));
-  style.replace("%service%", msg.from()->protocol()->protoInfo()->protoName());
+
+  if(msg.from()->protocol()) {
+    style.replace("%service%", msg.from()->protocol()->protoInfo()->protoName());
+  }
+
   style.replace("%variant%", core->setting(Settings::S_CHAT_THEME_VARIANT, QString()).toString().remove(".css").replace(" ", "_"));
   style.replace("%userIcons%", "showIcons");
 
