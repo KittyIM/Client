@@ -6,6 +6,7 @@
 #include "RosterSortProxy.h"
 #include "ContactManager.h"
 #include "AccountManager.h"
+#include "ActionManager.h"
 #include "SDK/constants.h"
 #include "RosterContact.h"
 #include "constants.h"
@@ -396,6 +397,8 @@ void Kitty::MainWindow::changeEvent(QEvent *event)
 {
   if(event->type() == QEvent::LanguageChange) {
     m_ui->retranslateUi(this);
+    m_header->retranslate();
+    ActionManager::inst()->retranslate();
   }
 
   QMainWindow::changeEvent(event);

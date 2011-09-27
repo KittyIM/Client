@@ -18,6 +18,7 @@ namespace Kitty
       explicit ChatWindowTabsSettings(QWidget *parent = 0);
       ~ChatWindowTabsSettings();
 
+      void retranslate();
       void apply();
       void reset();
 

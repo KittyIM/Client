@@ -30,7 +30,6 @@ namespace Kitty
       void on_profilesWidget_currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous);
       void on_profilesWidget_itemDoubleClicked(QTreeWidgetItem *item, int column);
       void on_loginButton_clicked();
-
       void on_deleteButton_clicked();
 
   private:

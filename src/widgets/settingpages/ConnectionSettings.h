@@ -18,6 +18,7 @@ namespace Kitty
       explicit ConnectionSettings(QWidget *parent = 0);
       ~ConnectionSettings();
 
+      void retranslate();
       void apply();
       void reset();
 

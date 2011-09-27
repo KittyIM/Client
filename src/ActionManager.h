@@ -25,6 +25,7 @@ namespace Kitty
 
     public slots:
       void updateIcons();
+      void retranslate();
 
     private:
       ActionManager(): QObject(0) { }

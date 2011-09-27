@@ -25,3 +25,8 @@ void Kitty::UserSettings::apply()
 void Kitty::UserSettings::reset()
 {
 }
+
+void Kitty::UserSettings::retranslate()
+{
+  m_ui->retranslateUi(this);
+}

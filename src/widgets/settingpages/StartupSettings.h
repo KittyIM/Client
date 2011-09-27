@@ -18,6 +18,7 @@ namespace Kitty
       explicit StartupSettings(QWidget *parent = 0);
       ~StartupSettings();
 
+      void retranslate();
       void apply();
       void reset();
 

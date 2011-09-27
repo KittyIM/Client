@@ -18,6 +18,7 @@ namespace Kitty
       explicit HistorySettings(QWidget *parent = 0);
       ~HistorySettings();
 
+      void retranslate();
       void apply();
       void reset();
 

@@ -20,6 +20,7 @@ namespace Kitty
       explicit AccountsSettings(QWidget *parent = 0);
       ~AccountsSettings();
 
+      void retranslate();
       void apply();
       void reset();
 

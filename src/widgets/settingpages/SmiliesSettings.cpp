@@ -80,3 +80,8 @@ void Kitty::SmiliesSettings::reset()
     }
   }
 }
+
+void Kitty::SmiliesSettings::retranslate()
+{
+  m_ui->retranslateUi(this);
+}

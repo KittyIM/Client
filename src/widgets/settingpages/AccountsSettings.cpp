@@ -122,3 +122,8 @@ void Kitty::AccountsSettings::on_editButton_clicked()
     }
   }
 }
+
+void Kitty::AccountsSettings::retranslate()
+{
+  m_ui->retranslateUi(this);
+}

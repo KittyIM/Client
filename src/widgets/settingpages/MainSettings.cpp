@@ -5,6 +5,7 @@
 #include "Core.h"
 
 #include <QtCore/QFileInfoList>
+#include <QtCore/QDebug>
 #include <QtCore/QDir>
 
 using namespace Kitty;
@@ -20,6 +21,11 @@ Kitty::MainSettings::MainSettings(QWidget *parent): KittySDK::SettingPage(0, par
 Kitty::MainSettings::~MainSettings()
 {
   delete m_ui;
+}
+
+void Kitty::MainSettings::retranslate()
+{
+  m_ui->retranslateUi(this);
 }
 
 void Kitty::MainSettings::apply()

@@ -41,3 +41,8 @@ void Kitty::HistorySettings::reset()
   m_ui->displayFormattingCheckBox->setChecked(core->setting(Settings::S_HISTORY_FORMATTING, true).toBool());
 
 }
+
+void Kitty::HistorySettings::retranslate()
+{
+  m_ui->retranslateUi(this);
+}

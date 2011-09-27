@@ -18,13 +18,14 @@ namespace Kitty
       explicit RosterSettings(QWidget *parent = 0);
       ~RosterSettings();
 
+      void retranslate();
       void apply();
       void reset();
 
-  private slots:
+    private slots:
       void on_descriptionComboBox_currentIndexChanged(int index);
 
-  private:
+    private:
       Ui::RosterSettings *m_ui;
   };
 }

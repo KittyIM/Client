@@ -1,6 +1,7 @@
 #include "AboutWindow.h"
 #include "ui_AboutWindow.h"
 
+#include "3rdparty/qtwin/qtwin.h"
 #include "PluginManager.h"
 #include "SDK/Plugin.h"
 #include "constants.h"
@@ -19,6 +20,11 @@ Kitty::AboutWindow::AboutWindow(QWidget *parent): QDialog(parent), m_ui(new Ui::
 
   setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
   setAttribute(Qt::WA_DeleteOnClose);
+
+  if(QtWin::isCompositionEnabled()) {
+    QtWin::extendFrameIntoClientArea(this);
+    setContentsMargins(0, 0, 0, 0);
+  }
 
   qDebug() << "Creating";
 }

@@ -14,6 +14,7 @@ using namespace KittySDK;
 Kitty::RosterHeader::RosterHeader(QWidget *parent): QWidget(parent), m_ui(new Ui::RosterHeader)
 {
   m_ui->setupUi(this);
+
   connect(m_ui->statusTextEdit, SIGNAL(returnPressed(QString)), this, SIGNAL(descriptionChanged(QString)));
   connect(m_ui->statusChangeButton, SIGNAL(statusChanged(KittySDK::Protocol::Status)), this, SIGNAL(statusChanged(KittySDK::Protocol::Status)));
   connect(AccountManager::inst(), SIGNAL(accountStatusChanged(KittySDK::Account*,KittySDK::Protocol::Status,QString)), this, SLOT(updateWidgets()));
@@ -42,6 +43,11 @@ void Kitty::RosterHeader::updateWidgets()
   m_ui->statusChangeButton->setStatus(status);
 }
 
+void Kitty::RosterHeader::retranslate()
+{
+  m_ui->statusChangeButton->retranslate();
+}
+
 void Kitty::RosterHeader::paintEvent(QPaintEvent *event)
 {
   QStyleOption opt;
@@ -50,4 +56,5 @@ void Kitty::RosterHeader::paintEvent(QPaintEvent *event)
   QStylePainter p(this);
   p.drawPrimitive(QStyle::PE_Widget, opt);
 }
+
 

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>300</height>
+    <height>484</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -28,6 +28,9 @@
     <widget class="QLabel" name="logoLabel">
      <property name="text">
       <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap resource="../../../res/res.qrc">:/images/kitty_logo.png</pixmap>
      </property>
     </widget>
    </item>

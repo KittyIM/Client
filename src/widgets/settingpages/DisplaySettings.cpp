@@ -96,6 +96,11 @@ void Kitty::DisplaySettings::on_chatTabCaptionHelpButton_clicked()
                                                                                 "<br><i>%sex%</i> -" + tr("contact's sex") +
                                                                                 "<br><i>%birthday%</i> -" + tr("contact's birthday") +
                                                                                 "<br><i>%phone%</i> -" + tr("contact's phone") +
-                                                                                "<br><i>%email%</i> -" + tr("contact's email"));
+                     "<br><i>%email%</i> -" + tr("contact's email"));
 
+}
+
+void Kitty::DisplaySettings::retranslate()
+{
+  m_ui->retranslateUi(this);
 }

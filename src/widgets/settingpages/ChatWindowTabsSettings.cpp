@@ -38,3 +38,12 @@ void Kitty::ChatWindowTabsSettings::reset()
   m_ui->fKeysSwitchingCheckBox->setChecked(core->setting(Settings::S_CHATWINDOW_TABBAR_FKEYS, false).toBool());
   m_ui->tabBarPositionComboBox->setCurrentIndex(core->setting(Settings::S_CHATWINDOW_TABBAR_POS, 0).toInt());
 }
+
+void Kitty::ChatWindowTabsSettings::retranslate()
+{
+  int pos = m_ui->tabBarPositionComboBox->currentIndex();
+
+  m_ui->retranslateUi(this);
+
+  m_ui->tabBarPositionComboBox->setCurrentIndex(pos);
+}

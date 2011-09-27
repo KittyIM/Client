@@ -18,6 +18,7 @@ namespace Kitty
       explicit DisplaySettings(QWidget *parent = 0);
       ~DisplaySettings();
 
+      void retranslate();
       void apply();
       void reset();
 

@@ -177,7 +177,7 @@ Kitty::ChatTab::ChatTab(Chat *chat, QWidget *parent): QWidget(parent), m_ui(new 
 
     m_imageAction->setMenu(imageMenu);
 
-    QToolButton *imageButton = qobject_cast<QToolButton*>(m_toolBar->widgetForAction(imageAction));
+    QToolButton *imageButton = qobject_cast<QToolButton*>(m_toolBar->widgetForAction(m_imageAction));
     imageButton->setPopupMode(QToolButton::InstantPopup);
   }
 
@@ -325,16 +325,46 @@ void Kitty::ChatTab::changeEvent(QEvent *event)
   if(event->type() == QEvent::LanguageChange) {
     m_ui->retranslateUi(this);
 
-    m_boldAction->setText(tr("Bold"));
-    m_italicAction->setText(tr("Italic"));
-    m_underlineAction->setText(tr("Underline"));
-    m_strikethroughAction->setText(tr("Striketrough"));
-    m_colorAction->setText(tr("Color"));
-    m_smiliesAction->setText(tr("Smilies"));
-    m_imageAction->setText(tr("Send image"));
-    m_fileAction->setText(tr("Send file"));
-    m_profileAction->setText(tr("Profile"));
-    m_historyAction->setText(tr("History"));
+    if(m_boldAction) {
+      m_boldAction->setText(tr("Bold"));
+    }
+
+    if(m_italicAction) {
+      m_italicAction->setText(tr("Italic"));
+    }
+
+    if(m_underlineAction) {
+      m_underlineAction->setText(tr("Underline"));
+    }
+
+    if(m_strikethroughAction) {
+      m_strikethroughAction->setText(tr("Striketrough"));
+    }
+
+    if(m_colorAction) {
+      m_colorAction->setText(tr("Color"));
+    }
+
+    if(m_smiliesAction) {
+      m_smiliesAction->setText(tr("Smilies"));
+    }
+
+    if(m_imageAction) {
+      m_imageAction->setText(tr("Send image"));
+    }
+
+    if(m_fileAction) {
+      m_fileAction->setText(tr("Send file"));
+    }
+
+    if(m_profileAction) {
+      m_profileAction->setText(tr("Profile"));
+    }
+
+    if(m_historyAction) {
+      m_historyAction->setText(tr("History"));
+    }
+
   }
 
   QWidget::changeEvent(event);

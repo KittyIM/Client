@@ -76,3 +76,8 @@ void Kitty::PluginsSettings::on_pluginWidget_currentItemChanged(QTreeWidgetItem 
     m_ui->pluginInfoGroupBox->hide();
   }
 }
+
+void Kitty::PluginsSettings::retranslate()
+{
+  m_ui->retranslateUi(this);
+}

@@ -31,6 +31,7 @@ namespace Kitty
       explicit SmiliesSettings(QWidget *parent = 0);
       ~SmiliesSettings();
 
+      void retranslate();
       void apply();
       void reset();
 

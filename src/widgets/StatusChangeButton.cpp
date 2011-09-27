@@ -16,12 +16,12 @@ Kitty::StatusChangeButton::StatusChangeButton(QWidget *parent): QToolButton(pare
   Core *core = Core::inst();
   QMenu *menu = new QMenu(this);
 
-  menu->addAction(core->icon(Icons::I_STATUS_ONLINE), tr("Online"), this, SLOT(setStatusOnline()));
-  menu->addAction(core->icon(Icons::I_STATUS_AWAY), tr("Away"), this, SLOT(setStatusAway()));
-  menu->addAction(core->icon(Icons::I_STATUS_FFC), tr("Free for chat"), this, SLOT(setStatusFFC()));
-  menu->addAction(core->icon(Icons::I_STATUS_DND), tr("Do not disturb"), this, SLOT(setStatusDND()));
-  menu->addAction(core->icon(Icons::I_STATUS_INVIS), tr("Invisible"), this, SLOT(setStatusInvisible()));
-  menu->addAction(core->icon(Icons::I_STATUS_OFFLINE), tr("Offline"), this, SLOT(setStatusOffline()));
+  m_onlineAction = menu->addAction(core->icon(Icons::I_STATUS_ONLINE), tr("Online"), this, SLOT(setStatusOnline()));
+  m_awayAction = menu->addAction(core->icon(Icons::I_STATUS_AWAY), tr("Away"), this, SLOT(setStatusAway()));
+  m_FFCAction = menu->addAction(core->icon(Icons::I_STATUS_FFC), tr("Free for chat"), this, SLOT(setStatusFFC()));
+  m_DNDAction = menu->addAction(core->icon(Icons::I_STATUS_DND), tr("Do not disturb"), this, SLOT(setStatusDND()));
+  m_InvisibleAction = menu->addAction(core->icon(Icons::I_STATUS_INVIS), tr("Invisible"), this, SLOT(setStatusInvisible()));
+  m_OfflineAction = menu->addAction(core->icon(Icons::I_STATUS_OFFLINE), tr("Offline"), this, SLOT(setStatusOffline()));
 
   setMenu(menu);
   setPopupMode(QToolButton::InstantPopup);
@@ -35,38 +35,48 @@ QSize Kitty::StatusChangeButton::sizeHint() const
   return QSize(2 + iconSize().width() + 2 + fontMetrics().width(text()) + 24, 20);
 }
 
+void Kitty::StatusChangeButton::retranslate()
+{
+  m_onlineAction->setText(tr("Online"));
+  m_awayAction->setText(tr("Away"));
+  m_FFCAction->setText(tr("Free for chat"));
+  m_DNDAction->setText(tr("Do not disturb"));
+  m_InvisibleAction->setText(tr("Invisible"));
+  m_OfflineAction->setText(tr("Offline"));
+
+  setStatus(m_status);
+}
+
 void Kitty::StatusChangeButton::setStatus(KittySDK::Protocol::Status status)
 {
-  if(status != m_status) {
-    switch(status) {
-      case Protocol::Online:
-        setStatusOnline(false);
-      break;
+  switch(status) {
+    case Protocol::Online:
+      setStatusOnline(false);
+    break;
 
-      case Protocol::Away:
-        setStatusAway(false);
-      break;
+    case Protocol::Away:
+      setStatusAway(false);
+    break;
 
-      case Protocol::FFC:
-        setStatusFFC(false);
-      break;
+    case Protocol::FFC:
+      setStatusFFC(false);
+    break;
 
-      case Protocol::DND:
-        setStatusDND(false);
-      break;
+    case Protocol::DND:
+      setStatusDND(false);
+    break;
 
-      case Protocol::Invisible:
-        setStatusInvisible(false);
-      break;
+    case Protocol::Invisible:
+      setStatusInvisible(false);
+    break;
 
-      case Protocol::Offline:
-        setStatusOffline(false);
-      break;
+    case Protocol::Offline:
+      setStatusOffline(false);
+    break;
 
-      default:
-        qWarning() << "Unknown status" << status;
-      break;
-    }
+    default:
+      qWarning() << "Unknown status" << status;
+    break;
   }
 }
 

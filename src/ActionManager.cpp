@@ -89,3 +89,17 @@ void Kitty::ActionManager::updateIcons()
     }
   }
 }
+
+void Kitty::ActionManager::retranslate()
+{
+  action(Actions::A_QUIT)->setText(tr("Quit"));
+  action(Actions::A_SHOW_HIDE)->setText(tr("Show / Hide"));
+  action(Actions::A_SETTINGS)->setText(tr("Settings"));
+  action(Actions::A_RESTART)->setText(tr("Restart"));
+  action(Actions::A_KITTY_FOLDER)->setText(tr("Kitty's folder"));
+  action(Actions::A_PROFILE_FOLDER)->setText(tr("Profile folder"));
+  action(Actions::A_ABOUT)->setText(tr("About..."));
+  action(Actions::A_DEBUG)->setText(tr("Debug console"));
+  action(Actions::A_ADD_CONTACT)->setText(tr("Add contact"));
+  action(Actions::A_HISTORY)->setText(tr("History"));
+}

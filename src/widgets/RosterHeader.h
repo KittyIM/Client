@@ -27,6 +27,7 @@ namespace Kitty
     public slots:
       void applySettings();
       void updateWidgets();
+      void retranslate();
 
     protected:
       void paintEvent(QPaintEvent *event);

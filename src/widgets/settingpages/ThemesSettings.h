@@ -18,6 +18,7 @@ namespace Kitty
       explicit ThemesSettings(QWidget *parent = 0);
       ~ThemesSettings();
 
+      void retranslate();
       void apply();
       void reset();
 

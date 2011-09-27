@@ -74,3 +74,8 @@ void Kitty::ChatWindowSettings::reset()
     }
   }
 }
+
+void Kitty::ChatWindowSettings::retranslate()
+{
+  m_ui->retranslateUi(this);
+}

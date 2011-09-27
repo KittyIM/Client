@@ -18,6 +18,7 @@ namespace Kitty
       MainSettings(QWidget *parent = 0);
       ~MainSettings();
 
+      void retranslate();
       void apply();
       void reset();
 

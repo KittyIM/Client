@@ -2,6 +2,7 @@
 #include "ui_ChatWindow.h"
 
 #include "widgets/windows/SettingsWindow.h"
+#include "3rdparty/qtwin/qtwin.h"
 #include "EmoticonManager.h"
 #include "SDK/constants.h"
 #include "IconManager.h"
@@ -37,6 +38,11 @@ Kitty::ChatWindow::ChatWindow(QWidget *parent): QWidget(parent), m_ui(new Ui::Ch
   m_theme = 0;
 
   applySettings();
+
+  if(QtWin::isCompositionEnabled()) {
+    QtWin::extendFrameIntoClientArea(this);
+    setContentsMargins(0, 0, 0, 0);
+  }
 }
 
 Kitty::ChatWindow::~ChatWindow()

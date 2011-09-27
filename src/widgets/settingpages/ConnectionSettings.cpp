@@ -42,3 +42,8 @@ void Kitty::ConnectionSettings::reset()
   m_ui->usernameEdit->setText(core->setting(Settings::S_PROXY_USERNAME).toString());
   m_ui->passwordEdit->setText(core->setting(Settings::S_PROXY_PASSWORD).toString());
 }
+
+void Kitty::ConnectionSettings::retranslate()
+{
+  m_ui->retranslateUi(this);
+}

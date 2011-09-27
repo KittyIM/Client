@@ -175,6 +175,13 @@ void Kitty::SettingsWindow::changeEvent(QEvent *event)
 {
   if(event->type() == QEvent::LanguageChange) {
     m_ui->retranslateUi(this);
+
+    foreach(SettingPage *page, m_pages) {
+      page->retranslate();
+      itemById(page->name())->setText(0, page->windowTitle());
+    }
+
+    on_treeWidget_currentItemChanged(m_ui->treeWidget->currentItem(), 0);
   }
 
   QDialog::changeEvent(event);

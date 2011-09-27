@@ -25,6 +25,9 @@ Kitty::App::App(int &argc, char **argv): QApplication(argc, argv)
 {
   m_startDate = QDateTime::currentDateTime();
 
+  m_translator = 0;
+  m_qtTranslator = 0;
+
   QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
   QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
 
@@ -100,18 +103,24 @@ void Kitty::App::applySettings()
 {
   Core *core = Core::inst();
 
-  QTranslator *translator = new QTranslator(this);
-  QTranslator *qtTranslator = new QTranslator(this);
+  if(!m_translator) {
+    m_translator = new QTranslator(this);
+  }
+
+  if(!m_qtTranslator) {
+    m_qtTranslator = new QTranslator(this);
+  }
 
   QString locale = QLocale::system().name();
   locale = core->setting(Settings::S_LANGUAGE, locale).toString();
 
   QString dir = applicationDirPath() + "/data/translations/";
-  if(translator->load("kitty_" + locale, dir) && qtTranslator->load("qt_" + locale, dir)) {
-    installTranslator(translator);
-    installTranslator(qtTranslator);
+  if(m_translator->load("kitty_" + locale, dir) && m_qtTranslator->load("qt_" + locale, dir)) {
+    installTranslator(m_translator);
+    installTranslator(m_qtTranslator);
   } else {
-    translator->load(QString());
+    m_translator->load("");
+    m_qtTranslator->load("");
   }
 
   QFile file(":/header/style.css");

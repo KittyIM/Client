@@ -20,6 +20,7 @@ namespace Kitty
       explicit PluginsSettings(QWidget *parent = 0);
       ~PluginsSettings();
 
+      void retranslate();
       void apply();
       void reset();
 

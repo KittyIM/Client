@@ -17,6 +17,7 @@ namespace Kitty
       QSize sizeHint() const;
 
       KittySDK::Protocol::Status status() const { return m_status; }
+      void retranslate();
 
     public slots:
       void setStatus(KittySDK::Protocol::Status status);
@@ -37,6 +38,13 @@ namespace Kitty
 
     private:
       KittySDK::Protocol::Status m_status;
+      QAction *m_onlineAction;
+      QAction *m_awayAction;
+      QAction *m_FFCAction;
+      QAction *m_DNDAction;
+      QAction *m_InvisibleAction;
+      QAction *m_OfflineAction;
+
   };
 }
 

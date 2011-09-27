@@ -24,6 +24,8 @@ namespace Kitty
 
     private:
       QDateTime m_startDate;
+      class QTranslator *m_translator;
+      class QTranslator *m_qtTranslator;
   };
 }
 

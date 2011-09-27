@@ -184,3 +184,8 @@ void Kitty::ThemesSettings::updateVariantList()
 
   updateChatPreview();
 }
+
+void Kitty::ThemesSettings::retranslate()
+{
+  m_ui->retranslateUi(this);
+}

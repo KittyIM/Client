@@ -55,3 +55,14 @@ void Kitty::RosterSettings::on_descriptionComboBox_currentIndexChanged(int index
 {
   m_ui->avatarsComboBox->setEnabled(index > 1);
 }
+
+void Kitty::RosterSettings::retranslate()
+{
+  int description = m_ui->descriptionComboBox->currentIndex();
+  int avatar = m_ui->avatarsComboBox->currentIndex();
+
+  m_ui->retranslateUi(this);
+
+  m_ui->descriptionComboBox->setCurrentIndex(description);
+  m_ui->avatarsComboBox->setCurrentIndex(avatar);
+}

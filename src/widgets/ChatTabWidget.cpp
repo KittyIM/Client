@@ -18,6 +18,7 @@ using namespace KittySDK;
 
 Kitty::ChatTabWidget::ChatTabWidget(QWidget *parent): QTabWidget(parent)
 {
+  applySettings();
 }
 
 Kitty::ChatTabWidget::~ChatTabWidget()
