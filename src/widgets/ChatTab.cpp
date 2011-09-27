@@ -70,32 +70,24 @@ Kitty::ChatTab::ChatTab(Chat *chat, QWidget *parent): QWidget(parent), m_ui(new 
     m_boldAction = m_toolBar->addAction(tr("Bold"), m_ui->textEdit, SLOT(boldText()));
     m_boldAction->setCheckable(true);
     m_boldAction->setProperty("icon_id", Icons::I_BOLD);
-  } else {
-    m_boldAction = 0;
   }
 
   if(proto->abilities().testFlag(Protocol::TextItalics)) {
     m_italicAction = m_toolBar->addAction(tr("Italic"), m_ui->textEdit, SLOT(italicText()));
     m_italicAction->setCheckable(true);
     m_italicAction->setProperty("icon_id", Icons::I_ITALIC);
-  } else {
-    m_italicAction = 0;
   }
 
   if(proto->abilities().testFlag(Protocol::TextUnderline)) {
     m_underlineAction = m_toolBar->addAction(tr("Underline"), m_ui->textEdit, SLOT(underlineText()));
     m_underlineAction->setCheckable(true);
     m_underlineAction->setProperty("icon_id", Icons::I_UNDERLINE);
-  } else {
-    m_underlineAction = 0;
   }
 
   if(proto->abilities().testFlag(Protocol::TextStrikethrough)) {
     m_strikethroughAction = m_toolBar->addAction(tr("Strikethrough"));
     m_strikethroughAction->setCheckable(true);
     m_strikethroughAction->setProperty("icon_id", Icons::I_STRIKETHROUGH);
-  } else {
-    m_strikethroughAction = 0;
   }
 
   if(m_toolBar->actions().count() > 0) {
@@ -103,20 +95,20 @@ Kitty::ChatTab::ChatTab(Chat *chat, QWidget *parent): QWidget(parent), m_ui(new 
   }
 
   if(proto->abilities().testFlag(Protocol::TextColor)) {
-    QAction *colorAction = m_toolBar->addAction(tr("Color"), this, SLOT(showColorPicker()));
-    colorAction->setProperty("icon_id", Icons::I_COLOR);
+    m_colorAction = m_toolBar->addAction(tr("Color"), this, SLOT(showColorPicker()));
+    m_colorAction->setProperty("icon_id", Icons::I_COLOR);
   }
 
-  QAction *smiliesAction = m_toolBar->addAction(tr("Smilies"));
-  smiliesAction->setProperty("icon_id", Icons::I_SMILEY);
+  m_smiliesAction = m_toolBar->addAction(tr("Smilies"));
+  m_smiliesAction->setProperty("icon_id", Icons::I_SMILEY);
 
   m_toolBar->addSeparator();
 
   int c = m_toolBar->actions().count();
 
   if(proto->abilities().testFlag(Protocol::SendImages)) {
-    QAction *imageAction = m_toolBar->addAction(tr("Send image"));
-    imageAction->setProperty("icon_id", Icons::I_IMAGE);
+    m_imageAction = m_toolBar->addAction(tr("Send image"));
+    m_imageAction->setProperty("icon_id", Icons::I_IMAGE);
 
     QMenu *imageMenu = new QMenu(this);
     imageMenu->addAction(tr("From file..."));
@@ -183,26 +175,26 @@ Kitty::ChatTab::ChatTab(Chat *chat, QWidget *parent): QWidget(parent), m_ui(new 
 
     imageMenu->addAction(tr("Clipboard contents"));
 
-    imageAction->setMenu(imageMenu);
+    m_imageAction->setMenu(imageMenu);
 
     QToolButton *imageButton = qobject_cast<QToolButton*>(m_toolBar->widgetForAction(imageAction));
     imageButton->setPopupMode(QToolButton::InstantPopup);
   }
 
   if(proto->abilities().testFlag(Protocol::SendFiles)) {
-    QAction *fileAction = m_toolBar->addAction(tr("Send file"));
-    fileAction->setProperty("icon_id", Icons::I_FILE);
+    m_fileAction = m_toolBar->addAction(tr("Send file"));
+    m_fileAction->setProperty("icon_id", Icons::I_FILE);
   }
 
   if(m_toolBar->actions().count() > c) {
     m_toolBar->addSeparator();
   }
 
-  QAction *profileAction = m_toolBar->addAction(tr("vCard"), this, SLOT(showContactWindow()));
-  profileAction->setProperty("icon_id", Icons::I_PROFILE);
+  m_profileAction = m_toolBar->addAction(tr("vCard"), this, SLOT(showContactWindow()));
+  m_profileAction->setProperty("icon_id", Icons::I_PROFILE);
 
-  QAction *historyAction = m_toolBar->addAction(tr("History"));
-  historyAction->setProperty("icon_id", Icons::I_HISTORY);
+  m_historyAction = m_toolBar->addAction(tr("History"));
+  m_historyAction->setProperty("icon_id", Icons::I_HISTORY);
 
   updateIcons();
 
@@ -213,6 +205,17 @@ Kitty::ChatTab::ChatTab(Chat *chat, QWidget *parent): QWidget(parent), m_ui(new 
 
 Kitty::ChatTab::~ChatTab()
 {
+  delete m_boldAction;
+  delete m_italicAction;
+  delete m_underlineAction;
+  delete m_strikethroughAction;
+  delete m_colorAction;
+  delete m_smiliesAction;
+  delete m_imageAction;
+  delete m_fileAction;
+  delete m_profileAction;
+  delete m_historyAction;
+
   delete m_ui;
 }
 
@@ -275,10 +278,23 @@ void Kitty::ChatTab::clearMessages()
 void Kitty::ChatTab::sendMessage()
 {
   if(!m_ui->textEdit->toPlainText().isEmpty()) {
-    qDebug() << m_ui->textEdit->toHtml().replace("<", "&lt;");
+    QString html =  m_ui->textEdit->toHtml();
+
+    QRegExp regexp;
+    regexp.setMinimal(true);
+
+    regexp.setPattern("<p.*>(.*)</p>");
+    html.replace(regexp, "\\1");
+
+    regexp.setPattern("<!DOCTYPE.*<body.*>");
+    html.remove(regexp);
+
+    regexp.setPattern("</body.*");
+    regexp.setMinimal(false);
+    html.remove(regexp);
 
     Message msg(m_chat->me(), m_chat->contacts());
-    msg.setBody(m_ui->textEdit->toPlainText());
+    msg.setBody(html.trimmed());
     msg.setChat(m_chat);
 
     QList<Plugin*> plugins = PluginManager::inst()->plugins();
@@ -309,15 +325,16 @@ void Kitty::ChatTab::changeEvent(QEvent *event)
   if(event->type() == QEvent::LanguageChange) {
     m_ui->retranslateUi(this);
 
-    /*m_boldAction->setText(tr("Bold"));
+    m_boldAction->setText(tr("Bold"));
     m_italicAction->setText(tr("Italic"));
     m_underlineAction->setText(tr("Underline"));
+    m_strikethroughAction->setText(tr("Striketrough"));
     m_colorAction->setText(tr("Color"));
-    m_smileyAction->setText(tr("Smilies"));
+    m_smiliesAction->setText(tr("Smilies"));
     m_imageAction->setText(tr("Send image"));
     m_fileAction->setText(tr("Send file"));
     m_profileAction->setText(tr("Profile"));
-    m_historyAction->setText(tr("History"));*/
+    m_historyAction->setText(tr("History"));
   }
 
   QWidget::changeEvent(event);
