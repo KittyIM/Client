@@ -51,7 +51,7 @@ void Kitty::ChatManager::startChat(Contact *me, const QList<Contact*> &contacts)
 {
   Chat *ch = chat(me, contacts);
   if(!ch) {
-    ch = new Chat(me, contacts);
+    ch = new Chat(me, contacts, qrand());
     m_chats.append(ch);
   }
 
@@ -77,7 +77,7 @@ void Kitty::ChatManager::receiveMessage(KittySDK::Message &msg)
 
     Chat *ch = chat(me, contacts);
     if(!ch) {
-      ch = new Chat(me, contacts);
+      ch = new Chat(me, contacts, qrand());
       m_chats.append(ch);
     }
 

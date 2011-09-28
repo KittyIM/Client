@@ -25,6 +25,7 @@ namespace Kitty
     private slots:
       void updateChatPreview();
       void updateVariantList();
+      void updateIconsPreview();
 
     private:
       Ui::ThemesSettings *m_ui;

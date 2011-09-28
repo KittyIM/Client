@@ -313,9 +313,6 @@
        <property name="indentation">
         <number>0</number>
        </property>
-       <property name="sortingEnabled">
-        <bool>true</bool>
-       </property>
        <column>
         <property name="text">
          <string notr="true">Contact</string>

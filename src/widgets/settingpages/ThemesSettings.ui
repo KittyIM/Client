@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>324</width>
-    <height>394</height>
+    <height>491</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -33,17 +33,33 @@
        <widget class="QComboBox" name="iconThemeComboBox"/>
       </item>
       <item row="1" column="0">
-       <widget class="QWebView" name="iconThemeWebView">
-        <property name="contextMenuPolicy">
-         <enum>Qt::NoContextMenu</enum>
+       <widget class="QListWidget" name="iconThemeListWidget">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>100</height>
+         </size>
         </property>
-        <property name="acceptDrops">
-         <bool>false</bool>
+        <property name="iconSize">
+         <size>
+          <width>16</width>
+          <height>16</height>
+         </size>
         </property>
-        <property name="url">
-         <url>
-          <string>about:blank</string>
-         </url>
+        <property name="movement">
+         <enum>QListView::Static</enum>
+        </property>
+        <property name="resizeMode">
+         <enum>QListView::Adjust</enum>
+        </property>
+        <property name="gridSize">
+         <size>
+          <width>32</width>
+          <height>32</height>
+         </size>
+        </property>
+        <property name="viewMode">
+         <enum>QListView::IconMode</enum>
         </property>
        </widget>
       </item>
@@ -128,15 +144,15 @@
    <header>QtWebKit/QWebView</header>
   </customwidget>
   <customwidget>
+   <class>Kitty::ChatWebView</class>
+   <extends>QWebView</extends>
+   <header>widgets/ChatWebView.h</header>
+  </customwidget>
+  <customwidget>
    <class>KittySDK::SettingPage</class>
    <extends>QWidget</extends>
    <header>SDK/SettingPage.h</header>
    <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>Kitty::ChatWebView</class>
-   <extends>QWebView</extends>
-   <header>widgets/ChatWebView.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

@@ -62,6 +62,7 @@ Kitty::MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), m_ui(new Ui
   m_ui->rosterTreeView->setSortingEnabled(true);
 
   connect(m_proxy, SIGNAL(layoutChanged()), m_ui->rosterTreeView, SLOT(fixGroups()));
+  connect(IconManager::inst(), SIGNAL(iconsUpdated()), m_proxy, SLOT(invalidate()));
 
   m_hideTimer.setSingleShot(true);
   connect(&m_hideTimer, SIGNAL(timeout()), this, SLOT(hide()));
@@ -254,7 +255,7 @@ void Kitty::MainWindow::applySettings()
 
   QFile file(fileName);
   if(file.open(QFile::ReadOnly)) {
-    m_ui->rosterTreeView->setStyleSheet(file.readAll());
+    setStyleSheet(file.readAll());
     file.close();
   }
 

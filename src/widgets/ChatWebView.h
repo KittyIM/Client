@@ -37,6 +37,9 @@ namespace Kitty
 
       void appendMessage(const KittySDK::Message &msg, Kitty::ChatTheme *theme = 0);
 
+      void setAutoScroll(bool autoScroll) { m_autoScroll = autoScroll; }
+      bool autoScroll() const { return m_autoScroll; }
+
     signals:
       void keyPressed();
 
@@ -63,6 +66,7 @@ namespace Kitty
       KittySDK::Contact *m_lastFrom;
       QDateTime m_lastTimeStamp;
       KittySDK::Message::Direction m_lastDirection;
+      bool m_autoScroll;
   };
 }
 

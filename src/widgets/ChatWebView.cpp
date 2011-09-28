@@ -56,6 +56,7 @@ Kitty::ChatWebView::ChatWebView(QWidget *parent): QWebView(parent)
 
   m_imageCount = 0;
   m_lastFrom = 0;
+  m_autoScroll = true;
 
   page()->settings()->setAttribute(QWebSettings::PrivateBrowsingEnabled, true);
   page()->settings()->setAttribute(QWebSettings::JavascriptEnabled, true);
@@ -194,9 +195,11 @@ void Kitty::ChatWebView::appendMessage(const KittySDK::Message &msg, Kitty::Chat
     }
   }
 
-  //without the timer, the scollbars wouldn't update
-  if(page()->mainFrame()->scrollBarValue(Qt::Vertical) == page()->mainFrame()->scrollBarMaximum(Qt::Vertical)) {
-    QTimer::singleShot(0, this, SLOT(updateScrollbar()));
+  if(m_autoScroll) {
+    //without the timer, the scollbars wouldn't update
+    if(page()->mainFrame()->scrollBarValue(Qt::Vertical) == page()->mainFrame()->scrollBarMaximum(Qt::Vertical)) {
+      QTimer::singleShot(0, this, SLOT(updateScrollbar()));
+    }
   }
 
   m_lastFrom = msg.from();

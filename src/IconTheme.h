@@ -3,19 +3,22 @@
 
 #include "AbstractTheme.h"
 
-#include <QtCore/QMap>
+#include <QtCore/QHash>
 
 namespace Kitty
 {
   class IconTheme: public AbstractTheme
   {
     public:
-      IconTheme(const QString &name);
+      IconTheme(const QString &name = "");
 
-      QMap<QString, QString> icons() const { return m_icons; }
+      QHash<QString, QString> icons() const { return m_icons; }
 
     private:
-      QMap<QString, QString> m_icons;
+      void loadDefaults();
+
+    private:
+      QHash<QString, QString> m_icons;
   };
 }
 

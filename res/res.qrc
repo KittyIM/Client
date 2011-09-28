@@ -39,6 +39,7 @@
         <file>glyphs/filter.png</file>
         <file>images/kitty_logo.png</file>
         <file>roster/theme.css</file>
+        <file>roster/header_bg.png</file>
         <file>chat/Header.html</file>
         <file>chat/Main.css</file>
         <file>chat/Status.html</file>
@@ -104,8 +105,6 @@
         <file>chat/Variants/Yellow vs. Pink.css</file>
         <file>chat/Variants/Yellow vs. Red.css</file>
         <file>glyphs/sound.png</file>
-        <file>header/header_bg.png</file>
-        <file>header/style.css</file>
         <file>glyphs/status_invisible.png</file>
         <file>glyphs/status_away.png</file>
         <file>glyphs/status_dnd.png</file>

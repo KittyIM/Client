@@ -1,3 +1,4 @@
+/* Roster */
 QTreeView {
   color: #000000;
   selection-color: #000000;
@@ -28,3 +29,31 @@ QTreeView::item:has-children:selected {
   border: 1px solid #b9b9b9;
 }
 
+/* Header */
+Kitty--RosterHeader {
+  background: black url(:/roster/header_bg.png);
+  background-repeat: no-repeat;
+}
+
+Kitty--RosterHeader QLineEdit {
+  background: black;
+  color: white;
+  border: 1px solid gray;
+  border-radius: 3px;
+}
+
+Kitty--RosterHeader QToolButton {
+  color: white;
+  border: 1px solid gray;
+  border-radius: 3px;  
+}
+
+Kitty--RosterHeader QLabel#avatarLabel {
+  border: 1px solid gray;
+  color: white;
+}
+
+Kitty--RosterHeader QLabel#profileLabel {
+  margin-left: 2px;
+  color: white;
+}

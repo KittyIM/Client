@@ -7,12 +7,14 @@
 #include "SDK/Message.h"
 #include "SDK/Contact.h"
 #include "SDK/Account.h"
+#include "IconTheme.h"
 #include "ChatTheme.h"
 #include "Profile.h"
 #include "Core.h"
 
 #include <QtCore/QFileInfoList>
 #include <QtCore/QDateTime>
+#include <QtCore/QBuffer>
 #include <QtCore/QDebug>
 #include <QtCore/QDir>
 #include <QtWebKit/QWebElement>
@@ -62,6 +64,7 @@ Kitty::ThemesSettings::ThemesSettings(QWidget *parent): SettingPage(0, parent), 
   setIcon(Icons::I_BULLET);
 
   connect(m_ui->chatThemeComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(updateVariantList()));
+  connect(m_ui->iconThemeComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(updateIconsPreview()));
 }
 
 Kitty::ThemesSettings::~ThemesSettings()
@@ -75,12 +78,14 @@ void Kitty::ThemesSettings::apply()
   core->setSetting(Settings::S_ROSTER_THEME, m_ui->rosterThemeComboBox->itemData(m_ui->rosterThemeComboBox->currentIndex()));
   core->setSetting(Settings::S_CHAT_THEME, m_ui->chatThemeComboBox->itemData(m_ui->chatThemeComboBox->currentIndex()));
   core->setSetting(Settings::S_CHAT_THEME_VARIANT, m_ui->chatThemeVariantComboBox->itemData(m_ui->chatThemeVariantComboBox->currentIndex()));
+  core->setSetting(Settings::S_ICON_THEME, m_ui->iconThemeComboBox->itemData(m_ui->iconThemeComboBox->currentIndex()));
 }
 
 void Kitty::ThemesSettings::reset()
 {
   Core *core = Core::inst();
 
+  //chat themes
   disconnect(m_ui->chatThemeComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(updateChatPreview()));
   disconnect(m_ui->chatThemeVariantComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(updateChatPreview()));
 
@@ -99,6 +104,7 @@ void Kitty::ThemesSettings::reset()
 
   updateVariantList();
 
+  //roster themes
   m_ui->rosterThemeComboBox->clear();
   m_ui->rosterThemeComboBox->addItem(tr("Default"), QString());
 
@@ -109,6 +115,30 @@ void Kitty::ThemesSettings::reset()
 
     if(dir.fileName() == core->setting(Settings::S_ROSTER_THEME, QString()).toString()) {
       m_ui->rosterThemeComboBox->setCurrentIndex(m_ui->rosterThemeComboBox->count() - 1);
+    }
+  }
+
+  //icon themes
+  m_ui->iconThemeComboBox->clear();
+  m_ui->iconThemeComboBox->addItem(tr("Default"), QString());
+  QDir iconThemeDir(qApp->applicationDirPath() + "/themes/icon/");
+  QFileInfoList iconThemes = iconThemeDir.entryInfoList(QDir::Dirs | QDir::NoDotAndDotDot);
+  foreach(QFileInfo dir, iconThemes) {
+    IconTheme theme(dir.fileName());
+
+    QString name = dir.fileName();
+    if(!theme.author().isEmpty()) {
+      name.append(QString(" %1 %2").arg(tr("by")).arg(theme.author()));
+    }
+
+    if(!theme.email().isEmpty()) {
+      name.append(QString("<%1>").arg(theme.email()));
+    }
+
+    m_ui->iconThemeComboBox->addItem(name, dir.fileName());
+
+    if(dir.fileName() == core->setting(Settings::S_ICON_THEME, QString()).toString()) {
+      m_ui->iconThemeComboBox->setCurrentIndex(m_ui->iconThemeComboBox->count() - 1);
     }
   }
 }
@@ -188,4 +218,19 @@ void Kitty::ThemesSettings::updateVariantList()
 void Kitty::ThemesSettings::retranslate()
 {
   m_ui->retranslateUi(this);
+}
+
+void Kitty::ThemesSettings::updateIconsPreview()
+{
+  IconTheme theme(m_ui->iconThemeComboBox->itemData(m_ui->iconThemeComboBox->currentIndex()).toString());
+  m_ui->iconThemeListWidget->clear();
+
+  QHashIterator<QString, QString> it(theme.icons());
+  while(it.hasNext()) {
+    it.next();
+
+    QListWidgetItem *item = new QListWidgetItem(m_ui->iconThemeListWidget);
+    item->setIcon(QIcon(it.value()));
+    item->setToolTip(it.key());
+  }
 }

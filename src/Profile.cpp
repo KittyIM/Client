@@ -77,7 +77,7 @@ void Kitty::Profile::loadIconTheme(const QString &name)
   qDebug() << "Loading icon theme " + name;
 
   IconTheme theme(name);
-  QMapIterator<QString, QString> i(theme.icons());
+  QHashIterator<QString, QString> i(theme.icons());
   while(i.hasNext()) {
     i.next();
 

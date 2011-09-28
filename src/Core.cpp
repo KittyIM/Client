@@ -486,7 +486,7 @@ bool Kitty::Core::archiveMessage(const KittySDK::Message &msg)
 
       QSqlQuery query;
       query.prepare("INSERT INTO 'messages' ([chatID], [timeStamp], [dir], [body]) VALUES(:chatId, :timeStamp, :dir, :body);");
-      query.bindValue(":chatId", 10);
+      query.bindValue(":chatId", msg.chat()->id());
       query.bindValue(":timeStamp", msg.timeStamp().toTime_t());
       query.bindValue(":dir", msg.direction());
       query.bindValue(":body", msg.body());

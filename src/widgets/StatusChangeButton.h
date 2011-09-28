@@ -17,10 +17,10 @@ namespace Kitty
       QSize sizeHint() const;
 
       KittySDK::Protocol::Status status() const { return m_status; }
-      void retranslate();
 
     public slots:
       void setStatus(KittySDK::Protocol::Status status);
+      void retranslate();
 
     signals:
       void statusChanged(KittySDK::Protocol::Status status);
@@ -32,6 +32,7 @@ namespace Kitty
       void setStatusDND(bool signal = true);
       void setStatusInvisible(bool signal = true);
       void setStatusOffline(bool signal = true);
+      void updateIcons();
 
     protected:
       void paintEvent(QPaintEvent *event);

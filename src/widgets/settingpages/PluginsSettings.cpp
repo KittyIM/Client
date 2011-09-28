@@ -80,4 +80,12 @@ void Kitty::PluginsSettings::on_pluginWidget_currentItemChanged(QTreeWidgetItem 
 void Kitty::PluginsSettings::retranslate()
 {
   m_ui->retranslateUi(this);
+
+  for(int i = 0; i < m_ui->pluginWidget->topLevelItemCount(); i++) {
+    QTreeWidgetItem *item = m_ui->pluginWidget->topLevelItem(i);
+    Plugin *plugin = PluginManager::inst()->pluginByName(item->text(0));
+    if(plugin) {
+      item->setText(3, (plugin->isLoaded())?tr("Loaded"):tr("Not loaded"));
+    }
+  }
 }

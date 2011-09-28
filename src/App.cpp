@@ -123,14 +123,12 @@ void Kitty::App::applySettings()
     m_qtTranslator->load("");
   }
 
-  QFile file(":/header/style.css");
-  file.open(QFile::ReadOnly);
-  setStyleSheet(file.readAll());
-  file.close();
+  if(core->profile()) {
+    core->profile()->loadIconTheme(core->setting(Settings::S_ICON_THEME).toString());
+  }
 
   QNetworkProxy proxy;
   if(core->setting(Settings::S_PROXY_ENABLED, false).toBool()) {
-    proxy.setType(QNetworkProxy::HttpProxy);
     proxy.setHostName(core->setting(Settings::S_PROXY_SERVER).toString());
     proxy.setPort(core->setting(Settings::S_PROXY_PORT).toInt());
 
@@ -148,7 +146,15 @@ void Kitty::App::cleanUp()
   Core *core = Core::inst();
 
   if(core->hasToRestart()) {
-    QProcess::startDetached(qApp->applicationFilePath());
+    QStringList args = arguments();
+    args.removeFirst();
+
+    if(args.indexOf("-profile") == -1) {
+      args.append("-profile");
+      args.append(core->profile()->name());
+    }
+
+    QProcess::startDetached(qApp->applicationFilePath(), args);
   }
 
   Core::destr();

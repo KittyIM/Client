@@ -121,9 +121,6 @@ void Kitty::DebugWindow::execCommand()
       int secs = static_cast<App*>(qApp)->startDate().secsTo(QDateTime::currentDateTime());
 
       msg = QString("Uptime: %1h %2m %3s").arg(secs / 3600).arg((secs / 60) % 60).arg(secs % 60);
-    } else if(commands.at(0) == "theme") {
-      //FIXME remove this
-      Core::inst()->profile()->loadIconTheme("Fugue");
     }
 
     m_wvLog->setHtml(m_wvLog->page()->mainFrame()->toHtml() + QString("<div>&gt; %1</div>").arg(m_ui->commandEdit->text()));

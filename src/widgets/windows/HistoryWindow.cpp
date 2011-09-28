@@ -21,6 +21,7 @@
 #include <QtSql/QSqlDatabase>
 #include <QtSql/QSqlError>
 #include <QtSql/QSqlQuery>
+#include <QtWebKit/QWebFrame>
 
 #define qDebug() qDebug() << "[HistoryWindow]"
 #define qWarning() qWarning() << "[HistoryWindow]"
@@ -76,6 +77,8 @@ Kitty::HistoryWindow::HistoryWindow(QWidget *parent): QWidget(parent), m_ui(new 
   connect(m_ui->contactTree->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(loadChats(QModelIndex,QModelIndex)));
 
   restoreGeometry(core->setting(Settings::S_HISTORYWINDOW_GEOMETRY).toByteArray());
+
+  m_ui->chatWebView->setAutoScroll(false);
 
   m_ui->dateToEdit->setDate(QDate::currentDate());
   m_ui->chatTree->header()->restoreState(core->setting(Settings::S_HISTORYWINDOW_COLUMNS, m_ui->chatTree->header()->saveState()).toByteArray());
@@ -252,7 +255,12 @@ void Kitty::HistoryWindow::loadChats(const QModelIndex &current, const QModelInd
               return;
             }
 
-            QSqlQuery query("SELECT COUNT(DISTINCT chatId) as chats, msg.count as messages FROM messages JOIN (SELECT COUNT(*) as count FROM messages) msg;");
+            QSqlQuery query(" SELECT"
+                            "   COUNT(DISTINCT chatId) as chats,"
+                            "   msg.count as messages "
+                            " FROM"
+                            "   messages"
+                            "   JOIN (SELECT COUNT(*) as count FROM messages) msg;");
             query.next();
 
             int chats = query.value(0).toInt();
@@ -288,7 +296,21 @@ void Kitty::HistoryWindow::loadChats(const QModelIndex &current, const QModelInd
           return;
         }
 
-        QSqlQuery query("SELECT *, COUNT(*) as 'count' FROM (SELECT m.*, lt.lastTimeStamp FROM messages m JOIN (SELECT MAX(timeStamp) as lastTimeStamp, chatId FROM messages GROUP BY chatId) lt ON lt.chatId = m.chatId ORDER BY timeStamp DESC) GROUP BY chatId;");
+        QSqlQuery query(" SELECT"
+                        "    *,"
+                        "   COUNT(*) as 'count'"
+                        " FROM ("
+                        "   SELECT"
+                        "     m.*,"
+                        "     lt.lastTimeStamp"
+                        "   FROM"
+                        "     messages m"
+                        "     JOIN (SELECT MAX(timeStamp) as lastTimeStamp, chatId FROM messages GROUP BY chatId) lt"
+                        "     ON lt.chatId = m.chatId"
+                        "     ORDER BY timeStamp DESC"
+                        "   )"
+                        " GROUP BY chatId"
+                        " ORDER BY timeStamp DESC;");
         while(query.next()) {
             QTreeWidgetItem *item = new QTreeWidgetItem(m_ui->chatTree);
 
@@ -404,6 +426,8 @@ void Kitty::HistoryWindow::on_chatTree_currentItemChanged(QTreeWidgetItem *curre
 
               delete msg;
             }
+
+            m_ui->chatWebView->page()->mainFrame()->setScrollPosition(QPoint());
           } else {
             qDebug() << "Error executing query" << query.lastError().text();
           }

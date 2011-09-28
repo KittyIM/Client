@@ -56,5 +56,3 @@ void Kitty::RosterHeader::paintEvent(QPaintEvent *event)
   QStylePainter p(this);
   p.drawPrimitive(QStyle::PE_Widget, opt);
 }
-
-

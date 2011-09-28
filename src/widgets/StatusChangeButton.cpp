@@ -1,6 +1,7 @@
 #include "StatusChangeButton.h"
 
 #include "SDK/constants.h"
+#include "IconManager.h"
 #include "Core.h"
 
 #include <QtCore/QDebug>
@@ -15,6 +16,8 @@ Kitty::StatusChangeButton::StatusChangeButton(QWidget *parent): QToolButton(pare
 {
   Core *core = Core::inst();
   QMenu *menu = new QMenu(this);
+
+  connect(IconManager::inst(), SIGNAL(iconsUpdated()), this, SLOT(updateIcons()));
 
   m_onlineAction = menu->addAction(core->icon(Icons::I_STATUS_ONLINE), tr("Online"), this, SLOT(setStatusOnline()));
   m_awayAction = menu->addAction(core->icon(Icons::I_STATUS_AWAY), tr("Away"), this, SLOT(setStatusAway()));
@@ -185,5 +188,19 @@ void Kitty::StatusChangeButton::setStatusOffline(bool signal)
   if(signal) {
     emit statusChanged(Protocol::Offline);
   }
+}
+
+void Kitty::StatusChangeButton::updateIcons()
+{
+  Core *core = Core::inst();
+
+  m_onlineAction->setIcon(core->icon(Icons::I_STATUS_ONLINE));
+  m_awayAction->setIcon(core->icon(Icons::I_STATUS_AWAY));
+  m_FFCAction->setIcon(core->icon(Icons::I_STATUS_FFC));
+  m_DNDAction->setIcon(core->icon(Icons::I_STATUS_DND));
+  m_InvisibleAction->setIcon(core->icon(Icons::I_STATUS_INVIS));
+  m_OfflineAction->setIcon(core->icon(Icons::I_STATUS_OFFLINE));
+
+  setStatus(m_status);
 }
 
