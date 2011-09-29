@@ -52,6 +52,7 @@ namespace Kitty
       void setToolbarTextUnder();
       void setFilterText(const QString &text);
       void toggleToolbarLock();
+      void requestHistory(KittySDK::Contact *contact);
 
     protected:
       void changeEvent(QEvent *event);

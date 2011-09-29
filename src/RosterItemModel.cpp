@@ -123,8 +123,7 @@ QVariant Kitty::RosterItemModel::data(const QModelIndex &index, int role) const
     return QVariant();
   }
 
-  RosterItem *item = static_cast<RosterItem*>(index.internalPointer());
-  if(item) {
+  if(RosterItem *item = static_cast<RosterItem*>(index.internalPointer())) {
     return item->data(role);
   } else {
     return QVariant();
@@ -145,8 +144,7 @@ QModelIndex Kitty::RosterItemModel::index(int row, int column, const QModelIndex
     parentItem = static_cast<RosterItem*>(parent.internalPointer());
   }
 
-  RosterItem *childItem = parentItem->child(row);
-  if(childItem) {
+  if(RosterItem *childItem = parentItem->child(row)) {
     return createIndex(row, column, childItem);
   } else {
     return QModelIndex();

@@ -95,9 +95,10 @@ void Kitty::DebugWindow::changeEvent(QEvent *event)
 bool Kitty::DebugWindow::eventFilter(QObject *obj, QEvent *event)
 {
   if(event->type() == QEvent::KeyPress) {
-    QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
-    if((keyEvent->key() == Qt::Key_C) && (keyEvent->modifiers().testFlag(Qt::ControlModifier))) {
-      qApp->clipboard()->setText(m_wvLog->selectedText());
+    if(QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event)) {
+      if((keyEvent->key() == Qt::Key_C) && (keyEvent->modifiers().testFlag(Qt::ControlModifier))) {
+        qApp->clipboard()->setText(m_wvLog->selectedText());
+      }
     }
   }
 

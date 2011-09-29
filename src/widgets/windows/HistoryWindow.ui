@@ -131,6 +131,25 @@
       </widget>
      </item>
      <item>
+      <widget class="QToolButton" name="searchButton">
+       <property name="minimumSize">
+        <size>
+         <width>60</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Search</string>
+       </property>
+       <property name="toolButtonStyle">
+        <enum>Qt::ToolButtonTextUnderIcon</enum>
+       </property>
+       <property name="autoRaise">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
       <spacer name="horizontalSpacer">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
@@ -151,18 +170,8 @@
          <height>16777215</height>
         </size>
        </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="searchButton">
-       <property name="maximumSize">
-        <size>
-         <width>60</width>
-         <height>16777215</height>
-        </size>
-       </property>
-       <property name="text">
-        <string>Search</string>
+       <property name="placeholderText">
+        <string>Quick search</string>
        </property>
       </widget>
      </item>
@@ -215,6 +224,9 @@
           </property>
           <item>
            <widget class="QGroupBox" name="filtersGroupBox">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
             <property name="title">
              <string>Filters</string>
             </property>
@@ -349,7 +361,6 @@
  <tabstops>
   <tabstop>contactSearchEdit</tabstop>
   <tabstop>searchEdit</tabstop>
-  <tabstop>searchButton</tabstop>
   <tabstop>refreshButton</tabstop>
   <tabstop>exportButton</tabstop>
   <tabstop>importButton</tabstop>
@@ -373,8 +384,8 @@
    <slot>setVisible(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>152</x>
-     <y>24</y>
+     <x>330</x>
+     <y>25</y>
     </hint>
     <hint type="destinationlabel">
      <x>89</x>
@@ -382,5 +393,72 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>dateFromEdit</sender>
+   <signal>dateChanged(QDate)</signal>
+   <receiver>HistoryWindow</receiver>
+   <slot>updateCurrentChat()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>136</x>
+     <y>306</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>5</x>
+     <y>47</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>dateToEdit</sender>
+   <signal>dateChanged(QDate)</signal>
+   <receiver>HistoryWindow</receiver>
+   <slot>updateCurrentChat()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>87</x>
+     <y>348</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>3</x>
+     <y>91</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>directionComboBox</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>HistoryWindow</receiver>
+   <slot>updateCurrentChat()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>103</x>
+     <y>285</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>4</x>
+     <y>133</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>searchEdit</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>HistoryWindow</receiver>
+   <slot>updateCurrentChat()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>539</x>
+     <y>16</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>4</x>
+     <y>172</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
+ <slots>
+  <slot>updateCurrentChat()</slot>
+ </slots>
 </ui>

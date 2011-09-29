@@ -177,8 +177,9 @@ Kitty::ChatTab::ChatTab(Chat *chat, QWidget *parent): QWidget(parent), m_ui(new 
 
     m_imageAction->setMenu(imageMenu);
 
-    QToolButton *imageButton = qobject_cast<QToolButton*>(m_toolBar->widgetForAction(m_imageAction));
-    imageButton->setPopupMode(QToolButton::InstantPopup);
+    if(QToolButton *imageButton = qobject_cast<QToolButton*>(m_toolBar->widgetForAction(m_imageAction))) {
+      imageButton->setPopupMode(QToolButton::InstantPopup);
+    }
   }
 
   if(proto->abilities().testFlag(Protocol::SendFiles)) {
@@ -393,10 +394,8 @@ void Kitty::ChatTab::updateButtons()
 
 void Kitty::ChatTab::showColorPicker()
 {
-  QAction *action = qobject_cast<QAction*>(sender());
-  if(action) {
-    QWidget *widget = m_toolBar->widgetForAction(action);
-    if(widget) {
+  if(QAction *action = qobject_cast<QAction*>(sender())) {
+    if(QWidget *widget = m_toolBar->widgetForAction(action)) {
       m_colorPicker->showAt(widget->mapToGlobal(QPoint(0, widget->height())));
     }
   }

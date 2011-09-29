@@ -116,10 +116,8 @@ void Kitty::ChatWindow::closeEvent(QCloseEvent *event)
 
 void Kitty::ChatWindow::on_tabWidget_currentChanged(int index)
 {
-  ChatTab *tab = qobject_cast<ChatTab*>(m_ui->tabWidget->widget(index));
-  if(tab) {
-    Contact *cnt = tab->chat()->contacts().first();
-    if(cnt) {
+  if(ChatTab *tab = qobject_cast<ChatTab*>(m_ui->tabWidget->widget(index))) {
+    if(Contact *cnt = tab->chat()->contacts().first()) {
       QString title = Core::inst()->setting(Settings::S_CHATWINDOW_CAPTION, "%display% [%status%] \"%description%\"").toString();
       title.replace("%display%", cnt->display());
       title.replace("%status%", Core::inst()->statusToString(cnt->status()));

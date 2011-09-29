@@ -29,6 +29,7 @@ namespace Kitty
       void copyDescription();
       void moveToGroup();
       void showVCard();
+      void showHistory();
 
     private slots:
       void itemExpanded(const QModelIndex &index);
@@ -36,6 +37,7 @@ namespace Kitty
 
     signals:
       void vCardRequested(KittySDK::Contact *cnt);
+      void historyRequested(KittySDK::Contact *cnt);
 
     protected:
       void mousePressEvent(QMouseEvent *event);

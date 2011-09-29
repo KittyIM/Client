@@ -112,11 +112,11 @@ void Kitty::ChatTabWidget::applySettings()
   updateTabBar();
 
   for(int i = 0; i < count(); i++) {
-    ChatTab *tab = qobject_cast<ChatTab*>(widget(i));
+    if(ChatTab *tab = qobject_cast<ChatTab*>(widget(i))) {
+      setTabText(i, createLabel(tab->chat()));
 
-    setTabText(i, createLabel(tab->chat()));
-
-    tab->applySettings();
+      tab->applySettings();
+    }
   }
 
   switch(core->setting(Settings::S_CHATWINDOW_TABBAR_POS).toInt()) {
@@ -154,29 +154,31 @@ void Kitty::ChatTabWidget::updateTabBar()
 void Kitty::ChatTabWidget::updateIcons()
 {
   for(int i = 0; i < count(); i++) {
-    ChatTab *tab = qobject_cast<ChatTab*>(widget(i));
-    tab->updateIcons();
+    if(ChatTab *tab = qobject_cast<ChatTab*>(widget(i))) {
+      tab->updateIcons();
+    }
   }
 }
 
 void Kitty::ChatTabWidget::changeTab()
 {
-  ChatTab *tab = qobject_cast<ChatTab*>(sender());
-  int i = indexByChat(tab->chat());
+  if(ChatTab *tab = qobject_cast<ChatTab*>(sender())) {
+    int i = indexByChat(tab->chat());
 
-  updateTab(i);
+    updateTab(i);
+  }
 }
 
 
 void Kitty::ChatTabWidget::updateTab(int i)
 {
-  ChatTab *tab = qobject_cast<ChatTab*>(widget(i));
+  if(ChatTab *tab = qobject_cast<ChatTab*>(widget(i))) {
+    Contact *cnt = tab->chat()->contacts().first();
+    Protocol *proto = cnt->protocol();
 
-  Contact *cnt = tab->chat()->contacts().first();
-  Protocol *proto = cnt->protocol();
-
-  setTabIcon(i, Core::inst()->icon(proto->statusIcon(cnt->status())));
-  setTabText(i, createLabel(tab->chat()));
+    setTabIcon(i, Core::inst()->icon(proto->statusIcon(cnt->status())));
+    setTabText(i, createLabel(tab->chat()));
+  }
 
   emit currentChanged(i);
 }

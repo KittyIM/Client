@@ -47,8 +47,7 @@ RosterItem *Kitty::RosterItem::parent()
 int Kitty::RosterItem::row() const
 {
   if(m_parent) {
-    RosterItem *item = const_cast<Kitty::RosterItem*>(this);
-    if(item) {
+    if(RosterItem *item = const_cast<Kitty::RosterItem*>(this)) {
       return m_parent->m_children.indexOf(item);
     }
   }

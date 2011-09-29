@@ -215,8 +215,7 @@ void Kitty::AccountManager::changeStatus(KittySDK::Protocol::Status status)
 
 void Kitty::AccountManager::notifyStatusChange(KittySDK::Protocol::Status status, const QString &description)
 {
-  Account *account = dynamic_cast<Account*>(sender());
-  if(account) {
+  if(Account *account = dynamic_cast<Account*>(sender())) {
     qDebug() << account->uid() << status;
     emit accountStatusChanged(account, status, description);
   }

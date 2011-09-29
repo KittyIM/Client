@@ -7,8 +7,10 @@
 #include "ContactManager.h"
 #include "AccountManager.h"
 #include "ActionManager.h"
+#include "HistoryWindow.h"
 #include "SDK/constants.h"
 #include "RosterContact.h"
+#include "IconManager.h"
 #include "constants.h"
 #include "Profile.h"
 #include "Core.h"
@@ -40,6 +42,7 @@ Kitty::MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), m_ui(new Ui
   qDebug() << "Creating";
 
   connect(m_ui->rosterTreeView, SIGNAL(vCardRequested(KittySDK::Contact*)), Core::inst(), SLOT(showContactWindow(KittySDK::Contact*)));
+  connect(m_ui->rosterTreeView, SIGNAL(historyRequested(KittySDK::Contact*)), this, SLOT(requestHistory(KittySDK::Contact*)));
 
   m_header = new RosterHeader(this);
   m_ui->headerToolBar->addWidget(m_header);
@@ -167,10 +170,10 @@ void Kitty::MainWindow::initToolbars()
 
   m_ui->mainToolBar->addAction(core->action(Actions::A_ABOUT));
 
-  QToolButton *btnMain = qobject_cast<QToolButton*>(m_ui->mainToolBar->widgetForAction(core->action(Actions::A_ABOUT)));
-  btnMain->setMenu(mnuMain);
-  btnMain->setPopupMode(QToolButton::MenuButtonPopup);
-
+  if(QToolButton *btnMain = qobject_cast<QToolButton*>(m_ui->mainToolBar->widgetForAction(core->action(Actions::A_ABOUT)))) {
+    btnMain->setMenu(mnuMain);
+    btnMain->setPopupMode(QToolButton::MenuButtonPopup);
+  }
 
   // User menu
   QMenu *mnuUser = new QMenu(this);
@@ -179,9 +182,10 @@ void Kitty::MainWindow::initToolbars()
 
   m_ui->mainToolBar->addAction(core->action(Actions::A_ADD_CONTACT));
 
-  QToolButton *btnUser = qobject_cast<QToolButton*>(m_ui->mainToolBar->widgetForAction(core->action(Actions::A_ADD_CONTACT)));
-  btnUser->setMenu(mnuUser);
-  btnUser->setPopupMode(QToolButton::MenuButtonPopup);
+  if(QToolButton *btnUser = qobject_cast<QToolButton*>(m_ui->mainToolBar->widgetForAction(core->action(Actions::A_ADD_CONTACT)))) {
+    btnUser->setMenu(mnuUser);
+    btnUser->setPopupMode(QToolButton::MenuButtonPopup);
+  }
 
 
   //Settings menu
@@ -190,9 +194,10 @@ void Kitty::MainWindow::initToolbars()
 
   m_ui->mainToolBar->addAction(core->action(Actions::A_SETTINGS));
 
-  QToolButton *btnSettings = qobject_cast<QToolButton*>(m_ui->mainToolBar->widgetForAction(core->action(Actions::A_SETTINGS)));
-  btnSettings->setMenu(mnuSettings);
-  btnSettings->setPopupMode(QToolButton::MenuButtonPopup);
+  if(QToolButton *btnSettings = qobject_cast<QToolButton*>(m_ui->mainToolBar->widgetForAction(core->action(Actions::A_SETTINGS)))) {
+    btnSettings->setMenu(mnuSettings);
+    btnSettings->setPopupMode(QToolButton::MenuButtonPopup);
+  }
 }
 
 void Kitty::MainWindow::addToolbarAction(const QString &tb, QAction *action)
@@ -269,14 +274,13 @@ void Kitty::MainWindow::applySettings()
 
 void Kitty::MainWindow::showAccountStatusMenu()
 {
-  QAction *action = qobject_cast<QAction*>(sender());
-  Account *account = AccountManager::inst()->account(action->property("protocol").toString(), action->property("uid").toString());
-  if(account) {
-    QMenu *menu = account->statusMenu();
-    if(menu) {
-      QToolButton *button = qobject_cast<QToolButton*>(m_ui->networksToolBar->widgetForAction(action));
-
-      menu->exec(button->mapToGlobal(QPoint(0, button->height() + 1)));
+  if(QAction *action = qobject_cast<QAction*>(sender())) {
+    if(Account *account = AccountManager::inst()->account(action->property("protocol").toString(), action->property("uid").toString())) {
+      if(QMenu *menu = account->statusMenu()) {
+        if(QToolButton *button = qobject_cast<QToolButton*>(m_ui->networksToolBar->widgetForAction(action))) {
+          menu->exec(button->mapToGlobal(QPoint(0, button->height() + 1)));
+        }
+      }
     }
   }
 }
@@ -298,9 +302,7 @@ void Kitty::MainWindow::updateAccountStatusIcon(Account *account)
 
 void Kitty::MainWindow::showToolbarMenu(QPoint pos)
 {
-  QToolBar *toolbar = qobject_cast<QToolBar*>(sender());
-
-  if(toolbar) {
+  if(QToolBar *toolbar = qobject_cast<QToolBar*>(sender())) {
     QMenu menu(this);
 
     QAction *lock = menu.addAction(tr("Lock"), this, SLOT(toggleToolbarLock()));
@@ -347,10 +349,8 @@ void Kitty::MainWindow::setToolbarIconsOnly()
 
 void Kitty::MainWindow::setToolbarTextOnly()
 {
-  QAction *action = qobject_cast<QAction*>(sender());
-  if(action) {
-    QToolBar *toolbar = findChild<QToolBar*>(action->property("toolbar").toString());
-    if(toolbar) {
+  if(QAction *action = qobject_cast<QAction*>(sender())) {
+    if(QToolBar *toolbar = findChild<QToolBar*>(action->property("toolbar").toString())) {
       toolbar->setToolButtonStyle(Qt::ToolButtonTextOnly);
     }
   }
@@ -358,10 +358,8 @@ void Kitty::MainWindow::setToolbarTextOnly()
 
 void Kitty::MainWindow::setToolbarTextBeside()
 {
-  QAction *action = qobject_cast<QAction*>(sender());
-  if(action) {
-    QToolBar *toolbar = findChild<QToolBar*>(action->property("toolbar").toString());
-    if(toolbar) {
+  if(QAction *action = qobject_cast<QAction*>(sender())) {
+    if(QToolBar *toolbar = findChild<QToolBar*>(action->property("toolbar").toString())) {
       toolbar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
     }
   }
@@ -369,10 +367,8 @@ void Kitty::MainWindow::setToolbarTextBeside()
 
 void Kitty::MainWindow::setToolbarTextUnder()
 {
-  QAction *action = qobject_cast<QAction*>(sender());
-  if(action) {
-    QToolBar *toolbar = findChild<QToolBar*>(action->property("toolbar").toString());
-    if(toolbar) {
+  if(QAction *action = qobject_cast<QAction*>(sender())) {
+    if(QToolBar *toolbar = findChild<QToolBar*>(action->property("toolbar").toString())) {
       toolbar->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
     }
   }
@@ -385,10 +381,8 @@ void Kitty::MainWindow::setFilterText(const QString &text)
 
 void Kitty::MainWindow::toggleToolbarLock()
 {
-  QAction *action = qobject_cast<QAction*>(sender());
-  if(action) {
-    QToolBar *toolbar = findChild<QToolBar*>(action->property("toolbar").toString());
-    if(toolbar) {
+  if(QAction *action = qobject_cast<QAction*>(sender())) {
+    if(QToolBar *toolbar = findChild<QToolBar*>(action->property("toolbar").toString())) {
       toolbar->setMovable(!toolbar->isMovable());
     }
   }
@@ -432,8 +426,7 @@ void Kitty::MainWindow::addContact(KittySDK::Contact *contact)
 bool Kitty::MainWindow::eventFilter(QObject *obj, QEvent *event)
 {
   if(event->type() == QEvent::KeyPress) {
-    QKeyEvent *ev = static_cast<QKeyEvent*>(event);
-    if(ev) {
+    if(QKeyEvent *ev = static_cast<QKeyEvent*>(event)) {
       if(obj == m_ui->rosterTreeView) {
         if(!ev->text().isEmpty() && ev->text().at(0).isPrint()) {
           m_ui->filterEdit->show();
@@ -453,4 +446,9 @@ bool Kitty::MainWindow::eventFilter(QObject *obj, QEvent *event)
   }
 
   return QMainWindow::eventFilter(obj, event);
+}
+
+void Kitty::MainWindow::requestHistory(KittySDK::Contact *contact)
+{
+  Core::inst()->historyWindow()->showContact(contact);
 }

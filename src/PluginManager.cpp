@@ -26,13 +26,11 @@ Kitty::Plugin::Plugin(const QString &fileName): m_fileName(fileName)
   pluginInst inst = (pluginInst)lib.resolve("inst");
 
   if(inst) {
-    m_plugin = dynamic_cast<KittySDK::Plugin*>(inst(new PluginCoreImpl()));
-    if(m_plugin) {
+    if(m_plugin = dynamic_cast<KittySDK::Plugin*>(inst(new PluginCoreImpl()))) {
       if(m_plugin->type() == KittySDK::Plugin::Type) {
         //nothing for now
       } else if(m_plugin->type() == Protocol::Type) {
-        Protocol *prot = dynamic_cast<Protocol*>(m_plugin);
-        if(prot) {
+        if(Protocol *prot = dynamic_cast<Protocol*>(m_plugin)) {
           Kitty::ProtocolManager::inst()->add(prot);
         } else {
           qWarning() << "Could not cast to protocol for file" << QFileInfo(m_fileName).fileName();

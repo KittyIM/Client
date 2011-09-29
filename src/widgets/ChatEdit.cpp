@@ -175,8 +175,7 @@ void Kitty::ChatEdit::addHistory(const QString &msg)
 
 void Kitty::ChatEdit::replaceWord()
 {
-  QAction *action = qobject_cast<QAction*>(sender());
-  if(action) {
+  if(QAction *action = qobject_cast<QAction*>(sender())) {
     insertPlainText(action->text());
   }
 }

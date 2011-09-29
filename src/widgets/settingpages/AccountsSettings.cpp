@@ -58,12 +58,9 @@ void Kitty::AccountsSettings::refreshAccounts()
 
 void Kitty::AccountsSettings::addAccount()
 {
-  QAction *action = qobject_cast<QAction*>(sender());
-  if(action) {
-    Protocol *proto = ProtocolManager::inst()->protocolByName(action->text());
-    if(proto) {
-      QWidget *wnd = proto->editWindow();
-      if(wnd) {
+  if(QAction *action = qobject_cast<QAction*>(sender())) {
+    if(Protocol *proto = ProtocolManager::inst()->protocolByName(action->text())) {
+      if(QWidget *wnd = proto->editWindow()) {
         wnd->setWindowModality(Qt::ApplicationModal);
         wnd->show();
       } else {

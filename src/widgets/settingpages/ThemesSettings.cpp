@@ -151,38 +151,41 @@ void Kitty::ThemesSettings::updateChatPreview()
 
   PluginCoreImpl core;
   KittyProto proto(&core);
-  KittyAccount *acc = dynamic_cast<KittyAccount*>(proto.newAccount("me@example.com"));
-  Contact *kittyBot = acc->newContact("kittybot@kittyim.pl");
-  kittyBot->setDisplay("KittyBot");
+  if(KittyAccount *acc = dynamic_cast<KittyAccount*>(proto.newAccount("me@example.com"))) {
+    if(Contact *kittyBot = acc->newContact("kittybot@kittyim.pl")) {
+      kittyBot->setDisplay("KittyBot");
 
-  Message outgoing(acc->me(), kittyBot);
-  outgoing.setBody("Hello KittyBot!");
-  m_ui->chatThemeWebView->appendMessage(outgoing, &theme);
+      Message outgoing(acc->me(), kittyBot);
+      outgoing.setBody("Hello KittyBot!");
+      m_ui->chatThemeWebView->appendMessage(outgoing, &theme);
 
-  Message incoming(kittyBot, acc->me());
-  incoming.setDirection(Message::Incoming);
-  incoming.setBody("Oh hi, I didn't notice you there ;)");
-  m_ui->chatThemeWebView->appendMessage(incoming, &theme);
+      Message incoming(kittyBot, acc->me());
+      incoming.setDirection(Message::Incoming);
+      incoming.setBody("Oh hi, I didn't notice you there ;)");
+      m_ui->chatThemeWebView->appendMessage(incoming, &theme);
 
-  incoming.setTimeStamp(QDateTime::currentDateTime());
-  incoming.setBody("Could you please change your status to online?");
-  m_ui->chatThemeWebView->appendMessage(incoming, &theme);
+      incoming.setTimeStamp(QDateTime::currentDateTime());
+      incoming.setBody("Could you please change your status to online?");
+      m_ui->chatThemeWebView->appendMessage(incoming, &theme);
 
-  Message status(acc->me(), acc->me());
-  status.setBody(QString("%1 changed status to online").arg(acc->me()->display()));
-  status.setDirection(Message::System);
-  m_ui->chatThemeWebView->appendMessage(status, &theme);
+      Message status(acc->me(), acc->me());
+      status.setBody(QString("%1 changed status to online").arg(acc->me()->display()));
+      status.setDirection(Message::System);
+      m_ui->chatThemeWebView->appendMessage(status, &theme);
 
-  outgoing.setTimeStamp(QDateTime::currentDateTime());
-  outgoing.setBody("How's that?");
-  m_ui->chatThemeWebView->appendMessage(outgoing, &theme);
+      outgoing.setTimeStamp(QDateTime::currentDateTime());
+      outgoing.setBody("How's that?");
+      m_ui->chatThemeWebView->appendMessage(outgoing, &theme);
 
-  incoming.setTimeStamp(QDateTime::currentDateTime());
-  incoming.setBody("Awesome, thanks!");
-  m_ui->chatThemeWebView->appendMessage(incoming, &theme);
+      incoming.setTimeStamp(QDateTime::currentDateTime());
+      incoming.setBody("Awesome, thanks!");
+      m_ui->chatThemeWebView->appendMessage(incoming, &theme);
 
-  delete kittyBot;
-  delete acc;
+      delete kittyBot;
+    }
+
+    delete acc;
+  }
 }
 
 void Kitty::ThemesSettings::updateVariantList()

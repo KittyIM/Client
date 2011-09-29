@@ -74,7 +74,7 @@ Kitty::HistoryWindow::HistoryWindow(QWidget *parent): QWidget(parent), m_ui(new 
 
   connect(IconManager::inst(), SIGNAL(iconsUpdated()), this, SLOT(updateIcons()));
   connect(core->settingsWindow(), SIGNAL(settingsApplied()), this, SLOT(applySettings()));
-  connect(m_ui->contactTree->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(loadChats(QModelIndex,QModelIndex)));
+  connect(m_ui->contactTree->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)), this, SLOT(loadChats(QItemSelection,QItemSelection)));
 
   restoreGeometry(core->setting(Settings::S_HISTORYWINDOW_GEOMETRY).toByteArray());
 
@@ -113,6 +113,22 @@ void Kitty::HistoryWindow::updateIcons()
   m_ui->importButton->setIcon(core->icon(Icons::I_FOLDER));
   m_ui->printButton->setIcon(core->icon(Icons::I_PRINTER));
   m_ui->filtersButton->setIcon(core->icon(Icons::I_FILTER));
+  m_ui->searchButton->setIcon(core->icon(Icons::I_SEARCH));
+}
+
+void Kitty::HistoryWindow::showContact(KittySDK::Contact *contact)
+{
+  if(contact) {
+    show();
+    activateWindow();
+
+    m_ui->contactSearchEdit->clear();
+
+    QModelIndex index = findContact(contact);
+    if(index.isValid()) {
+      m_ui->contactTree->setCurrentIndex(index);
+    }
+  }
 }
 
 void Kitty::HistoryWindow::showEvent(QShowEvent *event)
@@ -125,218 +141,81 @@ void Kitty::HistoryWindow::showEvent(QShowEvent *event)
   m_ui->chatTree->clear();
   m_ui->chatWebView->clear();
 
-  QStandardItem *root = static_cast<QStandardItemModel*>(m_proxy->sourceModel())->invisibleRootItem();
+  if(QStandardItem *root = static_cast<QStandardItemModel*>(m_proxy->sourceModel())->invisibleRootItem()) {
+    QStandardItem *conversations = new QStandardItem();
+    conversations->setText(tr("Conversations"));
+    conversations->setIcon(core->icon(Icons::I_FOLDER));
+    conversations->setData(HistoryWindow::ItemFolder, HistoryWindow::RoleType);
 
-  QStandardItem *conversations = new QStandardItem();
-  conversations->setText(tr("Conversations"));
-  conversations->setIcon(core->icon(Icons::I_FOLDER));
-  conversations->setData(HistoryWindow::ItemFolder, HistoryWindow::RoleType);
+    QDir historyDir(core->currentProfileDir() + "history/");
+    if(historyDir.exists()) {
+      foreach(const QString &protoDir, historyDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot)) {
+          Protocol *proto = ProtocolManager::inst()->protocolByName(protoDir);
 
-  QDir historyDir(core->currentProfileDir() + "history/");
-  if(historyDir.exists()) {
-    foreach(const QString &protoDir, historyDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot)) {
-        Protocol *proto = ProtocolManager::inst()->protocolByName(protoDir);
+          historyDir.cd(protoDir);
+          foreach(const QString &accountDir, historyDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot)) {
+              Account *acc = 0;
 
-        historyDir.cd(protoDir);
-        foreach(const QString &accountDir, historyDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot)) {
-            Account *acc = 0;
-
-            QStandardItem *accountItem = new QStandardItem();
-            accountItem->setText(accountDir);
-            accountItem->setData(HistoryWindow::ItemAccount, HistoryWindow::RoleType);
-            accountItem->setData(accountDir, HistoryWindow::RolePathName);
-            accountItem->setData(protoDir, HistoryWindow::RoleProtocol);
-
-            if(proto) {
-              accountItem->setIcon(core->icon(proto->protoInfo()->protoIcon()));
-
-              acc = AccountManager::inst()->account(proto, accountDir);
-            } else {
-              accountItem->setIcon(core->icon(Icons::I_BULLET));
-            }
-
-            historyDir.cd(accountDir);
-            foreach(const QFileInfo &contactFile, historyDir.entryInfoList(QStringList("*.db"), QDir::Files)) {
-              Contact *contact = 0;
-              QStandardItem *contactItem = new QStandardItem();
-              contactItem->setData(HistoryWindow::ItemContact, HistoryWindow::RoleType);
-              contactItem->setData(protoDir, HistoryWindow::RoleProtocol);
-              contactItem->setData(accountDir, HistoryWindow::RoleAccount);
-              contactItem->setData(contactFile.fileName(), HistoryWindow::RolePathName);
-
-              if(acc) {
-                contact = acc->contacts().value(contactFile.completeBaseName());
-              }
-
-              if(contact) {
-                contactItem->setText(contact->display());
-              } else {
-                contactItem->setText(contactFile.completeBaseName());
-              }
+              QStandardItem *accountItem = new QStandardItem();
+              accountItem->setText(accountDir);
+              accountItem->setData(HistoryWindow::ItemAccount, HistoryWindow::RoleType);
+              accountItem->setData(accountDir, HistoryWindow::RolePathName);
+              accountItem->setData(protoDir, HistoryWindow::RoleProtocol);
 
               if(proto) {
-                contactItem->setIcon(core->icon(proto->protoInfo()->protoIcon()));
+                accountItem->setIcon(core->icon(proto->protoInfo()->protoIcon()));
+
+                acc = AccountManager::inst()->account(proto, accountDir);
               } else {
-                contactItem->setIcon(core->icon(Icons::I_BULLET));
+                accountItem->setIcon(core->icon(Icons::I_BULLET));
               }
 
-              accountItem->appendRow(contactItem);
-            }
-            historyDir.cdUp();
+              historyDir.cd(accountDir);
+              foreach(const QFileInfo &contactFile, historyDir.entryInfoList(QStringList("*.db"), QDir::Files)) {
+                Contact *contact = 0;
 
-            if(accountItem->rowCount() > 0) {
-              conversations->appendRow(accountItem);
-            } else {
-              delete accountItem;
-            }
-        }
-        historyDir.cdUp();
+                QStandardItem *contactItem = new QStandardItem();
+                contactItem->setData(HistoryWindow::ItemContact, HistoryWindow::RoleType);
+                contactItem->setData(protoDir, HistoryWindow::RoleProtocol);
+                contactItem->setData(accountDir, HistoryWindow::RoleAccount);
+                contactItem->setData(contactFile.fileName(), HistoryWindow::RolePathName);
+
+                if(acc) {
+                  contact = acc->contacts().value(contactFile.completeBaseName());
+                }
+
+                if(contact) {
+                  contactItem->setText(contact->display());
+                } else {
+                  contactItem->setText(contactFile.completeBaseName());
+                }
+
+                if(proto) {
+                  contactItem->setIcon(core->icon(proto->protoInfo()->protoIcon()));
+                } else {
+                  contactItem->setIcon(core->icon(Icons::I_BULLET));
+                }
+
+                accountItem->appendRow(contactItem);
+              }
+              historyDir.cdUp();
+
+              if(accountItem->rowCount() > 0) {
+                conversations->appendRow(accountItem);
+              } else {
+                delete accountItem;
+              }
+          }
+          historyDir.cdUp();
+      }
     }
+
+    root->appendRow(conversations);
+
+    m_ui->contactTree->expandAll();
   }
-
-  root->appendRow(conversations);
-
-  m_ui->contactTree->expandAll();
 
   QWidget::showEvent(event);
-}
-
-void Kitty::HistoryWindow::loadChats(const QModelIndex &current, const QModelIndex &previous)
-{
-  Core *core = Core::inst();
-
-  m_ui->chatTree->clear();
-
-  int type = current.data(Qt::UserRole + 1).toInt();
-  switch(type) {
-    case HistoryWindow::ItemFolder:
-    {
-      m_ui->chatTree->setColumnHidden(1, true);
-      m_ui->chatTree->headerItem()->setText(0, tr("Account"));
-    }
-    break;
-
-    case HistoryWindow::ItemAccount:
-    {
-      m_ui->chatTree->headerItem()->setText(0, tr("Contact"));
-      m_ui->chatTree->setColumnHidden(1, true);
-
-      QSqlDatabase db = QSqlDatabase::database();
-      if(!db.isValid()) {
-        db = QSqlDatabase::addDatabase("QSQLITE");
-      }
-
-      Account *acc = AccountManager::inst()->account(current.data(HistoryWindow::RoleProtocol).toString(), current.data().toString());
-
-      QDir accountPath = core->currentProfileDir() + QString("history/%1/%2/").arg(current.data(HistoryWindow::RoleProtocol).toString()).arg(current.data(HistoryWindow::RolePathName).toString());
-      if(accountPath.exists()) {
-        foreach(const QFileInfo &contactFile, accountPath.entryInfoList(QStringList("*.db"), QDir::Files)) {
-          QTreeWidgetItem *item = new QTreeWidgetItem(m_ui->chatTree);
-          Contact *contact = 0;
-
-          if(acc) {
-            contact = acc->contacts().value(contactFile.completeBaseName());
-            item->setIcon(0, core->icon(acc->protocol()->protoInfo()->protoIcon()));
-          } else {
-            item->setIcon(0, core->icon(Icons::I_BULLET));
-          }
-
-          if(contact) {
-            item->setText(0, contact->display());
-          } else {
-            item->setText(0, contactFile.completeBaseName());
-          }
-
-          QString filePath = contactFile.absoluteFilePath();
-          if(QFile(filePath).exists()) {
-            db.setDatabaseName(filePath);
-            if(!db.open()) {
-              qDebug() << "Failed to open db" << db.databaseName() << db.lastError().text();
-              return;
-            }
-
-            QSqlQuery query(" SELECT"
-                            "   COUNT(DISTINCT chatId) as chats,"
-                            "   msg.count as messages "
-                            " FROM"
-                            "   messages"
-                            "   JOIN (SELECT COUNT(*) as count FROM messages) msg;");
-            query.next();
-
-            int chats = query.value(0).toInt();
-            int messages = query.value(1).toInt();
-            item->setText(2, QString("%1 %2, %3 %4").arg(chats).arg(tr("chat(s)", "", chats)).arg(messages).arg(tr("message(s)", "", messages)));
-
-            query.clear();
-            db.close();
-          }
-        }
-      }
-    }
-    break;
-
-    case HistoryWindow::ItemContact:
-    {
-      QString filePath = core->currentProfileDir() + QString("history/%1/%2/%3").arg(current.data(HistoryWindow::RoleProtocol).toString()).arg(current.data(HistoryWindow::RoleAccount).toString()).arg(current.data(HistoryWindow::RolePathName).toString());
-
-      m_ui->chatTree->headerItem()->setText(0, tr("Message"));
-      m_ui->chatTree->setColumnHidden(1, false);
-
-      Account *acc = AccountManager::inst()->account(current.data(HistoryWindow::RoleProtocol).toString(), current.data(HistoryWindow::RoleAccount).toString());
-
-      if(QFile(filePath).exists()) {
-        QSqlDatabase db = QSqlDatabase::database();
-        if(!db.isValid()) {
-          db = QSqlDatabase::addDatabase("QSQLITE");
-        }
-
-        db.setDatabaseName(filePath);
-        if(!db.open()) {
-          qDebug() << "Failed to open db" << db.databaseName() << db.lastError().text();
-          return;
-        }
-
-        QSqlQuery query(" SELECT"
-                        "    *,"
-                        "   COUNT(*) as 'count'"
-                        " FROM ("
-                        "   SELECT"
-                        "     m.*,"
-                        "     lt.lastTimeStamp"
-                        "   FROM"
-                        "     messages m"
-                        "     JOIN (SELECT MAX(timeStamp) as lastTimeStamp, chatId FROM messages GROUP BY chatId) lt"
-                        "     ON lt.chatId = m.chatId"
-                        "     ORDER BY timeStamp DESC"
-                        "   )"
-                        " GROUP BY chatId"
-                        " ORDER BY timeStamp DESC;");
-        while(query.next()) {
-            QTreeWidgetItem *item = new QTreeWidgetItem(m_ui->chatTree);
-
-            QString text = query.value(4).toString().remove(QRegExp("<[^>]*>"));
-            if(text.length() > 60) {
-               text = text.left(60).append("...");
-            }
-
-            if(acc) {
-              item->setIcon(0, core->icon(acc->protocol()->protoInfo()->protoIcon()));
-            } else {
-              item->setIcon(0, core->icon(Icons::I_BULLET));
-            }
-
-            item->setText(0, text);
-            item->setText(1, QString("%1 - %2").arg(QDateTime::fromTime_t(query.value(2).toInt()).toString(Qt::SystemLocaleShortDate)).arg(QDateTime::fromTime_t(query.value(5).toInt()).toString(Qt::SystemLocaleShortDate)));
-            item->setText(2, query.value(6).toString());
-            item->setText(3, query.value(1).toString());
-        }
-
-        query.clear();
-        db.close();
-      }
-    }
-    break;
-  }
 }
 
 void Kitty::HistoryWindow::on_contactSearchEdit_textChanged(const QString &text)
@@ -354,7 +233,7 @@ void Kitty::HistoryWindow::on_chatTree_currentItemChanged(QTreeWidgetItem *curre
   if(current) {
     QModelIndex index = m_ui->contactTree->currentIndex();
 
-    int type = index.data(Qt::UserRole + 1).toInt();
+    int type = index.data(HistoryWindow::RoleType).toInt();
     switch(type) {
       case HistoryWindow::ItemAccount:
       {
@@ -385,8 +264,39 @@ void Kitty::HistoryWindow::on_chatTree_currentItemChanged(QTreeWidgetItem *curre
           }
 
           QSqlQuery query;
-          query.prepare("SELECT * FROM messages WHERE chatId=:chatId ORDER BY timeStamp ASC;");
+
+          QString where;
+          switch(m_ui->directionComboBox->currentIndex()) {
+            case 1:
+              where = QString("AND dir = %1 ").arg(Message::Incoming);
+            break;
+
+            case 2:
+              where = QString("AND dir = %1 ").arg(Message::Outgoing);
+            break;
+
+            default:
+            break;
+          }
+
+          if(m_ui->dateFromEdit->date() != QDate(1970, 1, 1)) {
+            where.append(QString("AND timeStamp >= %1 ").arg(QDateTime(m_ui->dateFromEdit->date()).toTime_t()));
+          }
+
+          if(m_ui->dateToEdit->date() != QDate::currentDate()) {
+            where.append(QString("AND timeStamp <= %1 ").arg(QDateTime(m_ui->dateToEdit->date()).toTime_t()));
+          }
+
+          if(!m_ui->searchEdit->text().isEmpty()) {
+            where.append("AND body LIKE :search");
+          }
+
+          query.prepare(QString("SELECT * FROM messages WHERE chatId=:chatId %1 ORDER BY timeStamp ASC;").arg(where));
           query.bindValue("chatId", current->text(3));
+
+          if(!m_ui->searchEdit->text().isEmpty()) {
+            query.bindValue("search", "%" + m_ui->searchEdit->text() + "%");
+          }
 
           if(query.exec()) {
             while(query.next()) {
@@ -429,7 +339,7 @@ void Kitty::HistoryWindow::on_chatTree_currentItemChanged(QTreeWidgetItem *curre
 
             m_ui->chatWebView->page()->mainFrame()->setScrollPosition(QPoint());
           } else {
-            qDebug() << "Error executing query" << query.lastError().text();
+            qDebug() << "Error executing query" << query.lastQuery() << query.lastError().text();
           }
 
           query.clear();
@@ -437,6 +347,208 @@ void Kitty::HistoryWindow::on_chatTree_currentItemChanged(QTreeWidgetItem *curre
         }
       }
       break;
+    }
+  }
+}
+
+QModelIndex Kitty::HistoryWindow::findContact(KittySDK::Contact *contact, const QModelIndex &parent)
+{
+  for(int i = 0; i < m_proxy->rowCount(parent); i++) {
+    QModelIndex index = m_proxy->index(i, 0, parent);
+
+    if(index.data(HistoryWindow::RoleType).toInt() == HistoryWindow::ItemContact) {
+      if(index.data(HistoryWindow::RoleProtocol).toString() == contact->protocol()->protoInfo()->protoName()) {
+        if(index.data(HistoryWindow::RoleAccount).toString() == contact->account()->uid()) {
+          if(QFileInfo(index.data(HistoryWindow::RolePathName).toString()).completeBaseName() == contact->uid()) {
+            return index;
+          }
+        }
+      }
+    }
+
+    if(m_proxy->rowCount(index) > 0) {
+      QModelIndex result = findContact(contact, index);
+      if(result.isValid()) {
+        return result;
+      }
+    }
+  }
+
+  return QModelIndex();
+}
+
+void Kitty::HistoryWindow::loadChats(const QItemSelection &selected, const QItemSelection &deselected)
+{
+  if(selected.indexes().count() > 0) {
+    QModelIndex current = m_ui->contactTree->currentIndex();
+
+    Core *core = Core::inst();
+
+    m_ui->chatTree->clear();
+
+    int type = current.data(HistoryWindow::RoleType).toInt();
+    switch(type) {
+      case HistoryWindow::ItemFolder:
+      {
+        m_ui->chatTree->setColumnHidden(1, true);
+        m_ui->chatTree->headerItem()->setText(0, tr("Account"));
+      }
+      break;
+
+      case HistoryWindow::ItemAccount:
+      {
+        m_ui->chatTree->headerItem()->setText(0, tr("Contact"));
+        m_ui->chatTree->setColumnHidden(1, true);
+
+        QSqlDatabase db = QSqlDatabase::database();
+        if(!db.isValid()) {
+          db = QSqlDatabase::addDatabase("QSQLITE");
+        }
+
+        Account *acc = AccountManager::inst()->account(current.data(HistoryWindow::RoleProtocol).toString(), current.data().toString());
+
+        QDir accountPath = core->currentProfileDir() + QString("history/%1/%2/").arg(current.data(HistoryWindow::RoleProtocol).toString()).arg(current.data(HistoryWindow::RolePathName).toString());
+        if(accountPath.exists()) {
+          foreach(const QFileInfo &contactFile, accountPath.entryInfoList(QStringList("*.db"), QDir::Files)) {
+            QTreeWidgetItem *item = new QTreeWidgetItem(m_ui->chatTree);
+            Contact *contact = 0;
+
+            if(acc) {
+              contact = acc->contacts().value(contactFile.completeBaseName());
+              item->setIcon(0, core->icon(acc->protocol()->protoInfo()->protoIcon()));
+            } else {
+              item->setIcon(0, core->icon(Icons::I_BULLET));
+            }
+
+            if(contact) {
+              item->setText(0, contact->display());
+            } else {
+              item->setText(0, contactFile.completeBaseName());
+            }
+
+            QString filePath = contactFile.absoluteFilePath();
+            if(QFile(filePath).exists()) {
+              db.setDatabaseName(filePath);
+              if(!db.open()) {
+                qDebug() << "Failed to open db" << db.databaseName() << db.lastError().text();
+                return;
+              }
+
+              QSqlQuery query(" SELECT"
+                              "   COUNT(DISTINCT chatId) as chats,"
+                              "   msg.count as messages "
+                              " FROM"
+                              "   messages"
+                              "   JOIN (SELECT COUNT(*) as count FROM messages) msg;");
+              query.next();
+
+              int chats = query.value(0).toInt();
+              int messages = query.value(1).toInt();
+              item->setText(2, QString("%1 %2, %3 %4").arg(chats).arg(tr("chat(s)", "", chats)).arg(messages).arg(tr("message(s)", "", messages)));
+
+              query.clear();
+              db.close();
+            }
+          }
+        }
+      }
+      break;
+
+      case HistoryWindow::ItemContact:
+      {
+        QString filePath = core->currentProfileDir() + QString("history/%1/%2/%3").arg(current.data(HistoryWindow::RoleProtocol).toString()).arg(current.data(HistoryWindow::RoleAccount).toString()).arg(current.data(HistoryWindow::RolePathName).toString());
+
+        m_ui->chatTree->headerItem()->setText(0, tr("Message"));
+        m_ui->chatTree->setColumnHidden(1, false);
+
+        Account *acc = AccountManager::inst()->account(current.data(HistoryWindow::RoleProtocol).toString(), current.data(HistoryWindow::RoleAccount).toString());
+
+        if(QFile(filePath).exists()) {
+          QSqlDatabase db = QSqlDatabase::database();
+          if(!db.isValid()) {
+            db = QSqlDatabase::addDatabase("QSQLITE");
+          }
+
+          db.setDatabaseName(filePath);
+          if(!db.open()) {
+            qDebug() << "Failed to open db" << db.databaseName() << db.lastError().text();
+            return;
+          }
+
+          QSqlQuery query(" SELECT"
+                          "    *,"
+                          "   COUNT(*) as 'count'"
+                          " FROM ("
+                          "   SELECT"
+                          "     m.*,"
+                          "     lt.lastTimeStamp"
+                          "   FROM"
+                          "     messages m"
+                          "     JOIN (SELECT MAX(timeStamp) as lastTimeStamp, chatId FROM messages GROUP BY chatId) lt"
+                          "     ON lt.chatId = m.chatId"
+                          "     ORDER BY timeStamp DESC"
+                          "   )"
+                          " GROUP BY chatId"
+                          " ORDER BY timeStamp DESC;");
+          while(query.next()) {
+              QTreeWidgetItem *item = new QTreeWidgetItem(m_ui->chatTree);
+
+              QString text = query.value(4).toString().remove(QRegExp("<[^>]*>"));
+              if(text.length() > 60) {
+                 text = text.left(60).append("...");
+              }
+
+              if(acc) {
+                item->setIcon(0, core->icon(acc->protocol()->protoInfo()->protoIcon()));
+              } else {
+                item->setIcon(0, core->icon(Icons::I_BULLET));
+              }
+
+              item->setText(0, text);
+              item->setText(1, QString("%1 - %2").arg(QDateTime::fromTime_t(query.value(2).toInt()).toString(Qt::SystemLocaleShortDate)).arg(QDateTime::fromTime_t(query.value(5).toInt()).toString(Qt::SystemLocaleShortDate)));
+              item->setText(2, query.value(6).toString());
+              item->setText(3, query.value(1).toString());
+          }
+
+          query.clear();
+          db.close();
+        }
+      }
+      break;
+    }
+
+    m_ui->chatTree->setFocus();
+    if(m_ui->chatTree->topLevelItemCount() > 0) {
+      m_ui->chatTree->setCurrentItem(m_ui->chatTree->topLevelItem(0));
+    }
+  }
+}
+
+void Kitty::HistoryWindow::updateCurrentChat()
+{
+  on_chatTree_currentItemChanged(m_ui->chatTree->currentItem(), 0);
+}
+
+void Kitty::HistoryWindow::on_filtersButton_toggled(bool checked)
+{
+  if(!checked) {
+    m_ui->directionComboBox->setCurrentIndex(0);
+    m_ui->dateFromEdit->setDate(QDate(1970, 1, 1));
+    m_ui->dateToEdit->setDate(QDate::currentDate());
+  }
+}
+
+void Kitty::HistoryWindow::on_chatTree_doubleClicked(const QModelIndex &current)
+{
+  if(current.isValid()) {
+    QModelIndex parent = m_ui->contactTree->currentIndex();
+    if(parent.data(HistoryWindow::RoleType).toInt() == HistoryWindow::ItemAccount) {
+      for(int i = 0; i < m_proxy->rowCount(parent); i++) {
+        QModelIndex index = m_proxy->index(i, 0, parent);
+        if(index.data() == current.data()) {
+          m_ui->contactTree->setCurrentIndex(index);
+        }
+      }
     }
   }
 }
