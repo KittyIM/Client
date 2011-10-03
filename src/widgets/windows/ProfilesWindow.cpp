@@ -126,18 +126,30 @@ void Kitty::ProfilesWindow::on_profilesWidget_currentItemChanged(QTreeWidgetItem
 
 void Kitty::ProfilesWindow::on_profilesWidget_itemDoubleClicked(QTreeWidgetItem *item, int column)
 {
-  Q_UNUSED(column)
+  Core *core = Core::inst();
 
   if(item) {
     if(item->data(0, Qt::UserRole).toBool() == false) {
-      JsonSettings set(Core::inst()->profilesDir() + item->text(0) + "/settings.dat");
-      bool hasPassword = !set.value(Settings::S_PROFILE_PASSWORD).toString().isEmpty();
-
-      if(!hasPassword || (hasPassword && set.value(Settings::S_PROFILE_PASSWORD).toString() == QCryptographicHash::hash(m_ui->passwordEdit->text().toLocal8Bit(), QCryptographicHash::Sha1).toHex())) {
-        Core::inst()->loadProfile(item->text(0));
-        close();
+      //if there's a profile already loaded
+      if(!core->profile()->name().isEmpty()) {
+        //if it's the same profile
+        if(core->profile()->name() == item->text(0)) {
+          close();
+          return;
+        } else {
+          //restart with new profile
+          core->changeProfile(item->text(0), m_ui->passwordEdit->text());
+        }
       } else {
-        QMessageBox::information(this, tr("Wrong password"), tr("The password you supplied is wrong."));
+        JsonSettings set(core->profilesDir() + item->text(0) + "/settings.dat");
+        bool hasPassword = !set.value(Settings::S_PROFILE_PASSWORD).toString().isEmpty();
+
+        if(!hasPassword || (hasPassword && set.value(Settings::S_PROFILE_PASSWORD).toString() == QCryptographicHash::hash(m_ui->passwordEdit->text().toLocal8Bit(), QCryptographicHash::Sha1).toHex())) {
+          Core::inst()->loadProfile(item->text(0));
+          close();
+        } else {
+          QMessageBox::information(this, tr("Wrong password"), tr("The password you supplied is wrong."));
+        }
       }
     } else {
       QString profile = QInputDialog::getText(this, tr("New profile"), tr("Please input a name for the new profile:"));

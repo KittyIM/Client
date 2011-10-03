@@ -6,6 +6,7 @@
 #include "Profile.h"
 #include "Core.h"
 
+#include <QtCore/QCryptographicHash>
 #include <QtCore/QTranslator>
 #include <QtCore/QTextCodec>
 #include <QtCore/QFileInfo>
@@ -44,6 +45,7 @@ Kitty::App::App(int &argc, char **argv): QApplication(argc, argv)
   Core *core = Core::inst();
 
   QString profile;
+  QString password;
   QListIterator<QString> it(arguments());
   while(it.hasNext()) {
     QString arg = it.next();
@@ -57,12 +59,22 @@ Kitty::App::App(int &argc, char **argv): QApplication(argc, argv)
       } else {
         qWarning() << "-profile found but nothing more";
       }
+    } else if(arg == "-password") {
+      if(it.hasNext()) {
+        password = it.next();
+        qDebug() << "-password found";
+      } else {
+        qWarning() << "-password found but nothing more";
+      }
     } else if(arg == "-portable") {
       qDebug() << "-portable found, we are going portable";
       core->setPortable(true);
     }
   }
 
+  core->setAppArguments(arguments());
+
+  // let's check if portability file exists
   if(!core->isPortable()) {
     if(QFile::exists(applicationDirPath() + "/data/portable")) {
       core->setPortable(true);
@@ -74,14 +86,12 @@ Kitty::App::App(int &argc, char **argv): QApplication(argc, argv)
     QDir dir(Core::inst()->profilesDir());
     QStringList profiles = dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
     if(profiles.count() == 1) {
-      JsonSettings set(Core::inst()->profilesDir() + profiles[0] + "/settings.dat");
-      bool hasPassword = !set.value(Settings::S_PROFILE_PASSWORD).toString().isEmpty();
-      if(!hasPassword) {
-        qDebug() << "Only one profile with no password, load it!";
-        core->loadProfile(profiles[0]);
-      }
+      qDebug() << "Only one profile, let's try to load it!";
+      profile = profiles[0];
     }
-  } else {
+  }
+
+  if(!profile.isEmpty()) {
     JsonSettings set(Core::inst()->profilesDir() + profile + "/settings.dat");
     bool hasPassword = !set.value(Settings::S_PROFILE_PASSWORD).toString().isEmpty();
 
@@ -89,7 +99,16 @@ Kitty::App::App(int &argc, char **argv): QApplication(argc, argv)
       qDebug() << "Profile is ok, loading.";
       core->loadProfile(profile);
     } else {
-      qWarning() << "Wanted to load profile" + profile + "but it's password protected!";
+      if(!password.isEmpty()) {
+        if(set.value(Settings::S_PROFILE_PASSWORD).toString() == QCryptographicHash::hash(password.toLocal8Bit(), QCryptographicHash::Sha1).toHex()) {
+          qDebug() << "Password is ok too!";
+          core->loadProfile(profile);
+        } else {
+          qWarning() << "The supplied password is wrong.";
+        }
+      } else {
+        qWarning() << "Wanted to load profile" + profile + "but it's password protected!";
+      }
     }
   }
 
@@ -129,6 +148,7 @@ void Kitty::App::applySettings()
 
   QNetworkProxy proxy;
   if(core->setting(Settings::S_PROXY_ENABLED, false).toBool()) {
+    proxy.setType(QNetworkProxy::HttpProxy);
     proxy.setHostName(core->setting(Settings::S_PROXY_SERVER).toString());
     proxy.setPort(core->setting(Settings::S_PROXY_PORT).toInt());
 
@@ -146,8 +166,12 @@ void Kitty::App::cleanUp()
   Core *core = Core::inst();
 
   if(core->hasToRestart()) {
-    QStringList args = arguments();
-    args.removeFirst();
+    QStringList args = core->appArguments();
+
+    //remove executable name
+    if(args.first().indexOf("Kitty") > -1) {
+      args.removeFirst();
+    }
 
     if(args.indexOf("-profile") == -1) {
       args.append("-profile");

@@ -11,6 +11,7 @@ Kitty::ChatColorFrame::ChatColorFrame(const QString &color, QWidget *parent): QF
   setStyleSheet(QString("background-color: %1;").arg(color));
   setMinimumSize(QSize(16, 16));
   setMaximumSize(QSize(16, 16));
+  setToolTip(QColor(color).name());
   setCursor(Qt::PointingHandCursor);
 }
 
@@ -55,11 +56,12 @@ Kitty::ChatColorPicker::ChatColorPicker(QWidget *parent): QWidget(parent, Qt::Po
     i++;
   }
 
-  QPushButton *button = new QPushButton(this);
-  button->setFlat(true);
-  button->setText(tr("More..."));
-  connect(button, SIGNAL(clicked()), this, SLOT(customColor()));
-  gridLayout->addWidget(button, i / width + 1, 0, 1, 5);
+  m_moreButton = new QPushButton(this);
+  m_moreButton->setFlat(true);
+  connect(m_moreButton, SIGNAL(clicked()), this, SLOT(customColor()));
+  gridLayout->addWidget(m_moreButton, i / width + 1, 0, 1, 5);
+
+  retranslate();
 }
 
 void Kitty::ChatColorPicker::showAt(const QPoint &pos)
@@ -67,6 +69,11 @@ void Kitty::ChatColorPicker::showAt(const QPoint &pos)
   move(pos);
   resize(sizeHint());
   show();
+}
+
+void Kitty::ChatColorPicker::retranslate()
+{
+  m_moreButton->setText(tr("More..."));
 }
 
 void Kitty::ChatColorPicker::customColor()

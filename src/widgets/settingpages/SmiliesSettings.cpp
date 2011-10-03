@@ -29,8 +29,8 @@ void Kitty::SmiliesDelegate::paint(QPainter *painter, const QStyleOptionViewItem
   for(int i = 0; i < qMin(emots.count(), 10); i++) {
     QImage img(emots.at(i)->fileName());
 
-    if(img.height() > 30) {
-      img = img.scaledToHeight(30);
+    if(img.height() > 20) {
+      img = img.scaledToHeight(20, Qt::SmoothTransformation);
     }
 
     painter->drawImage(QPoint(opt.rect.x() + offsetX, opt.rect.y() + 20), img);
@@ -44,7 +44,7 @@ void Kitty::SmiliesDelegate::paint(QPainter *painter, const QStyleOptionViewItem
 
 QSize Kitty::SmiliesDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
-  return QSize(option.rect.width(), 44);
+  return QSize(option.rect.width(), 45);
 }
 
 Kitty::SmiliesSettings::SmiliesSettings(QWidget *parent): SettingPage(0, parent), m_ui(new Ui::SmiliesSettings)

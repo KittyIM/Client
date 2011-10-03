@@ -1,6 +1,7 @@
 #include "ChatTab.h"
 #include "ui_ChatTab.h"
 
+#include "widgets/windows/HistoryWindow.h"
 #include "widgets/windows/MainWindow.h"
 #include "widgets/windows/ChatWindow.h"
 #include "widgets/ChatColorPicker.h"
@@ -194,7 +195,7 @@ Kitty::ChatTab::ChatTab(Chat *chat, QWidget *parent): QWidget(parent), m_ui(new 
   m_profileAction = m_toolBar->addAction(tr("vCard"), this, SLOT(showContactWindow()));
   m_profileAction->setProperty("icon_id", Icons::I_PROFILE);
 
-  m_historyAction = m_toolBar->addAction(tr("History"));
+  m_historyAction = m_toolBar->addAction(tr("History"), this, SLOT(showHistoryWindow()));
   m_historyAction->setProperty("icon_id", Icons::I_HISTORY);
 
   updateIcons();
@@ -366,6 +367,7 @@ void Kitty::ChatTab::changeEvent(QEvent *event)
       m_historyAction->setText(tr("History"));
     }
 
+    m_colorPicker->retranslate();
   }
 
   QWidget::changeEvent(event);
@@ -404,4 +406,9 @@ void Kitty::ChatTab::showColorPicker()
 void Kitty::ChatTab::showContactWindow()
 {
   Core::inst()->showContactWindow(m_chat->contacts().first());
+}
+
+void Kitty::ChatTab::showHistoryWindow()
+{
+  Core::inst()->historyWindow()->showContact(m_chat->contacts().first());
 }

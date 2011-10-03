@@ -353,6 +353,31 @@ void Kitty::Core::restart()
   qApp->quit();
 }
 
+void Kitty::Core::changeProfile(const QString &profile, const QString &password)
+{
+  QStringList args = appArguments();
+  qDebug() << args;
+
+  //check if there's already profile info in args
+  int i = args.indexOf("-profile");
+  if(i > -1) {
+    args.replace(i + 1, profile);
+  } else {
+    args.append("-profile");
+    args.append(profile);
+  }
+
+
+  if(!password.isEmpty()) {
+    args.append("-password");
+    args.append(password);
+  }
+
+  setAppArguments(args);
+
+  restart();
+}
+
 void Kitty::Core::trayIconActivated(QSystemTrayIcon::ActivationReason reason)
 {
   if(reason == QSystemTrayIcon::Trigger) {

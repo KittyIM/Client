@@ -50,6 +50,7 @@ namespace Kitty
       void sendMessage();
       void changeStatus(KittySDK::Protocol::Status status, QString description);
       void showContactWindow();
+      void showHistoryWindow();
 
     protected:
       void changeEvent(QEvent *event);

@@ -63,7 +63,7 @@ Kitty::EmoticonPack::EmoticonPack(const QString &name, QObject *parent): QObject
               fileName.remove(0, 1);
               fileName.chop(1);
 
-              m_emots.append(new Emoticon(qApp->applicationDirPath() + "/emoticons/" + name + "/" + fileName, text));
+              m_emots.append(new Emoticon(dir.filePath(fileName), text));
             }
           }
         }
@@ -85,7 +85,7 @@ Kitty::EmoticonPack::EmoticonPack(const QString &name, QObject *parent): QObject
             QDomElement emot = emots.at(i).toElement();
 
             QDomElement animation = emot.namedItem("Animation").toElement();
-            QString fileName = qApp->applicationDirPath() + "/emoticons/" + name + "/" + animation.firstChild().nodeValue();
+            QString fileName = dir.filePath(animation.firstChild().nodeValue());
 
             Emoticon *emo = new Emoticon(fileName);
 
@@ -101,6 +101,33 @@ Kitty::EmoticonPack::EmoticonPack(const QString &name, QObject *parent): QObject
         }
 
         file.close();
+      }
+    } else if(dir.exists("emo.xml")) { //old tlen.pl format
+      QFile file(dir.filePath("emo.xml"));
+      if(file.open(QFile::ReadOnly)) {
+        QString xml = "<emo>" + file.readAll() + "</emo>";
+
+        QDomDocument doc;
+        doc.setContent(xml);
+
+        QDomElement root = doc.documentElement();
+        QDomElement defs = root.firstChildElement("defs");
+        if(!defs.isNull()) {
+          QDomNodeList items = defs.elementsByTagName("i");
+          for(int i = 0; i < items.count(); i++) {
+            QDomElement item = items.at(i).toElement();
+            QString fileName = dir.filePath(item.attribute("g"));
+
+            Emoticon *emo = new Emoticon(fileName);
+
+            QDomNodeList texts = item.elementsByTagName("t");
+            for(int j = 0; j < texts.count(); j++) {
+              emo->addText(texts.at(j).firstChild().nodeValue());
+            }
+
+            m_emots.append(emo);
+          }
+        }
       }
     }
   } else {

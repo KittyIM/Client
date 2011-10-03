@@ -34,6 +34,7 @@ namespace Kitty
     Q_OBJECT
     Q_PROPERTY(bool restart READ hasToRestart WRITE setRestart)
     Q_PROPERTY(bool portable READ isPortable WRITE setPortable)
+    Q_PROPERTY(QStringList appArguments READ appArguments WRITE setAppArguments)
 
     friend class Singleton<Core>;
 
@@ -74,8 +75,12 @@ namespace Kitty
       void setPortable(bool portable) { m_portable = portable; }
       bool isPortable() const { return m_portable; }
 
+      void setAppArguments(const QStringList &appArguments) { m_appArguments = appArguments; }
+      QStringList appArguments() const { return m_appArguments; }
+
     public slots:
       void restart();
+      void changeProfile(const QString &profile, const QString &password);
       void showTrayIcon();
       void showAboutWindow();
       void showMainWindow();
@@ -100,6 +105,7 @@ namespace Kitty
     private:
       bool m_restart;
       bool m_portable;
+      QStringList m_appArguments;
       QMap<QString, QPointer<ContactWindow> > m_contactWindows;
       QPointer<ProfilesWindow> m_profilesWindow;
       QPointer<SettingsWindow> m_settingsWindow;

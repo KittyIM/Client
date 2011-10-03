@@ -179,6 +179,7 @@ void Kitty::MainWindow::initToolbars()
   QMenu *mnuUser = new QMenu(this);
   mnuUser->addAction(core->action(Actions::A_ADD_CONTACT));
   mnuUser->addAction(core->action(Actions::A_HISTORY));
+  mnuUser->addAction(core->action(Actions::A_CHANGE_PROFILE));
 
   m_ui->mainToolBar->addAction(core->action(Actions::A_ADD_CONTACT));
 

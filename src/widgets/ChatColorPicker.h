@@ -3,6 +3,8 @@
 
 #include <QtGui/QFrame>
 
+class QPushButton;
+
 namespace Kitty
 {
   class ChatColorFrame: public QFrame
@@ -30,11 +32,17 @@ namespace Kitty
 
       void showAt(const QPoint &pos);
 
+    public slots:
+      void retranslate();
+
     signals:
       void colorSelected(QColor color);
 
     private slots:
       void customColor();
+
+    private:
+      QPushButton *m_moreButton;
   };
 }
 
