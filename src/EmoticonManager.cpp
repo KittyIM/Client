@@ -9,22 +9,22 @@ using namespace KittySDK;
 
 Kitty::EmoticonManager::~EmoticonManager()
 {
-  qDeleteAll(m_packs);
+	qDeleteAll(m_packs);
 }
 
 QString Kitty::EmoticonManager::parse(const QString &text)
 {
-  return "";
+	return "";
 }
 
 void Kitty::EmoticonManager::load()
 {
-  qDeleteAll(m_packs);
+	qDeleteAll(m_packs);
 
-  //Core *core = Core::inst();
+	//Core *core = Core::inst();
 }
 
 void Kitty::EmoticonManager::applySettings()
 {
-  load();
+	load();
 }

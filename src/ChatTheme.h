@@ -7,49 +7,49 @@
 
 namespace Kitty
 {
-  class ChatTheme: public QObject
-  {
-    Q_OBJECT
+	class ChatTheme: public QObject
+	{
+		Q_OBJECT
 
-    public:
-      enum Type
-      {
-        Footer = 0,
-        Header,
-        Content,
-        Status,
-        IncomingContent,
-        IncomingNextContent,
-        IncomingContext,
-        IncomingNextContext,
-        OutgoingContent,
-        OutgoingNextContent,
-        OutgoingContext,
-        OutgoingNextContext
-      };
+		public:
+			enum Type
+			{
+				Footer = 0,
+				Header,
+				Content,
+				Status,
+				IncomingContent,
+				IncomingNextContent,
+				IncomingContext,
+				IncomingNextContext,
+				OutgoingContent,
+				OutgoingNextContent,
+				OutgoingContext,
+				OutgoingNextContext
+			};
 
-      enum IconType
-      {
-        Incoming = 0,
-        Outgoing
-      };
+			enum IconType
+			{
+				Incoming = 0,
+				Outgoing
+			};
 
-    public:
-      ChatTheme(const QString &name = QString(), QObject *parent = 0);
+		public:
+			ChatTheme(const QString &name = QString(), QObject *parent = 0);
 
-      QString name() const { return m_name; }
-      QString code(const Type &type) const;
-      QString iconPath(const IconType &type);
-      void load(const QString &name);
+			QString name() const { return m_name; }
+			QString code(const Type &type) const;
+			QString iconPath(const IconType &type);
+			void load(const QString &name);
 
-    private:
-      void loadDefaults();
-      void loadFile(const Type &type, const QString &fileName);
+		private:
+			void loadDefaults();
+			void loadFile(const Type &type, const QString &fileName);
 
-    private:
-      QMap<Type, QString> m_codes;
-      QString m_name;
-  };
+		private:
+			QMap<Type, QString> m_codes;
+			QString m_name;
+	};
 }
 
 #endif // CHATTHEME_H

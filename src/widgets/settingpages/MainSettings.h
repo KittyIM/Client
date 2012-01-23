@@ -5,26 +5,26 @@
 
 namespace Ui
 {
-  class MainSettings;
+	class MainSettings;
 }
 
 namespace Kitty
 {
-  class MainSettings: public KittySDK::SettingPage
-  {
-    Q_OBJECT
+	class MainSettings: public KittySDK::SettingPage
+	{
+		Q_OBJECT
 
-    public:
-      MainSettings(QWidget *parent = 0);
-      ~MainSettings();
+		public:
+			MainSettings(QWidget *parent = 0);
+			~MainSettings();
 
-      void retranslate();
-      void apply();
-      void reset();
+			void retranslate();
+			void apply();
+			void reset();
 
-    private:
-      Ui::MainSettings *m_ui;
-  };
+		private:
+			Ui::MainSettings *m_ui;
+	};
 
 }
 

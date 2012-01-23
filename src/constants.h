@@ -3,10 +3,10 @@
 
 namespace Kitty
 {
-  namespace Constants
-  {
-    const char * const VERSION = "0.0.1 alpha";
-  }
+	namespace Constants
+	{
+		const char * const VERSION = "0.0.1 alpha";
+	}
 }
 
 #endif // CONSTANTS_H

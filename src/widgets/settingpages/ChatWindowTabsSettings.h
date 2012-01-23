@@ -5,26 +5,26 @@
 
 namespace Ui
 {
-  class ChatWindowTabsSettings;
+	class ChatWindowTabsSettings;
 }
 
 namespace Kitty
 {
-  class ChatWindowTabsSettings: public KittySDK::SettingPage
-  {
-      Q_OBJECT
+	class ChatWindowTabsSettings: public KittySDK::SettingPage
+	{
+		Q_OBJECT
 
-    public:
-      explicit ChatWindowTabsSettings(QWidget *parent = 0);
-      ~ChatWindowTabsSettings();
+		public:
+			explicit ChatWindowTabsSettings(QWidget *parent = 0);
+			~ChatWindowTabsSettings();
 
-      void retranslate();
-      void apply();
-      void reset();
+			void retranslate();
+			void apply();
+			void reset();
 
-    private:
-      Ui::ChatWindowTabsSettings *m_ui;
-  };
+		private:
+			Ui::ChatWindowTabsSettings *m_ui;
+	};
 }
 
 #endif // CHATWINDOWTABSSETTINGS_H

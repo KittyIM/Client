@@ -8,65 +8,65 @@ class QToolButton;
 
 namespace Ui
 {
-  class MainWindow;
+	class MainWindow;
 }
 
 namespace KittySDK
 {
-  class Contact;
-  class Account;
+	class Contact;
+	class Account;
 }
 
 namespace Kitty
 {
-  class RosterItemModel;
-  class RosterSortProxy;
-  class RosterHeader;
+	class RosterItemModel;
+	class RosterSortProxy;
+	class RosterHeader;
 
-  class MainWindow: public QMainWindow
-  {
-    Q_OBJECT
+	class MainWindow: public QMainWindow
+	{
+		Q_OBJECT
 
-    public:
-      explicit MainWindow(QWidget *parent = 0);
-      ~MainWindow();
+		public:
+			explicit MainWindow(QWidget *parent = 0);
+			~MainWindow();
 
-      bool isObscured();
+			bool isObscured();
 
-      void initToolbars();
-      void addToolbarAction(const QString &tb, QAction *action);
+			void initToolbars();
+			void addToolbarAction(const QString &tb, QAction *action);
 
-      QToolButton *buttonForAction(const QString &tb, QAction *action);
+			QToolButton *buttonForAction(const QString &tb, QAction *action);
 
-    public slots:
-      void addContact(KittySDK::Contact *contact);
-      void applySettings();
-      void showAccountStatusMenu();
-      void updateAccountStatusIcon(KittySDK::Account *account);
+		public slots:
+			void addContact(KittySDK::Contact *contact);
+			void applySettings();
+			void showAccountStatusMenu();
+			void updateAccountStatusIcon(KittySDK::Account *account);
 
-    private slots:
-      void showToolbarMenu(QPoint pos);
-      void setToolbarIconsOnly();
-      void setToolbarTextOnly();
-      void setToolbarTextBeside();
-      void setToolbarTextUnder();
-      void setFilterText(const QString &text);
-      void toggleToolbarLock();
-      void requestHistory(KittySDK::Contact *contact);
+		private slots:
+			void showToolbarMenu(QPoint pos);
+			void setToolbarIconsOnly();
+			void setToolbarTextOnly();
+			void setToolbarTextBeside();
+			void setToolbarTextUnder();
+			void setFilterText(const QString &text);
+			void toggleToolbarLock();
+			void requestHistory(KittySDK::Contact *contact);
 
-    protected:
-      void changeEvent(QEvent *event);
-      void enterEvent(QEvent *event);
-      void leaveEvent(QEvent *event);
-      bool eventFilter(QObject *obj, QEvent *event);
+		protected:
+			void changeEvent(QEvent *event);
+			void enterEvent(QEvent *event);
+			void leaveEvent(QEvent *event);
+			bool eventFilter(QObject *obj, QEvent *event);
 
-    private:
-      QTimer m_hideTimer;
-      Ui::MainWindow *m_ui;
-      RosterHeader *m_header;
-      RosterItemModel *m_model;
-      RosterSortProxy *m_proxy;
-  };
+		private:
+			QTimer m_hideTimer;
+			Ui::MainWindow *m_ui;
+			RosterHeader *m_header;
+			RosterItemModel *m_model;
+			RosterSortProxy *m_proxy;
+	};
 }
 
 #endif // MAINWINDOW_H

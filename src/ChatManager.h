@@ -8,30 +8,30 @@
 
 namespace Kitty
 {
-  class ChatManager: public QObject, public Singleton<ChatManager>
-  {
-    Q_OBJECT
+	class ChatManager: public QObject, public Singleton<ChatManager>
+	{
+		Q_OBJECT
 
-    friend class Singleton<ChatManager>;
+		friend class Singleton<ChatManager>;
 
-    public:
-      const QList<KittySDK::Chat*> &chats() const;
-      const QList<KittySDK::Chat*> chatsByAccount(KittySDK::Account *account) const;
+		public:
+			const QList<KittySDK::Chat*> &chats() const;
+			const QList<KittySDK::Chat*> chatsByAccount(KittySDK::Account *account) const;
 
-      KittySDK::Chat *chat(KittySDK::Contact *me, const QList<KittySDK::Contact*> &contacts) const;
-      KittySDK::Chat *chat(KittySDK::Contact *me, KittySDK::Contact *sender) const;
+			KittySDK::Chat *chat(KittySDK::Contact *me, const QList<KittySDK::Contact*> &contacts) const;
+			KittySDK::Chat *chat(KittySDK::Contact *me, KittySDK::Contact *sender) const;
 
-      void startChat(KittySDK::Contact *me, const QList<KittySDK::Contact*> &contacts);
+			void startChat(KittySDK::Contact *me, const QList<KittySDK::Contact*> &contacts);
 
-    public slots:
-      void receiveMessage(KittySDK::Message &msg);
+		public slots:
+			void receiveMessage(KittySDK::Message &msg);
 
-    private:
-      ChatManager(QObject *parent = 0): QObject(parent) { }
-      ~ChatManager();
+		private:
+			ChatManager(QObject *parent = 0): QObject(parent) { }
+			~ChatManager();
 
-    private:
-      QList<KittySDK::Chat*> m_chats;
-  };
+		private:
+			QList<KittySDK::Chat*> m_chats;
+	};
 }
 #endif // CHATMANAGER_H

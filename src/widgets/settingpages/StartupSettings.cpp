@@ -8,14 +8,14 @@ using namespace KittySDK;
 
 Kitty::StartupSettings::StartupSettings(QWidget *parent): SettingPage(0, parent), m_ui(new Ui::StartupSettings)
 {
-  m_ui->setupUi(this);
+	m_ui->setupUi(this);
 
-  setIcon(Icons::I_BULLET);
+	setIcon(Icons::I_BULLET);
 }
 
 Kitty::StartupSettings::~StartupSettings()
 {
-  delete m_ui;
+	delete m_ui;
 }
 
 void Kitty::StartupSettings::apply()
@@ -28,5 +28,5 @@ void Kitty::StartupSettings::reset()
 
 void Kitty::StartupSettings::retranslate()
 {
-  m_ui->retranslateUi(this);
+	m_ui->retranslateUi(this);
 }

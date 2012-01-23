@@ -5,24 +5,24 @@
 
 namespace KittySDK
 {
-  class Contact;
+	class Contact;
 }
 
 namespace Kitty
 {
-  class RosterContact: public RosterItem
-  {
-    public:
-      explicit RosterContact(KittySDK::Contact *contact, RosterItem *parent = 0);
+	class RosterContact: public RosterItem
+	{
+		public:
+			explicit RosterContact(KittySDK::Contact *contact, RosterItem *parent = 0);
 
-      KittySDK::Contact *contact() const { return m_contact; }
+			KittySDK::Contact *contact() const { return m_contact; }
 
-      QVariant data(int role = Qt::UserRole + 1) const;
+			QVariant data(int role = Qt::UserRole + 1) const;
 
 
-    private:
-      KittySDK::Contact *m_contact;
-  };
+		private:
+			KittySDK::Contact *m_contact;
+	};
 }
 
 #endif // ROSTERCONTACT_H

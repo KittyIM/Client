@@ -5,23 +5,23 @@
 
 namespace Kitty
 {
-  class Emoticon;
+	class Emoticon;
 
-  class EmoticonPack: public QObject
-  {
-    Q_OBJECT
+	class EmoticonPack: public QObject
+	{
+		Q_OBJECT
 
-    public:
-      explicit EmoticonPack(const QString &name, QObject *parent = 0);
-      ~EmoticonPack();
+		public:
+			explicit EmoticonPack(const QString &name, QObject *parent = 0);
+			~EmoticonPack();
 
-      QString name() const { return m_name; }
-      const QList<Emoticon*> &emoticons() const { return m_emots; }
+			QString name() const { return m_name; }
+			const QList<Emoticon*> &emoticons() const { return m_emots; }
 
-    private:
-      QString m_name;
-      QList<Emoticon*> m_emots;
-  };
+		private:
+			QString m_name;
+			QList<Emoticon*> m_emots;
+	};
 }
 
 #endif // EMOTICONPACK_H

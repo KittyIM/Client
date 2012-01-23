@@ -5,46 +5,56 @@
 
 namespace KittySDK
 {
-  class Chat;
+	class Chat;
 }
+
+class QToolButton;
 
 namespace Kitty
 {
-  class ChatTab;
+	class ChatTab;
 
-  class ChatTabWidget: public QTabWidget
-  {
-    Q_OBJECT
+	class ChatTabWidget: public QTabWidget
+	{
+		Q_OBJECT
 
-    public:
-      explicit ChatTabWidget(QWidget *parent = 0);
-      ~ChatTabWidget();
+		public:
+			explicit ChatTabWidget(QWidget *parent = 0);
+			~ChatTabWidget();
 
-      ChatTab *tabByChat(KittySDK::Chat *chat);
-      int indexByChat(KittySDK::Chat *chat);
+			ChatTab *tabByChat(KittySDK::Chat *chat);
+			int indexByChat(KittySDK::Chat *chat);
 
-      QString createLabel(KittySDK::Chat *chat);
-      ChatTab *startChat(KittySDK::Chat *chat);
-      void switchTo(KittySDK::Chat *chat);
+			QString createLabel(KittySDK::Chat *chat);
+			ChatTab *startChat(KittySDK::Chat *chat);
+			void switchTo(KittySDK::Chat *chat);
 
-    public slots:
-      void setCurrentIndex(int index);
-      void applySettings();
-      void updateTabBar();
-      void updateIcons();
+			void removeTab(int index);
 
-    private slots:
-      void changeTab();
-      void updateTab(int i);
+		public slots:
+			void setCurrentIndex(int index);
+			void applySettings();
+			void updateTabBar();
+			void updateIcons();
 
-    protected:
-      void tabInserted(int index);
-      void tabRemoved(int index);
-      void mousePressEvent(QMouseEvent *event);
+		private slots:
+			void changeTab();
+			void updateTab(int i);
+			void showRecentlyClosed();
+			void clearRecentlyClosed();
+			void restoreClosedTab();
 
-    private:
-      QList<ChatTab*> m_tabs;
-  };
+		protected:
+			void tabInserted(int index);
+			void tabRemoved(int index);
+			void mousePressEvent(QMouseEvent *event);
+			void changeEvent(QEvent *event);
+
+		private:
+			QList<ChatTab*> m_tabs;
+			QList<KittySDK::Chat*> m_closedTabs;
+			QToolButton *m_closedButton;
+	};
 }
 
 #endif // CHATTABWIDGET_H

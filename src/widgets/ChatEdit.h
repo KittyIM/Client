@@ -6,54 +6,54 @@
 
 namespace Kitty
 {
-  class SpellChecker: public QSyntaxHighlighter
-  {
-    Q_OBJECT
+	class SpellChecker: public QSyntaxHighlighter
+	{
+		Q_OBJECT
 
-    public:
-      SpellChecker(QTextDocument *parent): QSyntaxHighlighter(parent) { }
+		public:
+			SpellChecker(QTextDocument *parent): QSyntaxHighlighter(parent) { }
 
-      QStringList suggest(const QString &word);
+			QStringList suggest(const QString &word);
 
-    private:
-      void highlightBlock(const QString &text);
-  };
+		private:
+			void highlightBlock(const QString &text);
+	};
 
-  class ChatEdit: public QTextEdit
-  {
-    Q_OBJECT
+	class ChatEdit: public QTextEdit
+	{
+		Q_OBJECT
 
-    public:
-      explicit ChatEdit(QWidget *parent = 0);
+		public:
+			explicit ChatEdit(QWidget *parent = 0);
 
-    signals:
-      void returnPressed();
+		signals:
+			void returnPressed();
 
-    public slots:
-      void clearHistory();
-      void addHistory(const QString &msg);
+		public slots:
+			void clearHistory();
+			void addHistory(const QString &msg);
 
-    private slots:
-      void pasteFormatted();
-      void replaceWord();
-      void boldText();
-      void italicText();
-      void underlineText();
-      void colorText(QColor color);
+		private slots:
+			void pasteFormatted();
+			void replaceWord();
+			void boldText();
+			void italicText();
+			void underlineText();
+			void colorText(QColor color);
 
-    protected:
-      void keyPressEvent(QKeyEvent *event);
-      void resizeEvent(QResizeEvent *event);
-      void contextMenuEvent(QContextMenuEvent *event);
+		protected:
+			void keyPressEvent(QKeyEvent *event);
+			void resizeEvent(QResizeEvent *event);
+			void contextMenuEvent(QContextMenuEvent *event);
 
-    private:
-      void updateSize();
+		private:
+			void updateSize();
 
-    private:
-      QStringList m_history;
-      int m_historyPos;
-      SpellChecker *m_checker;
-  };
+		private:
+			QStringList m_history;
+			int m_historyPos;
+			SpellChecker *m_checker;
+	};
 }
 
 #endif // CHATEDIT_H

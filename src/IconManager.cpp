@@ -13,40 +13,40 @@ using namespace KittySDK;
 
 Kitty::IconManager::IconManager(QObject *parent): QObject(parent)
 {
-  m_updateTimer.setSingleShot(true);
-  m_updateTimer.setInterval(100);
+	m_updateTimer.setSingleShot(true);
+	m_updateTimer.setInterval(100);
 
-  connect(&m_updateTimer, SIGNAL(timeout()), this, SIGNAL(iconsUpdated()));
+	connect(&m_updateTimer, SIGNAL(timeout()), this, SIGNAL(iconsUpdated()));
 
-  loadDefaults();
+	loadDefaults();
 }
 
 void Kitty::IconManager::loadDefaults()
 {
-  IconTheme theme;
+	IconTheme theme;
 
-  qDebug() << "Loading default icons [" << theme.icons().count() << "]";
+	qDebug() << "Loading default icons [" << theme.icons().count() << "]";
 
-  QHashIterator<QString, QString> i(theme.icons());
-  while(i.hasNext()) {
-    i.next();
-    insert(i.key(), QPixmap(i.value()), false);
-  }
+	QHashIterator<QString, QString> i(theme.icons());
+	while(i.hasNext()) {
+		i.next();
+		insert(i.key(), QPixmap(i.value()), false);
+	}
 }
 
 void Kitty::IconManager::remove(const QString &id)
 {
-  m_icons.remove(id);
-  emit iconsUpdated();
+	m_icons.remove(id);
+	emit iconsUpdated();
 }
 
 void Kitty::IconManager::insert(const QString &id, const QPixmap &pixmap, bool replace)
 {
-  if(m_icons.contains(id) && !replace) {
-    return;
-  }
+	if(m_icons.contains(id) && !replace) {
+		return;
+	}
 
-  m_icons.insert(id, pixmap);
+	m_icons.insert(id, pixmap);
 
-  m_updateTimer.start();
+	m_updateTimer.start();
 }

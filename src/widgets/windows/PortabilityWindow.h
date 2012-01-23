@@ -5,22 +5,22 @@
 
 namespace Ui
 {
-  class PortabilityWindow;
+	class PortabilityWindow;
 }
 
 namespace Kitty
 {
-  class PortabilityWindow: public QDialog
-  {
-    Q_OBJECT
+	class PortabilityWindow: public QDialog
+	{
+		Q_OBJECT
 
-    public:
-      explicit PortabilityWindow(QWidget *parent = 0);
-      ~PortabilityWindow();
+		public:
+			explicit PortabilityWindow(QWidget *parent = 0);
+			~PortabilityWindow();
 
-    private:
-      Ui::PortabilityWindow *m_ui;
-  };
+		private:
+			Ui::PortabilityWindow *m_ui;
+	};
 }
 
 #endif // PORTABILITYWINDOW_H

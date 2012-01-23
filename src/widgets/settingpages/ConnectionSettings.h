@@ -5,26 +5,26 @@
 
 namespace Ui
 {
-  class ConnectionSettings;
+	class ConnectionSettings;
 }
 
 namespace Kitty
 {
-  class ConnectionSettings: public KittySDK::SettingPage
-  {
-    Q_OBJECT
+	class ConnectionSettings: public KittySDK::SettingPage
+	{
+		Q_OBJECT
 
-    public:
-      explicit ConnectionSettings(QWidget *parent = 0);
-      ~ConnectionSettings();
+		public:
+			explicit ConnectionSettings(QWidget *parent = 0);
+			~ConnectionSettings();
 
-      void retranslate();
-      void apply();
-      void reset();
+			void retranslate();
+			void apply();
+			void reset();
 
-    private:
-      Ui::ConnectionSettings *m_ui;
-  };
+		private:
+			Ui::ConnectionSettings *m_ui;
+	};
 }
 
 #endif // CONNECTIONSETTINGS_H

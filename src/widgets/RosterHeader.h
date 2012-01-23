@@ -7,34 +7,34 @@
 
 namespace Ui
 {
-  class RosterHeader;
+	class RosterHeader;
 }
 
 namespace Kitty
 {
-  class RosterHeader: public QWidget
-  {
-    Q_OBJECT
+	class RosterHeader: public QWidget
+	{
+		Q_OBJECT
 
-    public:
-      explicit RosterHeader(QWidget *parent = 0);
-      ~RosterHeader();
+		public:
+			explicit RosterHeader(QWidget *parent = 0);
+			~RosterHeader();
 
-    signals:
-      void descriptionChanged(QString description);
-      void statusChanged(KittySDK::Protocol::Status status);
+		signals:
+			void descriptionChanged(QString description);
+			void statusChanged(KittySDK::Protocol::Status status);
 
-    public slots:
-      void applySettings();
-      void updateWidgets();
-      void retranslate();
+		public slots:
+			void applySettings();
+			void updateWidgets();
+			void retranslate();
 
-    protected:
-      void paintEvent(QPaintEvent *event);
+		protected:
+			void paintEvent(QPaintEvent *event);
 
-    private:
-      Ui::RosterHeader *m_ui;
-  };
+		private:
+			Ui::RosterHeader *m_ui;
+	};
 }
 
 #endif

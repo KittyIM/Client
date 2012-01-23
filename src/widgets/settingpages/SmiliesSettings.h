@@ -7,37 +7,37 @@
 
 namespace Ui
 {
-  class SmiliesSettings;
+	class SmiliesSettings;
 }
 
 namespace Kitty
 {
-  class SmiliesDelegate: public QStyledItemDelegate
-  {
-    Q_OBJECT
+	class SmiliesDelegate: public QStyledItemDelegate
+	{
+		Q_OBJECT
 
-    public:
-      SmiliesDelegate(QObject *parent = 0): QStyledItemDelegate(parent) { }
+		public:
+			SmiliesDelegate(QObject *parent = 0): QStyledItemDelegate(parent) { }
 
-      void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
-      QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const;
-  };
+			void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+			QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const;
+	};
 
-  class SmiliesSettings: public KittySDK::SettingPage
-  {
-      Q_OBJECT
+	class SmiliesSettings: public KittySDK::SettingPage
+	{
+		Q_OBJECT
 
-    public:
-      explicit SmiliesSettings(QWidget *parent = 0);
-      ~SmiliesSettings();
+		public:
+			explicit SmiliesSettings(QWidget *parent = 0);
+			~SmiliesSettings();
 
-      void retranslate();
-      void apply();
-      void reset();
+			void retranslate();
+			void apply();
+			void reset();
 
-    private:
-      Ui::SmiliesSettings *m_ui;
-  };
+		private:
+			Ui::SmiliesSettings *m_ui;
+	};
 }
 
 #endif // SMILIESSETTINGS_H

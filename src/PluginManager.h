@@ -8,52 +8,52 @@
 
 namespace Kitty
 {
-  class Plugin
-  {
-    public:
-      Plugin(const QString &fileName);
+	class Plugin
+	{
+		public:
+			Plugin(const QString &fileName);
 
-      void init();
-      void load();
-      void unload();
+			void init();
+			void load();
+			void unload();
 
-      KittySDK::Plugin *plugin() const { return m_plugin; }
-      QString fileName() const { return m_fileName; }
-      bool isLoaded() const { return m_loaded; }
-      bool isInited() const { return m_inited; }
+			KittySDK::Plugin *plugin() const { return m_plugin; }
+			QString fileName() const { return m_fileName; }
+			bool isLoaded() const { return m_loaded; }
+			bool isInited() const { return m_inited; }
 
-    private:
-      bool m_loaded;
-      bool m_inited;
-      QString m_fileName;
-      KittySDK::Plugin *m_plugin;
-  };
+		private:
+			bool m_loaded;
+			bool m_inited;
+			QString m_fileName;
+			KittySDK::Plugin *m_plugin;
+	};
 
-  class PluginManager: public QObject, public Singleton<PluginManager>
-  {
-    Q_OBJECT
+	class PluginManager: public QObject, public Singleton<PluginManager>
+	{
+		Q_OBJECT
 
-    friend class Singleton<PluginManager>;
+		friend class Singleton<PluginManager>;
 
-    public:
-      const QList<Plugin*> &plugins() const;
-      Plugin *pluginByName(const QString &name) const;
-      Plugin *pluginByFileName(const QString &fileName) const;
+		public:
+			const QList<Plugin*> &plugins() const;
+			Plugin *pluginByName(const QString &name) const;
+			Plugin *pluginByFileName(const QString &fileName) const;
 
-      void execAction(const QString &plugin, const QString &name, const QMap<QString, QVariant> &args);
+			void execAction(const QString &plugin, const QString &name, const QMap<QString, QVariant> &args);
 
-      void load();
+			void load();
 
-    signals:
-      void allPluginsLoaded();
+		signals:
+			void allPluginsLoaded();
 
-    private:
-      explicit PluginManager(QObject *parent = 0): QObject(parent) { }
-      ~PluginManager();
+		private:
+			explicit PluginManager(QObject *parent = 0): QObject(parent) { }
+			~PluginManager();
 
-    private:
-      QList<Plugin*> m_plugins;
-  };
+		private:
+			QList<Plugin*> m_plugins;
+	};
 }
 
 #endif // PLUGINMANAGER_H

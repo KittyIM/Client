@@ -6,46 +6,46 @@
 
 namespace Kitty
 {
-  template<typename T>
-  class Singleton
-  {
-    public:
-      ~Singleton() { }
+	template<typename T>
+	class Singleton
+	{
+		public:
+			~Singleton() { }
 
-      static T *inst()
-      {
-        static QMutex mutex;
+			static T *inst()
+			{
+				static QMutex mutex;
 
-        if(!m_inst) {
-          mutex.lock();
-          m_inst = new T();
-          mutex.unlock();
-        }
+				if(!m_inst) {
+					mutex.lock();
+					m_inst = new T();
+					mutex.unlock();
+				}
 
-        return m_inst;
-      }
+				return m_inst;
+			}
 
-      static void destr()
-      {
-        static QMutex mutex;
+			static void destr()
+			{
+				static QMutex mutex;
 
-        if(m_inst) {
-          mutex.lock();
-          delete m_inst;
-          mutex.unlock();
-        }
-      }
+				if(m_inst) {
+					mutex.lock();
+					delete m_inst;
+					mutex.unlock();
+				}
+			}
 
-    protected:
-      Singleton() { }
-      Singleton(const T &) { }
-      void operator=(const T &) { }
+		protected:
+			Singleton() { }
+			Singleton(const T &) { }
+			void operator=(const T &) { }
 
-    protected:
-      static QPointer<T> m_inst;
-  };
+		protected:
+			static QPointer<T> m_inst;
+	};
 
-  template <typename T> QPointer<T> Singleton<T>::m_inst = 0;
+	template <typename T> QPointer<T> Singleton<T>::m_inst = 0;
 }
 
 #endif // SINGLETON_H

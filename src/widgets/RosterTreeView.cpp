@@ -27,254 +27,254 @@ using namespace Kitty;
 
 Kitty::RosterTreeView::RosterTreeView(QWidget *parent): QTreeView(parent)
 {
-  setItemDelegate(new RosterItemDelegate(this));
-  //setDragEnabled(true);
-  //viewport()->setAcceptDrops(true);
-  //setDropIndicatorShown(true);
-  //setDragDropMode(QAbstractItemView::InternalMove);
+	setItemDelegate(new RosterItemDelegate(this));
+	//setDragEnabled(true);
+	//viewport()->setAcceptDrops(true);
+	//setDropIndicatorShown(true);
+	//setDragDropMode(QAbstractItemView::InternalMove);
 
-  connect(this, SIGNAL(expanded(QModelIndex)), this, SLOT(itemExpanded(QModelIndex)));
-  connect(this, SIGNAL(collapsed(QModelIndex)), this, SLOT(itemCollapsed(QModelIndex)));
+	connect(this, SIGNAL(expanded(QModelIndex)), this, SLOT(itemExpanded(QModelIndex)));
+	connect(this, SIGNAL(collapsed(QModelIndex)), this, SLOT(itemCollapsed(QModelIndex)));
 }
 
 void Kitty::RosterTreeView::fixGroups()
 {
-  QModelIndex root = rootIndex();
-  for(int i = 0; i < model()->rowCount(root); i++) {
-    QModelIndex index = model()->index(i, 0, root);
-    if(index.data(RosterItem::TypeRole).toInt() == RosterItem::Group) {
-      setExpanded(index, index.data(RosterItem::ExpandedRole).toBool());
-    }
-  }
+	QModelIndex root = rootIndex();
+	for(int i = 0; i < model()->rowCount(root); i++) {
+		QModelIndex index = model()->index(i, 0, root);
+		if(index.data(RosterItem::TypeRole).toInt() == RosterItem::Group) {
+			setExpanded(index, index.data(RosterItem::ExpandedRole).toBool());
+		}
+	}
 }
 
 void Kitty::RosterTreeView::sendMessage()
 {
-  QModelIndexList list = selectedIndexes();
+	QModelIndexList list = selectedIndexes();
 
-  if(RosterSortProxy *proxy = dynamic_cast<RosterSortProxy*>(model())) {
-    foreach(QModelIndex in, list) {
-      QModelIndex index = proxy->mapToSource(in);
-      if(index.data(RosterItem::TypeRole) == RosterItem::Contact) {
-        if(RosterContact *cnt = static_cast<RosterContact*>(index.internalPointer())) {
-          ChatManager::inst()->startChat(cnt->contact()->account()->me(), QList<KittySDK::Contact*>() << cnt->contact());
-        }
-      }
-    }
-  }
+	if(RosterSortProxy *proxy = dynamic_cast<RosterSortProxy*>(model())) {
+		foreach(QModelIndex in, list) {
+			QModelIndex index = proxy->mapToSource(in);
+			if(index.data(RosterItem::TypeRole) == RosterItem::Contact) {
+				if(RosterContact *cnt = static_cast<RosterContact*>(index.internalPointer())) {
+					ChatManager::inst()->startChat(cnt->contact()->account()->me(), QList<KittySDK::Contact*>() << cnt->contact());
+				}
+			}
+		}
+	}
 }
 
 void Kitty::RosterTreeView::copyName()
 {
-  QModelIndexList list = selectedIndexes();
+	QModelIndexList list = selectedIndexes();
 
-  if(RosterSortProxy *proxy = dynamic_cast<RosterSortProxy*>(model())) {
-    QString names;
+	if(RosterSortProxy *proxy = dynamic_cast<RosterSortProxy*>(model())) {
+		QString names;
 
-    foreach(QModelIndex index, list) {
-      QModelIndex ind = proxy->mapToSource(index);
-      names += ind.data().toString() + ", ";
-    }
+		foreach(QModelIndex index, list) {
+			QModelIndex ind = proxy->mapToSource(index);
+			names += ind.data().toString() + ", ";
+		}
 
-    names.chop(2);
+		names.chop(2);
 
-    if(list.size() > 0) {
-      qApp->clipboard()->setText(names);
-    }
-  }
+		if(list.size() > 0) {
+			qApp->clipboard()->setText(names);
+		}
+	}
 }
 
 void Kitty::RosterTreeView::copyUid()
 {
-  QModelIndexList list = selectedIndexes();
+	QModelIndexList list = selectedIndexes();
 
-  if(RosterSortProxy* proxy = dynamic_cast<RosterSortProxy*>(model())) {
-    QString uids;
+	if(RosterSortProxy* proxy = dynamic_cast<RosterSortProxy*>(model())) {
+		QString uids;
 
-    foreach(QModelIndex index, list) {
-      QModelIndex ind = proxy->mapToSource(index);
-      uids += ind.data(RosterItem::UidRole).toString() + ", ";
-    }
+		foreach(QModelIndex index, list) {
+			QModelIndex ind = proxy->mapToSource(index);
+			uids += ind.data(RosterItem::UidRole).toString() + ", ";
+		}
 
-    uids.chop(2);
+		uids.chop(2);
 
-    if(list.size() > 0) {
-      qApp->clipboard()->setText(uids);
-    }
-  }
+		if(list.size() > 0) {
+			qApp->clipboard()->setText(uids);
+		}
+	}
 }
 
 void Kitty::RosterTreeView::copyDescription()
 {
-  QModelIndexList list = selectedIndexes();
-  if(list.size() > 0) {
-    QModelIndex index = dynamic_cast<RosterSortProxy*>(model())->mapToSource(list.first());
-    qApp->clipboard()->setText(index.data(RosterItem::DescriptionRole).toString());
-  }
+	QModelIndexList list = selectedIndexes();
+	if(list.size() > 0) {
+		QModelIndex index = dynamic_cast<RosterSortProxy*>(model())->mapToSource(list.first());
+		qApp->clipboard()->setText(index.data(RosterItem::DescriptionRole).toString());
+	}
 }
 
 void Kitty::RosterTreeView::moveToGroup()
 {
 
-  if(QAction *action = qobject_cast<QAction*>(sender())) {
-    QModelIndexList list = selectedIndexes();
+	if(QAction *action = qobject_cast<QAction*>(sender())) {
+		QModelIndexList list = selectedIndexes();
 
-    if(RosterSortProxy *proxy = dynamic_cast<RosterSortProxy*>(model())) {
-      if(RosterItemModel *itemModel = dynamic_cast<RosterItemModel*>(proxy->sourceModel())) {
-        QString group = action->property("group").toString();
-        if(action->property("group_new").toBool()) {
-          group = QInputDialog::getText(this, tr("Add new group"), tr("Choose a name for the new group:"));
-        }
+		if(RosterSortProxy *proxy = dynamic_cast<RosterSortProxy*>(model())) {
+			if(RosterItemModel *itemModel = dynamic_cast<RosterItemModel*>(proxy->sourceModel())) {
+				QString group = action->property("group").toString();
+				if(action->property("group_new").toBool()) {
+					group = QInputDialog::getText(this, tr("Add new group"), tr("Choose a name for the new group:"));
+				}
 
-        QList<RosterContact*> contacts;
-        foreach(QModelIndex in, list) {
-          QModelIndex index = proxy->mapToSource(in);
+				QList<RosterContact*> contacts;
+				foreach(QModelIndex in, list) {
+					QModelIndex index = proxy->mapToSource(in);
 
-          if(index.isValid()) {
-            if(index.data(RosterItem::TypeRole) == RosterItem::Contact) {
-              if(RosterContact *cnt = static_cast<RosterContact*>(index.internalPointer())) {
-                contacts.append(cnt);
-              }
-            }
-          }
-        }
+					if(index.isValid()) {
+						if(index.data(RosterItem::TypeRole) == RosterItem::Contact) {
+							if(RosterContact *cnt = static_cast<RosterContact*>(index.internalPointer())) {
+								contacts.append(cnt);
+							}
+						}
+					}
+				}
 
-        foreach(RosterContact *cnt, contacts) {
-          itemModel->moveToGroup(cnt, group);
-        }
+				foreach(RosterContact *cnt, contacts) {
+					itemModel->moveToGroup(cnt, group);
+				}
 
-        proxy->invalidate();
-      }
-    }
-  }
+				proxy->invalidate();
+			}
+		}
+	}
 }
 
 void Kitty::RosterTreeView::showVCard()
 {
-  QModelIndexList list = selectedIndexes();
-  if(RosterSortProxy *proxy = dynamic_cast<RosterSortProxy*>(model())) {
-    foreach(QModelIndex in, list) {
-      QModelIndex index = proxy->mapToSource(in);
-      if(index.data(RosterItem::TypeRole) == RosterItem::Contact) {
-        if(RosterContact *cnt = static_cast<RosterContact*>(index.internalPointer())) {
-          emit vCardRequested(cnt->contact());
-        }
-      }
-    }
-  }
+	QModelIndexList list = selectedIndexes();
+	if(RosterSortProxy *proxy = dynamic_cast<RosterSortProxy*>(model())) {
+		foreach(QModelIndex in, list) {
+			QModelIndex index = proxy->mapToSource(in);
+			if(index.data(RosterItem::TypeRole) == RosterItem::Contact) {
+				if(RosterContact *cnt = static_cast<RosterContact*>(index.internalPointer())) {
+					emit vCardRequested(cnt->contact());
+				}
+			}
+		}
+	}
 }
 
 void Kitty::RosterTreeView::showHistory()
 {
-  QModelIndexList list = selectedIndexes();
-  if(list.size() > 0) {
-    QModelIndex index = dynamic_cast<RosterSortProxy*>(model())->mapToSource(list.first());
-    if(index.data(RosterItem::TypeRole) == RosterItem::Contact) {
-      if(RosterContact *cnt = static_cast<RosterContact*>(index.internalPointer())) {
-        emit historyRequested(cnt->contact());
-      }
-    }
-  }
+	QModelIndexList list = selectedIndexes();
+	if(list.size() > 0) {
+		QModelIndex index = dynamic_cast<RosterSortProxy*>(model())->mapToSource(list.first());
+		if(index.data(RosterItem::TypeRole) == RosterItem::Contact) {
+			if(RosterContact *cnt = static_cast<RosterContact*>(index.internalPointer())) {
+				emit historyRequested(cnt->contact());
+			}
+		}
+	}
 }
 
 void Kitty::RosterTreeView::itemExpanded(const QModelIndex &index)
 {
-  if(index.data(RosterItem::TypeRole) == RosterItem::Group) {
-    model()->setData(index, true, RosterItem::ExpandedRole);
-  }
+	if(index.data(RosterItem::TypeRole) == RosterItem::Group) {
+		model()->setData(index, true, RosterItem::ExpandedRole);
+	}
 }
 
 void Kitty::RosterTreeView::itemCollapsed(const QModelIndex &index)
 {
-  if(index.data(RosterItem::TypeRole) == RosterItem::Group) {
-    model()->setData(index, false, RosterItem::ExpandedRole);
-  }
+	if(index.data(RosterItem::TypeRole) == RosterItem::Group) {
+		model()->setData(index, false, RosterItem::ExpandedRole);
+	}
 }
 
 void Kitty::RosterTreeView::mousePressEvent(QMouseEvent *event)
 {
-  QTreeView::mousePressEvent(event);
-  QModelIndex index = dynamic_cast<RosterSortProxy*>(model())->mapToSource(indexAt(event->pos()));
+	QTreeView::mousePressEvent(event);
+	QModelIndex index = dynamic_cast<RosterSortProxy*>(model())->mapToSource(indexAt(event->pos()));
 
-  if(index.isValid()) {
-    if(event->button() == Qt::RightButton) {
-      if(index.data(RosterItem::TypeRole).toInt() == RosterItem::Contact) {
-        RosterContact *cnt = static_cast<RosterContact*>(index.internalPointer());
-        if(cnt) {
-          QMenu menu(this);
-          menu.addAction(Core::inst()->icon(KittySDK::Icons::I_MESSAGE), tr("Send message"), this, SLOT(sendMessage()));
-          menu.addSeparator();
+	if(index.isValid()) {
+		if(event->button() == Qt::RightButton) {
+			if(index.data(RosterItem::TypeRole).toInt() == RosterItem::Contact) {
+				RosterContact *cnt = static_cast<RosterContact*>(index.internalPointer());
+				if(cnt) {
+					QMenu menu(this);
+					menu.addAction(Core::inst()->icon(KittySDK::Icons::I_MESSAGE), tr("Send message"), this, SLOT(sendMessage()));
+					menu.addSeparator();
 
-          menu.addAction(Core::inst()->icon(KittySDK::Icons::I_HISTORY), tr("History"), this, SLOT(showHistory()));
-          menu.addAction(Core::inst()->icon(KittySDK::Icons::I_PROFILE), tr("vCard"), this, SLOT(showVCard()));
-          menu.addSeparator();
+					menu.addAction(Core::inst()->icon(KittySDK::Icons::I_HISTORY), tr("History"), this, SLOT(showHistory()));
+					menu.addAction(Core::inst()->icon(KittySDK::Icons::I_PROFILE), tr("vCard"), this, SLOT(showVCard()));
+					menu.addSeparator();
 
-          QMenu *copyMenu = menu.addMenu(Core::inst()->icon(KittySDK::Icons::I_COPY), tr("Copy"));
-          copyMenu->addAction(tr("Name"), this, SLOT(copyName()));
-          copyMenu->addAction(tr("UID"), this, SLOT(copyUid()));
-          copyMenu->addAction(tr("Status description"), this, SLOT(copyDescription()));
+					QMenu *copyMenu = menu.addMenu(Core::inst()->icon(KittySDK::Icons::I_COPY), tr("Copy"));
+					copyMenu->addAction(tr("Name"), this, SLOT(copyName()));
+					copyMenu->addAction(tr("UID"), this, SLOT(copyUid()));
+					copyMenu->addAction(tr("Status description"), this, SLOT(copyDescription()));
 
-          QMenu *groupMenu = menu.addMenu(Core::inst()->icon(KittySDK::Icons::I_GROUP), tr("Group"));
-          QAction *noneAction = groupMenu->addAction(tr("None"), this, SLOT(moveToGroup()));
-          noneAction->setProperty("group", "");
-          if(cnt->contact()->group().isEmpty()) {
-            noneAction->setCheckable(true);
-            noneAction->setChecked(true);
-          }
+					QMenu *groupMenu = menu.addMenu(Core::inst()->icon(KittySDK::Icons::I_GROUP), tr("Group"));
+					QAction *noneAction = groupMenu->addAction(tr("None"), this, SLOT(moveToGroup()));
+					noneAction->setProperty("group", "");
+					if(cnt->contact()->group().isEmpty()) {
+						noneAction->setCheckable(true);
+						noneAction->setChecked(true);
+					}
 
-          groupMenu->addSeparator();
+					groupMenu->addSeparator();
 
-          // TODO
-          QStringList groups = ContactManager::inst()->groups();
-          foreach(QString group, groups) {
-            QAction *action = groupMenu->addAction(group, this, SLOT(moveToGroup()));
-            action->setProperty("group", group);
+					// TODO
+					QStringList groups = ContactManager::inst()->groups();
+					foreach(QString group, groups) {
+						QAction *action = groupMenu->addAction(group, this, SLOT(moveToGroup()));
+						action->setProperty("group", group);
 
-            if(cnt->contact()->group() == group) {
-              action->setCheckable(true);
-              action->setChecked(true);
-            }
-          }
+						if(cnt->contact()->group() == group) {
+							action->setCheckable(true);
+							action->setChecked(true);
+						}
+					}
 
-          if(groups.size() > 0) {
-            groupMenu->addSeparator();
-          }
+					if(groups.size() > 0) {
+						groupMenu->addSeparator();
+					}
 
-          QAction *addAction = groupMenu->addAction(tr("Add new"), this, SLOT(moveToGroup()));
-          addAction->setProperty("group_new", true);
+					QAction *addAction = groupMenu->addAction(tr("Add new"), this, SLOT(moveToGroup()));
+					addAction->setProperty("group_new", true);
 
-          menu.addSeparator();
+					menu.addSeparator();
 
-          KittySDK::Protocol *proto = cnt->contact()->account()->protocol();
-          if(proto) {
-            if(proto->abilities().testFlag(KittySDK::Protocol::BlockContacts)) {
-              menu.addAction(Core::inst()->icon(KittySDK::Icons::I_BLOCK), tr("Block"));
-            }
-          }
+					KittySDK::Protocol *proto = cnt->contact()->account()->protocol();
+					if(proto) {
+						if(proto->abilities().testFlag(KittySDK::Protocol::BlockContacts)) {
+							menu.addAction(Core::inst()->icon(KittySDK::Icons::I_BLOCK), tr("Block"));
+						}
+					}
 
-          menu.addAction(Core::inst()->icon(KittySDK::Icons::I_DELETE), tr("Remove"));
+					menu.addAction(Core::inst()->icon(KittySDK::Icons::I_DELETE), tr("Remove"));
 
-          cnt->contact()->prepareContextMenu(&menu);
+					cnt->contact()->prepareContextMenu(&menu);
 
-          menu.exec(event->globalPos());
-        }
-      }
-    }
-  }
+					menu.exec(event->globalPos());
+				}
+			}
+		}
+	}
 }
 
 void Kitty::RosterTreeView::mouseDoubleClickEvent(QMouseEvent *event)
 {
-  sendMessage();
+	sendMessage();
 
-  QTreeView::mouseDoubleClickEvent(event);
+	QTreeView::mouseDoubleClickEvent(event);
 }
 
 void Kitty::RosterTreeView::keyPressEvent(QKeyEvent *event)
 {
-  if((event->key() == Qt::Key_Enter) || (event->key() == Qt::Key_Return)) {
-    sendMessage();
-  }
+	if((event->key() == Qt::Key_Enter) || (event->key() == Qt::Key_Return)) {
+		sendMessage();
+	}
 
-  QTreeView::keyPressEvent(event);
+	QTreeView::keyPressEvent(event);
 }

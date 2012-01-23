@@ -33,54 +33,54 @@ using namespace KittySDK;
 
 Kitty::Profile::Profile(QObject *parent): QObject(parent)
 {
-  m_settings = 0;
+	m_settings = 0;
 }
 
 Kitty::Profile::~Profile()
 {
-  if(isLoaded()) {
-    settings()->setValue(Settings::S_DEBUGWINDOW_GEOMETRY, DebugWindow::inst()->saveGeometry());
+	if(isLoaded()) {
+		settings()->setValue(Settings::S_DEBUGWINDOW_GEOMETRY, DebugWindow::inst()->saveGeometry());
 
-    AccountManager::inst()->save(m_name);
-    ContactManager::inst()->save(m_name);
-  }
+		AccountManager::inst()->save(m_name);
+		ContactManager::inst()->save(m_name);
+	}
 }
 
 void Kitty::Profile::load(const QString &name)
 {
-  Core *core = Core::inst();
+	Core *core = Core::inst();
 
-  m_name = name;
-  m_settings = new JsonSettings(core->profilesDir() + name + "/settings.dat", this);
+	m_name = name;
+	m_settings = new JsonSettings(core->profilesDir() + name + "/settings.dat", this);
 
-  if(m_settings->contains(Settings::S_ICON_THEME)) {
-    loadIconTheme(settings()->value(Settings::S_ICON_THEME).toString());
-  }
+	if(m_settings->contains(Settings::S_ICON_THEME)) {
+		loadIconTheme(settings()->value(Settings::S_ICON_THEME).toString());
+	}
 
-  dynamic_cast<App*>(qApp)->applySettings();
+	dynamic_cast<App*>(qApp)->applySettings();
 
-  ActionManager::inst()->loadDefaults();
+	ActionManager::inst()->loadDefaults();
 
-  connect(IconManager::inst(), SIGNAL(iconsUpdated()), ActionManager::inst(), SLOT(updateIcons()));
+	connect(IconManager::inst(), SIGNAL(iconsUpdated()), ActionManager::inst(), SLOT(updateIcons()));
 
-  PluginManager::inst()->load();
+	PluginManager::inst()->load();
 
-  AccountManager::inst()->load(name);
+	AccountManager::inst()->load(name);
 
-  ContactManager::inst()->load(name);
+	ContactManager::inst()->load(name);
 
-  qDebug() << "Profile " + name + " loaded!";
+	qDebug() << "Profile " + name + " loaded!";
 }
 
 void Kitty::Profile::loadIconTheme(const QString &name)
 {
-  qDebug() << "Loading icon theme " + name;
+	qDebug() << "Loading icon theme " + name;
 
-  IconTheme theme(name);
-  QHashIterator<QString, QString> i(theme.icons());
-  while(i.hasNext()) {
-    i.next();
+	IconTheme theme(name);
+	QHashIterator<QString, QString> i(theme.icons());
+	while(i.hasNext()) {
+		i.next();
 
-    IconManager::inst()->insert(i.key(), QPixmap(i.value()));
-  }
+		IconManager::inst()->insert(i.key(), QPixmap(i.value()));
+	}
 }

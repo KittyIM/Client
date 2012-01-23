@@ -9,33 +9,33 @@ using namespace KittySDK;
 
 Kitty::ProtocolManager::~ProtocolManager()
 {
-  qDeleteAll(m_protocols);
+	qDeleteAll(m_protocols);
 }
 
 const QList<Protocol*> &Kitty::ProtocolManager::protocols() const
 {
-  return m_protocols;
+	return m_protocols;
 }
 
 Protocol *Kitty::ProtocolManager::protocolByName(const QString &name) const
 {
-  foreach(Protocol *proto, m_protocols) {
-    if(proto->protoInfo()->protoName() == name) {
-      return proto;
-    }
-  }
+	foreach(Protocol *proto, m_protocols) {
+		if(proto->protoInfo()->protoName() == name) {
+			return proto;
+		}
+	}
 
-  return 0;
+	return 0;
 }
 
 void Kitty::ProtocolManager::add(Protocol *protocol)
 {
-  if(protocolByName(protocol->protoInfo()->protoName())) {
-    qWarning() << "Tried to add protocol" << protocol->protoInfo()->protoName() << "which is already in ProtocolManager.";
-    return;
-  }
+	if(protocolByName(protocol->protoInfo()->protoName())) {
+		qWarning() << "Tried to add protocol" << protocol->protoInfo()->protoName() << "which is already in ProtocolManager.";
+		return;
+	}
 
-  m_protocols.append(protocol);
+	m_protocols.append(protocol);
 }
 
 

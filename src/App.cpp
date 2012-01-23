@@ -24,162 +24,162 @@ using namespace KittySDK;
 
 Kitty::App::App(int &argc, char **argv): QApplication(argc, argv)
 {
-  m_startDate = QDateTime::currentDateTime();
+	m_startDate = QDateTime::currentDateTime();
 
-  m_translator = 0;
-  m_qtTranslator = 0;
+	m_translator = 0;
+	m_qtTranslator = 0;
 
-  QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
-  QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
+	QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
+	QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
 
-  QCoreApplication::setApplicationName("KittyIM");
+	QCoreApplication::setApplicationName("KittyIM");
 
-  qInstallMsgHandler(DebugWindow::addMessage);
-  setQuitOnLastWindowClosed(false);
+	qInstallMsgHandler(DebugWindow::addMessage);
+	setQuitOnLastWindowClosed(false);
 
-  connect(this, SIGNAL(aboutToQuit()), this, SLOT(cleanUp()));
+	connect(this, SIGNAL(aboutToQuit()), this, SLOT(cleanUp()));
 
-  qDebug() << "Starting KittyIM";
-  qDebug() << "There are" << (arguments().count() - 1) << "arguments";
+	qDebug() << "Starting KittyIM";
+	qDebug() << "There are" << (arguments().count() - 1) << "arguments";
 
-  Core *core = Core::inst();
+	Core *core = Core::inst();
 
-  QString profile;
-  QString password;
-  QListIterator<QString> it(arguments());
-  while(it.hasNext()) {
-    QString arg = it.next();
-    if(arg == "-debug") {
-      qDebug() << "-debug found, showing debug console";
-      DebugWindow::inst()->show();
-    } else if(arg == "-profile") {
-      if(it.hasNext()) {
-        profile = it.next();
-        qDebug() << "-profile found, profile is" << profile;
-      } else {
-        qWarning() << "-profile found but nothing more";
-      }
-    } else if(arg == "-password") {
-      if(it.hasNext()) {
-        password = it.next();
-        qDebug() << "-password found";
-      } else {
-        qWarning() << "-password found but nothing more";
-      }
-    } else if(arg == "-portable") {
-      qDebug() << "-portable found, we are going portable";
-      core->setPortable(true);
-    }
-  }
+	QString profile;
+	QString password;
+	QListIterator<QString> it(arguments());
+	while(it.hasNext()) {
+		QString arg = it.next();
+		if(arg == "-debug") {
+			qDebug() << "-debug found, showing debug console";
+			DebugWindow::inst()->show();
+		} else if(arg == "-profile") {
+			if(it.hasNext()) {
+				profile = it.next();
+				qDebug() << "-profile found, profile is" << profile;
+			} else {
+				qWarning() << "-profile found but nothing more";
+			}
+		} else if(arg == "-password") {
+			if(it.hasNext()) {
+				password = it.next();
+				qDebug() << "-password found";
+			} else {
+				qWarning() << "-password found but nothing more";
+			}
+		} else if(arg == "-portable") {
+			qDebug() << "-portable found, we are going portable";
+			core->setPortable(true);
+		}
+	}
 
-  core->setAppArguments(arguments());
+	core->setAppArguments(arguments());
 
-  // let's check if portability file exists
-  if(!core->isPortable()) {
-    if(QFile::exists(applicationDirPath() + "/data/portable")) {
-      core->setPortable(true);
-    }
-  }
+	// let's check if portability file exists
+	if(!core->isPortable()) {
+		if(QFile::exists(applicationDirPath() + "/data/portable")) {
+			core->setPortable(true);
+		}
+	}
 
-  // there was no info in arguments, but maybe there's only 1 account
-  if(profile.isEmpty()) {
-    QDir dir(Core::inst()->profilesDir());
-    QStringList profiles = dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
-    if(profiles.count() == 1) {
-      qDebug() << "Only one profile, let's try to load it!";
-      profile = profiles[0];
-    }
-  }
+	// there was no info in arguments, but maybe there's only 1 account
+	if(profile.isEmpty()) {
+		QDir dir(Core::inst()->profilesDir());
+		QStringList profiles = dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
+		if(profiles.count() == 1) {
+			qDebug() << "Only one profile, let's try to load it!";
+			profile = profiles[0];
+		}
+	}
 
-  if(!profile.isEmpty()) {
-    JsonSettings set(Core::inst()->profilesDir() + profile + "/settings.dat");
-    bool hasPassword = !set.value(Settings::S_PROFILE_PASSWORD).toString().isEmpty();
+	if(!profile.isEmpty()) {
+		JsonSettings set(Core::inst()->profilesDir() + profile + "/settings.dat");
+		bool hasPassword = !set.value(Settings::S_PROFILE_PASSWORD).toString().isEmpty();
 
-    if(!hasPassword) {
-      qDebug() << "Profile is ok, loading.";
-      core->loadProfile(profile);
-    } else {
-      if(!password.isEmpty()) {
-        if(set.value(Settings::S_PROFILE_PASSWORD).toString() == QCryptographicHash::hash(password.toLocal8Bit(), QCryptographicHash::Sha1).toHex()) {
-          qDebug() << "Password is ok too!";
-          core->loadProfile(profile);
-        } else {
-          qWarning() << "The supplied password is wrong.";
-        }
-      } else {
-        qWarning() << "Wanted to load profile" + profile + "but it's password protected!";
-      }
-    }
-  }
+		if(!hasPassword) {
+			qDebug() << "Profile is ok, loading.";
+			core->loadProfile(profile);
+		} else {
+			if(!password.isEmpty()) {
+				if(set.value(Settings::S_PROFILE_PASSWORD).toString() == QCryptographicHash::hash(password.toLocal8Bit(), QCryptographicHash::Sha1).toHex()) {
+					qDebug() << "Password is ok too!";
+					core->loadProfile(profile);
+				} else {
+					qWarning() << "The supplied password is wrong.";
+				}
+			} else {
+				qWarning() << "Wanted to load profile" + profile + "but it's password protected!";
+			}
+		}
+	}
 
-  if(!core->profile()->isLoaded()) {
-    qDebug() << "No profile, let's ask.";
-    core->showProfilesWindow();
-  }
+	if(!core->profile()->isLoaded()) {
+		qDebug() << "No profile, let's ask.";
+		core->showProfilesWindow();
+	}
 }
 
 void Kitty::App::applySettings()
 {
-  Core *core = Core::inst();
+	Core *core = Core::inst();
 
-  if(!m_translator) {
-    m_translator = new QTranslator(this);
-  }
+	if(!m_translator) {
+		m_translator = new QTranslator(this);
+	}
 
-  if(!m_qtTranslator) {
-    m_qtTranslator = new QTranslator(this);
-  }
+	if(!m_qtTranslator) {
+		m_qtTranslator = new QTranslator(this);
+	}
 
-  QString locale = QLocale::system().name();
-  locale = core->setting(Settings::S_LANGUAGE, locale).toString();
+	QString locale = QLocale::system().name();
+	locale = core->setting(Settings::S_LANGUAGE, locale).toString();
 
-  QString dir = applicationDirPath() + "/data/translations/";
-  if(m_translator->load("kitty_" + locale, dir) && m_qtTranslator->load("qt_" + locale, dir)) {
-    installTranslator(m_translator);
-    installTranslator(m_qtTranslator);
-  } else {
-    m_translator->load("");
-    m_qtTranslator->load("");
-  }
+	QString dir = applicationDirPath() + "/data/translations/";
+	if(m_translator->load("kitty_" + locale, dir) && m_qtTranslator->load("qt_" + locale, dir)) {
+		installTranslator(m_translator);
+		installTranslator(m_qtTranslator);
+	} else {
+		m_translator->load("");
+		m_qtTranslator->load("");
+	}
 
-  if(core->profile()) {
-    core->profile()->loadIconTheme(core->setting(Settings::S_ICON_THEME).toString());
-  }
+	if(core->profile()) {
+		core->profile()->loadIconTheme(core->setting(Settings::S_ICON_THEME).toString());
+	}
 
-  QNetworkProxy proxy;
-  if(core->setting(Settings::S_PROXY_ENABLED, false).toBool()) {
-    proxy.setType(QNetworkProxy::HttpProxy);
-    proxy.setHostName(core->setting(Settings::S_PROXY_SERVER).toString());
-    proxy.setPort(core->setting(Settings::S_PROXY_PORT).toInt());
+	QNetworkProxy proxy;
+	if(core->setting(Settings::S_PROXY_ENABLED, false).toBool()) {
+		proxy.setType(QNetworkProxy::HttpProxy);
+		proxy.setHostName(core->setting(Settings::S_PROXY_SERVER).toString());
+		proxy.setPort(core->setting(Settings::S_PROXY_PORT).toInt());
 
-    if(core->setting(Settings::S_PROXY_AUTH, false).toBool()) {
-      proxy.setUser(core->setting(Settings::S_PROXY_USERNAME).toString());
-      proxy.setPassword(core->setting(Settings::S_PROXY_PASSWORD).toString());
-    }
-  }
+		if(core->setting(Settings::S_PROXY_AUTH, false).toBool()) {
+			proxy.setUser(core->setting(Settings::S_PROXY_USERNAME).toString());
+			proxy.setPassword(core->setting(Settings::S_PROXY_PASSWORD).toString());
+		}
+	}
 
-  QNetworkProxy::setApplicationProxy(proxy);
+	QNetworkProxy::setApplicationProxy(proxy);
 }
 
 void Kitty::App::cleanUp()
 {
-  Core *core = Core::inst();
+	Core *core = Core::inst();
 
-  if(core->hasToRestart()) {
-    QStringList args = core->appArguments();
+	if(core->hasToRestart()) {
+		QStringList args = core->appArguments();
 
-    //remove executable name
-    if(args.first().indexOf("Kitty") > -1) {
-      args.removeFirst();
-    }
+		//remove executable name
+		if(args.first().indexOf("Kitty") > -1) {
+			args.removeFirst();
+		}
 
-    if(args.indexOf("-profile") == -1) {
-      args.append("-profile");
-      args.append(core->profile()->name());
-    }
+		if(args.indexOf("-profile") == -1) {
+			args.append("-profile");
+			args.append(core->profile()->name());
+		}
 
-    QProcess::startDetached(qApp->applicationFilePath(), args);
-  }
+		QProcess::startDetached(qApp->applicationFilePath(), args);
+	}
 
-  Core::destr();
+	Core::destr();
 }

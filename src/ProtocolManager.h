@@ -8,25 +8,25 @@
 
 namespace Kitty
 {
-  class ProtocolManager: public QObject, public Singleton<ProtocolManager>
-  {
-    Q_OBJECT
+	class ProtocolManager: public QObject, public Singleton<ProtocolManager>
+	{
+		Q_OBJECT
 
-    friend class Singleton<ProtocolManager>;
+		friend class Singleton<ProtocolManager>;
 
-    public:
-      const QList<KittySDK::Protocol*> &protocols() const;
-      KittySDK::Protocol *protocolByName(const QString &name) const;
+		public:
+			const QList<KittySDK::Protocol*> &protocols() const;
+			KittySDK::Protocol *protocolByName(const QString &name) const;
 
-      void add(KittySDK::Protocol *protocol);
+			void add(KittySDK::Protocol *protocol);
 
-    private:
-      ProtocolManager(QObject *parent = 0): QObject(parent) { }
-      ~ProtocolManager();
+		private:
+			ProtocolManager(QObject *parent = 0): QObject(parent) { }
+			~ProtocolManager();
 
-    private:
-      QList<KittySDK::Protocol*> m_protocols;
-  };
+		private:
+			QList<KittySDK::Protocol*> m_protocols;
+	};
 }
 
 #endif // PROTOCOLMANAGER_H

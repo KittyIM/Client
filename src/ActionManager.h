@@ -10,28 +10,28 @@
 
 namespace Kitty
 {
-  class ActionManager: public QObject, public Singleton<ActionManager>
-  {
-    Q_OBJECT
+	class ActionManager: public QObject, public Singleton<ActionManager>
+	{
+		Q_OBJECT
 
-    friend class Singleton<ActionManager>;
+		friend class Singleton<ActionManager>;
 
-    public:
-      void loadDefaults();
-      QStringList keys() const { return m_actions.keys(); }
+		public:
+			void loadDefaults();
+			QStringList keys() const { return m_actions.keys(); }
 
-      void insert(const QString &id, QAction *action) { m_actions.insert(id, action); }
-      QAction *action(const QString &id) const { return m_actions.value(id); }
+			void insert(const QString &id, QAction *action) { m_actions.insert(id, action); }
+			QAction *action(const QString &id) const { return m_actions.value(id); }
 
-    public slots:
-      void updateIcons();
-      void retranslate();
+		public slots:
+			void updateIcons();
+			void retranslate();
 
-    private:
-      ActionManager(): QObject(0) { }
+		private:
+			ActionManager(): QObject(0) { }
 
-    private:
-      QHash<QString, QPointer<QAction> > m_actions;
-  };
+		private:
+			QHash<QString, QPointer<QAction> > m_actions;
+	};
 }
 #endif // ACTIONMANAGER_H

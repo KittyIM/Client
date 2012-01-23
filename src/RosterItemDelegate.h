@@ -5,16 +5,16 @@
 
 namespace Kitty
 {
-  class RosterItemDelegate: public QStyledItemDelegate
-  {
-    Q_OBJECT
+	class RosterItemDelegate: public QStyledItemDelegate
+	{
+		Q_OBJECT
 
-    public:
-      explicit RosterItemDelegate(QObject *parent = 0);
+		public:
+			explicit RosterItemDelegate(QObject *parent = 0);
 
-      void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
-      QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const;
-  };
+			void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+			QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const;
+	};
 }
 
 #endif // ROSTERITEMDELEGATE_H

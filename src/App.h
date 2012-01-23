@@ -7,26 +7,26 @@
 
 namespace Kitty
 {
-  class App: public QApplication
-  {
-    Q_OBJECT
+	class App: public QApplication
+	{
+		Q_OBJECT
 
-    public:
-      explicit App(int &argc, char **argv);
+		public:
+			explicit App(int &argc, char **argv);
 
-      QDateTime startDate() { return m_startDate; }
+			QDateTime startDate() { return m_startDate; }
 
-    public slots:
-      void applySettings();
+		public slots:
+			void applySettings();
 
-    private slots:
-      void cleanUp();
+		private slots:
+			void cleanUp();
 
-    private:
-      QDateTime m_startDate;
-      class QTranslator *m_translator;
-      class QTranslator *m_qtTranslator;
-  };
+		private:
+			QDateTime m_startDate;
+			class QTranslator *m_translator;
+			class QTranslator *m_qtTranslator;
+	};
 }
 
 #endif // APP_H

@@ -5,25 +5,25 @@
 
 namespace Ui
 {
-  class AboutWindow;
+	class AboutWindow;
 }
 
 namespace Kitty
 {
-  class AboutWindow: public QDialog
-  {
-    Q_OBJECT
+	class AboutWindow: public QDialog
+	{
+		Q_OBJECT
 
-    public:
-      explicit AboutWindow(QWidget *parent = 0);
-      ~AboutWindow();
+		public:
+			explicit AboutWindow(QWidget *parent = 0);
+			~AboutWindow();
 
-    protected:
-      void showEvent(QShowEvent *event);
+		protected:
+			void showEvent(QShowEvent *event);
 
-    private:
-      Ui::AboutWindow *m_ui;
-  };
+		private:
+			Ui::AboutWindow *m_ui;
+	};
 }
 
 #endif // ABOUTWINDOW_H
