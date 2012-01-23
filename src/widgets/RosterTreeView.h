@@ -30,6 +30,7 @@ namespace Kitty
 			void moveToGroup();
 			void showVCard();
 			void showHistory();
+			void openURL();
 
 		private slots:
 			void itemExpanded(const QModelIndex &index);

@@ -104,6 +104,7 @@ void Kitty::IconTheme::loadDefaults()
 	m_icons.insert(Icons::I_SEARCH, ":/glyphs/search.png");
 	m_icons.insert(Icons::I_ADD, ":/glyphs/add.png");
 	m_icons.insert(Icons::I_EDIT, ":/glyphs/edit.png");
+	m_icons.insert(Icons::I_URL, ":/glyphs/url.png");
 	m_icons.insert(Icons::I_STATUS_ONLINE, ":/glyphs/status_online.png");
 	m_icons.insert(Icons::I_STATUS_AWAY, ":/glyphs/status_away.png");
 	m_icons.insert(Icons::I_STATUS_FFC, ":/glyphs/status_ffc.png");

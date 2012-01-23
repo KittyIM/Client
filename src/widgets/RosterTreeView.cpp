@@ -14,6 +14,8 @@
 #include "Core.h"
 
 #include <QtCore/QDebug>
+#include <QtCore/QUrl>
+#include <QtGui/QDesktopServices>
 #include <QtGui/QInputDialog>
 #include <QtGui/QApplication>
 #include <QtGui/QMouseEvent>
@@ -177,6 +179,13 @@ void Kitty::RosterTreeView::showHistory()
 	}
 }
 
+void RosterTreeView::openURL()
+{
+	if(QAction *action = qobject_cast<QAction*>(sender())) {
+		QDesktopServices::openUrl(action->text());
+	}
+}
+
 void Kitty::RosterTreeView::itemExpanded(const QModelIndex &index)
 {
 	if(index.data(RosterItem::TypeRole) == RosterItem::Group) {
@@ -203,6 +212,28 @@ void Kitty::RosterTreeView::mousePressEvent(QMouseEvent *event)
 				if(cnt) {
 					QMenu menu(this);
 					menu.addAction(Core::inst()->icon(KittySDK::Icons::I_MESSAGE), tr("Send message"), this, SLOT(sendMessage()));
+
+					QString description = cnt->data(RosterItem::DescriptionRole).toString();
+
+					QMenu urlMenu;
+					if(!description.isEmpty()) {
+						QRegExp urls("\\b(?:(?:https?|ftp):\\/\\/|www\\.|ftp\\.)[-A-Z0-9+&@#\\/%=~_|$?!:,.]*[A-Z0-9+&@#\\/%=~_|$]", Qt::CaseInsensitive);
+						int pos = 0;
+						while((pos = urls.indexIn(description, pos)) != -1) {
+							QString url = urls.cap(0);
+
+							urlMenu.addAction(url, this, SLOT(openURL()));
+
+							pos += urls.matchedLength();
+						}
+					}
+
+					if(urlMenu.actions().count()) {
+						QAction *menuAction = menu.addMenu(&urlMenu);
+						menuAction->setText(tr("URLs"));
+						menuAction->setIcon(Core::inst()->icon(KittySDK::Icons::I_URL));
+					}
+
 					menu.addSeparator();
 
 					menu.addAction(Core::inst()->icon(KittySDK::Icons::I_HISTORY), tr("History"), this, SLOT(showHistory()));

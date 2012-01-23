@@ -26,31 +26,31 @@ QVariant Kitty::RosterContact::data(int role) const
 
 	switch(role) {
 		case Qt::DisplayRole:
-		return m_contact->display();
+			return m_contact->display();
 		break;
 
 		case Qt::DecorationRole:
-		return Core::inst()->icon(m_contact->account()->protocol()->statusIcon(m_contact->status()));
+			return Core::inst()->icon(m_contact->account()->protocol()->statusIcon(m_contact->status()));
 		break;
 
 		case RosterItem::AccountRole:
-		return QString("%1 (%2)").arg(m_contact->account()->uid()).arg(m_contact->account()->protocol()->protoInfo()->protoName());
+			return QString("%1 (%2)").arg(m_contact->account()->uid()).arg(m_contact->account()->protocol()->protoInfo()->protoName());
 		break;
 
 		case RosterItem::UidRole:
-		return m_contact->uid();
+			return m_contact->uid();
 		break;
 
 		case RosterItem::StatusRole:
-		return m_contact->status();
+			return m_contact->status();
 		break;
 
 		case RosterItem::DescriptionRole:
-		return m_contact->description();
+			return m_contact->description();
 		break;
 
 		case RosterItem::AvatarRole:
-		return Core::inst()->avatarPath(m_contact);
+			return Core::inst()->avatarPath(m_contact);
 		break;
 
 		case Qt::ToolTipRole:
