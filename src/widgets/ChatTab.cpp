@@ -1,6 +1,7 @@
 #include "ChatTab.h"
 #include "ui_ChatTab.h"
 
+#include "widgets/DesktopFragmentDialog.h"
 #include "widgets/windows/HistoryWindow.h"
 #include "widgets/windows/MainWindow.h"
 #include "widgets/windows/ChatWindow.h"
@@ -17,11 +18,16 @@
 #include "Core.h"
 
 #ifdef Q_WS_WIN32
+#define _WIN32_WINNT 0x0501
 #include <qt_windows.h>
 #endif
 
+#include <QtCore/QMimeData>
 #include <QtCore/QFile>
+#include <QtGui/QDesktopWidget>
+#include <QtGui/QFileDialog>
 #include <QtGui/QToolButton>
+#include <QtGui/QClipboard>
 #include <QtGui/QToolBar>
 #include <QtGui/QMenu>
 #include <QtWebKit/QWebElement>
@@ -112,69 +118,32 @@ Kitty::ChatTab::ChatTab(Chat *chat, QWidget *parent): QWidget(parent), m_ui(new 
 		m_imageAction->setProperty("icon_id", Icons::I_IMAGE);
 
 		QMenu *imageMenu = new QMenu(this);
-		imageMenu->addAction(tr("From file..."));
-		imageMenu->addAction(tr("Desktop snapshot"));
-		imageMenu->addAction(tr("Desktop snapshot fragment"));
+		connect(imageMenu, SIGNAL(aboutToShow()), SLOT(updateImageMenu()));
+		imageMenu->addAction(tr("From file..."), this, SLOT(sendImageFile()));
+
+		QAction *desktopAction = imageMenu->addAction(tr("Desktop snapshot"));
+		if(QApplication::desktop()->screenCount() > 1) {
+			QMenu *desktopMenu = new QMenu(this);
+
+			for(int i = 0; i < QApplication::desktop()->screenCount(); ++i) {
+				QAction *action = desktopMenu->addAction(tr("Desktop") + " #" + QString::number(i + 1), this, SLOT(sendImageDesktop()));
+				action->setData(i);
+			}
+
+			desktopAction->setMenu(desktopMenu);
+		} else {
+			desktopAction->setData(0);
+			connect(desktopAction, SIGNAL(triggered()), SLOT(sendImageDesktop()));
+		}
+
+		imageMenu->addAction(tr("Desktop snapshot fragment"), this, SLOT(sendImageFragment()));
 
 #ifdef Q_WS_WIN32
 		QAction *windowAction = imageMenu->addAction(tr("Window snapshot"));
-
-		QMenu *windowMenu = new QMenu(this);
-
-		QList<HWND> visited;
-
-		HWND hWnd = GetWindow(GetDesktopWindow(), GW_CHILD);
-		while(hWnd) {
-			if(visited.contains(hWnd)) {
-				break;
-			}
-
-			visited.append(hWnd);
-
-			if((GetWindowTextLength(hWnd) > 0)) {
-				LONG style = GetWindowLong(hWnd, GWL_STYLE);
-
-				if((style & WS_VISIBLE) && (style & WS_CAPTION)) {
-					WCHAR *text = new WCHAR[255];
-					GetWindowText(hWnd, text, 250);
-
-					QAction *action = windowMenu->addAction(QString::fromWCharArray(text));
-					//QPixmap::grabWindow(hWnd).save(QString("C:/%1.png").arg((int)hWnd));
-
-					HICON hIcon = (HICON)SendMessage(hWnd, WM_GETICON, ICON_SMALL, NULL);
-					if(!hIcon) {
-						hIcon = (HICON)SendMessage(hWnd, WM_GETICON, 2, NULL);
-					}
-
-					if(!hIcon) {
-						hIcon = (HICON)SendMessage(hWnd, WM_GETICON, ICON_BIG, NULL);
-					}
-
-					if(!hIcon) {
-						hIcon = (HICON)GetClassLongPtr(hWnd, GCL_HICON);
-					}
-
-					if(!hIcon) {
-						hIcon = (HICON)GetClassLongPtr(hWnd, GCL_HICONSM);
-					}
-
-					if(hIcon) {
-						QPixmap icon = QPixmap::fromWinHICON(hIcon);
-						action->setIcon(icon);
-					}
-
-					delete text;
-					delete hIcon;
-				}
-			}
-
-			hWnd = GetWindow(hWnd, GW_HWNDNEXT);
-		}
-
-		windowAction->setMenu(windowMenu);
+		windowAction->setMenu(new QMenu(this));
 #endif
 
-		imageMenu->addAction(tr("Clipboard contents"));
+		imageMenu->addAction(tr("Clipboard contents"), this, SLOT(sendImageClipboard()));
 
 		m_imageAction->setMenu(imageMenu);
 
@@ -317,6 +286,137 @@ void Kitty::ChatTab::sendMessage()
 	}
 }
 
+void ChatTab::sendImageFile()
+{
+	QString fileName = QFileDialog::getOpenFileName(this, tr("Select file"), QString(), tr("Images") + " (*.jpg *.jpeg *.gif *.png *.bmp)");
+	if(!fileName.isEmpty()) {
+		QFileInfo fileInfo(fileName);
+
+		QDir imgDir(Core::inst()->currentProfileDir() + "imgcache/");
+		if(imgDir.exists(fileInfo.fileName())) {
+			QFile newFile(fileName);
+			QFile oldFile(imgDir.filePath(fileInfo.fileName()));
+
+			//file exists, but are they the same?
+			if(newFile.open(QFile::ReadOnly) && oldFile.open(QFile::ReadOnly)) {
+				//same files, use the cached one
+				fileName = imgDir.filePath(fileInfo.fileName());
+			} else {
+				//different files, find unique name, copy and use the new one
+				QString newFileName;
+				int i = 2;
+				do {
+					newFileName = imgDir.filePath(fileInfo.completeBaseName() + "_" + QString::number(i) + "." + fileInfo.suffix());
+					++i;
+				} while(QFile::exists(newFileName));
+
+				QFile::copy(fileName, newFileName);
+				fileName = newFileName;
+			}
+
+			newFile.close();
+			oldFile.close();
+		} else {
+			//new file, copy to cache
+			QFile::copy(fileName, imgDir.filePath(fileInfo.fileName()));
+			fileName = imgDir.filePath(fileInfo.fileName());
+		}
+
+		sendImage(fileName);
+	}
+}
+
+void ChatTab::sendImageWindow()
+{
+#ifdef Q_WS_WIN32
+	if(QAction *action = qobject_cast<QAction*>(sender())) {
+		HWND hWnd = reinterpret_cast<HWND>(action->data().toInt());
+
+		HDC hDC = GetDC(hWnd);
+		HDC hTargetDC = CreateCompatibleDC(hDC);
+		RECT rect;
+
+		GetWindowRect(hWnd, &rect);
+
+		HBITMAP hBitmap = CreateCompatibleBitmap(hDC, rect.right - rect.left, rect.bottom - rect.top);
+		SelectObject(hTargetDC, hBitmap);
+		PrintWindow(hWnd, hTargetDC, 0);
+
+		QPixmap window = QPixmap::fromWinHBITMAP(hBitmap);
+
+		DeleteObject(hBitmap);
+		ReleaseDC(hWnd, hDC);
+		DeleteDC(hTargetDC);
+
+		if(!window.isNull()) {
+			QString fileName = Core::inst()->currentProfileDir() + "imgcache/screenshot" + QString::number(QDateTime::currentDateTime().toTime_t()) + ".png";
+			window.save(fileName);
+			sendImage(fileName);
+		}
+	}
+#endif
+}
+
+void ChatTab::sendImageDesktop()
+{
+	if(QAction *action = qobject_cast<QAction*>(sender())) {
+		int screen = action->data().toInt();
+		QRect screenRect = QApplication::desktop()->screenGeometry(screen);
+
+		QPixmap desktop = QPixmap::grabWindow(QApplication::desktop()->winId(), screenRect.left(), screenRect.top(), screenRect.width(), screenRect.height());
+		if(!desktop.isNull()) {
+			QString fileName = Core::inst()->currentProfileDir() + "imgcache/screenshot" + QString::number(QDateTime::currentDateTime().toTime_t()) + ".png";
+			desktop.save(fileName);
+			sendImage(fileName);
+		}
+	}
+}
+
+void ChatTab::sendImageClipboard()
+{
+	const QMimeData *mimeData = QApplication::clipboard()->mimeData();
+	if(mimeData->hasImage()) {
+		QPixmap clipboard = qvariant_cast<QPixmap>(mimeData->imageData());
+		if(!clipboard.isNull()) {
+			QString fileName = Core::inst()->currentProfileDir() + "imgcache/screenshot" + QString::number(QDateTime::currentDateTime().toTime_t()) + ".png";
+			clipboard.save(fileName);
+			sendImage(fileName);
+		}
+	}
+}
+
+void ChatTab::sendImageFragment()
+{
+	QPixmap fragment = DesktopFragmentDialog::getPixmap(this);
+	if(!fragment.isNull()) {
+		QString fileName = Core::inst()->currentProfileDir() + "imgcache/screenshot" + QString::number(QDateTime::currentDateTime().toTime_t()) + ".png";
+		fragment.save(fileName);
+		sendImage(fileName);
+	}
+}
+
+void ChatTab::sendImage(const QString &fileName)
+{
+	Message msg(m_chat->me(), m_chat->contacts());
+	msg.setBody(QString("<img src=\"%1\" alt=\"%2\" title=\"%2\">").arg(fileName).arg(Qt::escape(QFileInfo(fileName).fileName())));
+	msg.setChat(m_chat);
+
+	QList<Plugin*> plugins = PluginManager::inst()->plugins();
+	foreach(Plugin *plugin, plugins) {
+		if(plugin->isLoaded()) {
+			plugin->plugin()->processMessage(msg);
+		}
+	}
+
+	appendMessage(msg);
+
+	if(Core::inst()->setting(Settings::S_CHATWINDOW_SENTHISTORY, true).toBool()) {
+		m_ui->textEdit->addHistory(msg.body());
+	}
+
+	m_chat->account()->sendMessage(msg);
+}
+
 void Kitty::ChatTab::changeStatus(KittySDK::Protocol::Status status, QString description)
 {
 	emit tabChanged();
@@ -391,6 +491,77 @@ void Kitty::ChatTab::updateButtons()
 
 	if(m_strikethroughAction) {
 		m_strikethroughAction->setChecked(fmt.fontStrikeOut());
+	}
+}
+
+void ChatTab::updateImageMenu()
+{
+	QMenu *imageMenu = m_imageAction->menu();
+	if(imageMenu) {
+		QAction *clipboardAction = imageMenu->actions().last();
+		if(clipboardAction) {
+			clipboardAction->setEnabled(QApplication::clipboard()->mimeData()->hasImage());
+		}
+
+#ifdef Q_WS_WIN32
+		QAction *windowAction = imageMenu->actions().at(3);
+		if(windowAction) {
+			QMenu *windowMenu = windowAction->menu();
+			if(windowMenu) {
+				windowMenu->clear();
+
+				QList<HWND> visited;
+
+				HWND hWnd = GetWindow(GetDesktopWindow(), GW_CHILD);
+				while(hWnd) {
+					if(visited.contains(hWnd)) {
+						break;
+					}
+
+					visited.append(hWnd);
+
+					if((GetWindowTextLength(hWnd) > 0)) {
+						LONG style = GetWindowLong(hWnd, GWL_STYLE);
+
+						if((style & WS_VISIBLE) && (style & WS_CAPTION)) {
+							WCHAR *text = new WCHAR[255];
+							GetWindowText(hWnd, text, 250);
+
+							QAction *action = windowMenu->addAction(QString::fromWCharArray(text), this, SLOT(sendImageWindow()));
+							action->setData((int)hWnd);
+
+							HICON hIcon = (HICON)SendMessage(hWnd, WM_GETICON, ICON_SMALL, NULL);
+							if(!hIcon) {
+								hIcon = (HICON)SendMessage(hWnd, WM_GETICON, 2, NULL);
+							}
+
+							if(!hIcon) {
+								hIcon = (HICON)SendMessage(hWnd, WM_GETICON, ICON_BIG, NULL);
+							}
+
+							if(!hIcon) {
+								hIcon = (HICON)GetClassLongPtr(hWnd, GCL_HICON);
+							}
+
+							if(!hIcon) {
+								hIcon = (HICON)GetClassLongPtr(hWnd, GCL_HICONSM);
+							}
+
+							if(hIcon) {
+								QPixmap icon = QPixmap::fromWinHICON(hIcon);
+								action->setIcon(icon);
+							}
+
+							delete text;
+							delete hIcon;
+						}
+					}
+
+					hWnd = GetWindow(hWnd, GW_HWNDNEXT);
+				}
+			}
+		}
+#endif
 	}
 }
 

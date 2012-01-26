@@ -46,8 +46,15 @@ namespace Kitty
 
 		private slots:
 			void updateButtons();
+			void updateImageMenu();
 			void showColorPicker();
 			void sendMessage();
+			void sendImageFile();
+			void sendImageWindow();
+			void sendImageDesktop();
+			void sendImageClipboard();
+			void sendImageFragment();
+			void sendImage(const QString &fileName);
 			void changeStatus(KittySDK::Protocol::Status status, QString description);
 			void showContactWindow();
 			void showHistoryWindow();

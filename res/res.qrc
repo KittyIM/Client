@@ -116,5 +116,9 @@
         <file>icons/history.ico</file>
         <file>glyphs/add.png</file>
         <file>glyphs/edit.png</file>
+        <file>glyphs/url.png</file>
+        <file>glyphs/cursor.png</file>
+        <file>glyphs/erase.png</file>
+        <file>glyphs/paintbrush.png</file>
     </qresource>
 </RCC>
