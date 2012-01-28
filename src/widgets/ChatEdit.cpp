@@ -85,9 +85,9 @@ void Kitty::ChatEdit::updateSize()
 
 void Kitty::ChatEdit::keyPressEvent(QKeyEvent *event)
 {
-	if(((event->key() == Qt::Key_Enter) || (event->key() == Qt::Key_Return)) && !(event->modifiers().testFlag(Qt::ShiftModifier))) {
+	if(((event->key() == Qt::Key_Enter) || (event->key() == Qt::Key_Return)) && !(event->modifiers() & Qt::ShiftModifier)) {
 		emit returnPressed();
-	} else if(((event->key() == Qt::Key_Up) || (event->key() == Qt::Key_Down))&& (event->modifiers().testFlag(Qt::ControlModifier)))  {
+	} else if(((event->key() == Qt::Key_Up) || (event->key() == Qt::Key_Down))&& (event->modifiers() & Qt::ControlModifier))  {
 		if(m_history.size() > 0) {
 			if(m_historyPos < m_history.size()) {
 				setText(m_history.at(m_historyPos));

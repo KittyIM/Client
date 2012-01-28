@@ -278,7 +278,7 @@ void Kitty::RosterTreeView::mousePressEvent(QMouseEvent *event)
 
 					KittySDK::Protocol *proto = cnt->contact()->account()->protocol();
 					if(proto) {
-						if(proto->abilities().testFlag(KittySDK::Protocol::BlockContacts)) {
+						if(proto->abilities() & KittySDK::Protocol::BlockContacts) {
 							menu.addAction(Core::inst()->icon(KittySDK::Icons::I_BLOCK), tr("Block"));
 						}
 					}

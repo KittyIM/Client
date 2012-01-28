@@ -29,6 +29,7 @@
 #include <QtGui/QToolButton>
 #include <QtGui/QClipboard>
 #include <QtGui/QToolBar>
+#include <QtGui/QLabel>
 #include <QtGui/QMenu>
 #include <QtWebKit/QWebElement>
 #include <QtWebKit/QWebFrame>
@@ -73,25 +74,25 @@ Kitty::ChatTab::ChatTab(Chat *chat, QWidget *parent): QWidget(parent), m_ui(new 
 
 	Protocol *proto = chat->account()->protocol();
 
-	if(proto->abilities().testFlag(Protocol::TextBold)) {
+	if(proto->abilities() & Protocol::TextBold) {
 		m_boldAction = m_toolBar->addAction(tr("Bold"), m_ui->textEdit, SLOT(boldText()));
 		m_boldAction->setCheckable(true);
 		m_boldAction->setProperty("icon_id", Icons::I_BOLD);
 	}
 
-	if(proto->abilities().testFlag(Protocol::TextItalics)) {
+	if(proto->abilities() & Protocol::TextItalics) {
 		m_italicAction = m_toolBar->addAction(tr("Italic"), m_ui->textEdit, SLOT(italicText()));
 		m_italicAction->setCheckable(true);
 		m_italicAction->setProperty("icon_id", Icons::I_ITALIC);
 	}
 
-	if(proto->abilities().testFlag(Protocol::TextUnderline)) {
+	if(proto->abilities() & Protocol::TextUnderline) {
 		m_underlineAction = m_toolBar->addAction(tr("Underline"), m_ui->textEdit, SLOT(underlineText()));
 		m_underlineAction->setCheckable(true);
 		m_underlineAction->setProperty("icon_id", Icons::I_UNDERLINE);
 	}
 
-	if(proto->abilities().testFlag(Protocol::TextStrikethrough)) {
+	if(proto->abilities() & Protocol::TextStrikethrough) {
 		m_strikethroughAction = m_toolBar->addAction(tr("Strikethrough"));
 		m_strikethroughAction->setCheckable(true);
 		m_strikethroughAction->setProperty("icon_id", Icons::I_STRIKETHROUGH);
@@ -101,7 +102,7 @@ Kitty::ChatTab::ChatTab(Chat *chat, QWidget *parent): QWidget(parent), m_ui(new 
 		m_toolBar->addSeparator();
 	}
 
-	if(proto->abilities().testFlag(Protocol::TextColor)) {
+	if(proto->abilities() & Protocol::TextColor) {
 		m_colorAction = m_toolBar->addAction(tr("Color"), this, SLOT(showColorPicker()));
 		m_colorAction->setProperty("icon_id", Icons::I_COLOR);
 	}
@@ -111,9 +112,9 @@ Kitty::ChatTab::ChatTab(Chat *chat, QWidget *parent): QWidget(parent), m_ui(new 
 
 	m_toolBar->addSeparator();
 
-	int c = m_toolBar->actions().count();
+	int old_count = m_toolBar->actions().count();
 
-	if(proto->abilities().testFlag(Protocol::SendImages)) {
+	if(proto->abilities() & Protocol::SendImages) {
 		m_imageAction = m_toolBar->addAction(tr("Send image"));
 		m_imageAction->setProperty("icon_id", Icons::I_IMAGE);
 
@@ -152,12 +153,12 @@ Kitty::ChatTab::ChatTab(Chat *chat, QWidget *parent): QWidget(parent), m_ui(new 
 		}
 	}
 
-	if(proto->abilities().testFlag(Protocol::SendFiles)) {
+	if(proto->abilities() & Protocol::SendFiles) {
 		m_fileAction = m_toolBar->addAction(tr("Send file"));
 		m_fileAction->setProperty("icon_id", Icons::I_FILE);
 	}
 
-	if(m_toolBar->actions().count() > c) {
+	if(m_toolBar->actions().count() != old_count) {
 		m_toolBar->addSeparator();
 	}
 
@@ -166,6 +167,15 @@ Kitty::ChatTab::ChatTab(Chat *chat, QWidget *parent): QWidget(parent), m_ui(new 
 
 	m_historyAction = m_toolBar->addAction(tr("History"), this, SLOT(showHistoryWindow()));
 	m_historyAction->setProperty("icon_id", Icons::I_HISTORY);
+
+	if(proto->abilities() & Protocol::TypingNotification) {
+		m_toolBar->addSeparator();
+
+		m_typingLabel = new QLabel(this);
+		m_typingLabel->setToolTip(tr("Not typing"));
+		m_typingLabel->setPixmap(Core::inst()->icon(Icons::I_TYPING_OFF));
+		m_toolBar->addWidget(m_typingLabel);
+	}
 
 	updateIcons();
 
@@ -188,6 +198,19 @@ Kitty::ChatTab::~ChatTab()
 	delete m_historyAction;
 
 	delete m_ui;
+}
+
+void ChatTab::setTypingNotify(bool typing, const int &length)
+{
+	if(m_typingLabel) {
+		if(typing) {
+			m_typingLabel->setToolTip(tr("Typing") + ": " + QString::number(length));
+			m_typingLabel->setPixmap(Core::inst()->icon(Icons::I_TYPING_ON));
+		} else {
+			m_typingLabel->setToolTip(tr("Not typing"));
+			m_typingLabel->setPixmap(Core::inst()->icon(Icons::I_TYPING_OFF));
+		}
+	}
 }
 
 void Kitty::ChatTab::updateIcons()
@@ -249,7 +272,7 @@ void Kitty::ChatTab::clearMessages()
 void Kitty::ChatTab::sendMessage()
 {
 	if(!m_ui->textEdit->toPlainText().isEmpty()) {
-		QString html =  m_ui->textEdit->toHtml();
+		QString html = m_ui->textEdit->toHtml();
 
 		QRegExp regexp;
 		regexp.setMinimal(true);

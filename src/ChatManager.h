@@ -25,6 +25,7 @@ namespace Kitty
 
 		public slots:
 			void receiveMessage(KittySDK::Message &msg);
+			void receiveTypingNotify(KittySDK::Contact *contact, bool typing, const int &length);
 
 		private:
 			ChatManager(QObject *parent = 0): QObject(parent) { }

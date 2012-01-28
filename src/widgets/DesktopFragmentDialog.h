@@ -53,6 +53,7 @@ namespace Kitty
 			void mouseDoubleClickEvent(QMouseEvent *event);
 			void mouseMoveEvent(QMouseEvent *event);
 			void mouseReleaseEvent(QMouseEvent *event);
+			void keyPressEvent(QKeyEvent *event);
 
 		private slots:
 			void setMovingMode();

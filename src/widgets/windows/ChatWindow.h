@@ -27,6 +27,8 @@ namespace Kitty
 			explicit ChatWindow(QWidget *parent = 0);
 			~ChatWindow();
 
+			ChatTab *tabByChat(KittySDK::Chat *chat);
+
 			Kitty::ChatTheme *theme() const { return m_theme; }
 
 		public slots:

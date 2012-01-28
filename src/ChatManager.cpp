@@ -92,6 +92,17 @@ void Kitty::ChatManager::receiveMessage(KittySDK::Message &msg)
 	}
 }
 
+void ChatManager::receiveTypingNotify(Contact *contact, bool typing, const int &length)
+{
+	Chat *ch = chat(contact->account()->me(), contact);
+	if(ch) {
+		ChatTab *tab = Core::inst()->chatWindow()->tabByChat(ch);
+		if(tab) {
+			tab->setTypingNotify(typing, length);
+		}
+	}
+}
+
 Kitty::ChatManager::~ChatManager()
 {
 	qDeleteAll(m_chats);

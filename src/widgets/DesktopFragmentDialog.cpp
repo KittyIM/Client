@@ -303,6 +303,11 @@ void DesktopFragmentDialog::mouseMoveEvent(QMouseEvent *event)
 
 				QRect rect(m_startPoint, m_stopPoint);
 
+				if(event->modifiers() & Qt::ShiftModifier) {
+					rect.setHeight(rect.width());
+					deltaY = deltaX;
+				}
+
 				if((m_dragHandle == Inside) || (m_dragHandle == TopLeft) || (m_dragHandle == BottomLeft) || (m_dragHandle == MiddleLeft)) {
 					if((rect.left() + deltaX >= 0) && (rect.right() + deltaX <= m_desktop.width())) {
 						rect.moveLeft(rect.left() + deltaX);
@@ -402,6 +407,17 @@ void DesktopFragmentDialog::mouseReleaseEvent(QMouseEvent *event)
 	update();
 
 	m_toolBar->show();
+}
+
+void DesktopFragmentDialog::keyPressEvent(QKeyEvent *event)
+{
+	if(event->key() == Qt::Key_Return) {
+		if(!pointIsNull(m_startPoint) && !pointIsNull(m_stopPoint)) {
+			accept();
+		}
+	}
+
+	QDialog::keyPressEvent(event);
 }
 
 void DesktopFragmentDialog::setMovingMode()

@@ -291,7 +291,7 @@ void Kitty::ChatWebView::handleDownload(QNetworkRequest req)
 
 void Kitty::ChatWebView::keyPressEvent(QKeyEvent *event)
 {
-	if(event->modifiers().testFlag(Qt::ControlModifier)) {
+	if(event->modifiers() & Qt::ControlModifier) {
 		if(event->key() == Qt::Key_C) {
 			if(!selectedText().isEmpty()) {
 				qApp->clipboard()->setText(selectedText());

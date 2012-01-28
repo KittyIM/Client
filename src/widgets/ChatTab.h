@@ -8,6 +8,7 @@
 
 class QToolBar;
 class QAction;
+class QLabel;
 
 namespace KittySDK
 {
@@ -33,6 +34,8 @@ namespace Kitty
 			~ChatTab();
 
 			KittySDK::Chat *chat() const { return m_chat; }
+
+			void setTypingNotify(bool typing, const int &length);
 
 		signals:
 			void tabChanged();
@@ -77,6 +80,7 @@ namespace Kitty
 			QPointer<QAction> m_fileAction;
 			QPointer<QAction> m_profileAction;
 			QPointer<QAction> m_historyAction;
+			QPointer<QLabel> m_typingLabel;
 			int m_messageCount;
 			QTimer m_cleanTimer;
 	};

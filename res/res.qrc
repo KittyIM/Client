@@ -120,5 +120,7 @@
         <file>glyphs/cursor.png</file>
         <file>glyphs/erase.png</file>
         <file>glyphs/paintbrush.png</file>
+        <file>glyphs/typing_off.png</file>
+        <file>glyphs/typing_on.png</file>
     </qresource>
 </RCC>

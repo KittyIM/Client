@@ -54,6 +54,11 @@ Kitty::ChatWindow::~ChatWindow()
 	delete m_ui;
 }
 
+ChatTab *ChatWindow::tabByChat(Chat *chat)
+{
+	return m_ui->tabWidget->tabByChat(chat);
+}
+
 void Kitty::ChatWindow::applySettings()
 {
 	Core *core = Core::inst();
