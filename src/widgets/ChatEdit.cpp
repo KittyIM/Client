@@ -71,6 +71,14 @@ Kitty::ChatEdit::ChatEdit(QWidget *parent): QTextEdit(parent)
 		m_checker = new SpellChecker(document());
 	}
 
+	connect(this, SIGNAL(textChanged()), SLOT(checkTyping()));
+	connect(&m_typingTimer, SIGNAL(timeout()), SLOT(sendTypingNotify()));
+	connect(&m_typingStopTimer, SIGNAL(timeout()), SLOT(sendTypingStopped()));
+
+	m_typingTimer.setInterval(2000);
+	m_typingStopTimer.setSingleShot(true);
+	m_typingStopTimer.setInterval(2000);
+
 	updateSize();
 	clearHistory();
 }
@@ -212,6 +220,30 @@ void Kitty::ChatEdit::colorText(QColor color)
 	QTextCharFormat fmt = currentCharFormat();
 	fmt.setForeground(color);
 	setCurrentCharFormat(fmt);
+}
+
+void ChatEdit::checkTyping()
+{
+	if(!m_typingTimer.isActive()) {
+		sendTypingNotify();
+
+		m_typingTimer.start();
+	}
+
+	m_typingStopTimer.stop();
+	m_typingStopTimer.start();
+}
+
+void ChatEdit::sendTypingNotify()
+{
+	emit typingChanged(true, toPlainText().length());
+}
+
+void ChatEdit::sendTypingStopped()
+{
+	m_typingTimer.stop();
+
+	emit typingChanged(false, toPlainText().length());
 }
 
 void Kitty::ChatEdit::pasteFormatted()

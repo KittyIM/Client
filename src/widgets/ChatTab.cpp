@@ -45,12 +45,13 @@ Kitty::ChatTab::ChatTab(Chat *chat, QWidget *parent): QWidget(parent), m_ui(new 
 {
 	m_ui->setupUi(this);
 
-	connect(m_ui->textEdit, SIGNAL(returnPressed()), this, SLOT(sendMessage()));
-	connect(m_ui->textEdit, SIGNAL(cursorPositionChanged()), this, SLOT(updateButtons()));
+	connect(m_ui->textEdit, SIGNAL(returnPressed()), SLOT(sendMessage()));
+	connect(m_ui->textEdit, SIGNAL(cursorPositionChanged()), SLOT(updateButtons()));
+	connect(m_ui->textEdit, SIGNAL(typingChanged(bool,int)), SLOT(sendTypingNotify(bool,int)));
 	connect(m_ui->webView, SIGNAL(keyPressed()), m_ui->textEdit, SLOT(setFocus()));
-	connect(chat->contacts().first(), SIGNAL(statusChanged(KittySDK::Protocol::Status,QString)), this, SLOT(changeStatus(KittySDK::Protocol::Status, QString)));
-	connect(chat->contacts().first(), SIGNAL(dataChanged()), this, SIGNAL(tabChanged()));
-	connect(&m_cleanTimer, SIGNAL(timeout()), this, SLOT(clearMessages()));
+	connect(chat->contacts().first(), SIGNAL(statusChanged(KittySDK::Protocol::Status,QString)), SLOT(changeStatus(KittySDK::Protocol::Status, QString)));
+	connect(chat->contacts().first(), SIGNAL(dataChanged()), SIGNAL(tabChanged()));
+	connect(&m_cleanTimer, SIGNAL(timeout()), SLOT(clearMessages()));
 
 	m_toolBar = new QToolBar(this);
 	m_toolBar->setIconSize(QSize(16, 16));
@@ -172,7 +173,7 @@ Kitty::ChatTab::ChatTab(Chat *chat, QWidget *parent): QWidget(parent), m_ui(new 
 		m_toolBar->addSeparator();
 
 		m_typingLabel = new QLabel(this);
-		m_typingLabel->setToolTip(tr("Not typing"));
+		m_typingLabel->setToolTip(tr("Contact is not typing"));
 		m_typingLabel->setPixmap(Core::inst()->icon(Icons::I_TYPING_OFF));
 		m_toolBar->addWidget(m_typingLabel);
 	}
@@ -204,10 +205,38 @@ void ChatTab::setTypingNotify(bool typing, const int &length)
 {
 	if(m_typingLabel) {
 		if(typing) {
-			m_typingLabel->setToolTip(tr("Typing") + ": " + QString::number(length));
-			m_typingLabel->setPixmap(Core::inst()->icon(Icons::I_TYPING_ON));
+			QPixmap icon(Core::inst()->icon(Icons::I_TYPING_ON));
+
+			//draw length on the icon
+			if(length) {
+				QPainter p(&icon);
+				QFont font = p.font();
+				font.setPixelSize(icon.height() * 0.5);
+				p.setFont(font);
+
+				int width = p.fontMetrics().width(QString::number(length));
+				while(width >= icon.width()) {
+					font.setPixelSize(font.pixelSize() - 1);
+					p.setFont(font);
+
+					width = p.fontMetrics().width(QString::number(length));
+				}
+
+				p.setBrush(QColor(255, 255, 255, 128));
+				p.setPen(QPen(Qt::black, 1.0));
+
+				QRect rect(icon.width() - width - 4 * p.pen().width(), icon.height() * 0.45, width + 4 * p.pen().width(), icon.height() * 0.55);
+
+				p.fillRect(rect, QColor(255, 255, 255, 128));
+
+				p.drawText(rect, QString::number(length), QTextOption(Qt::AlignCenter));
+				p.end();
+			}
+
+			m_typingLabel->setToolTip(tr("Contact is typing"));
+			m_typingLabel->setPixmap(icon);
 		} else {
-			m_typingLabel->setToolTip(tr("Not typing"));
+			m_typingLabel->setToolTip(tr("Contact is not typing"));
 			m_typingLabel->setPixmap(Core::inst()->icon(Icons::I_TYPING_OFF));
 		}
 	}
@@ -306,6 +335,14 @@ void Kitty::ChatTab::sendMessage()
 
 		m_chat->account()->sendMessage(msg);
 		m_ui->textEdit->clear();
+	}
+}
+
+void ChatTab::sendTypingNotify(bool typing, const int &length)
+{
+	Contact *cnt = m_chat->contacts().first();
+	if(cnt) {
+		m_chat->account()->sendTypingNotify(cnt, typing, length);
 	}
 }
 

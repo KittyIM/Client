@@ -52,6 +52,7 @@ namespace Kitty
 			void updateImageMenu();
 			void showColorPicker();
 			void sendMessage();
+			void sendTypingNotify(bool typing, const int &length);
 			void sendImageFile();
 			void sendImageWindow();
 			void sendImageDesktop();

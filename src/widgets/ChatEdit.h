@@ -1,6 +1,7 @@
 #ifndef CHATEDIT_H
 #define CHATEDIT_H
 
+#include <QtCore/QTimer>
 #include <QtGui/QSyntaxHighlighter>
 #include <QtGui/QTextEdit>
 
@@ -28,6 +29,7 @@ namespace Kitty
 
 		signals:
 			void returnPressed();
+			void typingChanged(bool typing, const int &length);
 
 		public slots:
 			void clearHistory();
@@ -40,6 +42,9 @@ namespace Kitty
 			void italicText();
 			void underlineText();
 			void colorText(QColor color);
+			void checkTyping();
+			void sendTypingNotify();
+			void sendTypingStopped();
 
 		protected:
 			void keyPressEvent(QKeyEvent *event);
@@ -53,6 +58,8 @@ namespace Kitty
 			QStringList m_history;
 			int m_historyPos;
 			SpellChecker *m_checker;
+			QTimer m_typingTimer;
+			QTimer m_typingStopTimer;
 	};
 }
 
