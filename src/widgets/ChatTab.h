@@ -58,6 +58,7 @@ namespace Kitty
 			void sendImageDesktop();
 			void sendImageClipboard();
 			void sendImageFragment();
+			void sendPixmap(const QPixmap &pix);
 			void sendImage(const QString &fileName);
 			void changeStatus(KittySDK::Protocol::Status status, QString description);
 			void showContactWindow();

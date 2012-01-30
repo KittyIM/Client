@@ -3,11 +3,11 @@
 
 #include "widgets/windows/SettingsWindow.h"
 #include "3rdparty/qtwin/qtwin.h"
+#include "widgets/ChatTab.h"
 #include "EmoticonManager.h"
 #include "SDK/constants.h"
 #include "IconManager.h"
 #include "SDK/Contact.h"
-#include "../ChatTab.h"
 #include "ChatTheme.h"
 #include "SDK/Chat.h"
 #include "Core.h"

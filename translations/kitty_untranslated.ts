@@ -1086,110 +1086,121 @@
 <context>
     <name>Kitty::ChatTab</name>
     <message>
-        <location filename="../src/widgets/ChatTab.cpp" line="77"/>
-        <location filename="../src/widgets/ChatTab.cpp" line="431"/>
+        <location filename="../src/widgets/ChatTab.cpp" line="79"/>
+        <location filename="../src/widgets/ChatTab.cpp" line="491"/>
         <source>Bold</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/ChatTab.cpp" line="83"/>
-        <location filename="../src/widgets/ChatTab.cpp" line="435"/>
+        <location filename="../src/widgets/ChatTab.cpp" line="85"/>
+        <location filename="../src/widgets/ChatTab.cpp" line="495"/>
         <source>Italic</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/ChatTab.cpp" line="89"/>
-        <location filename="../src/widgets/ChatTab.cpp" line="439"/>
+        <location filename="../src/widgets/ChatTab.cpp" line="91"/>
+        <location filename="../src/widgets/ChatTab.cpp" line="499"/>
         <source>Underline</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/ChatTab.cpp" line="95"/>
+        <location filename="../src/widgets/ChatTab.cpp" line="97"/>
         <source>Strikethrough</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/ChatTab.cpp" line="105"/>
-        <location filename="../src/widgets/ChatTab.cpp" line="447"/>
+        <location filename="../src/widgets/ChatTab.cpp" line="107"/>
+        <location filename="../src/widgets/ChatTab.cpp" line="507"/>
         <source>Color</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/ChatTab.cpp" line="109"/>
-        <location filename="../src/widgets/ChatTab.cpp" line="451"/>
+        <location filename="../src/widgets/ChatTab.cpp" line="111"/>
+        <location filename="../src/widgets/ChatTab.cpp" line="511"/>
         <source>Smilies</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/ChatTab.cpp" line="117"/>
-        <location filename="../src/widgets/ChatTab.cpp" line="455"/>
+        <location filename="../src/widgets/ChatTab.cpp" line="119"/>
+        <location filename="../src/widgets/ChatTab.cpp" line="515"/>
         <source>Send image</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/ChatTab.cpp" line="122"/>
+        <location filename="../src/widgets/ChatTab.cpp" line="124"/>
         <source>From file...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/ChatTab.cpp" line="124"/>
+        <location filename="../src/widgets/ChatTab.cpp" line="126"/>
         <source>Desktop snapshot</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/ChatTab.cpp" line="129"/>
+        <location filename="../src/widgets/ChatTab.cpp" line="131"/>
         <source>Desktop</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/ChatTab.cpp" line="139"/>
+        <location filename="../src/widgets/ChatTab.cpp" line="141"/>
         <source>Desktop snapshot fragment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/ChatTab.cpp" line="142"/>
+        <location filename="../src/widgets/ChatTab.cpp" line="144"/>
         <source>Window snapshot</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/ChatTab.cpp" line="146"/>
+        <location filename="../src/widgets/ChatTab.cpp" line="148"/>
         <source>Clipboard contents</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/ChatTab.cpp" line="156"/>
-        <location filename="../src/widgets/ChatTab.cpp" line="459"/>
+        <location filename="../src/widgets/ChatTab.cpp" line="158"/>
+        <location filename="../src/widgets/ChatTab.cpp" line="519"/>
         <source>Send file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/ChatTab.cpp" line="164"/>
+        <location filename="../src/widgets/ChatTab.cpp" line="166"/>
         <source>vCard</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/ChatTab.cpp" line="167"/>
-        <location filename="../src/widgets/ChatTab.cpp" line="467"/>
+        <location filename="../src/widgets/ChatTab.cpp" line="169"/>
+        <location filename="../src/widgets/ChatTab.cpp" line="527"/>
         <source>History</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/ChatTab.cpp" line="291"/>
+        <location filename="../src/widgets/ChatTab.cpp" line="176"/>
+        <location filename="../src/widgets/ChatTab.cpp" line="239"/>
+        <source>Contact is not typing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/ChatTab.cpp" line="236"/>
+        <source>Contact is typing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/ChatTab.cpp" line="351"/>
         <source>Select file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/ChatTab.cpp" line="291"/>
+        <location filename="../src/widgets/ChatTab.cpp" line="351"/>
         <source>Images</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/ChatTab.cpp" line="443"/>
+        <location filename="../src/widgets/ChatTab.cpp" line="503"/>
         <source>Striketrough</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/ChatTab.cpp" line="463"/>
+        <location filename="../src/widgets/ChatTab.cpp" line="523"/>
         <source>Profile</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1868,17 +1879,17 @@
 <context>
     <name>Kitty::ChatWindow</name>
     <message>
-        <location filename="../src/widgets/windows/ChatWindow.cpp" line="138"/>
+        <location filename="../src/widgets/windows/ChatWindow.cpp" line="143"/>
         <source>Unknown</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/windows/ChatWindow.cpp" line="140"/>
+        <location filename="../src/widgets/windows/ChatWindow.cpp" line="145"/>
         <source>Female</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/windows/ChatWindow.cpp" line="142"/>
+        <location filename="../src/widgets/windows/ChatWindow.cpp" line="147"/>
         <source>Male</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1991,7 +2002,7 @@
 <context>
     <name>Kitty::ChatEdit</name>
     <message>
-        <location filename="../src/widgets/ChatEdit.cpp" line="133"/>
+        <location filename="../src/widgets/ChatEdit.cpp" line="141"/>
         <source>Paste formatted</source>
         <translation type="unfinished"></translation>
     </message>

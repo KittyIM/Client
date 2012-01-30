@@ -16,9 +16,6 @@
   <property name="name" stdset="0">
    <string notr="true">Settings</string>
   </property>
-  <property name="icon" stdset="0">
-   <string/>
-  </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <property name="margin">
     <number>0</number>

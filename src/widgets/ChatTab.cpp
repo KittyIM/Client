@@ -48,6 +48,7 @@ Kitty::ChatTab::ChatTab(Chat *chat, QWidget *parent): QWidget(parent), m_ui(new 
 	connect(m_ui->textEdit, SIGNAL(returnPressed()), SLOT(sendMessage()));
 	connect(m_ui->textEdit, SIGNAL(cursorPositionChanged()), SLOT(updateButtons()));
 	connect(m_ui->textEdit, SIGNAL(typingChanged(bool,int)), SLOT(sendTypingNotify(bool,int)));
+	connect(m_ui->textEdit, SIGNAL(pixmapDropped(QPixmap)), SLOT(sendPixmap(QPixmap)));
 	connect(m_ui->webView, SIGNAL(keyPressed()), m_ui->textEdit, SLOT(setFocus()));
 	connect(chat->contacts().first(), SIGNAL(statusChanged(KittySDK::Protocol::Status,QString)), SLOT(changeStatus(KittySDK::Protocol::Status, QString)));
 	connect(chat->contacts().first(), SIGNAL(dataChanged()), SIGNAL(tabChanged()));
@@ -392,6 +393,12 @@ void ChatTab::sendImageWindow()
 	if(QAction *action = qobject_cast<QAction*>(sender())) {
 		HWND hWnd = reinterpret_cast<HWND>(action->data().toInt());
 
+		bool minimized = (GetWindowLong(hWnd, GWL_STYLE) & WS_MINIMIZE);
+
+		if(minimized) {
+			ShowWindow(hWnd, SW_RESTORE);
+		}
+
 		HDC hDC = GetDC(hWnd);
 		HDC hTargetDC = CreateCompatibleDC(hDC);
 		RECT rect;
@@ -400,7 +407,12 @@ void ChatTab::sendImageWindow()
 
 		HBITMAP hBitmap = CreateCompatibleBitmap(hDC, rect.right - rect.left, rect.bottom - rect.top);
 		SelectObject(hTargetDC, hBitmap);
+
 		PrintWindow(hWnd, hTargetDC, 0);
+
+		if(minimized) {
+			ShowWindow(hWnd, SW_MINIMIZE);
+		}
 
 		QPixmap window = QPixmap::fromWinHBITMAP(hBitmap);
 
@@ -408,11 +420,7 @@ void ChatTab::sendImageWindow()
 		ReleaseDC(hWnd, hDC);
 		DeleteDC(hTargetDC);
 
-		if(!window.isNull()) {
-			QString fileName = Core::inst()->currentProfileDir() + "imgcache/screenshot" + QString::number(QDateTime::currentDateTime().toTime_t()) + ".png";
-			window.save(fileName);
-			sendImage(fileName);
-		}
+		sendPixmap(window);
 	}
 #endif
 }
@@ -424,11 +432,7 @@ void ChatTab::sendImageDesktop()
 		QRect screenRect = QApplication::desktop()->screenGeometry(screen);
 
 		QPixmap desktop = QPixmap::grabWindow(QApplication::desktop()->winId(), screenRect.left(), screenRect.top(), screenRect.width(), screenRect.height());
-		if(!desktop.isNull()) {
-			QString fileName = Core::inst()->currentProfileDir() + "imgcache/screenshot" + QString::number(QDateTime::currentDateTime().toTime_t()) + ".png";
-			desktop.save(fileName);
-			sendImage(fileName);
-		}
+		sendPixmap(desktop);
 	}
 }
 
@@ -437,20 +441,25 @@ void ChatTab::sendImageClipboard()
 	const QMimeData *mimeData = QApplication::clipboard()->mimeData();
 	if(mimeData->hasImage()) {
 		QPixmap clipboard = qvariant_cast<QPixmap>(mimeData->imageData());
-		if(!clipboard.isNull()) {
-			QString fileName = Core::inst()->currentProfileDir() + "imgcache/screenshot" + QString::number(QDateTime::currentDateTime().toTime_t()) + ".png";
-			clipboard.save(fileName);
-			sendImage(fileName);
-		}
+		sendPixmap(clipboard);
 	}
 }
 
 void ChatTab::sendImageFragment()
 {
 	QPixmap fragment = DesktopFragmentDialog::getPixmap(this);
-	if(!fragment.isNull()) {
-		QString fileName = Core::inst()->currentProfileDir() + "imgcache/screenshot" + QString::number(QDateTime::currentDateTime().toTime_t()) + ".png";
-		fragment.save(fileName);
+	sendPixmap(fragment);
+}
+
+void ChatTab::sendPixmap(const QPixmap &pix)
+{
+	if(!pix.isNull()) {
+		QDir imgDir(Core::inst()->currentProfileDir() + "imgcache");
+
+		imgDir.mkpath(".");
+
+		QString fileName = imgDir.absolutePath() + "/screenshot" + QString::number(QDateTime::currentDateTime().toTime_t()) + ".png";
+		pix.save(fileName);
 		sendImage(fileName);
 	}
 }

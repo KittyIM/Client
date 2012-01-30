@@ -30,6 +30,7 @@ namespace Kitty
 		signals:
 			void returnPressed();
 			void typingChanged(bool typing, const int &length);
+			void pixmapDropped(const QPixmap &pix);
 
 		public slots:
 			void clearHistory();
@@ -50,6 +51,8 @@ namespace Kitty
 			void keyPressEvent(QKeyEvent *event);
 			void resizeEvent(QResizeEvent *event);
 			void contextMenuEvent(QContextMenuEvent *event);
+			bool canInsertFromMimeData(const QMimeData *source) const;
+			void insertFromMimeData(const QMimeData *source);
 
 		private:
 			void updateSize();

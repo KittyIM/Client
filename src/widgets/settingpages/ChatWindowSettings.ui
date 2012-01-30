@@ -16,9 +16,6 @@
   <property name="name" stdset="0">
    <string notr="true">Display.ChatWindow</string>
   </property>
-  <property name="icon" stdset="0">
-   <string/>
-  </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <property name="margin">
     <number>0</number>
@@ -229,12 +226,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>53</x>
-     <y>436</y>
+     <x>63</x>
+     <y>364</y>
     </hint>
     <hint type="destinationlabel">
-     <x>129</x>
-     <y>466</y>
+     <x>174</x>
+     <y>396</y>
     </hint>
    </hints>
   </connection>
@@ -245,12 +242,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>81</x>
-     <y>435</y>
+     <x>91</x>
+     <y>364</y>
     </hint>
     <hint type="destinationlabel">
-     <x>121</x>
-     <y>492</y>
+     <x>147</x>
+     <y>422</y>
     </hint>
    </hints>
   </connection>

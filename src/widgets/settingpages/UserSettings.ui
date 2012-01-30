@@ -16,9 +16,6 @@
   <property name="name" stdset="0">
    <string notr="true">User</string>
   </property>
-  <property name="icon" stdset="0">
-   <string/>
-  </property>
  </widget>
  <customwidgets>
   <customwidget>

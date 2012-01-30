@@ -165,6 +165,23 @@ void Kitty::ChatEdit::contextMenuEvent(QContextMenuEvent *event)
 	delete menu;
 }
 
+bool ChatEdit::canInsertFromMimeData(const QMimeData *source) const
+{
+	if(source->hasImage()) {
+		return true;
+	} else {
+		return QTextEdit::canInsertFromMimeData(source);
+	}
+}
+
+void ChatEdit::insertFromMimeData(const QMimeData *source)
+{
+	if(source->hasImage()) {
+		QPixmap pixmap = qvariant_cast<QPixmap>(source->imageData());
+		emit pixmapDropped(pixmap);
+	}
+}
+
 void Kitty::ChatEdit::clearHistory()
 {
 	m_history.clear();
