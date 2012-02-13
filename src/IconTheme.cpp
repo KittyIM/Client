@@ -110,6 +110,7 @@ void Kitty::IconTheme::loadDefaults()
 	m_icons.insert(Icons::I_ERASE,			":/glyphs/erase.png");
 	m_icons.insert(Icons::I_TYPING_ON,		":/glyphs/typing_on.png");
 	m_icons.insert(Icons::I_TYPING_OFF,		":/glyphs/typing_off.png");
+	m_icons.insert(Icons::I_BLANK,			":/glyphs/blank.png");
 	m_icons.insert(Icons::I_STATUS_ONLINE,	":/glyphs/status_online.png");
 	m_icons.insert(Icons::I_STATUS_AWAY,	":/glyphs/status_away.png");
 	m_icons.insert(Icons::I_STATUS_FFC,		":/glyphs/status_ffc.png");

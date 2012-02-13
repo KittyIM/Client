@@ -58,7 +58,7 @@ Kitty::MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), m_ui(new Ui
 	m_ui->rosterTreeView->installEventFilter(this);
 	connect(m_ui->filterEdit, SIGNAL(textChanged(QString)), this, SLOT(setFilterText(QString)));
 
-	connect(AccountManager::inst(), SIGNAL(accountStatusChanged(KittySDK::Account*,KittySDK::Protocol::Status,QString)), this, SLOT(updateAccountStatusIcon(KittySDK::Account*)));
+	connect(AccountManager::inst(), SIGNAL(accountStatusChanged(KittySDK::Account*,KittySDK::Protocol::Status,QString)), this, SLOT(updateAccountStatusIcon(KittySDK::Account*,KittySDK::Protocol::Status,QString)));
 	connect(ContactManager::inst(), SIGNAL(contactAdded(KittySDK::Contact*)), this, SLOT(addContact(KittySDK::Contact*)));
 
 	m_ui->rosterTreeView->setModel(m_proxy);
@@ -286,14 +286,14 @@ void Kitty::MainWindow::showAccountStatusMenu()
 	}
 }
 
-void Kitty::MainWindow::updateAccountStatusIcon(Account *account)
+void Kitty::MainWindow::updateAccountStatusIcon(Account *account, KittySDK::Protocol::Status status, const QString &description)
 {
 	foreach(QAction *action, m_ui->networksToolBar->actions()) {
 		if((action->property("protocol").toString() == account->protocol()->protoInfo()->protoName()) && (action->property("uid").toString() == account->uid())) {
-			action->setIcon(Core::inst()->icon(account->protocol()->statusIcon(account->status())));
+			action->setIcon(Core::inst()->icon(account->protocol()->statusIcon(status)));
 
-			if(account->description().length() > 0) {
-				action->setToolTip(QString("%1<br>%2").arg(action->text()).arg(account->description()));
+			if(description.length() > 0) {
+				action->setToolTip(QString("%1<br>%2").arg(action->text()).arg(description));
 			} else {
 				action->setToolTip(action->text());
 			}

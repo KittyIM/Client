@@ -1,6 +1,8 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "SDK/Protocol.h"
+
 #include <QtCore/QTimer>
 #include <QtGui/QMainWindow>
 
@@ -14,7 +16,6 @@ namespace Ui
 namespace KittySDK
 {
 	class Contact;
-	class Account;
 }
 
 namespace Kitty
@@ -42,7 +43,7 @@ namespace Kitty
 			void addContact(KittySDK::Contact *contact);
 			void applySettings();
 			void showAccountStatusMenu();
-			void updateAccountStatusIcon(KittySDK::Account *account);
+			void updateAccountStatusIcon(KittySDK::Account *account, KittySDK::Protocol::Status status, const QString &description);
 
 		private slots:
 			void showToolbarMenu(QPoint pos);
