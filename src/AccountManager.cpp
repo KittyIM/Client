@@ -84,8 +84,6 @@ bool Kitty::AccountManager::add(Account *account)
 	connect(account, SIGNAL(contactAdded(KittySDK::Contact*)), ContactManager::inst(), SLOT(add(KittySDK::Contact*)));
 	connect(account, SIGNAL(typingNotifyReceived(KittySDK::Contact*,bool,int)), ChatManager::inst(), SLOT(receiveTypingNotify(KittySDK::Contact*,bool,int)));
 
-	account->loadSettings(QMap<QString, QVariant>());
-
 	if(account->protocol()->abilities() & Protocol::ChangeStatus) {
 		QAction *action = new QAction(this);
 		action->setText(QString("%1 (%2)").arg(account->uid()).arg(account->protocol()->protoInfo()->protoName()));
