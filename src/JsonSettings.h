@@ -9,7 +9,7 @@ namespace Kitty
 {
 	class JsonSettings: public QSettings
 	{
-			Q_OBJECT
+		Q_OBJECT
 
 		public:
 			explicit JsonSettings(const QString &fileName, QObject *parent = 0);

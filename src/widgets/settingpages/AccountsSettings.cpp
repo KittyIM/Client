@@ -9,6 +9,7 @@
 #include "Core.h"
 
 #include <QtCore/QDebug>
+#include <QtGui/QDialog>
 #include <QtGui/QMenu>
 
 using namespace Kitty;
@@ -60,11 +61,12 @@ void Kitty::AccountsSettings::addAccount()
 {
 	if(QAction *action = qobject_cast<QAction*>(sender())) {
 		if(Protocol *proto = ProtocolManager::inst()->protocolByName(action->text())) {
-			if(QWidget *wnd = proto->editWindow()) {
-				wnd->setWindowModality(Qt::ApplicationModal);
-				wnd->show();
+			if(QDialog *dlg = proto->editDialog()) {
+				dlg->exec();
+
+				AccountManager::inst()->save(Core::inst()->profileName());
 			} else {
-				qWarning() << "editWindow() returned 0";
+				qWarning() << "editDialog() returned 0";
 			}
 		} else {
 			qWarning() << "Invalid protocol" << action->text();
@@ -100,16 +102,14 @@ void Kitty::AccountsSettings::on_editButton_clicked()
 {
 	QList<QTreeWidgetItem*> list = m_ui->treeWidget->selectedItems();
 	if(list.size() > 0) {
-		Protocol *proto = ProtocolManager::inst()->protocolByName(list.first()->text(1));
-		if(proto) {
-			Account *acc = AccountManager::inst()->account(proto, list.first()->text(0));
-			if(acc) {
-				QWidget *wnd = proto->editWindow(acc);
-				if(wnd) {
-					wnd->setWindowModality(Qt::ApplicationModal);
-					wnd->show();
+		if(Protocol *proto = ProtocolManager::inst()->protocolByName(list.first()->text(1))) {
+			if(Account *acc = AccountManager::inst()->account(proto, list.first()->text(0))) {
+				if(QDialog *dlg = proto->editDialog(acc)) {
+					dlg->exec();
+
+					AccountManager::inst()->save(Core::inst()->profileName());
 				} else {
-					qWarning() << "editWindow() returned 0";
+					qWarning() << "editDialog() returned 0";
 				}
 			} else {
 				qWarning() << "Account not found" << list.first()->text(0) << list.first()->text(1);

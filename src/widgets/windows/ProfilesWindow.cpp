@@ -131,9 +131,9 @@ void Kitty::ProfilesWindow::on_profilesWidget_itemDoubleClicked(QTreeWidgetItem 
 	if(item) {
 		if(item->data(0, Qt::UserRole).toBool() == false) {
 			//if there's a profile already loaded
-			if(!core->profile()->name().isEmpty()) {
+			if(!core->profileName().isEmpty()) {
 				//if it's the same profile
-				if(core->profile()->name() == item->text(0)) {
+				if(core->profileName() == item->text(0)) {
 					close();
 					return;
 				} else {

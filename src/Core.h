@@ -63,9 +63,10 @@ namespace Kitty
 			Hunspell *hunspell();
 			JsonSettings *settings();
 
-			QString avatarPath(KittySDK::Contact *contact);
+			QString avatarPath(KittySDK::Contact *contact) const;
+			QString profileName() const;
 			QString profilesDir() const;
-			QString currentProfileDir();
+			QString currentProfileDir() const;
 			bool removeDir(const QString &dirName);
 			bool archiveMessage(const KittySDK::Message &msg);
 

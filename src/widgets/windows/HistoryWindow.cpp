@@ -308,7 +308,7 @@ void Kitty::HistoryWindow::on_chatTree_currentItemChanged(QTreeWidgetItem *curre
 							cnt.setDisplay(uid);
 
 							Contact me(acc->uid(), acc);
-							me.setDisplay(core->profile()->name());
+							me.setDisplay(core->profileName());
 
 							Message *msg = 0;
 

@@ -175,7 +175,7 @@ void Kitty::App::cleanUp()
 
 		if(args.indexOf("-profile") == -1) {
 			args.append("-profile");
-			args.append(core->profile()->name());
+			args.append(core->profileName());
 		}
 
 		QProcess::startDetached(qApp->applicationFilePath(), args);

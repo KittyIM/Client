@@ -41,7 +41,7 @@ void Kitty::PluginCoreImpl::execPluginAction(const QString &plugin, const QStrin
 
 QString Kitty::PluginCoreImpl::profileName()
 {
-	return Core::inst()->profile()->name();
+	return Core::inst()->profileName();
 }
 
 QString Kitty::PluginCoreImpl::kittyDir()

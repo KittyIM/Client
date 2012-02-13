@@ -29,8 +29,8 @@ void Kitty::RosterHeader::applySettings()
 {
 	Core *core = Core::inst();
 
-	m_ui->profileLabel->setText(core->profile()->name());
-	m_ui->avatarLabel->setPixmap(QPixmap(core->profilesDir() + core->profile()->name() + "/avatar.png"));
+	m_ui->profileLabel->setText(core->profileName());
+	m_ui->avatarLabel->setPixmap(QPixmap(core->profilesDir() + core->profileName() + "/avatar.png"));
 }
 
 void Kitty::RosterHeader::updateWidgets()

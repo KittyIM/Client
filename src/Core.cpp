@@ -47,10 +47,12 @@
 #define qDebug() qDebug() << "[Core]"
 #define qWarning() qWarning() << "[Core]"
 
-using namespace Kitty;
 using namespace KittySDK;
 
-Kitty::Core::Core()
+namespace Kitty
+{
+
+Core::Core()
 {
 	m_hunspell = 0;
 
@@ -58,7 +60,7 @@ Kitty::Core::Core()
 	m_portable = false;
 }
 
-Kitty::Core::~Core()
+Core::~Core()
 {
 	delete m_mainWindow;
 	delete m_settingsWindow;
@@ -85,7 +87,7 @@ Kitty::Core::~Core()
 	DebugWindow::destroy();
 }
 
-QString Kitty::Core::statusToString(const int &status)
+QString Core::statusToString(const int &status)
 {
 	switch(status) {
 		case Protocol::Online:
@@ -116,7 +118,7 @@ QString Kitty::Core::statusToString(const int &status)
 	return tr("Unknown");
 }
 
-QString Kitty::Core::processUrls(const QString &text)
+QString Core::processUrls(const QString &text)
 {
 	QString result = text;
 
@@ -148,32 +150,32 @@ QString Kitty::Core::processUrls(const QString &text)
 	return result;
 }
 
-QString Kitty::Core::processEmoticons(const QString &text)
+QString Core::processEmoticons(const QString &text)
 {
 	return text;
 }
 
-QAction *Kitty::Core::action(const QString &id) const
+QAction *Core::action(const QString &id) const
 {
 	return ActionManager::inst()->action(id);
 }
 
-QPixmap Kitty::Core::icon(const QString &id) const
+QPixmap Core::icon(const QString &id) const
 {
 	return IconManager::inst()->icon(id);
 }
 
-QVariant Kitty::Core::setting(const QString &key, const QVariant &defaultValue)
+QVariant Core::setting(const QString &key, const QVariant &defaultValue)
 {
 	return settings()->value(key, defaultValue);
 }
 
-void Kitty::Core::setSetting(const QString &key, const QVariant &value)
+void Core::setSetting(const QString &key, const QVariant &value)
 {
 	return settings()->setValue(key, value);
 }
 
-void Kitty::Core::loadProfile(const QString &name)
+void Core::loadProfile(const QString &name)
 {
 	profile()->load(name);
 
@@ -182,7 +184,7 @@ void Kitty::Core::loadProfile(const QString &name)
 	mainWindow();
 }
 
-MainWindow *Kitty::Core::mainWindow()
+MainWindow *Core::mainWindow()
 {
 	if(!m_mainWindow) {
 		m_mainWindow = new MainWindow();
@@ -191,7 +193,7 @@ MainWindow *Kitty::Core::mainWindow()
 	return m_mainWindow;
 }
 
-ChatWindow *Kitty::Core::chatWindow()
+ChatWindow *Core::chatWindow()
 {
 	if(!m_chatWindow) {
 		m_chatWindow = new ChatWindow();
@@ -200,7 +202,7 @@ ChatWindow *Kitty::Core::chatWindow()
 	return m_chatWindow;
 }
 
-AboutWindow *Kitty::Core::aboutWindow()
+AboutWindow *Core::aboutWindow()
 {
 	if(!m_aboutWindow) {
 		m_aboutWindow = new AboutWindow();
@@ -209,7 +211,7 @@ AboutWindow *Kitty::Core::aboutWindow()
 	return m_aboutWindow;
 }
 
-ProfilesWindow *Kitty::Core::profilesWindow()
+ProfilesWindow *Core::profilesWindow()
 {
 	if(!m_profilesWindow) {
 		m_profilesWindow = new ProfilesWindow();
@@ -218,7 +220,7 @@ ProfilesWindow *Kitty::Core::profilesWindow()
 	return m_profilesWindow;
 }
 
-SettingsWindow *Kitty::Core::settingsWindow()
+SettingsWindow *Core::settingsWindow()
 {
 	if(!m_settingsWindow) {
 		m_settingsWindow = new SettingsWindow();
@@ -227,7 +229,7 @@ SettingsWindow *Kitty::Core::settingsWindow()
 	return m_settingsWindow;
 }
 
-Kitty::HistoryWindow *Kitty::Core::historyWindow()
+HistoryWindow *Core::historyWindow()
 {
 	if(!m_historyWindow) {
 		m_historyWindow = new HistoryWindow();
@@ -236,39 +238,39 @@ Kitty::HistoryWindow *Kitty::Core::historyWindow()
 	return m_historyWindow;
 }
 
-void Kitty::Core::showMainWindow()
+void Core::showMainWindow()
 {
 	mainWindow()->show();
 }
 
-void Kitty::Core::showChatWindow()
+void Core::showChatWindow()
 {
 	chatWindow()->show();
 }
 
-void Kitty::Core::showProfilesWindow()
+void Core::showProfilesWindow()
 {
 	profilesWindow()->show();
 }
 
-void Kitty::Core::showSettingsWindow()
+void Core::showSettingsWindow()
 {
 	settingsWindow()->show();
 	settingsWindow()->activateWindow();
 }
 
-void Kitty::Core::showHistoryWindow()
+void Core::showHistoryWindow()
 {
 	historyWindow()->show();
 }
 
-void Kitty::Core::showAddContactWindow()
+void Core::showAddContactWindow()
 {
 	ContactWindow *wnd = new ContactWindow();
 	wnd->show();
 }
 
-QSystemTrayIcon *Kitty::Core::trayIcon()
+QSystemTrayIcon *Core::trayIcon()
 {
 	if(!m_trayIcon) {
 		m_trayIcon = new QSystemTrayIcon(icon(Icons::I_KITTY));
@@ -286,7 +288,7 @@ QSystemTrayIcon *Kitty::Core::trayIcon()
 	return m_trayIcon;
 }
 
-Profile *Kitty::Core::profile()
+Profile *Core::profile()
 {
 	if(!m_profile) {
 		m_profile = new Profile(this);
@@ -295,7 +297,7 @@ Profile *Kitty::Core::profile()
 	return m_profile;
 }
 
-Hunspell *Kitty::Core::hunspell()
+Hunspell *Core::hunspell()
 {
 	if(!m_hunspell) {
 		QByteArray dic = QString(qApp->applicationDirPath() + "/data/dictionaries/" + setting(Settings::S_CHATWINDOW_SPELLCHECK_DICT).toString() + ".dic").toLocal8Bit();
@@ -307,12 +309,12 @@ Hunspell *Kitty::Core::hunspell()
 	return m_hunspell;
 }
 
-JsonSettings *Kitty::Core::settings()
+JsonSettings *Core::settings()
 {
 	return profile()->settings();
 }
 
-QString Kitty::Core::avatarPath(KittySDK::Contact *contact)
+QString Core::avatarPath(KittySDK::Contact *contact) const
 {
 	if(contact) {
 		Protocol *proto = contact->protocol();
@@ -323,7 +325,13 @@ QString Kitty::Core::avatarPath(KittySDK::Contact *contact)
 
 	return "";
 }
-QString Kitty::Core::profilesDir() const
+
+QString Core::profileName() const
+{
+	return m_profile->name();
+}
+
+QString Core::profilesDir() const
 {
 	if(isPortable()) {
 		return qApp->applicationDirPath() + "/profiles/";
@@ -332,28 +340,28 @@ QString Kitty::Core::profilesDir() const
 	}
 }
 
-QString Kitty::Core::currentProfileDir()
+QString Core::currentProfileDir() const
 {
-	return profilesDir() + profile()->name() + "/";
+	return profilesDir() + profileName() + "/";
 }
 
-void Kitty::Core::showTrayIcon()
+void Core::showTrayIcon()
 {
 	trayIcon()->show();
 }
 
-void Kitty::Core::showAboutWindow()
+void Core::showAboutWindow()
 {
 	aboutWindow()->show();
 }
 
-void Kitty::Core::restart()
+void Core::restart()
 {
 	setRestart(true);
 	qApp->quit();
 }
 
-void Kitty::Core::changeProfile(const QString &profile, const QString &password)
+void Core::changeProfile(const QString &profile, const QString &password)
 {
 	QStringList args = appArguments();
 	qDebug() << args;
@@ -378,14 +386,14 @@ void Kitty::Core::changeProfile(const QString &profile, const QString &password)
 	restart();
 }
 
-void Kitty::Core::trayIconActivated(QSystemTrayIcon::ActivationReason reason)
+void Core::trayIconActivated(QSystemTrayIcon::ActivationReason reason)
 {
 	if(reason == QSystemTrayIcon::Trigger) {
 		action(Actions::A_SHOW_HIDE)->trigger();
 	}
 }
 
-void Kitty::Core::toggleMainWindow()
+void Core::toggleMainWindow()
 {
 	if(mainWindow()->isVisible()) {
 		if(mainWindow()->isObscured()) {
@@ -401,17 +409,17 @@ void Kitty::Core::toggleMainWindow()
 	}
 }
 
-void Kitty::Core::openKittyFolder()
+void Core::openKittyFolder()
 {
 	QDesktopServices::openUrl(QUrl(qApp->applicationDirPath()));
 }
 
-void Kitty::Core::openProfilesFolder()
+void Core::openProfilesFolder()
 {
 	QDesktopServices::openUrl(QUrl(profilesDir()));
 }
 
-void Kitty::Core::showContactWindow(KittySDK::Contact *cnt)
+void Core::showContactWindow(KittySDK::Contact *cnt)
 {
 	Protocol *proto = cnt->protocol();
 	if(proto && proto->protoInfo()) {
@@ -427,7 +435,7 @@ void Kitty::Core::showContactWindow(KittySDK::Contact *cnt)
 }
 
 // function taken from http://john.nachtimwald.com/2010/06/08/qt-remove-directory-and-its-contents/
-bool Kitty::Core::removeDir(const QString &dirName)
+bool Core::removeDir(const QString &dirName)
 {
 	bool result = true;
 	QDir dir(dirName);
@@ -452,7 +460,7 @@ bool Kitty::Core::removeDir(const QString &dirName)
 }
 
 // TODO: add to PluginCore
-bool Kitty::Core::archiveMessage(const KittySDK::Message &msg)
+bool Core::archiveMessage(const KittySDK::Message &msg)
 {
 	if(setting(Settings::S_HISTORY_ENABLED, true).toBool()) {
 		QString protocol = msg.chat()->protocol()->protoInfo()->protoName();
@@ -528,4 +536,5 @@ bool Kitty::Core::archiveMessage(const KittySDK::Message &msg)
 	}
 
 	return true;
+}
 }

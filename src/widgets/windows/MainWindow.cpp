@@ -269,7 +269,7 @@ void Kitty::MainWindow::applySettings()
 
 	QString title = core->setting(Settings::S_MAINWINDOW_CAPTION, "KittyIM %version% [%profile%]").toString();
 	title.replace("%version%", Constants::VERSION);
-	title.replace("%profile%", core->profile()->name());
+	title.replace("%profile%", core->profileName());
 	setWindowTitle(title);
 }
 

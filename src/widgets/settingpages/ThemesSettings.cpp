@@ -54,7 +54,7 @@ class KittyProto: public Protocol
 		}
 
 		Account *newAccount(const QString &uid) { return new KittyAccount(uid, this); }
-		QWidget *editWindow(Account *) { return 0; }
+		QDialog *editDialog(Account *) { return 0; }
 };
 
 Kitty::ThemesSettings::ThemesSettings(QWidget *parent): SettingPage(0, parent), m_ui(new Ui::ThemesSettings)

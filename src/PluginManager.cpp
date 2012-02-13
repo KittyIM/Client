@@ -26,7 +26,7 @@ Kitty::Plugin::Plugin(const QString &fileName): m_fileName(fileName)
 	pluginInst inst = (pluginInst)lib.resolve("inst");
 
 	if(inst) {
-		if(m_plugin = dynamic_cast<KittySDK::Plugin*>(inst(new PluginCoreImpl()))) {
+		if((m_plugin = dynamic_cast<KittySDK::Plugin*>(inst(new PluginCoreImpl())))) {
 			if(m_plugin->type() == KittySDK::Plugin::Type) {
 				//nothing for now
 			} else if(m_plugin->type() == Protocol::Type) {
