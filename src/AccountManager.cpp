@@ -5,9 +5,10 @@
 #include "ProtocolManager.h"
 #include "ContactManager.h"
 #include "PluginManager.h"
-#include "SDK/constants.h"
 #include "ChatManager.h"
 #include "Core.h"
+
+#include <SDKConstants.h>
 
 #include <QtCore/QDebug>
 #include <QtCore/QFile>
@@ -18,24 +19,24 @@
 #define qDebug() qDebug() << "[AccountManager]"
 #define qWarning() qWarning() << "[AccountManager]"
 
-using namespace Kitty;
-using namespace KittySDK;
+namespace Kitty
+{
 
-Kitty::AccountManager::~AccountManager()
+AccountManager::~AccountManager()
 {
 	qDeleteAll(m_accounts);
 }
 
-const QList<Account*> &Kitty::AccountManager::accounts() const
+const QList<KittySDK::IAccount*> &AccountManager::accounts() const
 {
 	return m_accounts;
 }
 
-const QList<Account*> Kitty::AccountManager::accountsByProtocol(Protocol *protocol) const
+const QList<KittySDK::IAccount*> AccountManager::accountsByProtocol(KittySDK::IProtocol *protocol) const
 {
-	QList<Account*> accounts;
+	QList<KittySDK::IAccount*> accounts;
 
-	foreach(Account *account, m_accounts) {
+	foreach(KittySDK::IAccount *account, m_accounts) {
 		if(account->protocol() == protocol) {
 			accounts.append(account);
 		}
@@ -44,9 +45,9 @@ const QList<Account*> Kitty::AccountManager::accountsByProtocol(Protocol *protoc
 	return accounts;
 }
 
-Account *Kitty::AccountManager::account(Protocol *protocol, const QString &uid) const
+KittySDK::IAccount *AccountManager::account(KittySDK::IProtocol *protocol, const QString &uid) const
 {
-	foreach(Account *account, accountsByProtocol(protocol)) {
+	foreach(KittySDK::IAccount *account, accountsByProtocol(protocol)) {
 		if(account->uid() == uid) {
 			return account;
 		}
@@ -55,11 +56,11 @@ Account *Kitty::AccountManager::account(Protocol *protocol, const QString &uid) 
 	return 0;
 }
 
-Account *Kitty::AccountManager::account(const QString &protocol, const QString &uid) const
+KittySDK::IAccount *AccountManager::account(const QString &protocol, const QString &uid) const
 {
-	Protocol *proto = ProtocolManager::inst()->protocolByName(protocol);
+	KittySDK::IProtocol *proto = ProtocolManager::inst()->protocolByName(protocol);
 	if(proto) {
-		foreach(Account *account, accountsByProtocol(proto)) {
+		foreach(KittySDK::IAccount *account, accountsByProtocol(proto)) {
 			if(account->uid() == uid) {
 				return account;
 			}
@@ -69,22 +70,22 @@ Account *Kitty::AccountManager::account(const QString &protocol, const QString &
 	return 0;
 }
 
-bool Kitty::AccountManager::add(Account *account)
+bool AccountManager::add(KittySDK::IAccount *account)
 {
 	qDebug() << "Adding new account" << account->uid() << account->password() << account->protocol()->protoInfo()->protoName();
 
-	foreach(Account *acc, accountsByProtocol(account->protocol())) {
+	foreach(KittySDK::IAccount *acc, accountsByProtocol(account->protocol())) {
 		if(account->uid() == acc->uid()) {
 			return false;
 		}
 	}
 
-	connect(account, SIGNAL(statusChanged(KittySDK::Protocol::Status,QString)), this, SLOT(notifyStatusChange(KittySDK::Protocol::Status,QString)));
-	connect(account, SIGNAL(messageReceived(KittySDK::Message&)), ChatManager::inst(), SLOT(receiveMessage(KittySDK::Message&)));
-	connect(account, SIGNAL(contactAdded(KittySDK::Contact*)), ContactManager::inst(), SLOT(add(KittySDK::Contact*)));
-	connect(account, SIGNAL(typingNotifyReceived(KittySDK::Contact*,bool,int)), ChatManager::inst(), SLOT(receiveTypingNotify(KittySDK::Contact*,bool,int)));
+	connect(account, SIGNAL(statusChanged(KittySDK::IProtocol::Status,QString)), this, SLOT(notifyStatusChange(KittySDK::IProtocol::Status,QString)));
+	connect(account, SIGNAL(messageReceived(KittySDK::IMessage&)), ChatManager::inst(), SLOT(receiveMessage(KittySDK::IMessage&)));
+	connect(account, SIGNAL(contactAdded(KittySDK::IContact*)), ContactManager::inst(), SLOT(add(KittySDK::IContact*)));
+	connect(account, SIGNAL(typingNotifyReceived(KittySDK::IContact*,bool,int)), ChatManager::inst(), SLOT(receiveTypingNotify(KittySDK::IContact*,bool,int)));
 
-	if(account->protocol()->abilities() & Protocol::ChangeStatus) {
+	if(account->protocol()->abilities() & KittySDK::IProtocol::ChangeStatus) {
 		QAction *action = new QAction(this);
 		action->setText(QString("%1 (%2)").arg(account->uid()).arg(account->protocol()->protoInfo()->protoName()));
 
@@ -97,10 +98,10 @@ bool Kitty::AccountManager::add(Account *account)
 		action->setIcon(Core::inst()->icon(account->protocol()->statusIcon(account->status())));
 		action->setProperty("protocol", account->protocol()->protoInfo()->protoName());
 		action->setProperty("uid", account->uid());
-		//connect(account, SIGNAL(statusChanged(KittySDK::Protocol::Status, QString)), Core::inst()->mainWindow(), SLOT(updateAccountStatusIcon()));
+		//connect(account, SIGNAL(statusChanged(KittySDK::IProtocol::Status, QString)), Core::inst()->mainWindow(), SLOT(updateAccountStatusIcon()));
 		connect(action, SIGNAL(triggered()), Core::inst()->mainWindow(), SLOT(showAccountStatusMenu()));
 
-		Core::inst()->mainWindow()->addToolbarAction(Toolbars::TB_NETWORKS, action);
+		Core::inst()->mainWindow()->addToolbarAction(KittySDK::Toolbars::TB_NETWORKS, action);
 	}
 
 	m_accounts.append(account);
@@ -110,7 +111,7 @@ bool Kitty::AccountManager::add(Account *account)
 	return true;
 }
 
-void Kitty::AccountManager::load(const QString &profile)
+void AccountManager::load(const QString &profile)
 {
 	qDebug() << "Loading accounts for" << profile;
 
@@ -124,12 +125,12 @@ void Kitty::AccountManager::load(const QString &profile)
 					QVariantMap settings = item.toMap();
 
 					if(settings.contains("protocol")) {
-						Protocol *proto = ProtocolManager::inst()->protocolByName(settings.value("protocol").toString());
+						KittySDK::IProtocol *proto = ProtocolManager::inst()->protocolByName(settings.value("protocol").toString());
 
 						if(proto) {
 							Plugin *plug = PluginManager::inst()->pluginByName(proto->info()->name());
 							if(plug->isLoaded()) {
-								Account *acc = proto->newAccount(settings.value("uid").toString());
+								KittySDK::IAccount *acc = proto->newAccount(settings.value("uid").toString());
 								if(acc) {
 									acc->setPassword(settings.value("password").toString());
 
@@ -162,12 +163,12 @@ void Kitty::AccountManager::load(const QString &profile)
 	}
 }
 
-void Kitty::AccountManager::save(const QString &profile)
+void AccountManager::save(const QString &profile)
 {
 	qDebug() << "saving accounts for" << profile;
 
 	QVariantList list;
-	foreach(Account *account, m_accounts) {
+	foreach(KittySDK::IAccount *account, m_accounts) {
 		QVariantMap acc;
 
 		QMap<QString, QVariant> settings = account->saveSettings();
@@ -196,25 +197,27 @@ void Kitty::AccountManager::save(const QString &profile)
 	}
 }
 
-void Kitty::AccountManager::changeDescription(const QString &description)
+void AccountManager::changeDescription(const QString &description)
 {
-	foreach(Account *acc, m_accounts) {
-		if(acc->status() != Protocol::Offline) {
+	foreach(KittySDK::IAccount *acc, m_accounts) {
+		if(acc->status() != KittySDK::IProtocol::Offline) {
 			acc->changeStatus(acc->status(), description);
 		}
 	}
 }
 
-void Kitty::AccountManager::changeStatus(KittySDK::Protocol::Status status)
+void AccountManager::changeStatus(KittySDK::IProtocol::Status status)
 {
-	foreach(Account *acc, m_accounts) {
+	foreach(KittySDK::IAccount *acc, m_accounts) {
 		acc->changeStatus(status, acc->description());
 	}
 }
 
-void Kitty::AccountManager::notifyStatusChange(KittySDK::Protocol::Status status, const QString &description)
+void AccountManager::notifyStatusChange(KittySDK::IProtocol::Status status, const QString &description)
 {
-	if(Account *account = dynamic_cast<Account*>(sender())) {
+	if(KittySDK::IAccount *account = dynamic_cast<KittySDK::IAccount*>(sender())) {
 		emit accountStatusChanged(account, status, description);
 	}
+}
+
 }

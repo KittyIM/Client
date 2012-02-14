@@ -7,15 +7,16 @@
 #include "widgets/windows/ChatWindow.h"
 #include "widgets/ChatColorPicker.h"
 #include "PluginManager.h"
-#include "SDK/constants.h"
-#include "SDK/Protocol.h"
-#include "SDK/Contact.h"
-#include "SDK/Message.h"
 #include "IconManager.h"
 #include "ChatTheme.h"
-#include "SDK/Chat.h"
 #include "Profile.h"
 #include "Core.h"
+
+#include <SDKConstants.h>
+#include <IProtocol.h>
+#include <IContact.h>
+#include <IMessage.h>
+#include <IChat.h>
 
 #ifdef Q_WS_WIN32
 #define _WIN32_WINNT 0x0501
@@ -38,10 +39,10 @@
 #define qDebug() qDebug() << "[ChatTab]"
 #define qWarning() qWarning() << "[ChatTab]"
 
-using namespace Kitty;
-using namespace KittySDK;
+namespace Kitty
+{
 
-Kitty::ChatTab::ChatTab(Chat *chat, QWidget *parent): QWidget(parent), m_ui(new Ui::ChatTab), m_chat(chat)
+ChatTab::ChatTab(KittySDK::IChat *chat, QWidget *parent): QWidget(parent), m_ui(new Ui::ChatTab), m_chat(chat)
 {
 	m_ui->setupUi(this);
 
@@ -50,7 +51,7 @@ Kitty::ChatTab::ChatTab(Chat *chat, QWidget *parent): QWidget(parent), m_ui(new 
 	connect(m_ui->textEdit, SIGNAL(typingChanged(bool,int)), SLOT(sendTypingNotify(bool,int)));
 	connect(m_ui->textEdit, SIGNAL(pixmapDropped(QPixmap)), SLOT(sendPixmap(QPixmap)));
 	connect(m_ui->webView, SIGNAL(keyPressed()), m_ui->textEdit, SLOT(setFocus()));
-	connect(chat->contacts().first(), SIGNAL(statusChanged(KittySDK::Protocol::Status,QString)), SLOT(changeStatus(KittySDK::Protocol::Status, QString)));
+	connect(chat->contacts().first(), SIGNAL(statusChanged(KittySDK::IProtocol::Status,QString)), SLOT(changeStatus(KittySDK::IProtocol::Status, QString)));
 	connect(chat->contacts().first(), SIGNAL(dataChanged()), SIGNAL(tabChanged()));
 	connect(&m_cleanTimer, SIGNAL(timeout()), SLOT(clearMessages()));
 
@@ -67,58 +68,58 @@ Kitty::ChatTab::ChatTab(Chat *chat, QWidget *parent): QWidget(parent), m_ui(new 
 	if(chat->contacts().count() == 1) {
 		m_ui->treeWidget->hide();
 	} else {
-		foreach(Contact *cnt, chat->contacts()) {
+		foreach(KittySDK::IContact *cnt, chat->contacts()) {
 			QTreeWidgetItem *item = new QTreeWidgetItem(m_ui->treeWidget);
 			item->setIcon(0, QIcon(Core::inst()->avatarPath(cnt)));
 			item->setText(0, cnt->display());
 		}
 	}
 
-	Protocol *proto = chat->account()->protocol();
+	KittySDK::IProtocol *proto = chat->account()->protocol();
 
-	if(proto->abilities() & Protocol::TextBold) {
+	if(proto->abilities() & KittySDK::IProtocol::TextBold) {
 		m_boldAction = m_toolBar->addAction(tr("Bold"), m_ui->textEdit, SLOT(boldText()));
 		m_boldAction->setCheckable(true);
-		m_boldAction->setProperty("icon_id", Icons::I_BOLD);
+		m_boldAction->setProperty("icon_id", KittySDK::Icons::I_BOLD);
 	}
 
-	if(proto->abilities() & Protocol::TextItalics) {
+	if(proto->abilities() & KittySDK::IProtocol::TextItalics) {
 		m_italicAction = m_toolBar->addAction(tr("Italic"), m_ui->textEdit, SLOT(italicText()));
 		m_italicAction->setCheckable(true);
-		m_italicAction->setProperty("icon_id", Icons::I_ITALIC);
+		m_italicAction->setProperty("icon_id", KittySDK::Icons::I_ITALIC);
 	}
 
-	if(proto->abilities() & Protocol::TextUnderline) {
+	if(proto->abilities() & KittySDK::IProtocol::TextUnderline) {
 		m_underlineAction = m_toolBar->addAction(tr("Underline"), m_ui->textEdit, SLOT(underlineText()));
 		m_underlineAction->setCheckable(true);
-		m_underlineAction->setProperty("icon_id", Icons::I_UNDERLINE);
+		m_underlineAction->setProperty("icon_id", KittySDK::Icons::I_UNDERLINE);
 	}
 
-	if(proto->abilities() & Protocol::TextStrikethrough) {
+	if(proto->abilities() & KittySDK::IProtocol::TextStrikethrough) {
 		m_strikethroughAction = m_toolBar->addAction(tr("Strikethrough"));
 		m_strikethroughAction->setCheckable(true);
-		m_strikethroughAction->setProperty("icon_id", Icons::I_STRIKETHROUGH);
+		m_strikethroughAction->setProperty("icon_id", KittySDK::Icons::I_STRIKETHROUGH);
 	}
 
 	if(m_toolBar->actions().count() > 0) {
 		m_toolBar->addSeparator();
 	}
 
-	if(proto->abilities() & Protocol::TextColor) {
+	if(proto->abilities() & KittySDK::IProtocol::TextColor) {
 		m_colorAction = m_toolBar->addAction(tr("Color"), this, SLOT(showColorPicker()));
-		m_colorAction->setProperty("icon_id", Icons::I_COLOR);
+		m_colorAction->setProperty("icon_id", KittySDK::Icons::I_COLOR);
 	}
 
 	m_smiliesAction = m_toolBar->addAction(tr("Smilies"));
-	m_smiliesAction->setProperty("icon_id", Icons::I_SMILEY);
+	m_smiliesAction->setProperty("icon_id", KittySDK::Icons::I_SMILEY);
 
 	m_toolBar->addSeparator();
 
 	int old_count = m_toolBar->actions().count();
 
-	if(proto->abilities() & Protocol::SendImages) {
+	if(proto->abilities() & KittySDK::IProtocol::SendImages) {
 		m_imageAction = m_toolBar->addAction(tr("Send image"));
-		m_imageAction->setProperty("icon_id", Icons::I_IMAGE);
+		m_imageAction->setProperty("icon_id", KittySDK::Icons::I_IMAGE);
 
 		QMenu *imageMenu = new QMenu(this);
 		connect(imageMenu, SIGNAL(aboutToShow()), SLOT(updateImageMenu()));
@@ -155,9 +156,9 @@ Kitty::ChatTab::ChatTab(Chat *chat, QWidget *parent): QWidget(parent), m_ui(new 
 		}
 	}
 
-	if(proto->abilities() & Protocol::SendFiles) {
+	if(proto->abilities() & KittySDK::IProtocol::SendFiles) {
 		m_fileAction = m_toolBar->addAction(tr("Send file"));
-		m_fileAction->setProperty("icon_id", Icons::I_FILE);
+		m_fileAction->setProperty("icon_id", KittySDK::Icons::I_FILE);
 	}
 
 	if(m_toolBar->actions().count() != old_count) {
@@ -165,17 +166,17 @@ Kitty::ChatTab::ChatTab(Chat *chat, QWidget *parent): QWidget(parent), m_ui(new 
 	}
 
 	m_profileAction = m_toolBar->addAction(tr("vCard"), this, SLOT(showContactWindow()));
-	m_profileAction->setProperty("icon_id", Icons::I_PROFILE);
+	m_profileAction->setProperty("icon_id", KittySDK::Icons::I_PROFILE);
 
 	m_historyAction = m_toolBar->addAction(tr("History"), this, SLOT(showHistoryWindow()));
-	m_historyAction->setProperty("icon_id", Icons::I_HISTORY);
+	m_historyAction->setProperty("icon_id", KittySDK::Icons::I_HISTORY);
 
-	if(proto->abilities() & Protocol::TypingNotification) {
+	if(proto->abilities() & KittySDK::IProtocol::TypingNotification) {
 		m_toolBar->addSeparator();
 
 		m_typingLabel = new QLabel(this);
 		m_typingLabel->setToolTip(tr("Contact is not typing"));
-		m_typingLabel->setPixmap(Core::inst()->icon(Icons::I_TYPING_OFF));
+		m_typingLabel->setPixmap(Core::inst()->icon(KittySDK::Icons::I_TYPING_OFF));
 		m_toolBar->addWidget(m_typingLabel);
 	}
 
@@ -186,7 +187,7 @@ Kitty::ChatTab::ChatTab(Chat *chat, QWidget *parent): QWidget(parent), m_ui(new 
 	applySettings();
 }
 
-Kitty::ChatTab::~ChatTab()
+ChatTab::~ChatTab()
 {
 	delete m_boldAction;
 	delete m_italicAction;
@@ -206,7 +207,7 @@ void ChatTab::setTypingNotify(bool typing, const int &length)
 {
 	if(m_typingLabel) {
 		if(typing) {
-			QPixmap icon(Core::inst()->icon(Icons::I_TYPING_ON));
+			QPixmap icon(Core::inst()->icon(KittySDK::Icons::I_TYPING_ON));
 
 			//draw length on the icon
 			if(length) {
@@ -238,12 +239,12 @@ void ChatTab::setTypingNotify(bool typing, const int &length)
 			m_typingLabel->setPixmap(icon);
 		} else {
 			m_typingLabel->setToolTip(tr("Contact is not typing"));
-			m_typingLabel->setPixmap(Core::inst()->icon(Icons::I_TYPING_OFF));
+			m_typingLabel->setPixmap(Core::inst()->icon(KittySDK::Icons::I_TYPING_OFF));
 		}
 	}
 }
 
-void Kitty::ChatTab::updateIcons()
+void ChatTab::updateIcons()
 {
 	Core *core = Core::inst();
 
@@ -254,34 +255,34 @@ void Kitty::ChatTab::updateIcons()
 	}
 }
 
-void Kitty::ChatTab::setEditFocus()
+void ChatTab::setEditFocus()
 {
 	m_ui->textEdit->setFocus();
 }
 
-void Kitty::ChatTab::applySettings()
+void ChatTab::applySettings()
 {
 	Core *core = Core::inst();
 
 	m_ui->textEdit->clearHistory();
 
-	if(core->setting(Settings::S_CHATWINDOW_CLEAR_MESSAGES).toInt() == 0) {
+	if(core->setting(KittySDK::Settings::S_CHATWINDOW_CLEAR_MESSAGES).toInt() == 0) {
 		m_messageCount = 0;
 	}
 
-	if(core->setting(Settings::S_CHATWINDOW_CLEAR_INTERVAL).toInt() == 0) {
+	if(core->setting(KittySDK::Settings::S_CHATWINDOW_CLEAR_INTERVAL).toInt() == 0) {
 		m_cleanTimer.stop();
 	} else {
-		m_cleanTimer.setInterval(core->setting(Settings::S_CHATWINDOW_CLEAR_INTERVAL).toInt() * 60 * 1000);
+		m_cleanTimer.setInterval(core->setting(KittySDK::Settings::S_CHATWINDOW_CLEAR_INTERVAL).toInt() * 60 * 1000);
 		m_cleanTimer.start();
 	}
 }
 
-void Kitty::ChatTab::appendMessage(KittySDK::Message &msg)
+void ChatTab::appendMessage(KittySDK::IMessage &msg)
 {
 	Core *core = Core::inst();
-	if(core->setting(Settings::S_CHATWINDOW_CLEAR_MESSAGES).toInt() > 0) {
-		if(m_messageCount >= core->setting(Settings::S_CHATWINDOW_CLEAR_MESSAGES).toInt()) {
+	if(core->setting(KittySDK::Settings::S_CHATWINDOW_CLEAR_MESSAGES).toInt() > 0) {
+		if(m_messageCount >= core->setting(KittySDK::Settings::S_CHATWINDOW_CLEAR_MESSAGES).toInt()) {
 			clearMessages();
 		}
 
@@ -293,13 +294,13 @@ void Kitty::ChatTab::appendMessage(KittySDK::Message &msg)
 	m_ui->webView->appendMessage(msg);
 }
 
-void Kitty::ChatTab::clearMessages()
+void ChatTab::clearMessages()
 {
 	m_messageCount = 0;
 	m_ui->webView->clear();
 }
 
-void Kitty::ChatTab::sendMessage()
+void ChatTab::sendMessage()
 {
 	if(!m_ui->textEdit->toPlainText().isEmpty()) {
 		QString html = m_ui->textEdit->toHtml();
@@ -317,7 +318,7 @@ void Kitty::ChatTab::sendMessage()
 		regexp.setMinimal(false);
 		html.remove(regexp);
 
-		Message msg(m_chat->me(), m_chat->contacts());
+		KittySDK::IMessage msg(m_chat->me(), m_chat->contacts());
 		msg.setBody(html.trimmed());
 		msg.setChat(m_chat);
 
@@ -330,7 +331,7 @@ void Kitty::ChatTab::sendMessage()
 
 		appendMessage(msg);
 
-		if(Core::inst()->setting(Settings::S_CHATWINDOW_SENTHISTORY, true).toBool()) {
+		if(Core::inst()->setting(KittySDK::Settings::S_CHATWINDOW_SENTHISTORY, true).toBool()) {
 			m_ui->textEdit->addHistory(msg.body());
 		}
 
@@ -341,7 +342,7 @@ void Kitty::ChatTab::sendMessage()
 
 void ChatTab::sendTypingNotify(bool typing, const int &length)
 {
-	Contact *cnt = m_chat->contacts().first();
+	KittySDK::IContact *cnt = m_chat->contacts().first();
 	if(cnt) {
 		m_chat->account()->sendTypingNotify(cnt, typing, length);
 	}
@@ -466,7 +467,7 @@ void ChatTab::sendPixmap(const QPixmap &pix)
 
 void ChatTab::sendImage(const QString &fileName)
 {
-	Message msg(m_chat->me(), m_chat->contacts());
+	KittySDK::IMessage msg(m_chat->me(), m_chat->contacts());
 	msg.setBody(QString("<img src=\"%1\" alt=\"%2\" title=\"%2\">").arg(fileName).arg(Qt::escape(QFileInfo(fileName).fileName())));
 	msg.setChat(m_chat);
 
@@ -479,19 +480,19 @@ void ChatTab::sendImage(const QString &fileName)
 
 	appendMessage(msg);
 
-	if(Core::inst()->setting(Settings::S_CHATWINDOW_SENTHISTORY, true).toBool()) {
+	if(Core::inst()->setting(KittySDK::Settings::S_CHATWINDOW_SENTHISTORY, true).toBool()) {
 		m_ui->textEdit->addHistory(msg.body());
 	}
 
 	m_chat->account()->sendMessage(msg);
 }
 
-void Kitty::ChatTab::changeStatus(KittySDK::Protocol::Status status, QString description)
+void ChatTab::changeStatus(KittySDK::IProtocol::Status status, QString description)
 {
 	emit tabChanged();
 }
 
-void Kitty::ChatTab::changeEvent(QEvent *event)
+void ChatTab::changeEvent(QEvent *event)
 {
 	if(event->type() == QEvent::LanguageChange) {
 		m_ui->retranslateUi(this);
@@ -542,7 +543,7 @@ void Kitty::ChatTab::changeEvent(QEvent *event)
 	QWidget::changeEvent(event);
 }
 
-void Kitty::ChatTab::updateButtons()
+void ChatTab::updateButtons()
 {
 	QTextCharFormat fmt = m_ui->textEdit->currentCharFormat();
 
@@ -599,13 +600,13 @@ void ChatTab::updateImageMenu()
 							QAction *action = windowMenu->addAction(QString::fromWCharArray(text), this, SLOT(sendImageWindow()));
 							action->setData((int)hWnd);
 
-							HICON hIcon = (HICON)SendMessage(hWnd, WM_GETICON, ICON_SMALL, NULL);
+							HICON hIcon = (HICON)SendMessage(hWnd, WM_GETICON, ICON_SMALL, 0);
 							if(!hIcon) {
-								hIcon = (HICON)SendMessage(hWnd, WM_GETICON, 2, NULL);
+								hIcon = (HICON)SendMessage(hWnd, WM_GETICON, 2, 0);
 							}
 
 							if(!hIcon) {
-								hIcon = (HICON)SendMessage(hWnd, WM_GETICON, ICON_BIG, NULL);
+								hIcon = (HICON)SendMessage(hWnd, WM_GETICON, ICON_BIG, 0);
 							}
 
 							if(!hIcon) {
@@ -634,7 +635,7 @@ void ChatTab::updateImageMenu()
 	}
 }
 
-void Kitty::ChatTab::showColorPicker()
+void ChatTab::showColorPicker()
 {
 	if(QAction *action = qobject_cast<QAction*>(sender())) {
 		if(QWidget *widget = m_toolBar->widgetForAction(action)) {
@@ -643,12 +644,14 @@ void Kitty::ChatTab::showColorPicker()
 	}
 }
 
-void Kitty::ChatTab::showContactWindow()
+void ChatTab::showContactWindow()
 {
 	Core::inst()->showContactWindow(m_chat->contacts().first());
 }
 
-void Kitty::ChatTab::showHistoryWindow()
+void ChatTab::showHistoryWindow()
 {
 	Core::inst()->historyWindow()->showContact(m_chat->contacts().first());
+}
+
 }

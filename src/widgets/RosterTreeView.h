@@ -6,7 +6,7 @@
 
 namespace KittySDK
 {
-	class Contact;
+	class IContact;
 }
 
 namespace Kitty
@@ -37,8 +37,8 @@ namespace Kitty
 			void itemCollapsed(const QModelIndex &index);
 
 		signals:
-			void vCardRequested(KittySDK::Contact *cnt);
-			void historyRequested(KittySDK::Contact *cnt);
+			void vCardRequested(KittySDK::IContact *cnt);
+			void historyRequested(KittySDK::IContact *cnt);
 
 		protected:
 			void mousePressEvent(QMouseEvent *event);

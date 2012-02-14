@@ -1,8 +1,9 @@
 #include "RosterItemDelegate.h"
 
-#include "SDK/constants.h"
 #include "RosterItem.h"
 #include "Core.h"
+
+#include <SDKConstants.h>
 
 #include <QtCore/QDebug>
 #include <QtGui/QApplication>
@@ -11,17 +12,18 @@
 #define qDebug() qDebug() << "[RosterItemDelegate]"
 #define qWarning() qWarning() << "[RosterItemDelegate]"
 
-using namespace KittySDK;
+namespace Kitty
+{
 
-Kitty::RosterItemDelegate::RosterItemDelegate(QObject *parent): QStyledItemDelegate(parent)
+RosterItemDelegate::RosterItemDelegate(QObject *parent): QStyledItemDelegate(parent)
 {
 }
 
-void Kitty::RosterItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
+void RosterItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
 	int type = index.data(RosterItem::TypeRole).toInt();
-	int avatarPos = Core::inst()->setting(Settings::S_ROSTER_AVATARS).toInt();
-	int descriptionPos = Core::inst()->setting(Settings::S_ROSTER_STATUS_DESCRIPTION).toInt();
+	int avatarPos = Core::inst()->setting(KittySDK::Settings::S_ROSTER_AVATARS).toInt();
+	int descriptionPos = Core::inst()->setting(KittySDK::Settings::S_ROSTER_STATUS_DESCRIPTION).toInt();
 
 	if(descriptionPos < 2) {
 		avatarPos = 0;
@@ -68,7 +70,7 @@ void Kitty::RosterItemDelegate::paint(QPainter *painter, const QStyleOptionViewI
 		painter->drawText(textRect.translated(17, 0), Qt::AlignVCenter | Qt::TextSingleLine, vopt.text);
 	} else {
 		QString description;
-		if(Core::inst()->setting(Settings::S_ROSTER_STATUS_DESCRIPTION, true).toBool()) {
+		if(Core::inst()->setting(KittySDK::Settings::S_ROSTER_STATUS_DESCRIPTION, true).toBool()) {
 			description = index.data(RosterItem::DescriptionRole).toString();
 		}
 
@@ -134,18 +136,20 @@ void Kitty::RosterItemDelegate::paint(QPainter *painter, const QStyleOptionViewI
 	painter->restore();
 }
 
-QSize Kitty::RosterItemDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
+QSize RosterItemDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
 	int height = 26;
 
 	if(index.data(RosterItem::TypeRole).toInt() == RosterItem::Contact) {
-		int descriptionPos = Core::inst()->setting(Settings::S_ROSTER_STATUS_DESCRIPTION).toInt();
+		int descriptionPos = Core::inst()->setting(KittySDK::Settings::S_ROSTER_STATUS_DESCRIPTION).toInt();
 		if(descriptionPos <= 1) {
 			height = 20;
-		} else if (descriptionPos == 2) {
+		} else if(descriptionPos == 2) {
 			height = 36;
 		}
 	}
 
 	return QSize(option.rect.width(), height);
+}
+
 }

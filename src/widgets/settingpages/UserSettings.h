@@ -1,7 +1,7 @@
 #ifndef USERSETTINGS_H
 #define USERSETTINGS_H
 
-#include "SDK/SettingPage.h"
+#include <ISettingsPage.h>
 
 namespace Ui
 {
@@ -10,7 +10,7 @@ namespace Ui
 
 namespace Kitty
 {
-	class UserSettings: public KittySDK::SettingPage
+	class UserSettings: public KittySDK::ISettingsPage
 	{
 		Q_OBJECT
 

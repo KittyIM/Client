@@ -2,18 +2,19 @@
 #include "ui_SmiliesSettings.h"
 
 #include "EmoticonManager.h"
-#include "SDK/constants.h"
 #include "EmoticonPack.h"
+
+#include <SDKConstants.h>
 
 #include <QtCore/QFileInfo>
 #include <QtCore/QDebug>
 #include <QtCore/QDir>
 #include <QtGui/QPainter>
 
-using namespace Kitty;
-using namespace KittySDK;
+namespace Kitty
+{
 
-void Kitty::SmiliesDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
+void SmiliesDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
 	QStyleOptionViewItemV4 opt = option;
 	initStyleOption(&opt, index);
@@ -42,29 +43,29 @@ void Kitty::SmiliesDelegate::paint(QPainter *painter, const QStyleOptionViewItem
 	}
 }
 
-QSize Kitty::SmiliesDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
+QSize SmiliesDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
 	return QSize(option.rect.width(), 45);
 }
 
-Kitty::SmiliesSettings::SmiliesSettings(QWidget *parent): SettingPage(0, parent), m_ui(new Ui::SmiliesSettings)
+SmiliesSettings::SmiliesSettings(QWidget *parent): KittySDK::ISettingsPage(0, parent), m_ui(new Ui::SmiliesSettings)
 {
 	m_ui->setupUi(this);
 	m_ui->smiliesWidget->setItemDelegate(new SmiliesDelegate(this));
 
-	setIcon(Icons::I_SMILEY);
+	setIcon(KittySDK::Icons::I_SMILEY);
 }
 
-Kitty::SmiliesSettings::~SmiliesSettings()
+SmiliesSettings::~SmiliesSettings()
 {
 	delete m_ui;
 }
 
-void Kitty::SmiliesSettings::apply()
+void SmiliesSettings::apply()
 {
 }
 
-void Kitty::SmiliesSettings::reset()
+void SmiliesSettings::reset()
 {
 	m_ui->smiliesWidget->clear();
 
@@ -81,7 +82,9 @@ void Kitty::SmiliesSettings::reset()
 	}
 }
 
-void Kitty::SmiliesSettings::retranslate()
+void SmiliesSettings::retranslate()
 {
 	m_ui->retranslateUi(this);
+}
+
 }

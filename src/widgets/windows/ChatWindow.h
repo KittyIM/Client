@@ -5,8 +5,8 @@
 
 namespace KittySDK
 {
-	class Chat;
-	class Message;
+	class IChat;
+	class IMessage;
 }
 
 namespace Ui
@@ -27,14 +27,14 @@ namespace Kitty
 			explicit ChatWindow(QWidget *parent = 0);
 			~ChatWindow();
 
-			ChatTab *tabByChat(KittySDK::Chat *chat);
+			ChatTab *tabByChat(KittySDK::IChat *chat);
 
-			Kitty::ChatTheme *theme() const { return m_theme; }
+			ChatTheme *theme() const { return m_theme; }
 
 		public slots:
 			void applySettings();
-			ChatTab *startChat(KittySDK::Chat *chat);
-			void switchTo(KittySDK::Chat *chat);
+			ChatTab *startChat(KittySDK::IChat *chat);
+			void switchTo(KittySDK::IChat *chat);
 
 		private slots:
 			void on_tabWidget_tabCloseRequested(int index);
@@ -46,7 +46,7 @@ namespace Kitty
 
 		private:
 			Ui::ChatWindow *m_ui;
-			Kitty::ChatTheme *m_theme;
+			ChatTheme *m_theme;
 	};
 }
 

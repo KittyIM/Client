@@ -3,7 +3,7 @@
 
 #include "3rdparty/qtwin/qtwin.h"
 #include "PluginManager.h"
-#include "SDK/Plugin.h"
+#include <IPlugin.h>
 #include "constants.h"
 
 #include <QtCore/QDebug>
@@ -11,10 +11,10 @@
 #define qDebug() qDebug() << "[AboutWindow]"
 #define qWarning() qWarning() << "[AboutWindow]"
 
-using namespace Kitty;
-using namespace KittySDK;
+namespace Kitty
+{
 
-Kitty::AboutWindow::AboutWindow(QWidget *parent): QDialog(parent), m_ui(new Ui::AboutWindow)
+AboutWindow::AboutWindow(QWidget *parent): QDialog(parent), m_ui(new Ui::AboutWindow)
 {
 	m_ui->setupUi(this);
 
@@ -29,14 +29,14 @@ Kitty::AboutWindow::AboutWindow(QWidget *parent): QDialog(parent), m_ui(new Ui::
 	qDebug() << "Creating";
 }
 
-Kitty::AboutWindow::~AboutWindow()
+AboutWindow::~AboutWindow()
 {
 	qDebug() << "Destroying";
 
 	delete m_ui;
 }
 
-void Kitty::AboutWindow::showEvent(QShowEvent *event)
+void AboutWindow::showEvent(QShowEvent *event)
 {
 	QDialog::showEvent(event);
 
@@ -46,7 +46,7 @@ void Kitty::AboutWindow::showEvent(QShowEvent *event)
 
 	QString text = QString("<b>KittyIM v%1 %2 bit</b><br>").arg(Constants::VERSION).arg(QSysInfo::WordSize);
 	text.append(tr("Built on %1 at %2.").arg(__DATE__).arg(__TIME__));
-	text.append(QString("<br><br><i>%1</i><br>").arg(tr("Programming:")));
+	text.append(QString("<br><br><i>%1</i><br>").arg(tr("Programming") + ":"));
 
 	QMapIterator<QString, QString> i(programmers);
 	while(i.hasNext()) {
@@ -57,11 +57,12 @@ void Kitty::AboutWindow::showEvent(QShowEvent *event)
 	text.append(QString("<br><b>%1</b><br>").arg(tr("Plugins")));
 
 	foreach(Plugin *plug, PluginManager::inst()->plugins()) {
-		if(PluginInfo *info = plug->plugin()->info()) {
-			text.append(QString("<br><i>%1 %2</i><br>%3 &lt;<a href=\"mailto:%4\">%4</a>&gt;<br><a href=\"%5\">%5</a><br>").arg(info->name()).arg(info->version()).arg(info->author()).arg(info->email()).arg(info->www()));
+		if(KittySDK::IPluginInfo *info = plug->plugin()->info()) {
+			text.append(QString("<br><i>%1 %2</i><br>%3 &lt;<a href=\"mailto:%4\">%4</a>&gt;<br><a href=\"%5\">%5</a><br>").arg(info->name()).arg(info->version()).arg(info->author()).arg(info->email()).arg(info->url()));
 		}
 	}
 
 	m_ui->aboutText->setText(text);
 }
 
+}

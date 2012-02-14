@@ -1,32 +1,34 @@
 #include "UserSettings.h"
 #include "ui_UserSettings.h"
 
-#include "SDK/constants.h"
+#include <SDKConstants.h>
 
-using namespace Kitty;
-using namespace KittySDK;
+namespace Kitty
+{
 
-Kitty::UserSettings::UserSettings(QWidget *parent): SettingPage(0, parent), m_ui(new Ui::UserSettings)
+UserSettings::UserSettings(QWidget *parent): KittySDK::ISettingsPage(0, parent), m_ui(new Ui::UserSettings)
 {
 	m_ui->setupUi(this);
 
-	setIcon(Icons::I_USER);
+	setIcon(KittySDK::Icons::I_USER);
 }
 
-Kitty::UserSettings::~UserSettings()
+UserSettings::~UserSettings()
 {
 	delete m_ui;
 }
 
-void Kitty::UserSettings::apply()
+void UserSettings::apply()
 {
 }
 
-void Kitty::UserSettings::reset()
+void UserSettings::reset()
 {
 }
 
-void Kitty::UserSettings::retranslate()
+void UserSettings::retranslate()
 {
 	m_ui->retranslateUi(this);
+}
+
 }

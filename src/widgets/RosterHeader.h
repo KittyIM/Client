@@ -1,7 +1,7 @@
 #ifndef ROSTERHEADER_H
 #define ROSTERHEADER_H
 
-#include "SDK/Protocol.h"
+#include <IProtocol.h>
 
 #include <QtGui/QWidget>
 
@@ -22,7 +22,7 @@ namespace Kitty
 
 		signals:
 			void descriptionChanged(QString description);
-			void statusChanged(KittySDK::Protocol::Status status);
+			void statusChanged(KittySDK::IProtocol::Status status);
 
 		public slots:
 			void applySettings();

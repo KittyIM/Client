@@ -1,7 +1,7 @@
 #ifndef STATUSCHANGEBUTTON_H
 #define STATUSCHANGEBUTTON_H
 
-#include "SDK/Protocol.h"
+#include <IProtocol.h>
 
 #include <QtGui/QToolButton>
 
@@ -16,14 +16,14 @@ namespace Kitty
 
 			QSize sizeHint() const;
 
-			KittySDK::Protocol::Status status() const { return m_status; }
+			KittySDK::IProtocol::Status status() const { return m_status; }
 
 		public slots:
-			void setStatus(KittySDK::Protocol::Status status);
+			void setStatus(KittySDK::IProtocol::Status status);
 			void retranslate();
 
 		signals:
-			void statusChanged(KittySDK::Protocol::Status status);
+			void statusChanged(KittySDK::IProtocol::Status status);
 
 		private slots:
 			void setStatusOnline(bool signal = true);
@@ -38,7 +38,7 @@ namespace Kitty
 			void paintEvent(QPaintEvent *event);
 
 		private:
-			KittySDK::Protocol::Status m_status;
+			KittySDK::IProtocol::Status m_status;
 			QAction *m_onlineAction;
 			QAction *m_awayAction;
 			QAction *m_FFCAction;

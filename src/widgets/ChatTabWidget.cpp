@@ -1,10 +1,11 @@
 #include "ChatTabWidget.h"
 
-#include "SDK/constants.h"
-#include "SDK/Contact.h"
-#include "SDK/Chat.h"
 #include "ChatTab.h"
 #include "Core.h"
+
+#include <SDKConstants.h>
+#include <IContact.h>
+#include <IChat.h>
 
 #include <QtCore/QDebug>
 #include <QtGui/QToolButton>
@@ -15,27 +16,27 @@
 #define qDebug() qDebug() << "[ChatTabWidget]"
 #define qWarning() qWarning() << "[ChatTabWidget]"
 
-using namespace Kitty;
-using namespace KittySDK;
+namespace Kitty
+{
 
-Kitty::ChatTabWidget::ChatTabWidget(QWidget *parent): QTabWidget(parent)
+ChatTabWidget::ChatTabWidget(QWidget *parent): QTabWidget(parent)
 {
 	m_closedButton = new QToolButton(this);
 	m_closedButton->setAutoRaise(true);
 	m_closedButton->setToolTip(tr("Recently closed tabs"));
-	m_closedButton->setIcon(Core::inst()->icon(Icons::I_DELETE));
+	m_closedButton->setIcon(Core::inst()->icon(KittySDK::Icons::I_DELETE));
 	connect(m_closedButton, SIGNAL(clicked()), SLOT(showRecentlyClosed()));
 	setCornerWidget(m_closedButton);
 
 	applySettings();
 }
 
-Kitty::ChatTabWidget::~ChatTabWidget()
+ChatTabWidget::~ChatTabWidget()
 {
 	qDeleteAll(m_tabs);
 }
 
-Kitty::ChatTab *Kitty::ChatTabWidget::tabByChat(KittySDK::Chat *chat)
+ChatTab *ChatTabWidget::tabByChat(KittySDK::IChat *chat)
 {
 	foreach(ChatTab *tab, m_tabs) {
 		if(tab->chat() == chat) {
@@ -46,7 +47,7 @@ Kitty::ChatTab *Kitty::ChatTabWidget::tabByChat(KittySDK::Chat *chat)
 	return 0;
 }
 
-int Kitty::ChatTabWidget::indexByChat(KittySDK::Chat *chat)
+int ChatTabWidget::indexByChat(KittySDK::IChat *chat)
 {
 	for(int i = 0; i < count(); i++) {
 		ChatTab *tab = qobject_cast<ChatTab*>(widget(i));
@@ -58,10 +59,10 @@ int Kitty::ChatTabWidget::indexByChat(KittySDK::Chat *chat)
 	return -1;
 }
 
-QString Kitty::ChatTabWidget::createLabel(Chat *chat)
+QString ChatTabWidget::createLabel(KittySDK::IChat *chat)
 {
-	QString label = Core::inst()->setting(Settings::S_CHATTAB_CAPTION, "%display%").toString();
-	Contact *cnt = chat->contacts().first();
+	QString label = Core::inst()->setting(KittySDK::Settings::S_CHATTAB_CAPTION, "%display%").toString();
+	KittySDK::IContact *cnt = chat->contacts().first();
 
 	label.replace("%display%", cnt->display());
 	label.replace("%status%", Core::inst()->statusToString(cnt->status()));
@@ -74,11 +75,11 @@ QString Kitty::ChatTabWidget::createLabel(Chat *chat)
 
 	label.replace("%unread%", QString::number(0));
 	label.replace("%uid%", cnt->uid());
-	label.replace("%nickname%", cnt->data(ContactInfos::I_NICKNAME).toString());
-	label.replace("%firstname%", cnt->data(ContactInfos::I_FIRSTNAME).toString());
-	label.replace("%lastname%", cnt->data(ContactInfos::I_LASTNAME).toString());
+	label.replace("%nickname%", cnt->data(KittySDK::ContactInfos::I_NICKNAME).toString());
+	label.replace("%firstname%", cnt->data(KittySDK::ContactInfos::I_FIRSTNAME).toString());
+	label.replace("%lastname%", cnt->data(KittySDK::ContactInfos::I_LASTNAME).toString());
 
-	int sex = cnt->data(ContactInfos::I_SEX).toInt();
+	int sex = cnt->data(KittySDK::ContactInfos::I_SEX).toInt();
 	if(sex == 0) {
 		label.replace("%sex%", tr("Unknown"));
 	} else if(sex == 1) {
@@ -90,7 +91,7 @@ QString Kitty::ChatTabWidget::createLabel(Chat *chat)
 	return label;
 }
 
-ChatTab *Kitty::ChatTabWidget::startChat(Chat *chat)
+ChatTab *ChatTabWidget::startChat(KittySDK::IChat *chat)
 {
 	ChatTab *chatTab = tabByChat(chat);
 
@@ -105,7 +106,7 @@ ChatTab *Kitty::ChatTabWidget::startChat(Chat *chat)
 	return chatTab;
 }
 
-void Kitty::ChatTabWidget::setCurrentIndex(int index)
+void ChatTabWidget::setCurrentIndex(int index)
 {
 	QTabWidget::setCurrentIndex(index);
 
@@ -114,7 +115,7 @@ void Kitty::ChatTabWidget::setCurrentIndex(int index)
 	}
 }
 
-void Kitty::ChatTabWidget::applySettings()
+void ChatTabWidget::applySettings()
 {
 	Core *core = Core::inst();
 
@@ -128,7 +129,7 @@ void Kitty::ChatTabWidget::applySettings()
 		}
 	}
 
-	switch(core->setting(Settings::S_CHATWINDOW_TABBAR_POS).toInt()) {
+	switch(core->setting(KittySDK::Settings::S_CHATWINDOW_TABBAR_POS).toInt()) {
 		case 0:
 			setTabPosition(QTabWidget::North);
 		break;
@@ -147,9 +148,9 @@ void Kitty::ChatTabWidget::applySettings()
 	}
 }
 
-void Kitty::ChatTabWidget::updateTabBar()
+void ChatTabWidget::updateTabBar()
 {
-	if(Core::inst()->setting(Settings::S_CHATWINDOW_TABBAR_HIDE_ONE, true).toBool()) {
+	if(Core::inst()->setting(KittySDK::Settings::S_CHATWINDOW_TABBAR_HIDE_ONE, true).toBool()) {
 		if(count() == 1) {
 			tabBar()->hide();
 		} else {
@@ -160,9 +161,9 @@ void Kitty::ChatTabWidget::updateTabBar()
 	}
 }
 
-void Kitty::ChatTabWidget::updateIcons()
+void ChatTabWidget::updateIcons()
 {
-	m_closedButton->setIcon(Core::inst()->icon(Icons::I_DELETE));
+	m_closedButton->setIcon(Core::inst()->icon(KittySDK::Icons::I_DELETE));
 
 	for(int i = 0; i < count(); i++) {
 		if(ChatTab *tab = qobject_cast<ChatTab*>(widget(i))) {
@@ -171,7 +172,7 @@ void Kitty::ChatTabWidget::updateIcons()
 	}
 }
 
-void Kitty::ChatTabWidget::changeTab()
+void ChatTabWidget::changeTab()
 {
 	if(ChatTab *tab = qobject_cast<ChatTab*>(sender())) {
 		int i = indexByChat(tab->chat());
@@ -181,11 +182,11 @@ void Kitty::ChatTabWidget::changeTab()
 }
 
 
-void Kitty::ChatTabWidget::updateTab(int i)
+void ChatTabWidget::updateTab(int i)
 {
 	if(ChatTab *tab = qobject_cast<ChatTab*>(widget(i))) {
-		Contact *cnt = tab->chat()->contacts().first();
-		Protocol *proto = cnt->protocol();
+		KittySDK::IContact *cnt = tab->chat()->contacts().first();
+		KittySDK::IProtocol *proto = cnt->protocol();
 
 		setTabIcon(i, Core::inst()->icon(proto->statusIcon(cnt->status())));
 		setTabText(i, createLabel(tab->chat()));
@@ -200,12 +201,12 @@ void ChatTabWidget::showRecentlyClosed()
 	menu.addAction(tr("Clear recently closed tabs list"), this, SLOT(clearRecentlyClosed()));
 	menu.addSeparator();
 
-	foreach(Chat *chat, m_closedTabs) {
+	foreach(KittySDK::IChat *chat, m_closedTabs) {
 		QIcon icon;
 
-		Contact *cnt = chat->contacts().first();
+		KittySDK::IContact *cnt = chat->contacts().first();
 		if(cnt) {
-			Protocol *proto = cnt->protocol();
+			KittySDK::IProtocol *proto = cnt->protocol();
 			if(proto) {
 				icon = QIcon(Core::inst()->icon(proto->statusIcon(cnt->status())));
 			}
@@ -230,24 +231,24 @@ void ChatTabWidget::restoreClosedTab()
 {
 	if(QAction *action = qobject_cast<QAction*>(sender())) {
 		int index = action->data().toInt();
-		Chat *chat = m_closedTabs.takeAt(index);
+		KittySDK::IChat *chat = m_closedTabs.takeAt(index);
 		m_closedButton->setEnabled(m_closedTabs.count());
 		switchTo(chat);
 	}
 }
 
-void Kitty::ChatTabWidget::tabInserted(int index)
+void ChatTabWidget::tabInserted(int index)
 {
 	updateTab(index);
 	updateTabBar();
 }
 
-void Kitty::ChatTabWidget::tabRemoved(int index)
+void ChatTabWidget::tabRemoved(int index)
 {
 	updateTabBar();
 }
 
-void Kitty::ChatTabWidget::mousePressEvent(QMouseEvent *event)
+void ChatTabWidget::mousePressEvent(QMouseEvent *event)
 {
 	if(event->button() == Qt::MiddleButton) {
 		emit tabCloseRequested(tabBar()->tabAt(event->pos()));
@@ -265,7 +266,7 @@ void ChatTabWidget::changeEvent(QEvent *event)
 	QWidget::changeEvent(event);
 }
 
-void Kitty::ChatTabWidget::switchTo(KittySDK::Chat *chat)
+void ChatTabWidget::switchTo(KittySDK::IChat *chat)
 {
 	int index = indexByChat(chat);
 
@@ -288,4 +289,6 @@ void ChatTabWidget::removeTab(int index)
 	}
 
 	QTabWidget::removeTab(index);
+}
+
 }

@@ -5,11 +5,12 @@
 #include "AccountManager.h"
 #include "SettingsWindow.h"
 #include "ContactManager.h"
-#include "SDK/constants.h"
-#include "SDK/Contact.h"
 #include "IconManager.h"
 #include "Profile.h"
 #include "Core.h"
+
+#include <SDKConstants.h>
+#include <IContact.h>
 
 #include <QtGui/QStandardItemModel>
 #include <QtGui/QTreeWidgetItem>
@@ -26,17 +27,17 @@
 #define qDebug() qDebug() << "[HistoryWindow]"
 #define qWarning() qWarning() << "[HistoryWindow]"
 
-using namespace Kitty;
-using namespace KittySDK;
+namespace Kitty
+{
 
-Kitty::ContactProxy::ContactProxy(QObject *parent): QSortFilterProxyModel(parent)
+ContactProxy::ContactProxy(QObject *parent): QSortFilterProxyModel(parent)
 {
 	setDynamicSortFilter(true);
 	setFilterCaseSensitivity(Qt::CaseInsensitive);
 	setSourceModel(new QStandardItemModel());
 }
 
-bool Kitty::ContactProxy::filterAcceptsRow(int row, const QModelIndex &parent) const
+bool ContactProxy::filterAcceptsRow(int row, const QModelIndex &parent) const
 {
 	QModelIndex index = sourceModel()->index(row, 0, parent);
 
@@ -61,7 +62,7 @@ bool Kitty::ContactProxy::filterAcceptsRow(int row, const QModelIndex &parent) c
 }
 
 
-Kitty::HistoryWindow::HistoryWindow(QWidget *parent): QWidget(parent), m_ui(new Ui::HistoryWindow)
+HistoryWindow::HistoryWindow(QWidget *parent): QWidget(parent), m_ui(new Ui::HistoryWindow)
 {
 	Core *core = Core::inst();
 
@@ -76,47 +77,47 @@ Kitty::HistoryWindow::HistoryWindow(QWidget *parent): QWidget(parent), m_ui(new 
 	connect(core->settingsWindow(), SIGNAL(settingsApplied()), this, SLOT(applySettings()));
 	connect(m_ui->contactTree->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)), this, SLOT(loadChats(QItemSelection,QItemSelection)));
 
-	restoreGeometry(core->setting(Settings::S_HISTORYWINDOW_GEOMETRY).toByteArray());
+	restoreGeometry(core->setting(KittySDK::Settings::S_HISTORYWINDOW_GEOMETRY).toByteArray());
 
 	m_ui->chatWebView->setAutoScroll(false);
 
 	m_ui->dateToEdit->setDate(QDate::currentDate());
-	m_ui->chatTree->header()->restoreState(core->setting(Settings::S_HISTORYWINDOW_COLUMNS, m_ui->chatTree->header()->saveState()).toByteArray());
-	m_ui->filtersButton->setChecked(core->setting(Settings::S_HISTORYWINDOW_FILTERS, false).toBool());
+	m_ui->chatTree->header()->restoreState(core->setting(KittySDK::Settings::S_HISTORYWINDOW_COLUMNS, m_ui->chatTree->header()->saveState()).toByteArray());
+	m_ui->filtersButton->setChecked(core->setting(KittySDK::Settings::S_HISTORYWINDOW_FILTERS, false).toBool());
 
 	applySettings();
 	updateIcons();
 }
 
-Kitty::HistoryWindow::~HistoryWindow()
+HistoryWindow::~HistoryWindow()
 {
 	Core *core = Core::inst();
 
-	core->setSetting(Settings::S_HISTORYWINDOW_GEOMETRY, saveGeometry());
-	core->setSetting(Settings::S_HISTORYWINDOW_COLUMNS, m_ui->chatTree->header()->saveState());
-	core->setSetting(Settings::S_HISTORYWINDOW_FILTERS, m_ui->filtersButton->isChecked());
+	core->setSetting(KittySDK::Settings::S_HISTORYWINDOW_GEOMETRY, saveGeometry());
+	core->setSetting(KittySDK::Settings::S_HISTORYWINDOW_COLUMNS, m_ui->chatTree->header()->saveState());
+	core->setSetting(KittySDK::Settings::S_HISTORYWINDOW_FILTERS, m_ui->filtersButton->isChecked());
 
 	delete m_ui;
 }
 
-void Kitty::HistoryWindow::applySettings()
+void HistoryWindow::applySettings()
 {
 
 }
 
-void Kitty::HistoryWindow::updateIcons()
+void HistoryWindow::updateIcons()
 {
 	Core *core = Core::inst();
 
-	m_ui->refreshButton->setIcon(core->icon(Icons::I_REFRESH));
-	m_ui->exportButton->setIcon(core->icon(Icons::I_FILE));
-	m_ui->importButton->setIcon(core->icon(Icons::I_FOLDER));
-	m_ui->printButton->setIcon(core->icon(Icons::I_PRINTER));
-	m_ui->filtersButton->setIcon(core->icon(Icons::I_FILTER));
-	m_ui->searchButton->setIcon(core->icon(Icons::I_SEARCH));
+	m_ui->refreshButton->setIcon(core->icon(KittySDK::Icons::I_REFRESH));
+	m_ui->exportButton->setIcon(core->icon(KittySDK::Icons::I_FILE));
+	m_ui->importButton->setIcon(core->icon(KittySDK::Icons::I_FOLDER));
+	m_ui->printButton->setIcon(core->icon(KittySDK::Icons::I_PRINTER));
+	m_ui->filtersButton->setIcon(core->icon(KittySDK::Icons::I_FILTER));
+	m_ui->searchButton->setIcon(core->icon(KittySDK::Icons::I_SEARCH));
 }
 
-void Kitty::HistoryWindow::showContact(KittySDK::Contact *contact)
+void HistoryWindow::showContact(KittySDK::IContact *contact)
 {
 	if(contact) {
 		show();
@@ -131,7 +132,7 @@ void Kitty::HistoryWindow::showContact(KittySDK::Contact *contact)
 	}
 }
 
-void Kitty::HistoryWindow::showEvent(QShowEvent *event)
+void HistoryWindow::showEvent(QShowEvent *event)
 {
 	Core *core = Core::inst();
 
@@ -144,17 +145,17 @@ void Kitty::HistoryWindow::showEvent(QShowEvent *event)
 	if(QStandardItem *root = static_cast<QStandardItemModel*>(m_proxy->sourceModel())->invisibleRootItem()) {
 		QStandardItem *conversations = new QStandardItem();
 		conversations->setText(tr("Conversations"));
-		conversations->setIcon(core->icon(Icons::I_FOLDER));
+		conversations->setIcon(core->icon(KittySDK::Icons::I_FOLDER));
 		conversations->setData(HistoryWindow::ItemFolder, HistoryWindow::RoleType);
 
 		QDir historyDir(core->currentProfileDir() + "history/");
 		if(historyDir.exists()) {
 			foreach(const QString &protoDir, historyDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot)) {
-				Protocol *proto = ProtocolManager::inst()->protocolByName(protoDir);
+				KittySDK::IProtocol *proto = ProtocolManager::inst()->protocolByName(protoDir);
 
 				historyDir.cd(protoDir);
 				foreach(const QString &accountDir, historyDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot)) {
-					Account *acc = 0;
+					KittySDK::IAccount *acc = 0;
 
 					QStandardItem *accountItem = new QStandardItem();
 					accountItem->setText(accountDir);
@@ -167,12 +168,12 @@ void Kitty::HistoryWindow::showEvent(QShowEvent *event)
 
 						acc = AccountManager::inst()->account(proto, accountDir);
 					} else {
-						accountItem->setIcon(core->icon(Icons::I_BULLET));
+						accountItem->setIcon(core->icon(KittySDK::Icons::I_BULLET));
 					}
 
 					historyDir.cd(accountDir);
 					foreach(const QFileInfo &contactFile, historyDir.entryInfoList(QStringList("*.db"), QDir::Files)) {
-						Contact *contact = 0;
+						KittySDK::IContact *contact = 0;
 
 						QStandardItem *contactItem = new QStandardItem();
 						contactItem->setData(HistoryWindow::ItemContact, HistoryWindow::RoleType);
@@ -193,7 +194,7 @@ void Kitty::HistoryWindow::showEvent(QShowEvent *event)
 						if(proto) {
 							contactItem->setIcon(core->icon(proto->protoInfo()->protoIcon()));
 						} else {
-							contactItem->setIcon(core->icon(Icons::I_BULLET));
+							contactItem->setIcon(core->icon(KittySDK::Icons::I_BULLET));
 						}
 
 						accountItem->appendRow(contactItem);
@@ -218,13 +219,13 @@ void Kitty::HistoryWindow::showEvent(QShowEvent *event)
 	QWidget::showEvent(event);
 }
 
-void Kitty::HistoryWindow::on_contactSearchEdit_textChanged(const QString &text)
+void HistoryWindow::on_contactSearchEdit_textChanged(const QString &text)
 {
 	m_proxy->setFilterWildcard(text);
 	m_ui->contactTree->expandAll();
 }
 
-void Kitty::HistoryWindow::on_chatTree_currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous)
+void HistoryWindow::on_chatTree_currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous)
 {
 	Core *core = Core::inst();
 
@@ -245,8 +246,8 @@ void Kitty::HistoryWindow::on_chatTree_currentItemChanged(QTreeWidgetItem *curre
 			{
 				QString filePath = core->currentProfileDir() + QString("history/%1/%2/%3").arg(index.data(HistoryWindow::RoleProtocol).toString()).arg(index.data(HistoryWindow::RoleAccount).toString()).arg(index.data(HistoryWindow::RolePathName).toString());
 
-				Account *acc = AccountManager::inst()->account(index.data(HistoryWindow::RoleProtocol).toString(), index.data(HistoryWindow::RoleAccount).toString());
-				Contact *contact = 0;
+				KittySDK::IAccount *acc = AccountManager::inst()->account(index.data(HistoryWindow::RoleProtocol).toString(), index.data(HistoryWindow::RoleAccount).toString());
+				KittySDK::IContact *contact = 0;
 				if(acc) {
 					contact = acc->contacts().value(QFileInfo(index.data(HistoryWindow::RolePathName).toString()).completeBaseName());
 				}
@@ -268,11 +269,11 @@ void Kitty::HistoryWindow::on_chatTree_currentItemChanged(QTreeWidgetItem *curre
 					QString where;
 					switch(m_ui->directionComboBox->currentIndex()) {
 						case 1:
-							where = QString("AND dir = %1 ").arg(Message::Incoming);
+							where = QString("AND dir = %1 ").arg(KittySDK::IMessage::Incoming);
 						break;
 
 						case 2:
-							where = QString("AND dir = %1 ").arg(Message::Outgoing);
+							where = QString("AND dir = %1 ").arg(KittySDK::IMessage::Outgoing);
 						break;
 
 						default:
@@ -300,29 +301,29 @@ void Kitty::HistoryWindow::on_chatTree_currentItemChanged(QTreeWidgetItem *curre
 
 					if(query.exec()) {
 						while(query.next()) {
-							Message::Direction dir = (Message::Direction)query.value(3).toInt();
+							KittySDK::IMessage::Direction dir = (KittySDK::IMessage::Direction)query.value(3).toInt();
 
 							QString uid = QFileInfo(index.data(HistoryWindow::RolePathName).toString()).completeBaseName();
 
-							Contact cnt(uid, 0);
+							KittySDK::IContact cnt(uid, 0);
 							cnt.setDisplay(uid);
 
-							Contact me(acc->uid(), acc);
+							KittySDK::IContact me(acc->uid(), acc);
 							me.setDisplay(core->profileName());
 
-							Message *msg = 0;
+							KittySDK::IMessage *msg = 0;
 
-							if(dir == Message::Incoming || dir == Message::System) {
+							if(dir == KittySDK::IMessage::Incoming || dir == KittySDK::IMessage::System) {
 								if(contact) {
-									msg = new Message(contact, &me);
+									msg = new KittySDK::IMessage(contact, &me);
 								} else {
-									msg = new Message(&cnt, &me);
+									msg = new KittySDK::IMessage(&cnt, &me);
 								}
-							} else if(dir == Message::Outgoing) {
+							} else if(dir == KittySDK::IMessage::Outgoing) {
 								if(contact) {
-									msg = new Message(&me, contact);
+									msg = new KittySDK::IMessage(&me, contact);
 								} else {
-									msg = new Message(&me, &cnt);
+									msg = new KittySDK::IMessage(&me, &cnt);
 								}
 							}
 
@@ -351,7 +352,7 @@ void Kitty::HistoryWindow::on_chatTree_currentItemChanged(QTreeWidgetItem *curre
 	}
 }
 
-QModelIndex Kitty::HistoryWindow::findContact(KittySDK::Contact *contact, const QModelIndex &parent)
+QModelIndex HistoryWindow::findContact(KittySDK::IContact *contact, const QModelIndex &parent)
 {
 	for(int i = 0; i < m_proxy->rowCount(parent); i++) {
 		QModelIndex index = m_proxy->index(i, 0, parent);
@@ -377,7 +378,7 @@ QModelIndex Kitty::HistoryWindow::findContact(KittySDK::Contact *contact, const 
 	return QModelIndex();
 }
 
-void Kitty::HistoryWindow::loadChats(const QItemSelection &selected, const QItemSelection &deselected)
+void HistoryWindow::loadChats(const QItemSelection &selected, const QItemSelection &deselected)
 {
 	if(selected.indexes().count() > 0) {
 		QModelIndex current = m_ui->contactTree->currentIndex();
@@ -405,19 +406,19 @@ void Kitty::HistoryWindow::loadChats(const QItemSelection &selected, const QItem
 					db = QSqlDatabase::addDatabase("QSQLITE");
 				}
 
-				Account *acc = AccountManager::inst()->account(current.data(HistoryWindow::RoleProtocol).toString(), current.data().toString());
+				KittySDK::IAccount *acc = AccountManager::inst()->account(current.data(HistoryWindow::RoleProtocol).toString(), current.data().toString());
 
 				QDir accountPath = core->currentProfileDir() + QString("history/%1/%2/").arg(current.data(HistoryWindow::RoleProtocol).toString()).arg(current.data(HistoryWindow::RolePathName).toString());
 				if(accountPath.exists()) {
 					foreach(const QFileInfo &contactFile, accountPath.entryInfoList(QStringList("*.db"), QDir::Files)) {
 						QTreeWidgetItem *item = new QTreeWidgetItem(m_ui->chatTree);
-						Contact *contact = 0;
+						KittySDK::IContact *contact = 0;
 
 						if(acc) {
 							contact = acc->contacts().value(contactFile.completeBaseName());
 							item->setIcon(0, core->icon(acc->protocol()->protoInfo()->protoIcon()));
 						} else {
-							item->setIcon(0, core->icon(Icons::I_BULLET));
+							item->setIcon(0, core->icon(KittySDK::Icons::I_BULLET));
 						}
 
 						if(contact) {
@@ -461,7 +462,7 @@ void Kitty::HistoryWindow::loadChats(const QItemSelection &selected, const QItem
 				m_ui->chatTree->headerItem()->setText(0, tr("Message"));
 				m_ui->chatTree->setColumnHidden(1, false);
 
-				Account *acc = AccountManager::inst()->account(current.data(HistoryWindow::RoleProtocol).toString(), current.data(HistoryWindow::RoleAccount).toString());
+				KittySDK::IAccount *acc = AccountManager::inst()->account(current.data(HistoryWindow::RoleProtocol).toString(), current.data(HistoryWindow::RoleAccount).toString());
 
 				if(QFile(filePath).exists()) {
 					QSqlDatabase db = QSqlDatabase::database();
@@ -501,7 +502,7 @@ void Kitty::HistoryWindow::loadChats(const QItemSelection &selected, const QItem
 						if(acc) {
 							item->setIcon(0, core->icon(acc->protocol()->protoInfo()->protoIcon()));
 						} else {
-							item->setIcon(0, core->icon(Icons::I_BULLET));
+							item->setIcon(0, core->icon(KittySDK::Icons::I_BULLET));
 						}
 
 						item->setText(0, text);
@@ -524,12 +525,12 @@ void Kitty::HistoryWindow::loadChats(const QItemSelection &selected, const QItem
 	}
 }
 
-void Kitty::HistoryWindow::updateCurrentChat()
+void HistoryWindow::updateCurrentChat()
 {
 	on_chatTree_currentItemChanged(m_ui->chatTree->currentItem(), 0);
 }
 
-void Kitty::HistoryWindow::on_filtersButton_toggled(bool checked)
+void HistoryWindow::on_filtersButton_toggled(bool checked)
 {
 	if(!checked) {
 		m_ui->directionComboBox->setCurrentIndex(0);
@@ -538,7 +539,7 @@ void Kitty::HistoryWindow::on_filtersButton_toggled(bool checked)
 	}
 }
 
-void Kitty::HistoryWindow::on_chatTree_doubleClicked(const QModelIndex &current)
+void HistoryWindow::on_chatTree_doubleClicked(const QModelIndex &current)
 {
 	if(current.isValid()) {
 		QModelIndex parent = m_ui->contactTree->currentIndex();
@@ -551,4 +552,6 @@ void Kitty::HistoryWindow::on_chatTree_doubleClicked(const QModelIndex &current)
 			}
 		}
 	}
+}
+
 }

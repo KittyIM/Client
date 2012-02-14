@@ -1,7 +1,7 @@
 #ifndef PLUGINSSETTINGS_H
 #define PLUGINSSETTINGS_H
 
-#include "SDK/SettingPage.h"
+#include <ISettingsPage.h>
 
 class QTreeWidgetItem;
 
@@ -12,7 +12,7 @@ namespace Ui
 
 namespace Kitty
 {
-	class PluginsSettings: public KittySDK::SettingPage
+	class PluginsSettings: public KittySDK::ISettingsPage
 	{
 		Q_OBJECT
 

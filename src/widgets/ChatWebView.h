@@ -5,11 +5,11 @@
 #include <QtNetwork/QNetworkRequest>
 #include <QtWebKit/QWebView>
 
-#include "SDK/Message.h"
+#include <IMessage.h>
 
 namespace KittySDK
 {
-	class Contact;
+	class IContact;
 }
 
 namespace Kitty
@@ -35,7 +35,7 @@ namespace Kitty
 			explicit ChatWebView(QWidget *parent = 0);
 			~ChatWebView();
 
-			void appendMessage(const KittySDK::Message &msg, Kitty::ChatTheme *theme = 0);
+			void appendMessage(const KittySDK::IMessage &msg, ChatTheme *theme = 0);
 
 			void setAutoScroll(bool autoScroll) { m_autoScroll = autoScroll; }
 			bool autoScroll() const { return m_autoScroll; }
@@ -57,15 +57,15 @@ namespace Kitty
 			void mouseReleaseEvent(QMouseEvent *event);
 
 		private:
-			QString findImages(const QString &body, Kitty::ChatTheme *theme);
-			QString findYoutubes(const QString &body, Kitty::ChatTheme *theme);
+			QString findImages(const QString &body, ChatTheme *theme);
+			QString findYoutubes(const QString &body, ChatTheme *theme);
 
 		private:
 			ChatWebPage *m_page;
 			int m_imageCount;
-			KittySDK::Contact *m_lastFrom;
+			KittySDK::IContact *m_lastFrom;
 			QDateTime m_lastTimeStamp;
-			KittySDK::Message::Direction m_lastDirection;
+			KittySDK::IMessage::Direction m_lastDirection;
 			bool m_autoScroll;
 	};
 }

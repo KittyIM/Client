@@ -1,7 +1,7 @@
 #ifndef SMILIESSETTINGS_H
 #define SMILIESSETTINGS_H
 
-#include "SDK/SettingPage.h"
+#include <ISettingsPage.h>
 
 #include <QtGui/QStyledItemDelegate>
 
@@ -23,7 +23,7 @@ namespace Kitty
 			QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const;
 	};
 
-	class SmiliesSettings: public KittySDK::SettingPage
+	class SmiliesSettings: public KittySDK::ISettingsPage
 	{
 		Q_OBJECT
 

@@ -13,8 +13,8 @@ class Hunspell;
 
 namespace KittySDK
 {
-	class Contact;
-	class Message;
+	class IContact;
+	class IMessage;
 }
 
 namespace Kitty
@@ -63,12 +63,12 @@ namespace Kitty
 			Hunspell *hunspell();
 			JsonSettings *settings();
 
-			QString avatarPath(KittySDK::Contact *contact) const;
+			QString avatarPath(KittySDK::IContact *contact) const;
 			QString profileName() const;
 			QString profilesDir() const;
 			QString currentProfileDir() const;
 			bool removeDir(const QString &dirName);
-			bool archiveMessage(const KittySDK::Message &msg);
+			bool archiveMessage(const KittySDK::IMessage &msg);
 
 			void setRestart(bool restart) { m_restart = restart; }
 			bool hasToRestart() const { return m_restart; }
@@ -93,7 +93,7 @@ namespace Kitty
 			void toggleMainWindow();
 			void openKittyFolder();
 			void openProfilesFolder();
-			void showContactWindow(KittySDK::Contact *cnt);
+			void showContactWindow(KittySDK::IContact *cnt);
 
 		private slots:
 			void trayIconActivated(QSystemTrayIcon::ActivationReason reason);

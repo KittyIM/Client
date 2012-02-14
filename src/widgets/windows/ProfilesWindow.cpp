@@ -2,11 +2,12 @@
 #include "ui_ProfilesWindow.h"
 
 #include "3rdparty/qtwin/qtwin.h"
-#include "SDK/constants.h"
 #include "JsonSettings.h"
 #include "constants.h"
 #include "Profile.h"
 #include "Core.h"
+
+#include <SDKConstants.h>
 
 #include <QtCore/QCryptographicHash>
 #include <QtCore/QDebug>
@@ -19,10 +20,10 @@
 #define qDebug() qDebug() << "[ProfilesWindow]"
 #define qWarning() qWarning() << "[ProfilesWindow]"
 
-using namespace Kitty;
-using namespace KittySDK;
+namespace Kitty
+{
 
-Kitty::ProfilesWindow::ProfilesWindow(QWidget *parent): QDialog(parent), m_ui(new Ui::ProfilesWindow)
+ProfilesWindow::ProfilesWindow(QWidget *parent): QDialog(parent), m_ui(new Ui::ProfilesWindow)
 {
 	m_ui->setupUi(this);
 	m_ui->versionLabel->setText(QString("KittyIM v%1").arg(Constants::VERSION));
@@ -37,12 +38,12 @@ Kitty::ProfilesWindow::ProfilesWindow(QWidget *parent): QDialog(parent), m_ui(ne
 	}
 }
 
-Kitty::ProfilesWindow::~ProfilesWindow()
+ProfilesWindow::~ProfilesWindow()
 {
 	delete m_ui;
 }
 
-void Kitty::ProfilesWindow::showEvent(QShowEvent *event)
+void ProfilesWindow::showEvent(QShowEvent *event)
 {
 	QDialog::showEvent(event);
 
@@ -72,7 +73,7 @@ void Kitty::ProfilesWindow::showEvent(QShowEvent *event)
 	item->setData(0, Qt::UserRole, true);
 }
 
-void Kitty::ProfilesWindow::paintEvent(QPaintEvent *event)
+void ProfilesWindow::paintEvent(QPaintEvent *event)
 {
 #ifdef Q_WS_WIN32
 	if(QtWin::isCompositionEnabled()) {
@@ -86,7 +87,7 @@ void Kitty::ProfilesWindow::paintEvent(QPaintEvent *event)
 	QDialog::paintEvent(event);
 }
 
-void Kitty::ProfilesWindow::keyPressEvent(QKeyEvent *event)
+void ProfilesWindow::keyPressEvent(QKeyEvent *event)
 {
 	if(event->key() == Qt::Key_Escape) {
 		event->ignore();
@@ -95,7 +96,7 @@ void Kitty::ProfilesWindow::keyPressEvent(QKeyEvent *event)
 	}
 }
 
-void Kitty::ProfilesWindow::closeEvent(QCloseEvent *event)
+void ProfilesWindow::closeEvent(QCloseEvent *event)
 {
 	if(!Core::inst()->profile()->isLoaded()) {
 		qApp->quit();
@@ -104,7 +105,7 @@ void Kitty::ProfilesWindow::closeEvent(QCloseEvent *event)
 	QDialog::closeEvent(event);
 }
 
-void Kitty::ProfilesWindow::on_profilesWidget_currentItemChanged(QTreeWidgetItem* current, QTreeWidgetItem* previous)
+void ProfilesWindow::on_profilesWidget_currentItemChanged(QTreeWidgetItem* current, QTreeWidgetItem* previous)
 {
 	m_ui->loginButton->setEnabled(false);
 	m_ui->deleteButton->setEnabled(false);
@@ -112,7 +113,7 @@ void Kitty::ProfilesWindow::on_profilesWidget_currentItemChanged(QTreeWidgetItem
 	if(current) {
 		if(current->data(0, Qt::UserRole).toBool() == false) {
 			JsonSettings set(Core::inst()->profilesDir() + current->text(0) + "/settings.dat");
-			bool hasPassword = !set.value(Settings::S_PROFILE_PASSWORD).toString().isEmpty();
+			bool hasPassword = !set.value(KittySDK::Settings::S_PROFILE_PASSWORD).toString().isEmpty();
 
 			m_ui->passwordEdit->clear();
 			m_ui->passwordEdit->setVisible(hasPassword);
@@ -124,7 +125,7 @@ void Kitty::ProfilesWindow::on_profilesWidget_currentItemChanged(QTreeWidgetItem
 	}
 }
 
-void Kitty::ProfilesWindow::on_profilesWidget_itemDoubleClicked(QTreeWidgetItem *item, int column)
+void ProfilesWindow::on_profilesWidget_itemDoubleClicked(QTreeWidgetItem *item, int column)
 {
 	Core *core = Core::inst();
 
@@ -142,9 +143,9 @@ void Kitty::ProfilesWindow::on_profilesWidget_itemDoubleClicked(QTreeWidgetItem 
 				}
 			} else {
 				JsonSettings set(core->profilesDir() + item->text(0) + "/settings.dat");
-				bool hasPassword = !set.value(Settings::S_PROFILE_PASSWORD).toString().isEmpty();
+				bool hasPassword = !set.value(KittySDK::Settings::S_PROFILE_PASSWORD).toString().isEmpty();
 
-				if(!hasPassword || (hasPassword && set.value(Settings::S_PROFILE_PASSWORD).toString() == QCryptographicHash::hash(m_ui->passwordEdit->text().toLocal8Bit(), QCryptographicHash::Sha1).toHex())) {
+				if(!hasPassword || (hasPassword && set.value(KittySDK::Settings::S_PROFILE_PASSWORD).toString() == QCryptographicHash::hash(m_ui->passwordEdit->text().toLocal8Bit(), QCryptographicHash::Sha1).toHex())) {
 					Core::inst()->loadProfile(item->text(0));
 					close();
 				} else {
@@ -169,12 +170,12 @@ void Kitty::ProfilesWindow::on_profilesWidget_itemDoubleClicked(QTreeWidgetItem 
 	}
 }
 
-void Kitty::ProfilesWindow::on_loginButton_clicked()
+void ProfilesWindow::on_loginButton_clicked()
 {
 	on_profilesWidget_itemDoubleClicked(m_ui->profilesWidget->currentItem(), 0);
 }
 
-void Kitty::ProfilesWindow::on_deleteButton_clicked()
+void ProfilesWindow::on_deleteButton_clicked()
 {
 	QTreeWidgetItem *item = m_ui->profilesWidget->currentItem();
 	if(item) {
@@ -182,7 +183,7 @@ void Kitty::ProfilesWindow::on_deleteButton_clicked()
 
 		if(m_ui->passwordEdit->isVisible()) {
 			JsonSettings set(Core::inst()->profilesDir() + profile + "/settings.dat");
-			if(set.value(Settings::S_PROFILE_PASSWORD).toString() != QCryptographicHash::hash(m_ui->passwordEdit->text().toLocal8Bit(), QCryptographicHash::Sha1).toHex()) {
+			if(set.value(KittySDK::Settings::S_PROFILE_PASSWORD).toString() != QCryptographicHash::hash(m_ui->passwordEdit->text().toLocal8Bit(), QCryptographicHash::Sha1).toHex()) {
 				QMessageBox::information(this, tr("Error"), tr("Please enter the password to delete this profile."));
 				return;
 			}
@@ -193,4 +194,6 @@ void Kitty::ProfilesWindow::on_deleteButton_clicked()
 			showEvent(new QShowEvent());
 		}
 	}
+}
+
 }

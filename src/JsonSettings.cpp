@@ -14,12 +14,15 @@
 
 QSettings::Format Kitty::JsonSettings::jsonFormat = QSettings::registerFormat("json", jsonRead, jsonWrite);
 
-Kitty::JsonSettings::JsonSettings(const QString &fileName, QObject *parent): QSettings(fileName, JsonSettings::jsonFormat, parent)
+namespace Kitty
+{
+
+JsonSettings::JsonSettings(const QString &fileName, QObject *parent): QSettings(fileName, JsonSettings::jsonFormat, parent)
 {
 	qDebug() << "Loading" << fileName;
 }
 
-void Kitty::JsonSettings::readMap(SettingsMap &map, const QVariant &root, const QString &name)
+void JsonSettings::readMap(SettingsMap &map, const QVariant &root, const QString &name)
 {
 	if(root.type() == QVariant::Map) {
 		QVariantMap vmap = root.toMap();
@@ -41,7 +44,7 @@ void Kitty::JsonSettings::readMap(SettingsMap &map, const QVariant &root, const 
 	}
 }
 
-void Kitty::JsonSettings::writeMap(QVariant &root, const QString &key, const QVariant &value)
+void JsonSettings::writeMap(QVariant &root, const QString &key, const QVariant &value)
 {
 	int pos = key.indexOf('.');
 
@@ -68,7 +71,7 @@ void Kitty::JsonSettings::writeMap(QVariant &root, const QString &key, const QVa
 	root = map;
 }
 
-bool Kitty::JsonSettings::jsonRead(QIODevice &device, SettingsMap &map)
+bool JsonSettings::jsonRead(QIODevice &device, SettingsMap &map)
 {
 	QVariant vmap = Json::parse(qUncompress(device.readAll()));
 	readMap(map, vmap, "");
@@ -78,7 +81,7 @@ bool Kitty::JsonSettings::jsonRead(QIODevice &device, SettingsMap &map)
 	return true;
 }
 
-bool Kitty::JsonSettings::jsonWrite(QIODevice &device, const SettingsMap &map)
+bool JsonSettings::jsonWrite(QIODevice &device, const SettingsMap &map)
 {
 	qDebug() << "Writing";
 
@@ -101,7 +104,7 @@ bool Kitty::JsonSettings::jsonWrite(QIODevice &device, const SettingsMap &map)
 }
 
 // This function is taken from Qt's qsettings.cpp (except QByteArrays are saved in Base64)
-QString Kitty::JsonSettings::variantToString(const QVariant &v)
+QString JsonSettings::variantToString(const QVariant &v)
 {
 	QString result;
 
@@ -195,7 +198,7 @@ QString Kitty::JsonSettings::variantToString(const QVariant &v)
 }
 
 // This function is taken from Qt's qsettings.cpp (except QByteArrays are saved in Base64)
-QVariant Kitty::JsonSettings::stringToVariant(const QString &s)
+QVariant JsonSettings::stringToVariant(const QString &s)
 {
 	if(s.startsWith(QLatin1Char('@'))) {
 		if(s.endsWith(QLatin1Char(')'))) {
@@ -242,7 +245,7 @@ QVariant Kitty::JsonSettings::stringToVariant(const QString &s)
 }
 
 // This function is taken from Qt's qsettings.cpp
-QStringList Kitty::JsonSettings::splitArgs(const QString &s, int idx)
+QStringList JsonSettings::splitArgs(const QString &s, int idx)
 {
 	int l = s.length();
 	QStringList result;
@@ -262,4 +265,6 @@ QStringList Kitty::JsonSettings::splitArgs(const QString &s, int idx)
 	}
 
 	return result;
+}
+
 }

@@ -1,7 +1,7 @@
 #ifndef HISTORYWINDOW_H
 #define HISTORYWINDOW_H
 
-#include "SDK/Contact.h"
+#include <IContact.h>
 
 #include <QtGui/QSortFilterProxyModel>
 #include <QtGui/QWidget>
@@ -53,7 +53,7 @@ namespace Kitty
 		public slots:
 			void applySettings();
 			void updateIcons();
-			void showContact(KittySDK::Contact *contact);
+			void showContact(KittySDK::IContact *contact);
 
 		protected:
 			void showEvent(QShowEvent *event);
@@ -67,7 +67,7 @@ namespace Kitty
 			void on_chatTree_doubleClicked(const QModelIndex &index);
 
 		private:
-			QModelIndex findContact(KittySDK::Contact *contact, const QModelIndex &parent = QModelIndex());
+			QModelIndex findContact(KittySDK::IContact *contact, const QModelIndex &parent = QModelIndex());
 
 		private:
 			Ui::HistoryWindow *m_ui;

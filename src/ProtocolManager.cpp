@@ -5,21 +5,22 @@
 #define qDebug() qDebug() << "[ProtocolManager]"
 #define qWarning() qWarning() << "[ProtocolManager]"
 
-using namespace KittySDK;
+namespace Kitty
+{
 
-Kitty::ProtocolManager::~ProtocolManager()
+ProtocolManager::~ProtocolManager()
 {
 	qDeleteAll(m_protocols);
 }
 
-const QList<Protocol*> &Kitty::ProtocolManager::protocols() const
+const QList<KittySDK::IProtocol*> &ProtocolManager::protocols() const
 {
 	return m_protocols;
 }
 
-Protocol *Kitty::ProtocolManager::protocolByName(const QString &name) const
+KittySDK::IProtocol *ProtocolManager::protocolByName(const QString &name) const
 {
-	foreach(Protocol *proto, m_protocols) {
+	foreach(KittySDK::IProtocol *proto, m_protocols) {
 		if(proto->protoInfo()->protoName() == name) {
 			return proto;
 		}
@@ -28,7 +29,7 @@ Protocol *Kitty::ProtocolManager::protocolByName(const QString &name) const
 	return 0;
 }
 
-void Kitty::ProtocolManager::add(Protocol *protocol)
+void ProtocolManager::add(KittySDK::IProtocol *protocol)
 {
 	if(protocolByName(protocol->protoInfo()->protoName())) {
 		qWarning() << "Tried to add protocol" << protocol->protoInfo()->protoName() << "which is already in ProtocolManager.";
@@ -38,5 +39,4 @@ void Kitty::ProtocolManager::add(Protocol *protocol)
 	m_protocols.append(protocol);
 }
 
-
-
+}

@@ -1,12 +1,13 @@
 #include "ChatWebView.h"
 
 #include "widgets/windows/ChatWindow.h"
-#include "SDK/constants.h"
-#include "SDK/Protocol.h"
-#include "SDK/Account.h"
-#include "SDK/Contact.h"
 #include "ChatTheme.h"
 #include "Core.h"
+
+#include <SDKConstants.h>
+#include <IProtocol.h>
+#include <IAccount.h>
+#include <IContact.h>
 
 #include <QtCore/QFileInfo>
 #include <QtCore/QDebug>
@@ -23,10 +24,10 @@
 #define qDebug() qDebug() << "[ChatWebPage]"
 #define qWarning() qWarning() << "[ChatWebPage]"
 
-using namespace Kitty;
-using namespace KittySDK;
+namespace Kitty
+{
 
-bool Kitty::ChatWebPage::acceptNavigationRequest(QWebFrame *frame, const QNetworkRequest &request, QWebPage::NavigationType type)
+bool ChatWebPage::acceptNavigationRequest(QWebFrame *frame, const QNetworkRequest &request, QWebPage::NavigationType type)
 {
 	QString scheme = request.url().scheme();
 
@@ -49,7 +50,7 @@ bool Kitty::ChatWebPage::acceptNavigationRequest(QWebFrame *frame, const QNetwor
 	return false;
 }
 
-Kitty::ChatWebView::ChatWebView(QWidget *parent): QWebView(parent)
+ChatWebView::ChatWebView(QWidget *parent): QWebView(parent)
 {
 	m_page = new ChatWebPage(this);
 	setPage(m_page);
@@ -68,12 +69,12 @@ Kitty::ChatWebView::ChatWebView(QWidget *parent): QWebView(parent)
 	connect(this, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(showContextMenu(QPoint)));
 }
 
-Kitty::ChatWebView::~ChatWebView()
+ChatWebView::~ChatWebView()
 {
 	delete m_page;
 }
 
-void Kitty::ChatWebView::appendMessage(const KittySDK::Message &msg, Kitty::ChatTheme *theme)
+void ChatWebView::appendMessage(const KittySDK::IMessage &msg, ChatTheme *theme)
 {
 	Core *core = Core::inst();
 
@@ -83,7 +84,7 @@ void Kitty::ChatWebView::appendMessage(const KittySDK::Message &msg, Kitty::Chat
 
 	//let's if this is a consecutive message (sent by same side within 5 minutes)
 	bool next = false;
-	if(core->setting(Settings::S_CHATWINDOW_GROUPING, true).toBool()) {
+	if(core->setting(KittySDK::Settings::S_CHATWINDOW_GROUPING, true).toBool()) {
 		if(m_lastFrom) {
 			if((m_lastFrom == msg.from()) && (m_lastTimeStamp.secsTo(msg.timeStamp()) <= 300) && (m_lastDirection == msg.direction())) {
 				next = true;
@@ -93,7 +94,7 @@ void Kitty::ChatWebView::appendMessage(const KittySDK::Message &msg, Kitty::Chat
 
 	QString style;
 	switch(msg.direction()) {
-		case Message::Outgoing:
+		case KittySDK::IMessage::Outgoing:
 		{
 			if(next) {
 				style = theme->code(ChatTheme::OutgoingNextContent);
@@ -105,7 +106,7 @@ void Kitty::ChatWebView::appendMessage(const KittySDK::Message &msg, Kitty::Chat
 		}
 		break;
 
-		case Message::Incoming:
+		case KittySDK::IMessage::Incoming:
 		{
 			if(next) {
 				style = theme->code(ChatTheme::IncomingNextContent);
@@ -117,7 +118,7 @@ void Kitty::ChatWebView::appendMessage(const KittySDK::Message &msg, Kitty::Chat
 		}
 		break;
 
-		case Message::System:
+		case KittySDK::IMessage::System:
 		{
 			style = theme->code(ChatTheme::Status);
 			style.replace("%messageClasses%", "status");
@@ -125,8 +126,8 @@ void Kitty::ChatWebView::appendMessage(const KittySDK::Message &msg, Kitty::Chat
 		break;
 	}
 
-	if((msg.direction() == Message::Incoming) || (msg.direction() == Message::Outgoing)) {
-		if(msg.direction() == Message::Incoming) {
+	if((msg.direction() == KittySDK::IMessage::Incoming) || (msg.direction() == KittySDK::IMessage::Outgoing)) {
+		if(msg.direction() == KittySDK::IMessage::Incoming) {
 			QString avatar = core->avatarPath(msg.from());
 			if(!QFile::exists(avatar)) {
 				avatar = theme->iconPath(ChatTheme::Incoming);
@@ -150,11 +151,11 @@ void Kitty::ChatWebView::appendMessage(const KittySDK::Message &msg, Kitty::Chat
 	}
 
 	QString body = msg.body();
-	if(core->setting(Settings::S_CHATWINDOW_UNDERLINE_LINKS, true).toBool()) {
+	if(core->setting(KittySDK::Settings::S_CHATWINDOW_UNDERLINE_LINKS, true).toBool()) {
 		body = core->processUrls(body);
 	}
 
-	if(!core->setting(Settings::S_CHATWINDOW_FORMATTING, true).toBool()) {
+	if(!core->setting(KittySDK::Settings::S_CHATWINDOW_FORMATTING, true).toBool()) {
 		body.remove(QRegExp("<[^>]*>"));
 	}
 
@@ -167,7 +168,7 @@ void Kitty::ChatWebView::appendMessage(const KittySDK::Message &msg, Kitty::Chat
 		style.replace("%service%", msg.from()->protocol()->protoInfo()->protoName());
 	}
 
-	style.replace("%variant%", core->setting(Settings::S_CHAT_THEME_VARIANT, QString()).toString().remove(".css").replace(" ", "_"));
+	style.replace("%variant%", core->setting(KittySDK::Settings::S_CHAT_THEME_VARIANT, QString()).toString().remove(".css").replace(" ", "_"));
 	style.replace("%userIcons%", "showIcons");
 
 	QWebElement elem = page()->mainFrame()->documentElement().findFirst("body");
@@ -181,13 +182,13 @@ void Kitty::ChatWebView::appendMessage(const KittySDK::Message &msg, Kitty::Chat
 
 	elem.appendInside(style);
 
-	if(msg.direction() == Message::Incoming) {
+	if(msg.direction() == KittySDK::IMessage::Incoming) {
 		QString images = findImages(body, theme);
 		if(!images.isEmpty()) {
 			elem.appendInside(images);
 		}
 
-		if(core->setting(Settings::S_CHATWINDOW_YOUTUBE_LINKS, true).toBool()) {
+		if(core->setting(KittySDK::Settings::S_CHATWINDOW_YOUTUBE_LINKS, true).toBool()) {
 			QString youtubes = findYoutubes(body, theme);
 			if(!youtubes.isEmpty()) {
 				elem.appendInside(youtubes);
@@ -207,12 +208,12 @@ void Kitty::ChatWebView::appendMessage(const KittySDK::Message &msg, Kitty::Chat
 	m_lastDirection = msg.direction();
 }
 
-void Kitty::ChatWebView::clear()
+void ChatWebView::clear()
 {
 	clearTo();
 }
 
-void Kitty::ChatWebView::clearTo(bool custom, const QString &theme, const QString &variant)
+void ChatWebView::clearTo(bool custom, const QString &theme, const QString &variant)
 {
 	Core *core = Core::inst();
 
@@ -222,8 +223,8 @@ void Kitty::ChatWebView::clearTo(bool custom, const QString &theme, const QStrin
 			style = "Variants/" + variant;
 		}
 	} else {
-		if(!core->setting(Settings::S_CHAT_THEME_VARIANT).toString().isEmpty()) {
-			style = "Variants/" + core->setting(Settings::S_CHAT_THEME_VARIANT).toString();
+		if(!core->setting(KittySDK::Settings::S_CHAT_THEME_VARIANT).toString().isEmpty()) {
+			style = "Variants/" + core->setting(KittySDK::Settings::S_CHAT_THEME_VARIANT).toString();
 		}
 	}
 
@@ -233,8 +234,8 @@ void Kitty::ChatWebView::clearTo(bool custom, const QString &theme, const QStrin
 			path = qApp->applicationDirPath() + "/themes/chat/" + theme;
 		}
 	} else {
-		if(!core->setting(Settings::S_CHAT_THEME).toString().isEmpty()) {
-			path = qApp->applicationDirPath() + "/themes/chat/" + core->setting(Settings::S_CHAT_THEME).toString();
+		if(!core->setting(KittySDK::Settings::S_CHAT_THEME).toString().isEmpty()) {
+			path = qApp->applicationDirPath() + "/themes/chat/" + core->setting(KittySDK::Settings::S_CHAT_THEME).toString();
 		}
 	}
 
@@ -252,12 +253,12 @@ void Kitty::ChatWebView::clearTo(bool custom, const QString &theme, const QStrin
 	m_lastFrom = 0;
 }
 
-void Kitty::ChatWebView::updateScrollbar()
+void ChatWebView::updateScrollbar()
 {
 	page()->mainFrame()->setScrollBarValue(Qt::Vertical, page()->mainFrame()->scrollBarMaximum(Qt::Vertical));
 }
 
-void Kitty::ChatWebView::showContextMenu(QPoint pos)
+void ChatWebView::showContextMenu(QPoint pos)
 {
 	QMenu menu;
 
@@ -284,12 +285,12 @@ void Kitty::ChatWebView::showContextMenu(QPoint pos)
 	menu.exec(mapToGlobal(pos));
 }
 
-void Kitty::ChatWebView::handleDownload(QNetworkRequest req)
+void ChatWebView::handleDownload(QNetworkRequest req)
 {
 	qDebug() << "Download requested:" << req.url();
 }
 
-void Kitty::ChatWebView::keyPressEvent(QKeyEvent *event)
+void ChatWebView::keyPressEvent(QKeyEvent *event)
 {
 	if(event->modifiers() & Qt::ControlModifier) {
 		if(event->key() == Qt::Key_C) {
@@ -302,10 +303,10 @@ void Kitty::ChatWebView::keyPressEvent(QKeyEvent *event)
 	}
 }
 
-void Kitty::ChatWebView::mouseReleaseEvent(QMouseEvent *event)
+void ChatWebView::mouseReleaseEvent(QMouseEvent *event)
 {
 	Core *core = Core::inst();
-	if(core->setting(Settings::S_CHATWINDOW_COPYSELECTION, false).toBool()) {
+	if(core->setting(KittySDK::Settings::S_CHATWINDOW_COPYSELECTION, false).toBool()) {
 		if(!selectedText().isEmpty()) {
 			qApp->clipboard()->setText(selectedText());
 
@@ -319,7 +320,7 @@ void Kitty::ChatWebView::mouseReleaseEvent(QMouseEvent *event)
 	QWebView::mouseReleaseEvent(event);
 }
 
-QString Kitty::ChatWebView::findImages(const QString &body, Kitty::ChatTheme *theme)
+QString ChatWebView::findImages(const QString &body, ChatTheme *theme)
 {
 	QString result;
 
@@ -330,7 +331,7 @@ QString Kitty::ChatWebView::findImages(const QString &body, Kitty::ChatTheme *th
 	style.replace("%shortTime%", "");
 	style.replace(QRegExp("%time{*}%", Qt::CaseInsensitive, QRegExp::Wildcard), "");
 	style.replace("%service%", "");
-	style.replace("%variant%", Core::inst()->setting(Settings::S_CHAT_THEME_VARIANT, QString()).toString().remove(".css").replace(" ", "_"));
+	style.replace("%variant%", Core::inst()->setting(KittySDK::Settings::S_CHAT_THEME_VARIANT, QString()).toString().remove(".css").replace(" ", "_"));
 	style.replace("%userIcons%", "showIcons");
 
 	QStringList added;
@@ -354,7 +355,7 @@ QString Kitty::ChatWebView::findImages(const QString &body, Kitty::ChatTheme *th
 	return result;
 }
 
-QString Kitty::ChatWebView::findYoutubes(const QString &body, Kitty::ChatTheme *theme)
+QString ChatWebView::findYoutubes(const QString &body, ChatTheme *theme)
 {
 	QString result;
 
@@ -365,7 +366,7 @@ QString Kitty::ChatWebView::findYoutubes(const QString &body, Kitty::ChatTheme *
 	style.replace("%shortTime%", "");
 	style.replace(QRegExp("%time{*}%", Qt::CaseInsensitive, QRegExp::Wildcard), "");
 	style.replace("%service%", "");
-	style.replace("%variant%", Core::inst()->setting(Settings::S_CHAT_THEME_VARIANT, QString()).toString().remove(".css").replace(" ", "_"));
+	style.replace("%variant%", Core::inst()->setting(KittySDK::Settings::S_CHAT_THEME_VARIANT, QString()).toString().remove(".css").replace(" ", "_"));
 	style.replace("%userIcons%", "showIcons");
 
 	QStringList added;
@@ -392,4 +393,6 @@ QString Kitty::ChatWebView::findYoutubes(const QString &body, Kitty::ChatTheme *
 	}
 
 	return result;
+}
+
 }

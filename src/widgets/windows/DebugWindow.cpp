@@ -19,12 +19,13 @@
 #define qDebug() qDebug() << "[DebugWindow]"
 #define qWarning() qWarning() << "[DebugWindow]"
 
-using namespace Kitty;
-
 Kitty::DebugWindow *Kitty::DebugWindow::m_inst = 0;
 QWebView *Kitty::DebugWindow::m_wvLog = 0;
 
-Kitty::DebugWindow::DebugWindow(): QWidget(0), m_ui(new Ui::DebugWindow)
+namespace Kitty
+{
+
+DebugWindow::DebugWindow(): QWidget(0), m_ui(new Ui::DebugWindow)
 {
 	m_ui->setupUi(this);
 
@@ -41,7 +42,7 @@ Kitty::DebugWindow::DebugWindow(): QWidget(0), m_ui(new Ui::DebugWindow)
 	connect(m_ui->commandEdit, SIGNAL(returnPressed()), m_ui->execButton, SLOT(click()));
 }
 
-Kitty::DebugWindow::~DebugWindow()
+DebugWindow::~DebugWindow()
 {
 	qInstallMsgHandler(0);
 
@@ -50,7 +51,7 @@ Kitty::DebugWindow::~DebugWindow()
 	delete m_ui;
 }
 
-void Kitty::DebugWindow::addMessage(QtMsgType type, const char *msg)
+void DebugWindow::addMessage(QtMsgType type, const char *msg)
 {
 	DebugWindow::inst();
 
@@ -77,13 +78,13 @@ void Kitty::DebugWindow::addMessage(QtMsgType type, const char *msg)
 	m_wvLog->page()->mainFrame()->setScrollBarValue(Qt::Vertical, m_wvLog->page()->mainFrame()->scrollBarMaximum(Qt::Vertical));
 }
 
-void Kitty::DebugWindow::showEvent(QShowEvent *event)
+void DebugWindow::showEvent(QShowEvent *event)
 {
 	m_ui->tabWidget->setCurrentIndex(0);
 	m_ui->commandEdit->setFocus();
 }
 
-void Kitty::DebugWindow::changeEvent(QEvent *event)
+void DebugWindow::changeEvent(QEvent *event)
 {
 	if(event->type() == QEvent::LanguageChange) {
 		m_ui->retranslateUi(this);
@@ -92,7 +93,7 @@ void Kitty::DebugWindow::changeEvent(QEvent *event)
 	QWidget::changeEvent(event);
 }
 
-bool Kitty::DebugWindow::eventFilter(QObject *obj, QEvent *event)
+bool DebugWindow::eventFilter(QObject *obj, QEvent *event)
 {
 	if(event->type() == QEvent::KeyPress) {
 		if(QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event)) {
@@ -105,7 +106,7 @@ bool Kitty::DebugWindow::eventFilter(QObject *obj, QEvent *event)
 	return QObject::eventFilter(obj, event);
 }
 
-void Kitty::DebugWindow::execCommand()
+void DebugWindow::execCommand()
 {
 	QStringList commands = m_ui->commandEdit->text().split(" ");
 	QString msg = QString("<div>%1</div>").arg(tr("Unknown command, type <i>help</i> for list of commands."));
@@ -133,7 +134,7 @@ void Kitty::DebugWindow::execCommand()
 	m_ui->commandEdit->clear();
 }
 
-DebugWindow *Kitty::DebugWindow::inst()
+DebugWindow *DebugWindow::inst()
 {
 	static QMutex mutex;
 
@@ -146,7 +147,7 @@ DebugWindow *Kitty::DebugWindow::inst()
 	return m_inst;
 }
 
-void Kitty::DebugWindow::destroy()
+void DebugWindow::destroy()
 {
 	static QMutex mutex;
 
@@ -158,7 +159,7 @@ void Kitty::DebugWindow::destroy()
 	}
 }
 
-void Kitty::DebugWindow::on_refreshActionsButton_clicked()
+void DebugWindow::on_refreshActionsButton_clicked()
 {
 	m_ui->actionsWidget->clear();
 
@@ -191,7 +192,7 @@ void Kitty::DebugWindow::on_refreshActionsButton_clicked()
 	}
 }
 
-void Kitty::DebugWindow::on_refreshIconsButton_clicked()
+void DebugWindow::on_refreshIconsButton_clicked()
 {
 	m_ui->iconsWidget->clear();
 
@@ -222,4 +223,6 @@ void Kitty::DebugWindow::on_refreshIconsButton_clicked()
 			}
 		}
 	}
+}
+
 }

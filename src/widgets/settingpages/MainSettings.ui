@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>MainSettings</class>
- <widget class="KittySDK::SettingPage" name="MainSettings">
+ <widget class="KittySDK::ISettingsPage" name="MainSettings">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -57,14 +57,7 @@
    </item>
   </layout>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>KittySDK::SettingPage</class>
-   <extends>QWidget</extends>
-   <header>SDK/SettingPage.h</header>
-   <container>1</container>
-  </customwidget>
- </customwidgets>
+ <customwidgets/>
  <resources/>
  <connections/>
 </ui>

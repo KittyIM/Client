@@ -1,7 +1,8 @@
 #ifndef PLUGINMANAGER_H
 #define PLUGINMANAGER_H
 
-#include "SDK/Plugin.h"
+#include <IPlugin.h>
+
 #include "Singleton.h"
 
 #include <QtCore/QObject>
@@ -17,7 +18,7 @@ namespace Kitty
 			void load();
 			void unload();
 
-			KittySDK::Plugin *plugin() const { return m_plugin; }
+			KittySDK::IPlugin *plugin() const { return m_plugin; }
 			QString fileName() const { return m_fileName; }
 			bool isLoaded() const { return m_loaded; }
 			bool isInited() const { return m_inited; }
@@ -26,7 +27,7 @@ namespace Kitty
 			bool m_loaded;
 			bool m_inited;
 			QString m_fileName;
-			KittySDK::Plugin *m_plugin;
+			KittySDK::IPlugin *m_plugin;
 	};
 
 	class PluginManager: public QObject, public Singleton<PluginManager>

@@ -6,7 +6,6 @@
 #include "widgets/windows/MainWindow.h"
 #include "ContactManager.h"
 #include "AccountManager.h"
-#include "SDK/constants.h"
 #include "ActionManager.h"
 #include "PluginManager.h"
 #include "IconManager.h"
@@ -15,6 +14,8 @@
 #include "IconTheme.h"
 #include "Core.h"
 #include "App.h"
+
+#include <SDKConstants.h>
 
 #include <QtCore/QLibraryInfo>
 #include <QtCore/QTranslator>
@@ -28,33 +29,33 @@
 #define qDebug() qDebug() << "[Profile]"
 #define qWarning() qWarning() << "[Profile]"
 
-using namespace Kitty;
-using namespace KittySDK;
+namespace Kitty
+{
 
-Kitty::Profile::Profile(QObject *parent): QObject(parent)
+Profile::Profile(QObject *parent): QObject(parent)
 {
 	m_settings = 0;
 }
 
-Kitty::Profile::~Profile()
+Profile::~Profile()
 {
 	if(isLoaded()) {
-		settings()->setValue(Settings::S_DEBUGWINDOW_GEOMETRY, DebugWindow::inst()->saveGeometry());
+		settings()->setValue(KittySDK::Settings::S_DEBUGWINDOW_GEOMETRY, DebugWindow::inst()->saveGeometry());
 
 		AccountManager::inst()->save(m_name);
 		ContactManager::inst()->save(m_name);
 	}
 }
 
-void Kitty::Profile::load(const QString &name)
+void Profile::load(const QString &name)
 {
 	Core *core = Core::inst();
 
 	m_name = name;
 	m_settings = new JsonSettings(core->profilesDir() + name + "/settings.dat", this);
 
-	if(m_settings->contains(Settings::S_ICON_THEME)) {
-		loadIconTheme(settings()->value(Settings::S_ICON_THEME).toString());
+	if(m_settings->contains(KittySDK::Settings::S_ICON_THEME)) {
+		loadIconTheme(settings()->value(KittySDK::Settings::S_ICON_THEME).toString());
 	}
 
 	dynamic_cast<App*>(qApp)->applySettings();
@@ -72,7 +73,7 @@ void Kitty::Profile::load(const QString &name)
 	qDebug() << "Profile " + name + " loaded!";
 }
 
-void Kitty::Profile::loadIconTheme(const QString &name)
+void Profile::loadIconTheme(const QString &name)
 {
 	qDebug() << "Loading icon theme " + name;
 
@@ -83,4 +84,6 @@ void Kitty::Profile::loadIconTheme(const QString &name)
 
 		IconManager::inst()->insert(i.key(), QPixmap(i.value()));
 	}
+}
+
 }

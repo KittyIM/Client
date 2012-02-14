@@ -1,7 +1,8 @@
 #include "IconManager.h"
 
-#include "SDK/constants.h"
 #include "IconTheme.h"
+
+#include <SDKConstants.h>
 
 #include <QtCore/QMap>
 #include <QtCore/QDebug>
@@ -9,9 +10,10 @@
 #define qDebug() qDebug() << "[IconManager]"
 #define qWarning() qWarning() << "[IconManager]"
 
-using namespace KittySDK;
+namespace Kitty
+{
 
-Kitty::IconManager::IconManager(QObject *parent): QObject(parent)
+IconManager::IconManager(QObject *parent): QObject(parent)
 {
 	m_updateTimer.setSingleShot(true);
 	m_updateTimer.setInterval(100);
@@ -21,7 +23,7 @@ Kitty::IconManager::IconManager(QObject *parent): QObject(parent)
 	loadDefaults();
 }
 
-void Kitty::IconManager::loadDefaults()
+void IconManager::loadDefaults()
 {
 	IconTheme theme;
 
@@ -34,13 +36,13 @@ void Kitty::IconManager::loadDefaults()
 	}
 }
 
-void Kitty::IconManager::remove(const QString &id)
+void IconManager::remove(const QString &id)
 {
 	m_icons.remove(id);
 	emit iconsUpdated();
 }
 
-void Kitty::IconManager::insert(const QString &id, const QPixmap &pixmap, bool replace)
+void IconManager::insert(const QString &id, const QPixmap &pixmap, bool replace)
 {
 	if(m_icons.contains(id) && !replace) {
 		return;
@@ -49,4 +51,6 @@ void Kitty::IconManager::insert(const QString &id, const QPixmap &pixmap, bool r
 	m_icons.insert(id, pixmap);
 
 	m_updateTimer.start();
+}
+
 }

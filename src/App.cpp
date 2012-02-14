@@ -1,10 +1,11 @@
 #include "App.h"
 
 #include "widgets/windows/DebugWindow.h"
-#include "SDK/constants.h"
 #include "JsonSettings.h"
 #include "Profile.h"
 #include "Core.h"
+
+#include <SDKConstants.h>
 
 #include <QtCore/QCryptographicHash>
 #include <QtCore/QTranslator>
@@ -19,10 +20,10 @@
 #define qDebug() qDebug() << "[App]"
 #define qWarning() qWarning() << "[App]"
 
-using namespace Kitty;
-using namespace KittySDK;
+namespace Kitty
+{
 
-Kitty::App::App(int &argc, char **argv): QApplication(argc, argv)
+App::App(int &argc, char **argv): QApplication(argc, argv)
 {
 	m_startDate = QDateTime::currentDateTime();
 
@@ -93,14 +94,14 @@ Kitty::App::App(int &argc, char **argv): QApplication(argc, argv)
 
 	if(!profile.isEmpty()) {
 		JsonSettings set(Core::inst()->profilesDir() + profile + "/settings.dat");
-		bool hasPassword = !set.value(Settings::S_PROFILE_PASSWORD).toString().isEmpty();
+		bool hasPassword = !set.value(KittySDK::Settings::S_PROFILE_PASSWORD).toString().isEmpty();
 
 		if(!hasPassword) {
 			qDebug() << "Profile is ok, loading.";
 			core->loadProfile(profile);
 		} else {
 			if(!password.isEmpty()) {
-				if(set.value(Settings::S_PROFILE_PASSWORD).toString() == QCryptographicHash::hash(password.toLocal8Bit(), QCryptographicHash::Sha1).toHex()) {
+				if(set.value(KittySDK::Settings::S_PROFILE_PASSWORD).toString() == QCryptographicHash::hash(password.toLocal8Bit(), QCryptographicHash::Sha1).toHex()) {
 					qDebug() << "Password is ok too!";
 					core->loadProfile(profile);
 				} else {
@@ -118,7 +119,7 @@ Kitty::App::App(int &argc, char **argv): QApplication(argc, argv)
 	}
 }
 
-void Kitty::App::applySettings()
+void App::applySettings()
 {
 	Core *core = Core::inst();
 
@@ -131,7 +132,7 @@ void Kitty::App::applySettings()
 	}
 
 	QString locale = QLocale::system().name();
-	locale = core->setting(Settings::S_LANGUAGE, locale).toString();
+	locale = core->setting(KittySDK::Settings::S_LANGUAGE, locale).toString();
 
 	QString dir = applicationDirPath() + "/data/translations/";
 	if(m_translator->load("kitty_" + locale, dir) && m_qtTranslator->load("qt_" + locale, dir)) {
@@ -143,25 +144,25 @@ void Kitty::App::applySettings()
 	}
 
 	if(core->profile()) {
-		core->profile()->loadIconTheme(core->setting(Settings::S_ICON_THEME).toString());
+		core->profile()->loadIconTheme(core->setting(KittySDK::Settings::S_ICON_THEME).toString());
 	}
 
 	QNetworkProxy proxy;
-	if(core->setting(Settings::S_PROXY_ENABLED, false).toBool()) {
+	if(core->setting(KittySDK::Settings::S_PROXY_ENABLED, false).toBool()) {
 		proxy.setType(QNetworkProxy::HttpProxy);
-		proxy.setHostName(core->setting(Settings::S_PROXY_SERVER).toString());
-		proxy.setPort(core->setting(Settings::S_PROXY_PORT).toInt());
+		proxy.setHostName(core->setting(KittySDK::Settings::S_PROXY_SERVER).toString());
+		proxy.setPort(core->setting(KittySDK::Settings::S_PROXY_PORT).toInt());
 
-		if(core->setting(Settings::S_PROXY_AUTH, false).toBool()) {
-			proxy.setUser(core->setting(Settings::S_PROXY_USERNAME).toString());
-			proxy.setPassword(core->setting(Settings::S_PROXY_PASSWORD).toString());
+		if(core->setting(KittySDK::Settings::S_PROXY_AUTH, false).toBool()) {
+			proxy.setUser(core->setting(KittySDK::Settings::S_PROXY_USERNAME).toString());
+			proxy.setPassword(core->setting(KittySDK::Settings::S_PROXY_PASSWORD).toString());
 		}
 	}
 
 	QNetworkProxy::setApplicationProxy(proxy);
 }
 
-void Kitty::App::cleanUp()
+void App::cleanUp()
 {
 	Core *core = Core::inst();
 
@@ -182,4 +183,6 @@ void Kitty::App::cleanUp()
 	}
 
 	Core::destr();
+}
+
 }

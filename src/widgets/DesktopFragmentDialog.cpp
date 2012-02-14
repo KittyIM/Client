@@ -1,7 +1,8 @@
 #include "DesktopFragmentDialog.h"
 
-#include "SDK/constants.h"
 #include "Core.h"
+
+#include <SDKConstants.h>
 
 #include <QtCore/QDebug>
 #include <QtGui/QDesktopWidget>
@@ -19,13 +20,13 @@
 #define qDebug() qDebug() << "[DesktopFragmentDialog]"
 #define qWarning() qWarning() << "[DesktopFragmentDialog]"
 
-using namespace Kitty;
-using namespace KittySDK;
-
 bool pointIsNull(const QPoint &p)
 {
 	return (p.x() == -1) || (p.y() == -1);
 }
+
+namespace Kitty
+{
 
 DesktopFragmentDialog::DesktopFragmentDialog(QWidget *parent):
 	QDialog(parent),
@@ -43,22 +44,22 @@ DesktopFragmentDialog::DesktopFragmentDialog(QWidget *parent):
 	m_toolBar->setIconSize(QSize(16, 16));
 
 	QAction *moveAction = new QAction(m_toolBar);
-	moveAction->setIcon(Core::inst()->icon(Icons::I_CURSOR));
+	moveAction->setIcon(Core::inst()->icon(KittySDK::Icons::I_CURSOR));
 	moveAction->setText(tr("Moving/Resizing"));
 	connect(moveAction, SIGNAL(triggered()), SLOT(setMovingMode()));
 	moveAction->setCheckable(true);
 	m_toolBar->addAction(moveAction);
 
 	QAction *paintAction = new QAction(m_toolBar);
-	paintAction->setIcon(Core::inst()->icon(Icons::I_PAINTBRUSH));
+	paintAction->setIcon(Core::inst()->icon(KittySDK::Icons::I_PAINTBRUSH));
 	paintAction->setText(tr("Painting"));
 	connect(paintAction, SIGNAL(triggered()), SLOT(setPaintingMode()));
 	paintAction->setCheckable(true);
 	m_toolBar->addAction(paintAction);
 
 	m_toolBar->addSeparator();
-	m_toolBar->addAction(Core::inst()->icon(Icons::I_QUIT), tr("Cancel"), this, SLOT(reject()));
-	m_toolBar->addAction(Core::inst()->icon(Icons::I_ADD), tr("Accept"), this, SLOT(accept()));
+	m_toolBar->addAction(Core::inst()->icon(KittySDK::Icons::I_QUIT), tr("Cancel"), this, SLOT(reject()));
+	m_toolBar->addAction(Core::inst()->icon(KittySDK::Icons::I_ADD), tr("Accept"), this, SLOT(accept()));
 	m_toolBar->hide();
 
 	m_paintBar = new QToolBar(this);
@@ -82,13 +83,13 @@ DesktopFragmentDialog::DesktopFragmentDialog(QWidget *parent):
 	m_paintBar->addAction(m_colorAction);
 
 	QAction *eraserAction = new QAction(m_paintBar);
-	eraserAction->setIcon(Core::inst()->icon(Icons::I_ERASE));
+	eraserAction->setIcon(Core::inst()->icon(KittySDK::Icons::I_ERASE));
 	eraserAction->setText(tr("Eraser"));
 	connect(eraserAction, SIGNAL(triggered()), SLOT(setEraserColor()));
 	m_paintBar->addAction(eraserAction);
 
 	QAction *clearAction = new QAction(m_paintBar);
-	clearAction->setIcon(Core::inst()->icon(Icons::I_DELETE));
+	clearAction->setIcon(Core::inst()->icon(KittySDK::Icons::I_DELETE));
 	clearAction->setText(tr("Clear"));
 	connect(clearAction, SIGNAL(triggered()), SLOT(clearPainting()));
 	m_paintBar->addAction(clearAction);
@@ -525,4 +526,6 @@ void DesktopFragmentDialog::showEvent(QShowEvent *event)
 {
 	m_desktop = QPixmap::grabWindow(QApplication::desktop()->winId());
 	QDialog::showEvent(event);
+}
+
 }

@@ -7,24 +7,25 @@
 #include <QtGui/QToolTip>
 #include <QtGui/QMenu>
 
-using namespace Kitty;
+namespace Kitty
+{
 
-Kitty::StatusLineEdit::StatusLineEdit(QWidget *parent): QLineEdit(parent)
+StatusLineEdit::StatusLineEdit(QWidget *parent): QLineEdit(parent)
 {
 	connect(this, SIGNAL(textChanged(QString)), this, SLOT(updateSize()));
 }
 
-QSize Kitty::StatusLineEdit::sizeHint() const
+QSize StatusLineEdit::sizeHint() const
 {
 	return QSize(4 + fontMetrics().width(text()) + 2, 20);
 }
 
-void Kitty::StatusLineEdit::updateSize()
+void StatusLineEdit::updateSize()
 {
 	updateGeometry();
 }
 
-void Kitty::StatusLineEdit::paintEvent(QPaintEvent *event)
+void StatusLineEdit::paintEvent(QPaintEvent *event)
 {
 	if(hasFocus()) {
 		QLineEdit::paintEvent(event);
@@ -60,7 +61,7 @@ void Kitty::StatusLineEdit::paintEvent(QPaintEvent *event)
 	}
 }
 
-void Kitty::StatusLineEdit::keyPressEvent(QKeyEvent *event)
+void StatusLineEdit::keyPressEvent(QKeyEvent *event)
 {
 	QLineEdit::keyPressEvent(event);
 
@@ -70,7 +71,7 @@ void Kitty::StatusLineEdit::keyPressEvent(QKeyEvent *event)
 }
 
 
-void Kitty::StatusArrowButton::paintEvent(QPaintEvent *event)
+void StatusArrowButton::paintEvent(QPaintEvent *event)
 {
 	QStylePainter painter(this);
 
@@ -92,7 +93,7 @@ void Kitty::StatusArrowButton::paintEvent(QPaintEvent *event)
 }
 
 
-Kitty::StatusTextWidget::StatusTextWidget(QWidget *parent): QWidget(parent)
+StatusTextWidget::StatusTextWidget(QWidget *parent): QWidget(parent)
 {
 	m_lineEdit = new StatusLineEdit(this);
 	connect(m_lineEdit, SIGNAL(returnPressed()), this, SLOT(changeText()));
@@ -108,17 +109,17 @@ Kitty::StatusTextWidget::StatusTextWidget(QWidget *parent): QWidget(parent)
 	setLayout(lay);
 }
 
-QString Kitty::StatusTextWidget::text() const
+QString StatusTextWidget::text() const
 {
 	return m_lineEdit->text();
 }
 
-void Kitty::StatusTextWidget::setText(const QString &text)
+void StatusTextWidget::setText(const QString &text)
 {
 	m_lineEdit->setText(text);
 }
 
-void Kitty::StatusTextWidget::changeText()
+void StatusTextWidget::changeText()
 {
 	if(!text().isEmpty()) {
 		m_history.removeAll(text());
@@ -128,7 +129,7 @@ void Kitty::StatusTextWidget::changeText()
 	emit returnPressed(text());
 }
 
-void Kitty::StatusTextWidget::showHistory()
+void StatusTextWidget::showHistory()
 {
 	QMenu menu;
 	foreach(const QString &descr, m_history) {
@@ -138,6 +139,8 @@ void Kitty::StatusTextWidget::showHistory()
 	menu.exec(mapToGlobal(QPoint(0, height())));
 }
 
-void Kitty::StatusTextWidget::applyHistory()
+void StatusTextWidget::applyHistory()
 {
+}
+
 }

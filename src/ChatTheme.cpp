@@ -7,7 +7,10 @@
 #define qDebug() qDebug() << "[ChatTheme]"
 #define qWarning() qWarning() << "[ChatTheme]"
 
-Kitty::ChatTheme::ChatTheme(const QString &name, QObject *parent): QObject(parent), m_name(name)
+namespace Kitty
+{
+
+ChatTheme::ChatTheme(const QString &name, QObject *parent): QObject(parent), m_name(name)
 {
 	if(name.isEmpty() || (name == tr("Default"))) {
 		m_name = tr("Default");
@@ -17,7 +20,7 @@ Kitty::ChatTheme::ChatTheme(const QString &name, QObject *parent): QObject(paren
 	}
 }
 
-QString Kitty::ChatTheme::code(const Type &type) const
+QString ChatTheme::code(const Type &type) const
 {
 	QString result = m_codes.value(type);
 
@@ -94,7 +97,7 @@ QString Kitty::ChatTheme::code(const Type &type) const
 	return result;
 }
 
-QString Kitty::ChatTheme::iconPath(const IconType &type)
+QString ChatTheme::iconPath(const IconType &type)
 {
 	switch(type) {
 		case Incoming:
@@ -111,7 +114,7 @@ QString Kitty::ChatTheme::iconPath(const IconType &type)
 	}
 }
 
-void Kitty::ChatTheme::load(const QString &name)
+void ChatTheme::load(const QString &name)
 {
 	m_codes.clear();
 
@@ -142,7 +145,7 @@ void Kitty::ChatTheme::load(const QString &name)
 	}
 }
 
-void Kitty::ChatTheme::loadFile(const ChatTheme::Type &type, const QString &fileName)
+void ChatTheme::loadFile(const ChatTheme::Type &type, const QString &fileName)
 {
 	QFile file(fileName);
 	if(file.open(QFile::ReadOnly)) {
@@ -154,7 +157,7 @@ void Kitty::ChatTheme::loadFile(const ChatTheme::Type &type, const QString &file
 	}
 }
 
-void Kitty::ChatTheme::loadDefaults()
+void ChatTheme::loadDefaults()
 {
 	m_codes.clear();
 
@@ -172,4 +175,6 @@ void Kitty::ChatTheme::loadDefaults()
 
 		loadFile(it.key(), it.value());
 	}
+}
+
 }

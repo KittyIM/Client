@@ -1,9 +1,10 @@
 #include "ChatEdit.h"
 
 #include "../lib/hunspell/hunspell.hxx"
-#include "SDK/constants.h"
 #include "Core.h"
 #include "App.h"
+
+#include <SDKConstants.h>
 
 #include <QtCore/QTextBoundaryFinder>
 #include <QtCore/QTextCodec>
@@ -15,10 +16,10 @@
 #define qDebug() qDebug() << "[ChatEdit]"
 #define qWarning() qWarning() << "[ChatEdit]"
 
-using namespace Kitty;
-using namespace KittySDK;
+namespace Kitty
+{
 
-QStringList Kitty::SpellChecker::suggest(const QString &word)
+QStringList SpellChecker::suggest(const QString &word)
 {
 	Hunspell *hunspell = Core::inst()->hunspell();
 	char **words;
@@ -35,7 +36,7 @@ QStringList Kitty::SpellChecker::suggest(const QString &word)
 	return suggestions;
 }
 
-void Kitty::SpellChecker::highlightBlock(const QString &text)
+void SpellChecker::highlightBlock(const QString &text)
 {
 	Hunspell *hunspell = Core::inst()->hunspell();
 
@@ -65,9 +66,9 @@ void Kitty::SpellChecker::highlightBlock(const QString &text)
 }
 
 
-Kitty::ChatEdit::ChatEdit(QWidget *parent): QTextEdit(parent)
+ChatEdit::ChatEdit(QWidget *parent): QTextEdit(parent)
 {
-	if(Core::inst()->setting(Settings::S_CHATWINDOW_SPELLCHECK_ENABLED, false).toBool()) {
+	if(Core::inst()->setting(KittySDK::Settings::S_CHATWINDOW_SPELLCHECK_ENABLED, false).toBool()) {
 		m_checker = new SpellChecker(document());
 	}
 
@@ -83,7 +84,7 @@ Kitty::ChatEdit::ChatEdit(QWidget *parent): QTextEdit(parent)
 	clearHistory();
 }
 
-void Kitty::ChatEdit::updateSize()
+void ChatEdit::updateSize()
 {
 	int height = document()->size().height() + document()->documentMargin();
 	if(height < 200) {
@@ -91,7 +92,7 @@ void Kitty::ChatEdit::updateSize()
 	}
 }
 
-void Kitty::ChatEdit::keyPressEvent(QKeyEvent *event)
+void ChatEdit::keyPressEvent(QKeyEvent *event)
 {
 	if(((event->key() == Qt::Key_Enter) || (event->key() == Qt::Key_Return)) && !(event->modifiers() & Qt::ShiftModifier)) {
 		emit returnPressed();
@@ -121,14 +122,14 @@ void Kitty::ChatEdit::keyPressEvent(QKeyEvent *event)
 	updateSize();
 }
 
-void Kitty::ChatEdit::resizeEvent(QResizeEvent *event)
+void ChatEdit::resizeEvent(QResizeEvent *event)
 {
 	QTextEdit::resizeEvent(event);
 
 	updateSize();
 }
 
-void Kitty::ChatEdit::contextMenuEvent(QContextMenuEvent *event)
+void ChatEdit::contextMenuEvent(QContextMenuEvent *event)
 {
 	QTextCursor cursor = textCursor();
 	cursor.setPosition(cursorForPosition(event->pos()).position());
@@ -182,13 +183,13 @@ void ChatEdit::insertFromMimeData(const QMimeData *source)
 	}
 }
 
-void Kitty::ChatEdit::clearHistory()
+void ChatEdit::clearHistory()
 {
 	m_history.clear();
 	m_historyPos = 0;
 }
 
-void Kitty::ChatEdit::addHistory(const QString &msg)
+void ChatEdit::addHistory(const QString &msg)
 {
 	m_history.prepend(msg);
 	m_historyPos = 0;
@@ -198,14 +199,14 @@ void Kitty::ChatEdit::addHistory(const QString &msg)
 	}
 }
 
-void Kitty::ChatEdit::replaceWord()
+void ChatEdit::replaceWord()
 {
 	if(QAction *action = qobject_cast<QAction*>(sender())) {
 		insertPlainText(action->text());
 	}
 }
 
-void Kitty::ChatEdit::boldText()
+void ChatEdit::boldText()
 {
 	QTextCharFormat fmt = currentCharFormat();
 
@@ -218,21 +219,21 @@ void Kitty::ChatEdit::boldText()
 	setCurrentCharFormat(fmt);
 }
 
-void Kitty::ChatEdit::italicText()
+void ChatEdit::italicText()
 {
 	QTextCharFormat fmt = currentCharFormat();
 	fmt.setFontItalic(!fmt.fontItalic());
 	setCurrentCharFormat(fmt);
 }
 
-void Kitty::ChatEdit::underlineText()
+void ChatEdit::underlineText()
 {
 	QTextCharFormat fmt = currentCharFormat();
 	fmt.setFontUnderline(!fmt.fontUnderline());
 	setCurrentCharFormat(fmt);
 }
 
-void Kitty::ChatEdit::colorText(QColor color)
+void ChatEdit::colorText(QColor color)
 {
 	QTextCharFormat fmt = currentCharFormat();
 	fmt.setForeground(color);
@@ -263,9 +264,11 @@ void ChatEdit::sendTypingStopped()
 	emit typingChanged(false, toPlainText().length());
 }
 
-void Kitty::ChatEdit::pasteFormatted()
+void ChatEdit::pasteFormatted()
 {
 	setAcceptRichText(true);
 	paste();
 	setAcceptRichText(false);
+}
+
 }

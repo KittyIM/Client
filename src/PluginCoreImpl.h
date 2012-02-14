@@ -1,18 +1,18 @@
 #ifndef PLUGINCOREIMPL_H
 #define PLUGINCOREIMPL_H
 
-#include "SDK/PluginCore.h"
+#include <IPluginCore.h>
 
 namespace KittySDK
 {
-	class SettingPage;
-	class Contact;
-	class Account;
+	class ISettingsPage;
+	class IAccount;
+	class IContact;
 }
 
 namespace Kitty
 {
-	class PluginCoreImpl: public KittySDK::PluginCore
+	class PluginCoreImpl: public KittySDK::IPluginCore
 	{
 		Q_OBJECT
 
@@ -27,26 +27,26 @@ namespace Kitty
 			QString profileName();
 			QString kittyDir();
 			QString profilesDir();
-			QString avatarPath(KittySDK::Contact *contact);
+			QString avatarPath(KittySDK::IContact *contact);
 
 			int contactCount();
-			KittySDK::Contact *contact(const int &id);
-			QList<KittySDK::Contact*> contacts(const QString &account, const QString &protocol);
-			QList<KittySDK::Contact*> contacts(const QString &protocol);
+			KittySDK::IContact *contact(const int &id);
+			QList<KittySDK::IContact*> contacts(const QString &account, const QString &protocol);
+			QList<KittySDK::IContact*> contacts(const QString &protocol);
 
 			QStringList plugins();
 
 			QVariant jsonParse(const QString &json);
 			QString jsonStringify(const QVariant &json, int indent);
 
-			void addSettingPage(KittySDK::SettingPage *page, const QString &parent);
-			void removeSettingPage(KittySDK::SettingPage *page);
+			void addSettingPage(KittySDK::ISettingsPage *page, const QString &parent);
+			void removeSettingPage(KittySDK::ISettingsPage *page);
 
 			void addToolbarAction(const QString &tb, QAction *action);
 			void removeToolbarAction(const QString &tb, QAction *action);
 			QToolButton *buttonForAction(const QString &tb, QAction *action);
 
-			void addAccount(KittySDK::Account *account);
+			void addAccount(KittySDK::IAccount *account);
 
 			QPixmap icon(const QString &id);
 			void addIcon(const QString &id, const QPixmap &pixmap, bool replace = true);

@@ -12,9 +12,10 @@
 #define qDebug() qDebug() << "[EmoticonPack]"
 #define qWarning() qWarning() << "[EmoticonPack]"
 
-using namespace Kitty;
+namespace Kitty
+{
 
-Kitty::EmoticonPack::EmoticonPack(const QString &name, QObject *parent): QObject(parent), m_name(name)
+EmoticonPack::EmoticonPack(const QString &name, QObject *parent): QObject(parent), m_name(name)
 {
 	QDir dir(qApp->applicationDirPath() + "/emoticons/" + name);
 	if(dir.exists()) {
@@ -135,7 +136,9 @@ Kitty::EmoticonPack::EmoticonPack(const QString &name, QObject *parent): QObject
 	}
 }
 
-Kitty::EmoticonPack::~EmoticonPack()
+EmoticonPack::~EmoticonPack()
 {
 	qDeleteAll(m_emots);
+}
+
 }

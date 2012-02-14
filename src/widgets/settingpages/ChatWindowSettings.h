@@ -1,7 +1,7 @@
 #ifndef CHATWINDOWSETTINGS_H
 #define CHATWINDOWSETTINGS_H
 
-#include "SDK/SettingPage.h"
+#include <ISettingsPage.h>
 
 namespace Ui
 {
@@ -10,7 +10,7 @@ namespace Ui
 
 namespace Kitty
 {
-	class ChatWindowSettings: public KittySDK::SettingPage
+	class ChatWindowSettings: public KittySDK::ISettingsPage
 	{
 		Q_OBJECT
 

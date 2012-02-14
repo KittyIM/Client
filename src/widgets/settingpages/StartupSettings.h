@@ -1,7 +1,7 @@
 #ifndef STARTUPSETTINGS_H
 #define STARTUPSETTINGS_H
 
-#include "SDK/SettingPage.h"
+#include <ISettingsPage.h>
 
 namespace Ui
 {
@@ -10,7 +10,7 @@ namespace Ui
 
 namespace Kitty
 {
-	class StartupSettings: public KittySDK::SettingPage
+	class StartupSettings: public KittySDK::ISettingsPage
 	{
 		Q_OBJECT
 

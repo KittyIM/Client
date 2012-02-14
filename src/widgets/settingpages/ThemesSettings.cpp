@@ -2,15 +2,16 @@
 #include "ui_ThemesSettings.h"
 
 #include "PluginCoreImpl.h"
-#include "SDK/constants.h"
-#include "SDK/Protocol.h"
-#include "SDK/Message.h"
-#include "SDK/Contact.h"
-#include "SDK/Account.h"
 #include "IconTheme.h"
 #include "ChatTheme.h"
 #include "Profile.h"
 #include "Core.h"
+
+#include <SDKConstants.h>
+#include <IProtocol.h>
+#include <IAccount.h>
+#include <IContact.h>
+#include <IMessage.h>
 
 #include <QtCore/QFileInfoList>
 #include <QtCore/QDateTime>
@@ -20,15 +21,15 @@
 #include <QtWebKit/QWebElement>
 #include <QtWebKit/QWebFrame>
 
-using namespace Kitty;
-using namespace KittySDK;
+namespace Kitty
+{
 
-class KittyAccount: public Account
+class KittyAccount: public KittySDK::IAccount
 {
 	public:
-		KittyAccount(const QString &uid, Protocol *parent): Account(uid, parent)
+		KittyAccount(const QString &uid, KittySDK::IProtocol *parent): KittySDK::IAccount(uid, parent)
 		{
-			setMe(new Contact("me@example.com", this));
+			setMe(new KittySDK::IContact("me@example.com", this));
 			me()->setDisplay(protocol()->core()->profileName());
 		}
 
@@ -37,15 +38,15 @@ class KittyAccount: public Account
 			delete m_me;
 		}
 
-		Contact *newContact(const QString &uid){ return new Contact(uid, this); }
+		KittySDK::IContact *newContact(const QString &uid){ return new KittySDK::IContact(uid, this); }
 };
 
-class KittyProto: public Protocol
+class KittyProto: public KittySDK::IProtocol
 {
 	public:
-		KittyProto(PluginCore *core): Protocol(core)
+		KittyProto(KittySDK::IPluginCore *core): KittySDK::IProtocol(core)
 		{
-			m_info = new ProtocolInfo("", "", "", "", "", "KittyIM");
+			m_info = new KittySDK::IProtocolInfo("", "", "", "", "", "KittyIM");
 		}
 
 		~KittyProto()
@@ -53,35 +54,35 @@ class KittyProto: public Protocol
 			delete m_info;
 		}
 
-		Account *newAccount(const QString &uid) { return new KittyAccount(uid, this); }
-		QDialog *editDialog(Account *) { return 0; }
+		KittySDK::IAccount *newAccount(const QString &uid) { return new KittyAccount(uid, this); }
+		QDialog *editDialog(KittySDK::IAccount *) { return 0; }
 };
 
-Kitty::ThemesSettings::ThemesSettings(QWidget *parent): SettingPage(0, parent), m_ui(new Ui::ThemesSettings)
+ThemesSettings::ThemesSettings(QWidget *parent): KittySDK::ISettingsPage(0, parent), m_ui(new Ui::ThemesSettings)
 {
 	m_ui->setupUi(this);
 
-	setIcon(Icons::I_BULLET);
+	setIcon(KittySDK::Icons::I_BULLET);
 
 	connect(m_ui->chatThemeComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(updateVariantList()));
 	connect(m_ui->iconThemeComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(updateIconsPreview()));
 }
 
-Kitty::ThemesSettings::~ThemesSettings()
+ThemesSettings::~ThemesSettings()
 {
 	delete m_ui;
 }
 
-void Kitty::ThemesSettings::apply()
+void ThemesSettings::apply()
 {
 	Core *core = Core::inst();
-	core->setSetting(Settings::S_ROSTER_THEME, m_ui->rosterThemeComboBox->itemData(m_ui->rosterThemeComboBox->currentIndex()));
-	core->setSetting(Settings::S_CHAT_THEME, m_ui->chatThemeComboBox->itemData(m_ui->chatThemeComboBox->currentIndex()));
-	core->setSetting(Settings::S_CHAT_THEME_VARIANT, m_ui->chatThemeVariantComboBox->itemData(m_ui->chatThemeVariantComboBox->currentIndex()));
-	core->setSetting(Settings::S_ICON_THEME, m_ui->iconThemeComboBox->itemData(m_ui->iconThemeComboBox->currentIndex()));
+	core->setSetting(KittySDK::Settings::S_ROSTER_THEME, m_ui->rosterThemeComboBox->itemData(m_ui->rosterThemeComboBox->currentIndex()));
+	core->setSetting(KittySDK::Settings::S_CHAT_THEME, m_ui->chatThemeComboBox->itemData(m_ui->chatThemeComboBox->currentIndex()));
+	core->setSetting(KittySDK::Settings::S_CHAT_THEME_VARIANT, m_ui->chatThemeVariantComboBox->itemData(m_ui->chatThemeVariantComboBox->currentIndex()));
+	core->setSetting(KittySDK::Settings::S_ICON_THEME, m_ui->iconThemeComboBox->itemData(m_ui->iconThemeComboBox->currentIndex()));
 }
 
-void Kitty::ThemesSettings::reset()
+void ThemesSettings::reset()
 {
 	Core *core = Core::inst();
 
@@ -97,7 +98,7 @@ void Kitty::ThemesSettings::reset()
 	foreach(QFileInfo dir, chatThemes) {
 		m_ui->chatThemeComboBox->addItem(dir.fileName(), dir.fileName());
 
-		if(dir.fileName() == core->setting(Settings::S_CHAT_THEME, QString()).toString()) {
+		if(dir.fileName() == core->setting(KittySDK::Settings::S_CHAT_THEME, QString()).toString()) {
 			m_ui->chatThemeComboBox->setCurrentIndex(m_ui->chatThemeComboBox->count() - 1);
 		}
 	}
@@ -113,7 +114,7 @@ void Kitty::ThemesSettings::reset()
 	foreach(QFileInfo dir, rosterThemes) {
 		m_ui->rosterThemeComboBox->addItem(dir.fileName(), dir.fileName());
 
-		if(dir.fileName() == core->setting(Settings::S_ROSTER_THEME, QString()).toString()) {
+		if(dir.fileName() == core->setting(KittySDK::Settings::S_ROSTER_THEME, QString()).toString()) {
 			m_ui->rosterThemeComboBox->setCurrentIndex(m_ui->rosterThemeComboBox->count() - 1);
 		}
 	}
@@ -137,13 +138,13 @@ void Kitty::ThemesSettings::reset()
 
 		m_ui->iconThemeComboBox->addItem(name, dir.fileName());
 
-		if(dir.fileName() == core->setting(Settings::S_ICON_THEME, QString()).toString()) {
+		if(dir.fileName() == core->setting(KittySDK::Settings::S_ICON_THEME, QString()).toString()) {
 			m_ui->iconThemeComboBox->setCurrentIndex(m_ui->iconThemeComboBox->count() - 1);
 		}
 	}
 }
 
-void Kitty::ThemesSettings::updateChatPreview()
+void ThemesSettings::updateChatPreview()
 {
 	m_ui->chatThemeWebView->clearTo(true, m_ui->chatThemeComboBox->itemData(m_ui->chatThemeComboBox->currentIndex()).toString(), m_ui->chatThemeVariantComboBox->itemData(m_ui->chatThemeVariantComboBox->currentIndex()).toString());
 
@@ -152,15 +153,15 @@ void Kitty::ThemesSettings::updateChatPreview()
 	PluginCoreImpl core;
 	KittyProto proto(&core);
 	if(KittyAccount *acc = dynamic_cast<KittyAccount*>(proto.newAccount("me@example.com"))) {
-		if(Contact *kittyBot = acc->newContact("kittybot@kittyim.pl")) {
+		if(KittySDK::IContact *kittyBot = acc->newContact("kittybot@kittyim.pl")) {
 			kittyBot->setDisplay("KittyBot");
 
-			Message outgoing(acc->me(), kittyBot);
+			KittySDK::IMessage outgoing(acc->me(), kittyBot);
 			outgoing.setBody("Hello KittyBot!");
 			m_ui->chatThemeWebView->appendMessage(outgoing, &theme);
 
-			Message incoming(kittyBot, acc->me());
-			incoming.setDirection(Message::Incoming);
+			KittySDK::IMessage incoming(kittyBot, acc->me());
+			incoming.setDirection(KittySDK::IMessage::Incoming);
 			incoming.setBody("Oh hi, I didn't notice you there ;)");
 			m_ui->chatThemeWebView->appendMessage(incoming, &theme);
 
@@ -168,9 +169,9 @@ void Kitty::ThemesSettings::updateChatPreview()
 			incoming.setBody("Could you please change your status to online?");
 			m_ui->chatThemeWebView->appendMessage(incoming, &theme);
 
-			Message status(acc->me(), acc->me());
+			KittySDK::IMessage status(acc->me(), acc->me());
 			status.setBody(QString("%1 changed status to online").arg(acc->me()->display()));
-			status.setDirection(Message::System);
+			status.setDirection(KittySDK::IMessage::System);
 			m_ui->chatThemeWebView->appendMessage(status, &theme);
 
 			outgoing.setTimeStamp(QDateTime::currentDateTime());
@@ -188,7 +189,7 @@ void Kitty::ThemesSettings::updateChatPreview()
 	}
 }
 
-void Kitty::ThemesSettings::updateVariantList()
+void ThemesSettings::updateVariantList()
 {
 	Core *core = Core::inst();
 
@@ -207,7 +208,7 @@ void Kitty::ThemesSettings::updateVariantList()
 	foreach(QFileInfo var, variants) {
 		m_ui->chatThemeVariantComboBox->addItem(var.completeBaseName(), var.fileName());
 
-		if(var.fileName() == core->setting(Settings::S_CHAT_THEME_VARIANT, QString()).toString()) {
+		if(var.fileName() == core->setting(KittySDK::Settings::S_CHAT_THEME_VARIANT, QString()).toString()) {
 			m_ui->chatThemeVariantComboBox->setCurrentIndex(m_ui->chatThemeVariantComboBox->count() - 1);
 		}
 	}
@@ -218,12 +219,12 @@ void Kitty::ThemesSettings::updateVariantList()
 	updateChatPreview();
 }
 
-void Kitty::ThemesSettings::retranslate()
+void ThemesSettings::retranslate()
 {
 	m_ui->retranslateUi(this);
 }
 
-void Kitty::ThemesSettings::updateIconsPreview()
+void ThemesSettings::updateIconsPreview()
 {
 	IconTheme theme(m_ui->iconThemeComboBox->itemData(m_ui->iconThemeComboBox->currentIndex()).toString());
 	m_ui->iconThemeListWidget->clear();
@@ -236,4 +237,6 @@ void Kitty::ThemesSettings::updateIconsPreview()
 		item->setIcon(QIcon(it.value()));
 		item->setToolTip(it.key());
 	}
+}
+
 }

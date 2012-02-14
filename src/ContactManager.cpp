@@ -11,24 +11,24 @@
 #define qDebug() qDebug() << "[ContactManager]"
 #define qWarning() qWarning() << "[ContactManager]"
 
-using namespace Kitty;
-using namespace KittySDK;
+namespace Kitty
+{
 
-Kitty::ContactManager::~ContactManager()
+ContactManager::~ContactManager()
 {
 	qDeleteAll(m_contacts);
 }
 
-const QList<Contact*> &Kitty::ContactManager::contacts() const
+const QList<KittySDK::IContact*> &ContactManager::contacts() const
 {
 	return m_contacts;
 }
 
-const QList<Contact*> Kitty::ContactManager::contactsByProtocol(const QString &proto)
+const QList<KittySDK::IContact*> ContactManager::contactsByProtocol(const QString &proto)
 {
-	QList<Contact*> contacts;
+	QList<KittySDK::IContact*> contacts;
 
-	foreach(Contact *cnt, m_contacts) {
+	foreach(KittySDK::IContact *cnt, m_contacts) {
 		if(cnt->protocol()->protoInfo()->protoName() == proto) {
 			contacts.append(cnt);
 		}
@@ -37,11 +37,11 @@ const QList<Contact*> Kitty::ContactManager::contactsByProtocol(const QString &p
 	return contacts;
 }
 
-const QList<Contact*> Kitty::ContactManager::contactsByProtocol(Protocol *proto)
+const QList<KittySDK::IContact*> ContactManager::contactsByProtocol(KittySDK::IProtocol *proto)
 {
-	QList<Contact*> contacts;
+	QList<KittySDK::IContact*> contacts;
 
-	foreach(Contact *cnt, m_contacts) {
+	foreach(KittySDK::IContact *cnt, m_contacts) {
 		if(cnt->protocol() == proto) {
 			contacts.append(cnt);
 		}
@@ -50,11 +50,11 @@ const QList<Contact*> Kitty::ContactManager::contactsByProtocol(Protocol *proto)
 	return contacts;
 }
 
-const QList<Contact*> Kitty::ContactManager::contactsByAccount(const QString &acc, const QString &proto)
+const QList<KittySDK::IContact*> ContactManager::contactsByAccount(const QString &acc, const QString &proto)
 {
-	QList<Contact*> contacts;
+	QList<KittySDK::IContact*> contacts;
 
-	foreach(Contact *cnt, m_contacts) {
+	foreach(KittySDK::IContact *cnt, m_contacts) {
 		if((cnt->protocol()->protoInfo()->protoName() == proto) && (cnt->account()->uid() == acc)) {
 			contacts.append(cnt);
 		}
@@ -63,11 +63,11 @@ const QList<Contact*> Kitty::ContactManager::contactsByAccount(const QString &ac
 	return contacts;
 }
 
-const QStringList Kitty::ContactManager::groups() const
+const QStringList ContactManager::groups() const
 {
 	QStringList list;
 
-	foreach(Contact *cnt, m_contacts) {
+	foreach(KittySDK::IContact *cnt, m_contacts) {
 		if(!cnt->group().isEmpty() && !list.contains(cnt->group())) {
 			list.append(cnt->group());
 		}
@@ -78,16 +78,16 @@ const QStringList Kitty::ContactManager::groups() const
 	return list;
 }
 
-void Kitty::ContactManager::add(Contact *contact)
+void ContactManager::add(KittySDK::IContact *contact)
 {
 	m_contacts.append(contact);
 
-	connect(contact, SIGNAL(statusChanged(KittySDK::Protocol::Status,QString)), this, SIGNAL(statusUpdated()));
+	connect(contact, SIGNAL(statusChanged(KittySDK::IProtocol::Status,QString)), this, SIGNAL(statusUpdated()));
 
 	emit contactAdded(contact);
 }
 
-void Kitty::ContactManager::load(const QString &profile)
+void ContactManager::load(const QString &profile)
 {
 	qDebug() << "Loading contacts for" << profile;
 
@@ -101,9 +101,9 @@ void Kitty::ContactManager::load(const QString &profile)
 					QVariantMap settings = item.toMap();
 
 					if(settings.contains("protocol") && settings.contains("account")) {
-						Account *account = AccountManager::inst()->account(settings.value("protocol").toString(), settings.value("account").toString());
+						KittySDK::IAccount *account = AccountManager::inst()->account(settings.value("protocol").toString(), settings.value("account").toString());
 						if(account) {
-							Contact *cnt = account->newContact(settings.value("uid").toString());
+							KittySDK::IContact *cnt = account->newContact(settings.value("uid").toString());
 							cnt->setDisplay(settings.value("display").toString());
 							cnt->setGroup(settings.value("group").toString());
 
@@ -129,13 +129,13 @@ void Kitty::ContactManager::load(const QString &profile)
 	}
 }
 
-void Kitty::ContactManager::save(const QString &profile)
+void ContactManager::save(const QString &profile)
 {
 	qDebug() << "saving contacts for" << profile;
 
 	QVariantList list;
 
-	foreach(Contact *contact, m_contacts) {
+	foreach(KittySDK::IContact *contact, m_contacts) {
 		QMap<QString, QVariant> settings = contact->saveSettings();
 		settings.insert("protocol", contact->account()->protocol()->protoInfo()->protoName());
 		settings.insert("account", contact->account()->uid());
@@ -155,4 +155,6 @@ void Kitty::ContactManager::save(const QString &profile)
 		file.write(qCompress(Json::stringify(map).toAscii()));
 		file.close();
 	}
+}
+
 }

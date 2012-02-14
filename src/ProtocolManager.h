@@ -1,7 +1,7 @@
 #ifndef PROTOCOLMANAGER_H
 #define PROTOCOLMANAGER_H
 
-#include "SDK/Protocol.h"
+#include <IProtocol.h>
 #include "Singleton.h"
 
 #include <QtCore/QObject>
@@ -15,17 +15,17 @@ namespace Kitty
 		friend class Singleton<ProtocolManager>;
 
 		public:
-			const QList<KittySDK::Protocol*> &protocols() const;
-			KittySDK::Protocol *protocolByName(const QString &name) const;
+			const QList<KittySDK::IProtocol*> &protocols() const;
+			KittySDK::IProtocol *protocolByName(const QString &name) const;
 
-			void add(KittySDK::Protocol *protocol);
+			void add(KittySDK::IProtocol *protocol);
 
 		private:
 			ProtocolManager(QObject *parent = 0): QObject(parent) { }
 			~ProtocolManager();
 
 		private:
-			QList<KittySDK::Protocol*> m_protocols;
+			QList<KittySDK::IProtocol*> m_protocols;
 	};
 }
 

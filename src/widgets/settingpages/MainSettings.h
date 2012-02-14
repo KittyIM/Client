@@ -1,7 +1,7 @@
 #ifndef MAINSETTINGS_H
 #define MAINSETTINGS_H
 
-#include "SDK/SettingPage.h"
+#include <ISettingsPage.h>
 
 namespace Ui
 {
@@ -10,7 +10,7 @@ namespace Ui
 
 namespace Kitty
 {
-	class MainSettings: public KittySDK::SettingPage
+	class MainSettings: public KittySDK::ISettingsPage
 	{
 		Q_OBJECT
 

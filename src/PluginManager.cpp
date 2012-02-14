@@ -2,7 +2,7 @@
 
 #include "ProtocolManager.h"
 #include "PluginCoreImpl.h"
-#include "SDK/Protocol.h"
+#include <IProtocol.h>
 
 #include <QtCore/QLibrary>
 #include <QtCore/QDebug>
@@ -12,12 +12,12 @@
 #define qDebug() qDebug() << "[PluginManager]"
 #define qWarning() qWarning() << "[PluginManager]"
 
-using namespace Kitty;
-using namespace KittySDK;
+namespace Kitty
+{
 
-typedef QObject *(*pluginInst)(PluginCore*);
+typedef QObject *(*pluginInst)(KittySDK::IPluginCore*);
 
-Kitty::Plugin::Plugin(const QString &fileName): m_fileName(fileName)
+Plugin::Plugin(const QString &fileName): m_fileName(fileName)
 {
 	m_loaded = false;
 	m_inited = false;
@@ -26,12 +26,12 @@ Kitty::Plugin::Plugin(const QString &fileName): m_fileName(fileName)
 	pluginInst inst = (pluginInst)lib.resolve("inst");
 
 	if(inst) {
-		if((m_plugin = dynamic_cast<KittySDK::Plugin*>(inst(new PluginCoreImpl())))) {
-			if(m_plugin->type() == KittySDK::Plugin::Type) {
+		if((m_plugin = dynamic_cast<KittySDK::IPlugin*>(inst(new PluginCoreImpl())))) {
+			if(m_plugin->type() == KittySDK::IPlugin::Type) {
 				//nothing for now
-			} else if(m_plugin->type() == Protocol::Type) {
-				if(Protocol *prot = dynamic_cast<Protocol*>(m_plugin)) {
-					Kitty::ProtocolManager::inst()->add(prot);
+			} else if(m_plugin->type() == KittySDK::IProtocol::Type) {
+				if(KittySDK::IProtocol *prot = dynamic_cast<KittySDK::IProtocol*>(m_plugin)) {
+					ProtocolManager::inst()->add(prot);
 				} else {
 					qWarning() << "Could not cast to protocol for file" << QFileInfo(m_fileName).fileName();
 				}
@@ -46,7 +46,7 @@ Kitty::Plugin::Plugin(const QString &fileName): m_fileName(fileName)
 	}
 }
 
-void Kitty::Plugin::init()
+void Plugin::init()
 {
 	if(!isInited()) {
 		m_plugin->init();
@@ -54,7 +54,7 @@ void Kitty::Plugin::init()
 	}
 }
 
-void Kitty::Plugin::load()
+void Plugin::load()
 {
 	if(!isLoaded()) {
 		init();
@@ -66,17 +66,17 @@ void Kitty::Plugin::load()
 	}
 }
 
-void Kitty::Plugin::unload()
+void Plugin::unload()
 {
 
 }
 
-const QList<Kitty::Plugin*> &Kitty::PluginManager::plugins() const
+const QList<Plugin*> &PluginManager::plugins() const
 {
 	return m_plugins;
 }
 
-Kitty::Plugin *Kitty::PluginManager::pluginByName(const QString &name) const
+Plugin *PluginManager::pluginByName(const QString &name) const
 {
 	foreach(Plugin *plugin, m_plugins) {
 		if(plugin->isLoaded()) {
@@ -91,7 +91,7 @@ Kitty::Plugin *Kitty::PluginManager::pluginByName(const QString &name) const
 	return 0;
 }
 
-Kitty::Plugin *Kitty::PluginManager::pluginByFileName(const QString &fileName) const
+Plugin *PluginManager::pluginByFileName(const QString &fileName) const
 {
 	foreach(Plugin *plugin, m_plugins) {
 		if(QFileInfo(plugin->fileName()).fileName() == fileName) {
@@ -102,7 +102,7 @@ Kitty::Plugin *Kitty::PluginManager::pluginByFileName(const QString &fileName) c
 	return 0;
 }
 
-void Kitty::PluginManager::execAction(const QString &pluginName, const QString &name, const QMap<QString, QVariant> &args)
+void PluginManager::execAction(const QString &pluginName, const QString &name, const QMap<QString, QVariant> &args)
 {
 	foreach(Plugin *plugin, m_plugins) {
 		if(pluginName.isEmpty() || (plugin->plugin()->info()->name() == pluginName)) {
@@ -111,7 +111,7 @@ void Kitty::PluginManager::execAction(const QString &pluginName, const QString &
 	}
 }
 
-void Kitty::PluginManager::load()
+void PluginManager::load()
 {
 	qDebug() << "Starting";
 	QDir dir(qApp->applicationDirPath() + "/plugins");
@@ -138,7 +138,9 @@ void Kitty::PluginManager::load()
 	emit allPluginsLoaded();
 }
 
-Kitty::PluginManager::~PluginManager()
+PluginManager::~PluginManager()
 {
 	qDeleteAll(m_plugins);
+}
+
 }

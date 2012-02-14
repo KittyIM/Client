@@ -1,7 +1,7 @@
 #ifndef ACCOUNTSSETTINGS_H
 #define ACCOUNTSSETTINGS_H
 
-#include "SDK/SettingPage.h"
+#include <ISettingsPage.h>
 
 class QTreeWidgetItem;
 
@@ -12,7 +12,7 @@ namespace Ui
 
 namespace Kitty
 {
-	class AccountsSettings: public KittySDK::SettingPage
+	class AccountsSettings: public KittySDK::ISettingsPage
 	{
 		Q_OBJECT
 

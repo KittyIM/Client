@@ -14,14 +14,15 @@
 #include "ContactManager.h"
 #include "PluginManager.h"
 #include "ActionManager.h"
-#include "SDK/constants.h"
-#include "SDK/Message.h"
 #include "JsonSettings.h"
 #include "ChatManager.h"
 #include "IconManager.h"
 #include "constants.h"
-#include "SDK/Chat.h"
 #include "Profile.h"
+
+#include <SDKConstants.h>
+#include <IMessage.h>
+#include <IChat.h>
 
 #ifdef Q_WS_WIN32
 #include <windows.h>
@@ -46,8 +47,6 @@
 
 #define qDebug() qDebug() << "[Core]"
 #define qWarning() qWarning() << "[Core]"
-
-using namespace KittySDK;
 
 namespace Kitty
 {
@@ -90,28 +89,28 @@ Core::~Core()
 QString Core::statusToString(const int &status)
 {
 	switch(status) {
-		case Protocol::Online:
-		return tr("Online");
+		case KittySDK::IProtocol::Online:
+			return tr("Online");
 		break;
 
-		case Protocol::Away:
-		return tr("Away");
+		case KittySDK::IProtocol::Away:
+			return tr("Away");
 		break;
 
-		case Protocol::FFC:
-		return tr("Free for chat");
+		case KittySDK::IProtocol::FFC:
+			return tr("Free for chat");
 		break;
 
-		case Protocol::DND:
-		return tr("Do not disturb");
+		case KittySDK::IProtocol::DND:
+			return tr("Do not disturb");
 		break;
 
-		case Protocol::Invisible:
-		return tr("Invisible");
+		case KittySDK::IProtocol::Invisible:
+			return tr("Invisible");
 		break;
 
-		case Protocol::Offline:
-		return tr("Offline");
+		case KittySDK::IProtocol::Offline:
+			return tr("Offline");
 		break;
 	}
 
@@ -179,7 +178,7 @@ void Core::loadProfile(const QString &name)
 {
 	profile()->load(name);
 
-	DebugWindow::inst()->restoreGeometry(setting(Settings::S_DEBUGWINDOW_GEOMETRY).toByteArray());
+	DebugWindow::inst()->restoreGeometry(setting(KittySDK::Settings::S_DEBUGWINDOW_GEOMETRY).toByteArray());
 
 	mainWindow();
 }
@@ -273,15 +272,15 @@ void Core::showAddContactWindow()
 QSystemTrayIcon *Core::trayIcon()
 {
 	if(!m_trayIcon) {
-		m_trayIcon = new QSystemTrayIcon(icon(Icons::I_KITTY));
+		m_trayIcon = new QSystemTrayIcon(icon(KittySDK::Icons::I_KITTY));
 		m_trayIcon->setToolTip(QString("KittyIM v%1").arg(Constants::VERSION));
 		connect(m_trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(trayIconActivated(QSystemTrayIcon::ActivationReason)));
 
 		QMenu *menu = new QMenu(m_mainWindow);
-		menu->addAction(action(Actions::A_SHOW_HIDE));
+		menu->addAction(action(KittySDK::Actions::A_SHOW_HIDE));
 		menu->addSeparator();
-		menu->addAction(action(Actions::A_SETTINGS));
-		menu->addAction(action(Actions::A_QUIT));
+		menu->addAction(action(KittySDK::Actions::A_SETTINGS));
+		menu->addAction(action(KittySDK::Actions::A_QUIT));
 		m_trayIcon->setContextMenu(menu);
 	}
 
@@ -300,8 +299,8 @@ Profile *Core::profile()
 Hunspell *Core::hunspell()
 {
 	if(!m_hunspell) {
-		QByteArray dic = QString(qApp->applicationDirPath() + "/data/dictionaries/" + setting(Settings::S_CHATWINDOW_SPELLCHECK_DICT).toString() + ".dic").toLocal8Bit();
-		QByteArray aff = QString(qApp->applicationDirPath() + "/data/dictionaries/" + setting(Settings::S_CHATWINDOW_SPELLCHECK_DICT).toString() + ".aff").toLocal8Bit();
+		QByteArray dic = QString(qApp->applicationDirPath() + "/data/dictionaries/" + setting(KittySDK::Settings::S_CHATWINDOW_SPELLCHECK_DICT).toString() + ".dic").toLocal8Bit();
+		QByteArray aff = QString(qApp->applicationDirPath() + "/data/dictionaries/" + setting(KittySDK::Settings::S_CHATWINDOW_SPELLCHECK_DICT).toString() + ".aff").toLocal8Bit();
 
 		m_hunspell = new Hunspell(aff.constData(), dic.constData());
 	}
@@ -314,10 +313,10 @@ JsonSettings *Core::settings()
 	return profile()->settings();
 }
 
-QString Core::avatarPath(KittySDK::Contact *contact) const
+QString Core::avatarPath(KittySDK::IContact *contact) const
 {
 	if(contact) {
-		Protocol *proto = contact->protocol();
+		KittySDK::IProtocol *proto = contact->protocol();
 		if(proto) {
 			return currentProfileDir() + "avatars/" + QCryptographicHash::hash(QString("avatar_" + proto->protoInfo()->protoName() + "_" + contact->uid()).toAscii(), QCryptographicHash::Md5).toHex() + ".png";
 		}
@@ -389,7 +388,7 @@ void Core::changeProfile(const QString &profile, const QString &password)
 void Core::trayIconActivated(QSystemTrayIcon::ActivationReason reason)
 {
 	if(reason == QSystemTrayIcon::Trigger) {
-		action(Actions::A_SHOW_HIDE)->trigger();
+		action(KittySDK::Actions::A_SHOW_HIDE)->trigger();
 	}
 }
 
@@ -419,9 +418,9 @@ void Core::openProfilesFolder()
 	QDesktopServices::openUrl(QUrl(profilesDir()));
 }
 
-void Core::showContactWindow(KittySDK::Contact *cnt)
+void Core::showContactWindow(KittySDK::IContact *cnt)
 {
-	Protocol *proto = cnt->protocol();
+	KittySDK::IProtocol *proto = cnt->protocol();
 	if(proto && proto->protoInfo()) {
 		ContactWindow *wnd = m_contactWindows.value(proto->protoInfo()->protoName() + cnt->uid());
 		if(!wnd) {
@@ -460,14 +459,14 @@ bool Core::removeDir(const QString &dirName)
 }
 
 // TODO: add to PluginCore
-bool Core::archiveMessage(const KittySDK::Message &msg)
+bool Core::archiveMessage(const KittySDK::IMessage &msg)
 {
-	if(setting(Settings::S_HISTORY_ENABLED, true).toBool()) {
+	if(setting(KittySDK::Settings::S_HISTORY_ENABLED, true).toBool()) {
 		QString protocol = msg.chat()->protocol()->protoInfo()->protoName();
 		QString account = msg.chat()->account()->uid();
 		QString fileName;
 
-		if(msg.direction() == Message::Outgoing) {
+		if(msg.direction() == KittySDK::IMessage::Outgoing) {
 			fileName = msg.singleTo()->uid();
 		} else {
 			fileName = msg.from()->uid();

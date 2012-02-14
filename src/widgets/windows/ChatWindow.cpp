@@ -5,12 +5,13 @@
 #include "3rdparty/qtwin/qtwin.h"
 #include "widgets/ChatTab.h"
 #include "EmoticonManager.h"
-#include "SDK/constants.h"
 #include "IconManager.h"
-#include "SDK/Contact.h"
 #include "ChatTheme.h"
-#include "SDK/Chat.h"
 #include "Core.h"
+
+#include <SDKConstants.h>
+#include <IContact.h>
+#include <IChat.h>
 
 #include <QtCore/QDebug>
 #include <QtGui/QKeyEvent>
@@ -18,10 +19,10 @@
 #define qDebug() qDebug() << "ChatWindow"
 #define qWarning() qWarning() << "ChatWindow"
 
-using namespace Kitty;
-using namespace KittySDK;
+namespace Kitty
+{
 
-Kitty::ChatWindow::ChatWindow(QWidget *parent): QWidget(parent), m_ui(new Ui::ChatWindow)
+ChatWindow::ChatWindow(QWidget *parent): QWidget(parent), m_ui(new Ui::ChatWindow)
 {
 	m_ui->setupUi(this);
 
@@ -33,7 +34,7 @@ Kitty::ChatWindow::ChatWindow(QWidget *parent): QWidget(parent), m_ui(new Ui::Ch
 
 	Core *core = Core::inst();
 
-	restoreGeometry(core->setting(Settings::S_CHATWINDOW_GEOMETRY).toByteArray());
+	restoreGeometry(core->setting(KittySDK::Settings::S_CHATWINDOW_GEOMETRY).toByteArray());
 
 	m_theme = 0;
 
@@ -45,21 +46,21 @@ Kitty::ChatWindow::ChatWindow(QWidget *parent): QWidget(parent), m_ui(new Ui::Ch
 	}
 }
 
-Kitty::ChatWindow::~ChatWindow()
+ChatWindow::~ChatWindow()
 {
 	Core *core = Core::inst();
 
-	core->setSetting(Settings::S_CHATWINDOW_GEOMETRY, saveGeometry());
+	core->setSetting(KittySDK::Settings::S_CHATWINDOW_GEOMETRY, saveGeometry());
 
 	delete m_ui;
 }
 
-ChatTab *ChatWindow::tabByChat(Chat *chat)
+ChatTab *ChatWindow::tabByChat(KittySDK::IChat *chat)
 {
 	return m_ui->tabWidget->tabByChat(chat);
 }
 
-void Kitty::ChatWindow::applySettings()
+void ChatWindow::applySettings()
 {
 	Core *core = Core::inst();
 
@@ -69,22 +70,22 @@ void Kitty::ChatWindow::applySettings()
 		delete m_theme;
 	}
 
-	m_theme = new ChatTheme(core->setting(Settings::S_CHAT_THEME).toString(), this);
+	m_theme = new ChatTheme(core->setting(KittySDK::Settings::S_CHAT_THEME).toString(), this);
 
 	on_tabWidget_currentChanged(m_ui->tabWidget->currentIndex());
 }
 
-ChatTab *Kitty::ChatWindow::startChat(Chat *chat)
+ChatTab *ChatWindow::startChat(KittySDK::IChat *chat)
 {
 	return m_ui->tabWidget->startChat(chat);
 }
 
-void Kitty::ChatWindow::switchTo(Chat *chat)
+void ChatWindow::switchTo(KittySDK::IChat *chat)
 {
 	m_ui->tabWidget->switchTo(chat);
 }
 
-void Kitty::ChatWindow::on_tabWidget_tabCloseRequested(int index)
+void ChatWindow::on_tabWidget_tabCloseRequested(int index)
 {
 	m_ui->tabWidget->removeTab(index);
 
@@ -93,11 +94,11 @@ void Kitty::ChatWindow::on_tabWidget_tabCloseRequested(int index)
 	}
 }
 
-void Kitty::ChatWindow::keyPressEvent(QKeyEvent *event)
+void ChatWindow::keyPressEvent(QKeyEvent *event)
 {
 	Core *core = Core::inst();
 
-	if(core->setting(Settings::S_CHATWINDOW_TABBAR_FKEYS, false).toBool()) {
+	if(core->setting(KittySDK::Settings::S_CHATWINDOW_TABBAR_FKEYS, false).toBool()) {
 		if((event->key() >= Qt::Key_F1) && (event->key() <= Qt::Key_F12)) {
 			m_ui->tabWidget->setCurrentIndex(event->key() - (int)Qt::Key_F1);
 		}
@@ -106,12 +107,12 @@ void Kitty::ChatWindow::keyPressEvent(QKeyEvent *event)
 	QWidget::keyPressEvent(event);
 }
 
-void Kitty::ChatWindow::closeEvent(QCloseEvent *event)
+void ChatWindow::closeEvent(QCloseEvent *event)
 {
 	Core *core = Core::inst();
 
 	//Close all tabs
-	if(core->setting(Settings::S_CHATWINDOW_TABBAR_CLOSE_WND, false).toBool()) {
+	if(core->setting(KittySDK::Settings::S_CHATWINDOW_TABBAR_CLOSE_WND, false).toBool()) {
 		//FIXME This freezes the window for some reason
 		//m_ui->tabWidget->clear();
 	}
@@ -119,11 +120,11 @@ void Kitty::ChatWindow::closeEvent(QCloseEvent *event)
 	event->accept();
 }
 
-void Kitty::ChatWindow::on_tabWidget_currentChanged(int index)
+void ChatWindow::on_tabWidget_currentChanged(int index)
 {
 	if(ChatTab *tab = qobject_cast<ChatTab*>(m_ui->tabWidget->widget(index))) {
-		if(Contact *cnt = tab->chat()->contacts().first()) {
-			QString title = Core::inst()->setting(Settings::S_CHATWINDOW_CAPTION, "%display% [%status%] \"%description%\"").toString();
+		if(KittySDK::IContact *cnt = tab->chat()->contacts().first()) {
+			QString title = Core::inst()->setting(KittySDK::Settings::S_CHATWINDOW_CAPTION, "%display% [%status%] \"%description%\"").toString();
 			title.replace("%display%", cnt->display());
 			title.replace("%status%", Core::inst()->statusToString(cnt->status()));
 
@@ -134,11 +135,11 @@ void Kitty::ChatWindow::on_tabWidget_currentChanged(int index)
 			}
 
 			title.replace("%uid%", cnt->uid());
-			title.replace("%nickname%", cnt->data(ContactInfos::I_NICKNAME).toString());
-			title.replace("%firstname%", cnt->data(ContactInfos::I_FIRSTNAME).toString());
-			title.replace("%lastname%", cnt->data(ContactInfos::I_LASTNAME).toString());
+			title.replace("%nickname%", cnt->data(KittySDK::ContactInfos::I_NICKNAME).toString());
+			title.replace("%firstname%", cnt->data(KittySDK::ContactInfos::I_FIRSTNAME).toString());
+			title.replace("%lastname%", cnt->data(KittySDK::ContactInfos::I_LASTNAME).toString());
 
-			int sex = cnt->data(ContactInfos::I_SEX).toInt();
+			int sex = cnt->data(KittySDK::ContactInfos::I_SEX).toInt();
 			if(sex == 0) {
 				title.replace("%sex%", tr("Unknown"));
 			} else if(sex == 1) {
@@ -147,10 +148,12 @@ void Kitty::ChatWindow::on_tabWidget_currentChanged(int index)
 				title.replace("%sex%", tr("Male"));
 			}
 
-			//title.replace("%phone%", cnt->data(ContactInfos::I_NICKNAME));
-			//title.replace("%email%", cnt->data(ContactInfos::I_NICKNAME));
+			//title.replace("%phone%", cnt->data(KittySDK::ContactInfos::I_NICKNAME));
+			//title.replace("%email%", cnt->data(KittySDK::ContactInfos::I_NICKNAME));
 
 			setWindowTitle(title);
 		}
 	}
+}
+
 }

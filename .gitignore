@@ -1,10 +1,14 @@
 
-/*.pro.user*
-/*Makefile*
+*.pro.user*
+*Makefile*
+*ui_*.h
+*moc_*.cpp
+*.o
+*qrc_res.cpp
+*object_script.*
 /build.*
-/*/*Makefile*
-/bin/Kitty.exe
-/bin/*.dll
+*.exe
+*.dll
 /bin/profiles/*
 /bin/emoticons/*
 /bin/sounds/*
@@ -12,13 +16,6 @@
 /bin/plugins/*
 /bin/data/translations/*
 /bin/data/dictionaries/*
-/src/ui_*.h
-/src/*/moc_*.cpp
-/src/*/*.o
-/src/*/qrc_res.cpp
-/src/*object_script.*
-/lib/hunspell/*Makefile*
-/lib/hunspell/*.pro.user*
-/lib/hunspell/*object_script.*
+
 /lib/hunspell/debug/*
 /lib/hunspell/release/*

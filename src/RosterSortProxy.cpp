@@ -2,20 +2,21 @@
 
 #include "ContactManager.h"
 #include "RosterContact.h"
-#include "SDK/constants.h"
-#include "SDK/Protocol.h"
-#include "SDK/Contact.h"
 #include "Core.h"
+
+#include <SDKConstants.h>
+#include <IProtocol.h>
+#include <IContact.h>
 
 #include <QtCore/QDebug>
 
 #define qDebug() qDebug() << "[RosterSortProxy]"
 #define qWarning() qWarning() << "[RosterSortProxy]"
 
-using namespace Kitty;
-using namespace KittySDK;
+namespace Kitty
+{
 
-Kitty::RosterSortProxy::RosterSortProxy(QObject *parent): QSortFilterProxyModel(parent)
+RosterSortProxy::RosterSortProxy(QObject *parent): QSortFilterProxyModel(parent)
 {
 	setDynamicSortFilter(true);
 	setFilterCaseSensitivity(Qt::CaseInsensitive);
@@ -25,7 +26,7 @@ Kitty::RosterSortProxy::RosterSortProxy(QObject *parent): QSortFilterProxyModel(
 	connect(ContactManager::inst(), SIGNAL(statusUpdated()), this, SLOT(invalidate()));
 }
 
-bool Kitty::RosterSortProxy::lessThan(const QModelIndex &left, const QModelIndex &right) const
+bool RosterSortProxy::lessThan(const QModelIndex &left, const QModelIndex &right) const
 {
 	int leftType = left.data(RosterItem::TypeRole).toInt();
 	int rightType = left.data(RosterItem::TypeRole).toInt();
@@ -49,7 +50,7 @@ bool Kitty::RosterSortProxy::lessThan(const QModelIndex &left, const QModelIndex
 	return true;
 }
 
-bool Kitty::RosterSortProxy::filterAcceptsRow(int source_row, const QModelIndex& source_parent) const
+bool RosterSortProxy::filterAcceptsRow(int source_row, const QModelIndex& source_parent) const
 {
 	QModelIndex index = sourceModel()->index(source_row, 0, source_parent);
 
@@ -65,9 +66,11 @@ bool Kitty::RosterSortProxy::filterAcceptsRow(int source_row, const QModelIndex&
 		return QSortFilterProxyModel::filterAcceptsRow(source_row, source_parent);
 	}
 
-	if(Core::inst()->setting(Settings::S_ROSTER_HIDE_OFFLINE, false).toBool()) {
-		return index.data(RosterItem::StatusRole).toInt() < Protocol::Offline;
+	if(Core::inst()->setting(KittySDK::Settings::S_ROSTER_HIDE_OFFLINE, false).toBool()) {
+		return index.data(RosterItem::StatusRole).toInt() < KittySDK::IProtocol::Offline;
 	}
 
 	return true;
+}
+
 }

@@ -14,11 +14,12 @@
 #include "widgets/settingpages/ThemesSettings.h"
 #include "widgets/settingpages/MainSettings.h"
 #include "widgets/settingpages/UserSettings.h"
-#include "SDK/constants.h"
 #include "IconManager.h"
 #include "MainWindow.h"
 #include "Core.h"
 #include "App.h"
+
+#include <SDKConstants.h>
 
 #include <QtCore/QDebug>
 #include <QtCore/QDir>
@@ -28,10 +29,10 @@
 #define qDebug() qDebug() << "[SettingsWindow]"
 #define qWarning() qWarning() << "[SettingsWindow]"
 
-using namespace Kitty;
-using namespace KittySDK;
+namespace Kitty
+{
 
-Kitty::SettingsWindow::SettingsWindow(QWidget *parent): QDialog(parent), m_ui(new Ui::SettingsWindow)
+SettingsWindow::SettingsWindow(QWidget *parent): QDialog(parent), m_ui(new Ui::SettingsWindow)
 {
 	m_ui->setupUi(this);
 	m_ui->treeWidget->header()->hideSection(1);
@@ -48,25 +49,25 @@ Kitty::SettingsWindow::SettingsWindow(QWidget *parent): QDialog(parent), m_ui(ne
 	connect(this, SIGNAL(settingsApplied()), dynamic_cast<App*>(qApp), SLOT(applySettings()));
 	connect(this, SIGNAL(settingsApplied()), core->mainWindow(), SLOT(applySettings()));
 
-	restoreGeometry(core->setting(Settings::S_SETTINGSWINDOW_GEOMETRY).toByteArray());
+	restoreGeometry(core->setting(KittySDK::Settings::S_SETTINGSWINDOW_GEOMETRY).toByteArray());
 
 	addDefaultPages();
 
 	updateIcons();
 }
 
-Kitty::SettingsWindow::~SettingsWindow()
+SettingsWindow::~SettingsWindow()
 {
 	Core *core = Core::inst();
 
-	core->setSetting(Settings::S_SETTINGSWINDOW_GEOMETRY, saveGeometry());
+	core->setSetting(KittySDK::Settings::S_SETTINGSWINDOW_GEOMETRY, saveGeometry());
 
 	qDeleteAll(m_pages);
 
 	delete m_ui;
 }
 
-QTreeWidgetItem *Kitty::SettingsWindow::itemById(const QString &id)
+QTreeWidgetItem *SettingsWindow::itemById(const QString &id)
 {
 	QList<QTreeWidgetItem*> list = m_ui->treeWidget->findItems(id, Qt::MatchExactly | Qt::MatchRecursive, 1);
 	if(list.count() > 0) {
@@ -78,9 +79,9 @@ QTreeWidgetItem *Kitty::SettingsWindow::itemById(const QString &id)
 	return 0;
 }
 
-SettingPage *Kitty::SettingsWindow::pageById(const QString &id)
+KittySDK::ISettingsPage *SettingsWindow::pageById(const QString &id)
 {
-	foreach(SettingPage *page, m_pages) {
+	foreach(KittySDK::ISettingsPage *page, m_pages) {
 		if(page->name() == id) {
 			return page;
 		}
@@ -91,7 +92,7 @@ SettingPage *Kitty::SettingsWindow::pageById(const QString &id)
 	return 0;
 }
 
-void Kitty::SettingsWindow::addPage(SettingPage *page, const QString &parent)
+void SettingsWindow::addPage(KittySDK::ISettingsPage *page, const QString &parent)
 {
 	QTreeWidgetItem *child = new QTreeWidgetItem();
 	child->setIcon(0, IconManager::inst()->icon(page->icon()));
@@ -114,11 +115,11 @@ void Kitty::SettingsWindow::addPage(SettingPage *page, const QString &parent)
 	}
 }
 
-void Kitty::SettingsWindow::updateIcons()
+void SettingsWindow::updateIcons()
 {
 	Core *core = Core::inst();
 
-	foreach(SettingPage *page, m_pages) {
+	foreach(KittySDK::ISettingsPage *page, m_pages) {
 		QTreeWidgetItem *item = itemById(page->name());
 		if(item) {
 			item->setIcon(0, core->icon(page->icon()));
@@ -127,40 +128,40 @@ void Kitty::SettingsWindow::updateIcons()
 		}
 	}
 
-	dynamic_cast<DisplaySettings*>(pageById(SettingPages::S_DISPLAY))->updateIcons();
+	dynamic_cast<DisplaySettings*>(pageById(KittySDK::SettingPages::S_DISPLAY))->updateIcons();
 }
 
-void Kitty::SettingsWindow::resetSettings()
+void SettingsWindow::resetSettings()
 {
 	qDebug() << "Resetting all pages [" << m_pages.count() << "]";
-	foreach(SettingPage *page, m_pages) {
+	foreach(KittySDK::ISettingsPage *page, m_pages) {
 		page->reset();
 	}
 }
 
-void Kitty::SettingsWindow::addDefaultPages()
+void SettingsWindow::addDefaultPages()
 {
 	qDebug() << "Adding default pages";
 
 	addPage(new MainSettings(this));
-	addPage(new StartupSettings(this), SettingPages::S_SETTINGS);
-	addPage(new ConnectionSettings(this), SettingPages::S_SETTINGS);
+	addPage(new StartupSettings(this), KittySDK::SettingPages::S_SETTINGS);
+	addPage(new ConnectionSettings(this), KittySDK::SettingPages::S_SETTINGS);
 
 	addPage(new UserSettings(this));
-	addPage(new AccountsSettings(this), SettingPages::S_USER);
+	addPage(new AccountsSettings(this), KittySDK::SettingPages::S_USER);
 
 	addPage(new DisplaySettings(this));
-	addPage(new ThemesSettings(this), SettingPages::S_DISPLAY);
-	addPage(new RosterSettings(this), SettingPages::S_DISPLAY);
-	addPage(new HistorySettings(this), SettingPages::S_DISPLAY);
-	addPage(new ChatWindowSettings(this), SettingPages::S_DISPLAY);
-	addPage(new ChatWindowTabsSettings(this), SettingPages::S_DISPLAY_CHATWINDOW);
-	addPage(new SmiliesSettings(this), SettingPages::S_DISPLAY_CHATWINDOW);
+	addPage(new ThemesSettings(this), KittySDK::SettingPages::S_DISPLAY);
+	addPage(new RosterSettings(this), KittySDK::SettingPages::S_DISPLAY);
+	addPage(new HistorySettings(this), KittySDK::SettingPages::S_DISPLAY);
+	addPage(new ChatWindowSettings(this), KittySDK::SettingPages::S_DISPLAY);
+	addPage(new ChatWindowTabsSettings(this), KittySDK::SettingPages::S_DISPLAY_CHATWINDOW);
+	addPage(new SmiliesSettings(this), KittySDK::SettingPages::S_DISPLAY_CHATWINDOW);
 
 	addPage(new PluginsSettings(this));
 }
 
-void Kitty::SettingsWindow::showEvent(QShowEvent *event)
+void SettingsWindow::showEvent(QShowEvent *event)
 {
 	QDialog::showEvent(event);
 
@@ -171,12 +172,12 @@ void Kitty::SettingsWindow::showEvent(QShowEvent *event)
 	m_ui->buttonBox->setFocus();
 }
 
-void Kitty::SettingsWindow::changeEvent(QEvent *event)
+void SettingsWindow::changeEvent(QEvent *event)
 {
 	if(event->type() == QEvent::LanguageChange) {
 		m_ui->retranslateUi(this);
 
-		foreach(SettingPage *page, m_pages) {
+		foreach(KittySDK::ISettingsPage *page, m_pages) {
 			page->retranslate();
 			itemById(page->name())->setText(0, page->windowTitle());
 		}
@@ -187,7 +188,7 @@ void Kitty::SettingsWindow::changeEvent(QEvent *event)
 	QDialog::changeEvent(event);
 }
 
-void Kitty::SettingsWindow::on_treeWidget_currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous)
+void SettingsWindow::on_treeWidget_currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous)
 {
 	if(current) {
 		m_ui->groupBox->setTitle(current->text(0));
@@ -203,24 +204,26 @@ void Kitty::SettingsWindow::on_treeWidget_currentItemChanged(QTreeWidgetItem *cu
 	}
 }
 
-void Kitty::SettingsWindow::applySettings()
+void SettingsWindow::applySettings()
 {
 	qDebug() << "Applying all pages [" << m_pages.count() << "]";
 
-	foreach(SettingPage *page, m_pages) {
+	foreach(KittySDK::ISettingsPage *page, m_pages) {
 		page->apply();
 	}
 
 	emit settingsApplied();
 }
 
-void Kitty::SettingsWindow::on_buttonBox_accepted()
+void SettingsWindow::on_buttonBox_accepted()
 {
 	applySettings();
 	accept();
 }
 
-void Kitty::SettingsWindow::on_buttonBox_rejected()
+void SettingsWindow::on_buttonBox_rejected()
 {
 	reject();
+}
+
 }

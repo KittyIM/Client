@@ -2,28 +2,29 @@
 
 #include "RosterContact.h"
 #include "RosterGroup.h"
-#include "SDK/Contact.h"
+#include <IContact.h>
 
 #include <QtCore/QDebug>
 
 #define qDebug() qDebug() << "[RosterItemModel]"
 #define qWarning() qWarning() << "[RosterItemModel]"
 
-using namespace Kitty;
+namespace Kitty
+{
 
-Kitty::RosterItemModel::RosterItemModel(QObject *parent): QAbstractItemModel(parent)
+RosterItemModel::RosterItemModel(QObject *parent): QAbstractItemModel(parent)
 {
 	qDebug() << "Creating";
 
 	m_root = new RosterItem();
 }
 
-Kitty::RosterItemModel::~RosterItemModel()
+RosterItemModel::~RosterItemModel()
 {
 	delete m_root;
 }
 
-RosterItem *Kitty::RosterItemModel::addGroup(const QString &name)
+RosterItem *RosterItemModel::addGroup(const QString &name)
 {
 	RosterGroup *item = new RosterGroup(m_root);
 
@@ -37,7 +38,7 @@ RosterItem *Kitty::RosterItemModel::addGroup(const QString &name)
 	return item;
 }
 
-void Kitty::RosterItemModel::removeGroup(RosterItem *group)
+void RosterItemModel::removeGroup(RosterItem *group)
 {
 	beginRemoveRows(group->parent()->index(), group->row(), group->row());
 
@@ -47,7 +48,7 @@ void Kitty::RosterItemModel::removeGroup(RosterItem *group)
 	endRemoveRows();
 }
 
-RosterItem *Kitty::RosterItemModel::addContact(RosterContact *item, RosterItem *parent)
+RosterItem *RosterItemModel::addContact(RosterContact *item, RosterItem *parent)
 {
 	if(!parent) {
 		parent = m_root;
@@ -60,7 +61,7 @@ RosterItem *Kitty::RosterItemModel::addContact(RosterContact *item, RosterItem *
 	return item;
 }
 
-RosterItem *Kitty::RosterItemModel::groupItem(const QString &name)
+RosterItem *RosterItemModel::groupItem(const QString &name)
 {
 	if(name.isEmpty()) {
 		return m_root;
@@ -78,7 +79,7 @@ RosterItem *Kitty::RosterItemModel::groupItem(const QString &name)
 	}
 }
 
-void Kitty::RosterItemModel::moveToGroup(RosterContact *item, const QString &groupName)
+void RosterItemModel::moveToGroup(RosterContact *item, const QString &groupName)
 {
 	RosterItem *newGroup = groupItem(groupName);
 	RosterItem *oldGroup = groupItem(item->contact()->group());
@@ -99,13 +100,13 @@ void Kitty::RosterItemModel::moveToGroup(RosterContact *item, const QString &gro
 	}
 }
 
-int Kitty::RosterItemModel::columnCount(const QModelIndex &parent) const
+int RosterItemModel::columnCount(const QModelIndex &parent) const
 {
 	return 1;
 }
 
 //FIXME
-/*Qt::ItemFlags Kitty::RosterItemModel::flags(const QModelIndex &index) const
+/*Qt::ItemFlags RosterItemModel::flags(const QModelIndex &index) const
 {
   Qt::ItemFlags basic = Qt::ItemIsEnabled | Qt::ItemIsSelectable;
 
@@ -117,7 +118,7 @@ int Kitty::RosterItemModel::columnCount(const QModelIndex &parent) const
   }
 }*/
 
-QVariant Kitty::RosterItemModel::data(const QModelIndex &index, int role) const
+QVariant RosterItemModel::data(const QModelIndex &index, int role) const
 {
 	if(!index.isValid()) {
 		return QVariant();
@@ -130,7 +131,7 @@ QVariant Kitty::RosterItemModel::data(const QModelIndex &index, int role) const
 	}
 }
 
-QModelIndex Kitty::RosterItemModel::index(int row, int column, const QModelIndex &parent) const
+QModelIndex RosterItemModel::index(int row, int column, const QModelIndex &parent) const
 {
 	if(!hasIndex(row, column, parent)) {
 		return QModelIndex();
@@ -151,7 +152,7 @@ QModelIndex Kitty::RosterItemModel::index(int row, int column, const QModelIndex
 	}
 }
 
-QModelIndex Kitty::RosterItemModel::parent(const QModelIndex &index) const
+QModelIndex RosterItemModel::parent(const QModelIndex &index) const
 {
 	if(!index.isValid()) {
 		return QModelIndex();
@@ -167,7 +168,7 @@ QModelIndex Kitty::RosterItemModel::parent(const QModelIndex &index) const
 	return createIndex(parentItem->row(), 0, parentItem);
 }
 
-int Kitty::RosterItemModel::rowCount(const QModelIndex &parent) const
+int RosterItemModel::rowCount(const QModelIndex &parent) const
 {
 	RosterItem *parentItem;
 	if(parent.column() > 0) {
@@ -181,4 +182,6 @@ int Kitty::RosterItemModel::rowCount(const QModelIndex &parent) const
 	}
 
 	return parentItem->childCount();
+}
+
 }

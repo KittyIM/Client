@@ -1,7 +1,7 @@
 #ifndef DISPLAYSETTINGS_H
 #define DISPLAYSETTINGS_H
 
-#include "SDK/SettingPage.h"
+#include <ISettingsPage.h>
 
 namespace Ui
 {
@@ -10,7 +10,7 @@ namespace Ui
 
 namespace Kitty
 {
-	class DisplaySettings: public KittySDK::SettingPage
+	class DisplaySettings: public KittySDK::ISettingsPage
 	{
 		Q_OBJECT
 

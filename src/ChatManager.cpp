@@ -3,26 +3,27 @@
 #include "widgets/windows/ChatWindow.h"
 #include "widgets/ChatTab.h"
 #include "PluginManager.h"
-#include "SDK/Message.h"
-#include "SDK/Contact.h"
 #include "Core.h"
+
+#include <IContact.h>
+#include <IMessage.h>
 
 #define qDebug() qDebug() << "[ChatManager]"
 #define qWarning() qWarning() << "[ChatManager]"
 
-using namespace Kitty;
-using namespace KittySDK;
+namespace Kitty
+{
 
-const QList<Chat*> &Kitty::ChatManager::chats() const
+const QList<KittySDK::IChat*> &ChatManager::chats() const
 {
 	return m_chats;
 }
 
-const QList<Chat*> Kitty::ChatManager::chatsByAccount(Account *account) const
+const QList<KittySDK::IChat*> ChatManager::chatsByAccount(KittySDK::IAccount *account) const
 {
-	QList<Chat*> chats;
+	QList<KittySDK::IChat*> chats;
 
-	foreach(Chat *chat, m_chats) {
+	foreach(KittySDK::IChat *chat, m_chats) {
 		if(chat->account() == account) {
 			chats.append(chat);
 		}
@@ -31,9 +32,9 @@ const QList<Chat*> Kitty::ChatManager::chatsByAccount(Account *account) const
 	return chats;
 }
 
-Chat *Kitty::ChatManager::chat(Contact *me, const QList<Contact*> &contacts) const
+KittySDK::IChat *ChatManager::chat(KittySDK::IContact *me, const QList<KittySDK::IContact*> &contacts) const
 {
-	foreach(Chat *chat, chatsByAccount(me->account())) {
+	foreach(KittySDK::IChat *chat, chatsByAccount(me->account())) {
 		if(chat->contacts() == contacts) {
 			return chat;
 		}
@@ -42,16 +43,16 @@ Chat *Kitty::ChatManager::chat(Contact *me, const QList<Contact*> &contacts) con
 	return 0;
 }
 
-KittySDK::Chat *Kitty::ChatManager::chat(KittySDK::Contact *me, KittySDK::Contact *sender) const
+KittySDK::IChat *ChatManager::chat(KittySDK::IContact *me, KittySDK::IContact *sender) const
 {
-	return chat(me, QList<Contact*>() << sender);
+	return chat(me, QList<KittySDK::IContact*>() << sender);
 }
 
-void Kitty::ChatManager::startChat(Contact *me, const QList<Contact*> &contacts)
+void ChatManager::startChat(KittySDK::IContact *me, const QList<KittySDK::IContact*> &contacts)
 {
-	Chat *ch = chat(me, contacts);
+	KittySDK::IChat *ch = chat(me, contacts);
 	if(!ch) {
-		ch = new Chat(me, contacts, qrand());
+		ch = new KittySDK::IChat(me, contacts, qrand());
 		m_chats.append(ch);
 	}
 
@@ -61,7 +62,7 @@ void Kitty::ChatManager::startChat(Contact *me, const QList<Contact*> &contacts)
 	Core::inst()->chatWindow()->activateWindow();
 }
 
-void Kitty::ChatManager::receiveMessage(KittySDK::Message &msg)
+void ChatManager::receiveMessage(KittySDK::IMessage &msg)
 {
 	QList<Plugin*> plugins = PluginManager::inst()->plugins();
 	foreach(Plugin *plugin, plugins) {
@@ -70,14 +71,14 @@ void Kitty::ChatManager::receiveMessage(KittySDK::Message &msg)
 		}
 	}
 
-	if((msg.direction() == Message::Incoming) || (msg.direction() == Message::System)) {
-		QList<Contact*> contacts = msg.to();
-		Contact *me = contacts.takeFirst();
+	if((msg.direction() == KittySDK::IMessage::Incoming) || (msg.direction() == KittySDK::IMessage::System)) {
+		QList<KittySDK::IContact*> contacts = msg.to();
+		KittySDK::IContact *me = contacts.takeFirst();
 		contacts.prepend(msg.from());
 
-		Chat *ch = chat(me, contacts);
+		KittySDK::IChat *ch = chat(me, contacts);
 		if(!ch) {
-			ch = new Chat(me, contacts, qrand());
+			ch = new KittySDK::IChat(me, contacts, qrand());
 			m_chats.append(ch);
 		}
 
@@ -92,9 +93,9 @@ void Kitty::ChatManager::receiveMessage(KittySDK::Message &msg)
 	}
 }
 
-void ChatManager::receiveTypingNotify(Contact *contact, bool typing, const int &length)
+void ChatManager::receiveTypingNotify(KittySDK::IContact *contact, bool typing, const int &length)
 {
-	Chat *ch = chat(contact->account()->me(), contact);
+	KittySDK::IChat *ch = chat(contact->account()->me(), contact);
 	if(ch) {
 		ChatTab *tab = Core::inst()->chatWindow()->tabByChat(ch);
 		if(tab) {
@@ -103,7 +104,9 @@ void ChatManager::receiveTypingNotify(Contact *contact, bool typing, const int &
 	}
 }
 
-Kitty::ChatManager::~ChatManager()
+ChatManager::~ChatManager()
 {
 	qDeleteAll(m_chats);
+}
+
 }

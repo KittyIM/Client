@@ -1,7 +1,7 @@
 #ifndef THEMESSETTINGS_H
 #define THEMESSETTINGS_H
 
-#include "SDK/SettingPage.h"
+#include <ISettingsPage.h>
 
 namespace Ui
 {
@@ -10,7 +10,7 @@ namespace Ui
 
 namespace Kitty
 {
-	class ThemesSettings: public KittySDK::SettingPage
+	class ThemesSettings: public KittySDK::ISettingsPage
 	{
 		Q_OBJECT
 

@@ -3,103 +3,104 @@
 #include "widgets/windows/SettingsWindow.h"
 #include "widgets/windows/MainWindow.h"
 #include "3rdparty/json/json.h"
-#include "SDK/SettingPage.h"
 #include "AccountManager.h"
 #include "ContactManager.h"
 #include "PluginManager.h"
-#include "SDK/constants.h"
 #include "IconManager.h"
 #include "Profile.h"
 #include "Core.h"
+
+#include <ISettingsPage.h>
+#include <SDKConstants.h>
 
 #include <QtCore/QVariant>
 #include <QtCore/QDebug>
 #include <QtGui/QApplication>
 
-using namespace Kitty;
-using namespace KittySDK;
+namespace Kitty
+{
 
-Kitty::PluginCoreImpl::PluginCoreImpl(QObject *parent)
+PluginCoreImpl::PluginCoreImpl(QObject *parent)
 {
 	connect(PluginManager::inst(), SIGNAL(allPluginsLoaded()), this, SIGNAL(allPluginsLoaded()));
 }
 
-QVariant Kitty::PluginCoreImpl::setting(const QString &key, const QVariant &defaultValue)
+QVariant PluginCoreImpl::setting(const QString &key, const QVariant &defaultValue)
 {
 	return Core::inst()->setting(key, defaultValue);
 }
 
-void Kitty::PluginCoreImpl::setSetting(const QString &key, const QVariant &value)
+void PluginCoreImpl::setSetting(const QString &key, const QVariant &value)
 {
 	Core::inst()->setSetting(key, value);
 }
 
-void Kitty::PluginCoreImpl::execPluginAction(const QString &plugin, const QString &name, const QMap<QString, QVariant> &args)
+void PluginCoreImpl::execPluginAction(const QString &plugin, const QString &name, const QMap<QString, QVariant> &args)
 {
 	PluginManager::inst()->execAction(plugin, name, args);
 }
 
-QString Kitty::PluginCoreImpl::profileName()
+QString PluginCoreImpl::profileName()
 {
 	return Core::inst()->profileName();
 }
 
-QString Kitty::PluginCoreImpl::kittyDir()
+QString PluginCoreImpl::kittyDir()
 {
 	return qApp->applicationDirPath();
 }
 
-QString Kitty::PluginCoreImpl::profilesDir()
+QString PluginCoreImpl::profilesDir()
 {
 	return Core::inst()->profilesDir();
 }
 
-QString Kitty::PluginCoreImpl::avatarPath(Contact *contact)
+QString PluginCoreImpl::avatarPath(KittySDK::IContact *contact)
 {
 	return Core::inst()->avatarPath(contact);
 }
 
-QVariant Kitty::PluginCoreImpl::jsonParse(const QString &json)
+QVariant PluginCoreImpl::jsonParse(const QString &json)
 {
 	return Json::parse(json);
 }
 
-QString Kitty::PluginCoreImpl::jsonStringify(const QVariant &json, int indent)
+QString PluginCoreImpl::jsonStringify(const QVariant &json, int indent)
 {
 	return Json::stringify(json, indent);
 }
 
-void Kitty::PluginCoreImpl::addSettingPage(SettingPage *page, const QString &parent)
+void PluginCoreImpl::addSettingPage(KittySDK::ISettingsPage *page, const QString &parent)
 {
 	Core::inst()->settingsWindow()->addPage(page, parent);
 }
 
-void Kitty::PluginCoreImpl::addToolbarAction(const QString &tb, QAction *action)
+void PluginCoreImpl::addToolbarAction(const QString &tb, QAction *action)
 {
 	Core::inst()->mainWindow()->addToolbarAction(tb, action);
 }
 
-void Kitty::PluginCoreImpl::addAccount(Account *account)
+void PluginCoreImpl::addAccount(KittySDK::IAccount *account)
 {
 	AccountManager::inst()->add(account);
 }
 
-QPixmap Kitty::PluginCoreImpl::icon(const QString &id)
+QPixmap PluginCoreImpl::icon(const QString &id)
 {
 	return IconManager::inst()->icon(id);
 }
 
-void Kitty::PluginCoreImpl::addIcon(const QString &id, const QPixmap &pixmap, bool replace)
+void PluginCoreImpl::addIcon(const QString &id, const QPixmap &pixmap, bool replace)
 {
 	IconManager::inst()->insert(id, pixmap, replace);
 }
 
-int Kitty::PluginCoreImpl::contactCount()
+int PluginCoreImpl::contactCount()
 {
 	return ContactManager::inst()->contacts().count();
 }
 
-Contact *Kitty::PluginCoreImpl::contact(const int &id)
+KittySDK::IContact *PluginCoreImpl::contact(const int &id)
 {
 	if((id >= 0) && (id < contactCount())) {
 		return ContactManager::inst()->contacts().at(id);
@@ -108,17 +109,17 @@ Contact *Kitty::PluginCoreImpl::contact(const int &id)
 	return 0;
 }
 
-QList<Contact*> Kitty::PluginCoreImpl::contacts(const QString &account, const QString &protocol)
+QList<KittySDK::IContact*> PluginCoreImpl::contacts(const QString &account, const QString &protocol)
 {
 	return ContactManager::inst()->contactsByAccount(account, protocol);
 }
 
-QList<KittySDK::Contact*> Kitty::PluginCoreImpl::contacts(const QString &protocol)
+QList<KittySDK::IContact*> PluginCoreImpl::contacts(const QString &protocol)
 {
 	return ContactManager::inst()->contactsByProtocol(protocol);
 }
 
-QStringList Kitty::PluginCoreImpl::plugins()
+QStringList PluginCoreImpl::plugins()
 {
 	QStringList result;
 	QList<Plugin*> plugins = PluginManager::inst()->plugins();
@@ -130,19 +131,19 @@ QStringList Kitty::PluginCoreImpl::plugins()
 	return result;
 }
 
-void Kitty::PluginCoreImpl::removeSettingPage(SettingPage *page)
+void PluginCoreImpl::removeSettingPage(KittySDK::ISettingsPage *page)
 {
 
 }
 
-void Kitty::PluginCoreImpl::removeToolbarAction(const QString &tb, QAction *action)
+void PluginCoreImpl::removeToolbarAction(const QString &tb, QAction *action)
 {
 
 }
 
-QToolButton *Kitty::PluginCoreImpl::buttonForAction(const QString &tb, QAction *action)
+QToolButton *PluginCoreImpl::buttonForAction(const QString &tb, QAction *action)
 {
-	if((tb == Toolbars::TB_MAIN) || (tb == Toolbars::TB_PLUGINS) || (tb == Toolbars::TB_NETWORKS)) {
+	if((tb == KittySDK::Toolbars::TB_MAIN) || (tb == KittySDK::Toolbars::TB_PLUGINS) || (tb == KittySDK::Toolbars::TB_NETWORKS)) {
 		return Core::inst()->mainWindow()->buttonForAction(tb, action);
 	} else {
 		qWarning() << "buttonForAction() unsupported ToolBar" << tb;
@@ -151,7 +152,9 @@ QToolButton *Kitty::PluginCoreImpl::buttonForAction(const QString &tb, QAction *
 	return 0;
 }
 
-void Kitty::PluginCoreImpl::removeIcon(const QString &id)
+void PluginCoreImpl::removeIcon(const QString &id)
 {
 	IconManager::inst()->remove(id);
+}
+
 }

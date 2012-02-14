@@ -1,7 +1,7 @@
 #ifndef CONNECTIONSETTINGS_H
 #define CONNECTIONSETTINGS_H
 
-#include "SDK/SettingPage.h"
+#include <ISettingsPage.h>
 
 namespace Ui
 {
@@ -10,7 +10,7 @@ namespace Ui
 
 namespace Kitty
 {
-	class ConnectionSettings: public KittySDK::SettingPage
+	class ConnectionSettings: public KittySDK::ISettingsPage
 	{
 		Q_OBJECT
 

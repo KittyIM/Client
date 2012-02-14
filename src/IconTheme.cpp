@@ -1,7 +1,8 @@
 #include "IconTheme.h"
 
-#include "SDK/constants.h"
 #include "Core.h"
+
+#include <SDKConstants.h>
 
 #include <QtCore/QDebug>
 #include <QtCore/QFile>
@@ -13,9 +14,10 @@
 #define qDebug() qDebug() << "[IconTheme]"
 #define qWarning() qWarning() << "[IconTheme]"
 
-using namespace KittySDK;
+namespace Kitty
+{
 
-Kitty::IconTheme::IconTheme(const QString &name)
+IconTheme::IconTheme(const QString &name)
 {
 	loadDefaults();
 
@@ -66,55 +68,57 @@ Kitty::IconTheme::IconTheme(const QString &name)
 	}
 }
 
-void Kitty::IconTheme::loadDefaults()
+void IconTheme::loadDefaults()
 {
-	m_icons.insert(Icons::I_KITTY,			":/icons/main.ico");
-	m_icons.insert(Icons::I_QUIT,			":/glyphs/quit.png");
-	m_icons.insert(Icons::I_SETTINGS,		":/glyphs/settings.png");
-	m_icons.insert(Icons::I_PLUGIN,			":/glyphs/plugin.png");
-	m_icons.insert(Icons::I_INFO,			":/glyphs/info.png");
-	m_icons.insert(Icons::I_PROFILE,		":/glyphs/profile.png");
-	m_icons.insert(Icons::I_USER,			":/glyphs/user.png");
-	m_icons.insert(Icons::I_FOLDER,			":/glyphs/folder.png");
-	m_icons.insert(Icons::I_FOLDER_KITTY,	":/glyphs/folder_kitty.png");
-	m_icons.insert(Icons::I_REFRESH,		":/glyphs/refresh.png");
-	m_icons.insert(Icons::I_CONSOLE,		":/glyphs/console.png");
-	m_icons.insert(Icons::I_BULLET,			":/glyphs/bullet.png");
-	m_icons.insert(Icons::I_CONNECT,		":/glyphs/connect.png");
-	m_icons.insert(Icons::I_HISTORY,		":/glyphs/history.png");
-	m_icons.insert(Icons::I_KEY,			":/glyphs/key.png");
-	m_icons.insert(Icons::I_MESSAGE,		":/glyphs/message.png");
-	m_icons.insert(Icons::I_PALETTE,		":/glyphs/palette.png");
-	m_icons.insert(Icons::I_SMILEY,			":/glyphs/smiley.png");
-	m_icons.insert(Icons::I_TAB,			":/glyphs/tab.png");
-	m_icons.insert(Icons::I_BOLD,			":/glyphs/bold.png");
-	m_icons.insert(Icons::I_ITALIC,			":/glyphs/italic.png");
-	m_icons.insert(Icons::I_UNDERLINE,		":/glyphs/underline.png");
-	m_icons.insert(Icons::I_STRIKETHROUGH,	":/glyphs/strikethrough.png");
-	m_icons.insert(Icons::I_COLOR,			":/glyphs/color.png");
-	m_icons.insert(Icons::I_IMAGE,			":/glyphs/image.png");
-	m_icons.insert(Icons::I_FILE,			":/glyphs/file.png");
-	m_icons.insert(Icons::I_BLOCK,			":/glyphs/block.png");
-	m_icons.insert(Icons::I_DELETE,			":/glyphs/delete.png");
-	m_icons.insert(Icons::I_COPY,			":/glyphs/copy.png");
-	m_icons.insert(Icons::I_GROUP,			":/glyphs/group.png");
-	m_icons.insert(Icons::I_SOUND,			":/glyphs/sound.png");
-	m_icons.insert(Icons::I_PRINTER,		":/glyphs/printer.png");
-	m_icons.insert(Icons::I_FILTER,			":/glyphs/filter.png");
-	m_icons.insert(Icons::I_SEARCH,			":/glyphs/search.png");
-	m_icons.insert(Icons::I_ADD,			":/glyphs/add.png");
-	m_icons.insert(Icons::I_EDIT,			":/glyphs/edit.png");
-	m_icons.insert(Icons::I_URL,			":/glyphs/url.png");
-	m_icons.insert(Icons::I_CURSOR,			":/glyphs/cursor.png");
-	m_icons.insert(Icons::I_PAINTBRUSH,		":/glyphs/paintbrush.png");
-	m_icons.insert(Icons::I_ERASE,			":/glyphs/erase.png");
-	m_icons.insert(Icons::I_TYPING_ON,		":/glyphs/typing_on.png");
-	m_icons.insert(Icons::I_TYPING_OFF,		":/glyphs/typing_off.png");
-	m_icons.insert(Icons::I_BLANK,			":/glyphs/blank.png");
-	m_icons.insert(Icons::I_STATUS_ONLINE,	":/glyphs/status_online.png");
-	m_icons.insert(Icons::I_STATUS_AWAY,	":/glyphs/status_away.png");
-	m_icons.insert(Icons::I_STATUS_FFC,		":/glyphs/status_ffc.png");
-	m_icons.insert(Icons::I_STATUS_DND,		":/glyphs/status_dnd.png");
-	m_icons.insert(Icons::I_STATUS_INVIS,	":/glyphs/status_invisible.png");
-	m_icons.insert(Icons::I_STATUS_OFFLINE,	":/glyphs/status_offline.png");
+	m_icons.insert(KittySDK::Icons::I_KITTY,			":/icons/main.ico");
+	m_icons.insert(KittySDK::Icons::I_QUIT,			":/glyphs/quit.png");
+	m_icons.insert(KittySDK::Icons::I_SETTINGS,		":/glyphs/settings.png");
+	m_icons.insert(KittySDK::Icons::I_PLUGIN,			":/glyphs/plugin.png");
+	m_icons.insert(KittySDK::Icons::I_INFO,			":/glyphs/info.png");
+	m_icons.insert(KittySDK::Icons::I_PROFILE,		":/glyphs/profile.png");
+	m_icons.insert(KittySDK::Icons::I_USER,			":/glyphs/user.png");
+	m_icons.insert(KittySDK::Icons::I_FOLDER,			":/glyphs/folder.png");
+	m_icons.insert(KittySDK::Icons::I_FOLDER_KITTY,	":/glyphs/folder_kitty.png");
+	m_icons.insert(KittySDK::Icons::I_REFRESH,		":/glyphs/refresh.png");
+	m_icons.insert(KittySDK::Icons::I_CONSOLE,		":/glyphs/console.png");
+	m_icons.insert(KittySDK::Icons::I_BULLET,			":/glyphs/bullet.png");
+	m_icons.insert(KittySDK::Icons::I_CONNECT,		":/glyphs/connect.png");
+	m_icons.insert(KittySDK::Icons::I_HISTORY,		":/glyphs/history.png");
+	m_icons.insert(KittySDK::Icons::I_KEY,			":/glyphs/key.png");
+	m_icons.insert(KittySDK::Icons::I_MESSAGE,		":/glyphs/message.png");
+	m_icons.insert(KittySDK::Icons::I_PALETTE,		":/glyphs/palette.png");
+	m_icons.insert(KittySDK::Icons::I_SMILEY,			":/glyphs/smiley.png");
+	m_icons.insert(KittySDK::Icons::I_TAB,			":/glyphs/tab.png");
+	m_icons.insert(KittySDK::Icons::I_BOLD,			":/glyphs/bold.png");
+	m_icons.insert(KittySDK::Icons::I_ITALIC,			":/glyphs/italic.png");
+	m_icons.insert(KittySDK::Icons::I_UNDERLINE,		":/glyphs/underline.png");
+	m_icons.insert(KittySDK::Icons::I_STRIKETHROUGH,	":/glyphs/strikethrough.png");
+	m_icons.insert(KittySDK::Icons::I_COLOR,			":/glyphs/color.png");
+	m_icons.insert(KittySDK::Icons::I_IMAGE,			":/glyphs/image.png");
+	m_icons.insert(KittySDK::Icons::I_FILE,			":/glyphs/file.png");
+	m_icons.insert(KittySDK::Icons::I_BLOCK,			":/glyphs/block.png");
+	m_icons.insert(KittySDK::Icons::I_DELETE,			":/glyphs/delete.png");
+	m_icons.insert(KittySDK::Icons::I_COPY,			":/glyphs/copy.png");
+	m_icons.insert(KittySDK::Icons::I_GROUP,			":/glyphs/group.png");
+	m_icons.insert(KittySDK::Icons::I_SOUND,			":/glyphs/sound.png");
+	m_icons.insert(KittySDK::Icons::I_PRINTER,		":/glyphs/printer.png");
+	m_icons.insert(KittySDK::Icons::I_FILTER,			":/glyphs/filter.png");
+	m_icons.insert(KittySDK::Icons::I_SEARCH,			":/glyphs/search.png");
+	m_icons.insert(KittySDK::Icons::I_ADD,			":/glyphs/add.png");
+	m_icons.insert(KittySDK::Icons::I_EDIT,			":/glyphs/edit.png");
+	m_icons.insert(KittySDK::Icons::I_URL,			":/glyphs/url.png");
+	m_icons.insert(KittySDK::Icons::I_CURSOR,			":/glyphs/cursor.png");
+	m_icons.insert(KittySDK::Icons::I_PAINTBRUSH,		":/glyphs/paintbrush.png");
+	m_icons.insert(KittySDK::Icons::I_ERASE,			":/glyphs/erase.png");
+	m_icons.insert(KittySDK::Icons::I_TYPING_ON,		":/glyphs/typing_on.png");
+	m_icons.insert(KittySDK::Icons::I_TYPING_OFF,		":/glyphs/typing_off.png");
+	m_icons.insert(KittySDK::Icons::I_BLANK,			":/glyphs/blank.png");
+	m_icons.insert(KittySDK::Icons::I_STATUS_ONLINE,	":/glyphs/status_online.png");
+	m_icons.insert(KittySDK::Icons::I_STATUS_AWAY,	":/glyphs/status_away.png");
+	m_icons.insert(KittySDK::Icons::I_STATUS_FFC,		":/glyphs/status_ffc.png");
+	m_icons.insert(KittySDK::Icons::I_STATUS_DND,		":/glyphs/status_dnd.png");
+	m_icons.insert(KittySDK::Icons::I_STATUS_INVIS,	":/glyphs/status_invisible.png");
+	m_icons.insert(KittySDK::Icons::I_STATUS_OFFLINE,	":/glyphs/status_offline.png");
+}
+
 }

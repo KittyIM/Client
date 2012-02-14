@@ -8,24 +8,24 @@
 #include <QtCore/QDebug>
 #include <QtGui/QStylePainter>
 
-using namespace Kitty;
-using namespace KittySDK;
+namespace Kitty
+{
 
-Kitty::RosterHeader::RosterHeader(QWidget *parent): QWidget(parent), m_ui(new Ui::RosterHeader)
+RosterHeader::RosterHeader(QWidget *parent): QWidget(parent), m_ui(new Ui::RosterHeader)
 {
 	m_ui->setupUi(this);
 
 	connect(m_ui->statusTextEdit, SIGNAL(returnPressed(QString)), this, SIGNAL(descriptionChanged(QString)));
-	connect(m_ui->statusChangeButton, SIGNAL(statusChanged(KittySDK::Protocol::Status)), this, SIGNAL(statusChanged(KittySDK::Protocol::Status)));
-	connect(AccountManager::inst(), SIGNAL(accountStatusChanged(KittySDK::Account*,KittySDK::Protocol::Status,QString)), this, SLOT(updateWidgets()));
+	connect(m_ui->statusChangeButton, SIGNAL(statusChanged(KittySDK::IProtocol::Status)), this, SIGNAL(statusChanged(KittySDK::IProtocol::Status)));
+	connect(AccountManager::inst(), SIGNAL(accountStatusChanged(KittySDK::IAccount*,KittySDK::IProtocol::Status,QString)), this, SLOT(updateWidgets()));
 }
 
-Kitty::RosterHeader::~RosterHeader()
+RosterHeader::~RosterHeader()
 {
 	delete m_ui;
 }
 
-void Kitty::RosterHeader::applySettings()
+void RosterHeader::applySettings()
 {
 	Core *core = Core::inst();
 
@@ -33,26 +33,28 @@ void Kitty::RosterHeader::applySettings()
 	m_ui->avatarLabel->setPixmap(QPixmap(core->profilesDir() + core->profileName() + "/avatar.png"));
 }
 
-void Kitty::RosterHeader::updateWidgets()
+void RosterHeader::updateWidgets()
 {
-	Protocol::Status status = Protocol::Offline;
-	foreach(Account *acc, AccountManager::inst()->accounts()) {
+	KittySDK::IProtocol::Status status = KittySDK::IProtocol::Offline;
+	foreach(KittySDK::IAccount *acc, AccountManager::inst()->accounts()) {
 		status = qMin(status, acc->status());
 	}
 
 	m_ui->statusChangeButton->setStatus(status);
 }
 
-void Kitty::RosterHeader::retranslate()
+void RosterHeader::retranslate()
 {
 	m_ui->statusChangeButton->retranslate();
 }
 
-void Kitty::RosterHeader::paintEvent(QPaintEvent *event)
+void RosterHeader::paintEvent(QPaintEvent *event)
 {
 	QStyleOption opt;
 	opt.init(this);
 
 	QStylePainter p(this);
 	p.drawPrimitive(QStyle::PE_Widget, opt);
+}
+
 }

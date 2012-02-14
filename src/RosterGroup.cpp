@@ -1,10 +1,13 @@
 #include "RosterGroup.h"
 
-Kitty::RosterGroup::RosterGroup(RosterItem *parent): RosterItem(parent)
+namespace Kitty
+{
+
+RosterGroup::RosterGroup(RosterItem *parent): RosterItem(parent)
 {
 }
 
-QVariant Kitty::RosterGroup::data(int role) const
+QVariant RosterGroup::data(int role) const
 {
 	switch(role) {
 		case Qt::ToolTipRole:
@@ -28,4 +31,4 @@ QVariant Kitty::RosterGroup::data(int role) const
 	}
 }
 
-
+}

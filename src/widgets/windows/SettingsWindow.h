@@ -12,7 +12,7 @@ namespace Ui
 
 namespace KittySDK
 {
-	class SettingPage;
+	class ISettingsPage;
 }
 
 namespace Kitty
@@ -26,8 +26,8 @@ namespace Kitty
 			~SettingsWindow();
 
 			QTreeWidgetItem *itemById(const QString &id);
-			KittySDK::SettingPage *pageById(const QString &id);
-			void addPage(KittySDK::SettingPage *page, const QString &parent = QString());
+			KittySDK::ISettingsPage *pageById(const QString &id);
+			void addPage(KittySDK::ISettingsPage *page, const QString &parent = QString());
 
 			void resetSettings();
 
@@ -51,7 +51,7 @@ namespace Kitty
 
 		private:
 			Ui::SettingsWindow *m_ui;
-			QList<KittySDK::SettingPage*> m_pages;
+			QList<KittySDK::ISettingsPage*> m_pages;
 	};
 }
 

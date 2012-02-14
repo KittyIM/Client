@@ -1,7 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "SDK/Protocol.h"
+#include <IProtocol.h>
 
 #include <QtCore/QTimer>
 #include <QtGui/QMainWindow>
@@ -15,7 +15,7 @@ namespace Ui
 
 namespace KittySDK
 {
-	class Contact;
+	class IContact;
 }
 
 namespace Kitty
@@ -40,10 +40,10 @@ namespace Kitty
 			QToolButton *buttonForAction(const QString &tb, QAction *action);
 
 		public slots:
-			void addContact(KittySDK::Contact *contact);
+			void addContact(KittySDK::IContact *contact);
 			void applySettings();
 			void showAccountStatusMenu();
-			void updateAccountStatusIcon(KittySDK::Account *account, KittySDK::Protocol::Status status, const QString &description);
+			void updateAccountStatusIcon(KittySDK::IAccount *account, KittySDK::IProtocol::Status status, const QString &description);
 
 		private slots:
 			void showToolbarMenu(QPoint pos);
@@ -53,7 +53,7 @@ namespace Kitty
 			void setToolbarTextUnder();
 			void setFilterText(const QString &text);
 			void toggleToolbarLock();
-			void requestHistory(KittySDK::Contact *contact);
+			void requestHistory(KittySDK::IContact *contact);
 
 		protected:
 			void changeEvent(QEvent *event);

@@ -1,9 +1,10 @@
 #include "RosterContact.h"
 
-#include "SDK/constants.h"
-#include "SDK/Contact.h"
 #include "Profile.h"
 #include "Core.h"
+
+#include <SDKConstants.h>
+#include <IContact.h>
 
 #include <QtCore/QCryptographicHash>
 #include <QtCore/QFile>
@@ -12,15 +13,15 @@
 #define qDebug() qDebug() << "[RosterContact]"
 #define qWarning() qWarning() << "[RosterContact]"
 
-using namespace Kitty;
-using namespace KittySDK;
+namespace Kitty
+{
 
-Kitty::RosterContact::RosterContact(KittySDK::Contact *contact, RosterItem *parent): RosterItem(parent), m_contact(contact)
+RosterContact::RosterContact(KittySDK::IContact *contact, RosterItem *parent): RosterItem(parent), m_contact(contact)
 {
 	setData(RosterItem::Contact, RosterItem::TypeRole);
 }
 
-QVariant Kitty::RosterContact::data(int role) const
+QVariant RosterContact::data(int role) const
 {
 	Core *core = Core::inst();
 
@@ -57,29 +58,29 @@ QVariant Kitty::RosterContact::data(int role) const
 		{
 			QString tooltip;
 
-			if(core->setting(Settings::S_ROSTER_TIPS, true).toBool()) {
+			if(core->setting(KittySDK::Settings::S_ROSTER_TIPS, true).toBool()) {
 				tooltip += "<table><tr><td>";
 				tooltip += QString("<b>%1</b><br>").arg(Qt::escape(m_contact->display()));
 				tooltip += QString("<font size=\"2\">%1</font><br>").arg(Qt::escape(m_contact->uid()));
 				tooltip += QString("<font size=\"2\"><b>%1</b>: %2</font><br>").arg(QObject::tr("Account")).arg(Qt::escape(data(RosterItem::AccountRole).toString()));
 
-				if(core->setting(Settings::S_ROSTER_TIPS_EMAIL).toBool()) {
-					QString emails = m_contact->data(ContactInfos::I_EMAILS).toString();
+				if(core->setting(KittySDK::Settings::S_ROSTER_TIPS_EMAIL).toBool()) {
+					QString emails = m_contact->data(KittySDK::ContactInfos::I_EMAILS).toString();
 					if(!emails.isEmpty()) {
 						QStringList list = emails.split(",");
 						tooltip += QString("<font size=\"2\"><b>%1</b>: %2</font><br>").arg(QObject::tr("Email")).arg(Qt::escape(list[0]));
 					}
 				}
 
-				if(core->setting(Settings::S_ROSTER_TIPS_PHONE).toBool()) {
-					QString phones = m_contact->data(ContactInfos::I_PHONES).toString();
+				if(core->setting(KittySDK::Settings::S_ROSTER_TIPS_PHONE).toBool()) {
+					QString phones = m_contact->data(KittySDK::ContactInfos::I_PHONES).toString();
 					if(!phones.isEmpty()) {
 						QStringList list = phones.split(",");
 						tooltip += QString("<font size=\"2\"><b>%1</b>: %2</font><br>").arg(QObject::tr("Phone")).arg(Qt::escape(list[0]));
 					}
 				}
 
-				if(core->setting(Settings::S_ROSTER_TIPS_DESCRIPTION).toBool()) {
+				if(core->setting(KittySDK::Settings::S_ROSTER_TIPS_DESCRIPTION).toBool()) {
 					QString description = m_contact->description();
 					if(!description.isEmpty()) {
 						tooltip += QString("<font size=\"2\"><b>%1</b>: %2</font><br>").arg(QObject::tr("Description")).arg(Qt::escape(description).replace('\n', "<br>"));
@@ -106,4 +107,6 @@ QVariant Kitty::RosterContact::data(int role) const
 		return RosterItem::data(role);
 		break;
 	}
+}
+
 }

@@ -1,7 +1,7 @@
 #ifndef HISTORYSETTINGS_H
 #define HISTORYSETTINGS_H
 
-#include "SDK/SettingPage.h"
+#include <ISettingsPage.h>
 
 namespace Ui
 {
@@ -10,7 +10,7 @@ namespace Ui
 
 namespace Kitty
 {
-	class HistorySettings: public KittySDK::SettingPage
+	class HistorySettings: public KittySDK::ISettingsPage
 	{
 		Q_OBJECT
 

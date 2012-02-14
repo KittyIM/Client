@@ -1,7 +1,7 @@
 #ifndef CHATTAB_H
 #define CHATTAB_H
 
-#include "SDK/Protocol.h"
+#include <IProtocol.h>
 
 #include <QtCore/QTimer>
 #include <QtGui/QWidget>
@@ -12,8 +12,8 @@ class QLabel;
 
 namespace KittySDK
 {
-	class Contact;
-	class Chat;
+	class IContact;
+	class IChat;
 }
 
 namespace Ui
@@ -30,10 +30,10 @@ namespace Kitty
 		Q_OBJECT
 
 		public:
-			ChatTab(KittySDK::Chat *chat, QWidget *parent = 0);
+			ChatTab(KittySDK::IChat *chat, QWidget *parent = 0);
 			~ChatTab();
 
-			KittySDK::Chat *chat() const { return m_chat; }
+			KittySDK::IChat *chat() const { return m_chat; }
 
 			void setTypingNotify(bool typing, const int &length);
 
@@ -44,7 +44,7 @@ namespace Kitty
 			void updateIcons();
 			void setEditFocus();
 			void applySettings();
-			void appendMessage(KittySDK::Message &msg);
+			void appendMessage(KittySDK::IMessage &msg);
 			void clearMessages();
 
 		private slots:
@@ -60,7 +60,7 @@ namespace Kitty
 			void sendImageFragment();
 			void sendPixmap(const QPixmap &pix);
 			void sendImage(const QString &fileName);
-			void changeStatus(KittySDK::Protocol::Status status, QString description);
+			void changeStatus(KittySDK::IProtocol::Status status, QString description);
 			void showContactWindow();
 			void showHistoryWindow();
 
@@ -69,7 +69,7 @@ namespace Kitty
 
 		private:
 			Ui::ChatTab *m_ui;
-			KittySDK::Chat *m_chat;
+			KittySDK::IChat *m_chat;
 			QToolBar *m_toolBar;
 			ChatColorPicker *m_colorPicker;
 			QPointer<QAction> m_boldAction;

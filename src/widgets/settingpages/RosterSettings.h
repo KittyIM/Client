@@ -1,7 +1,7 @@
 #ifndef ROSTERSETTINGS_H
 #define ROSTERSETTINGS_H
 
-#include "SDK/SettingPage.h"
+#include <ISettingsPage.h>
 
 namespace Ui
 {
@@ -10,7 +10,7 @@ namespace Ui
 
 namespace Kitty
 {
-	class RosterSettings: public KittySDK::SettingPage
+	class RosterSettings: public KittySDK::ISettingsPage
 	{
 		Q_OBJECT
 

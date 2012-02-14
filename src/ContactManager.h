@@ -1,7 +1,8 @@
 #ifndef CONTACTMANAGER_H
 #define CONTACTMANAGER_H
 
-#include "SDK/Contact.h"
+#include <IContact.h>
+
 #include "Singleton.h"
 
 namespace Kitty
@@ -13,10 +14,10 @@ namespace Kitty
 		friend class Singleton<ContactManager>;
 
 		public:
-			const QList<KittySDK::Contact*> &contacts() const;
-			const QList<KittySDK::Contact*> contactsByProtocol(const QString &proto);
-			const QList<KittySDK::Contact*> contactsByProtocol(KittySDK::Protocol *proto);
-			const QList<KittySDK::Contact*> contactsByAccount(const QString &acc, const QString &proto);
+			const QList<KittySDK::IContact*> &contacts() const;
+			const QList<KittySDK::IContact*> contactsByProtocol(const QString &proto);
+			const QList<KittySDK::IContact*> contactsByProtocol(KittySDK::IProtocol *proto);
+			const QList<KittySDK::IContact*> contactsByAccount(const QString &acc, const QString &proto);
 
 			const QStringList groups() const;
 
@@ -24,10 +25,10 @@ namespace Kitty
 			void save(const QString &profile);
 
 		public slots:
-			void add(KittySDK::Contact *contact);
+			void add(KittySDK::IContact *contact);
 
 		signals:
-			void contactAdded(KittySDK::Contact *contact);
+			void contactAdded(KittySDK::IContact *contact);
 			void statusUpdated();
 
 		private:
@@ -35,7 +36,7 @@ namespace Kitty
 			~ContactManager();
 
 		private:
-			QList<KittySDK::Contact*> m_contacts;
+			QList<KittySDK::IContact*> m_contacts;
 	};
 }
 

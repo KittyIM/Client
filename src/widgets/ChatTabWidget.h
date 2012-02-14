@@ -5,7 +5,7 @@
 
 namespace KittySDK
 {
-	class Chat;
+	class IChat;
 }
 
 class QToolButton;
@@ -22,12 +22,12 @@ namespace Kitty
 			explicit ChatTabWidget(QWidget *parent = 0);
 			~ChatTabWidget();
 
-			ChatTab *tabByChat(KittySDK::Chat *chat);
-			int indexByChat(KittySDK::Chat *chat);
+			ChatTab *tabByChat(KittySDK::IChat *chat);
+			int indexByChat(KittySDK::IChat *chat);
 
-			QString createLabel(KittySDK::Chat *chat);
-			ChatTab *startChat(KittySDK::Chat *chat);
-			void switchTo(KittySDK::Chat *chat);
+			QString createLabel(KittySDK::IChat *chat);
+			ChatTab *startChat(KittySDK::IChat *chat);
+			void switchTo(KittySDK::IChat *chat);
 
 			void removeTab(int index);
 
@@ -52,7 +52,7 @@ namespace Kitty
 
 		private:
 			QList<ChatTab*> m_tabs;
-			QList<KittySDK::Chat*> m_closedTabs;
+			QList<KittySDK::IChat*> m_closedTabs;
 			QToolButton *m_closedButton;
 	};
 }

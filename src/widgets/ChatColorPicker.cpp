@@ -4,9 +4,10 @@
 #include <QtGui/QGridLayout>
 #include <QtGui/QPushButton>
 
-using namespace Kitty;
+namespace Kitty
+{
 
-Kitty::ChatColorFrame::ChatColorFrame(const QString &color, QWidget *parent): QFrame(parent)
+ChatColorFrame::ChatColorFrame(const QString &color, QWidget *parent): QFrame(parent)
 {
 	setStyleSheet(QString("background-color: %1;").arg(color));
 	setMinimumSize(QSize(16, 16));
@@ -15,22 +16,22 @@ Kitty::ChatColorFrame::ChatColorFrame(const QString &color, QWidget *parent): QF
 	setCursor(Qt::PointingHandCursor);
 }
 
-void Kitty::ChatColorFrame::enterEvent(QEvent *event)
+void ChatColorFrame::enterEvent(QEvent *event)
 {
 	setFrameShape(QFrame::Box);
 }
 
-void Kitty::ChatColorFrame::leaveEvent(QEvent *event)
+void ChatColorFrame::leaveEvent(QEvent *event)
 {
 	setFrameShape(QFrame::NoFrame);
 }
 
-void Kitty::ChatColorFrame::mousePressEvent(QMouseEvent *event)
+void ChatColorFrame::mousePressEvent(QMouseEvent *event)
 {
 	emit clicked(palette().window().color());
 }
 
-Kitty::ChatColorPicker::ChatColorPicker(QWidget *parent): QWidget(parent, Qt::Popup)
+ChatColorPicker::ChatColorPicker(QWidget *parent): QWidget(parent, Qt::Popup)
 {
 	QGridLayout *gridLayout = new QGridLayout(this);
 	gridLayout->setSpacing(2);
@@ -64,20 +65,22 @@ Kitty::ChatColorPicker::ChatColorPicker(QWidget *parent): QWidget(parent, Qt::Po
 	retranslate();
 }
 
-void Kitty::ChatColorPicker::showAt(const QPoint &pos)
+void ChatColorPicker::showAt(const QPoint &pos)
 {
 	move(pos);
 	resize(sizeHint());
 	show();
 }
 
-void Kitty::ChatColorPicker::retranslate()
+void ChatColorPicker::retranslate()
 {
 	m_moreButton->setText(tr("More..."));
 }
 
-void Kitty::ChatColorPicker::customColor()
+void ChatColorPicker::customColor()
 {
 	QColor color = QColorDialog::getColor(Qt::black, this);
 	emit colorSelected(color);
+}
+
 }

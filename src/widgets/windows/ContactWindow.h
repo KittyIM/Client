@@ -1,7 +1,7 @@
 #ifndef CONTACTWINDOW_H
 #define CONTACTWINDOW_H
 
-#include "SDK/Contact.h"
+#include <IContact.h>
 
 #include <QtGui/QDialog>
 
@@ -20,7 +20,7 @@ namespace Kitty
 		Q_OBJECT
 
 		public:
-			explicit ContactWindow(KittySDK::Contact *cnt = 0, QWidget *parent = 0);
+			explicit ContactWindow(KittySDK::IContact *cnt = 0, QWidget *parent = 0);
 			~ContactWindow();
 
 		public slots:
@@ -44,7 +44,7 @@ namespace Kitty
 
 		private:
 			Ui::ContactWindow *m_ui;
-			KittySDK::Contact *m_contact;
+			KittySDK::IContact *m_contact;
 	};
 }
 
