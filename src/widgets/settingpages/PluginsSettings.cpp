@@ -59,17 +59,60 @@ void PluginsSettings::on_pluginWidget_currentItemChanged(QTreeWidgetItem *curren
 	if(current) {
 		Plugin *plug = PluginManager::inst()->pluginByFileName(current->text(2));
 		if(plug) {
-			KittySDK::IPluginInfo *info = plug->iplugin()->info();
-			if(info) {
-				m_ui->pluginNameValueLabel->setText(info->name());
-				m_ui->pluginAuthorValueLabel->setText(QString("%1 &lt;<a href=\"mailto:%2\">%2</a>&gt;").arg(info->author()).arg(info->email()));
-				m_ui->pluginVersionValueLabel->setText(info->version());
-				m_ui->pluginWWWValueLabel->setText(QString("<a href=\"%1\">%1</a>").arg(info->url()));
+			if(KittySDK::IPluginInfo *info = plug->iplugin()->info()) {
+				if(!info->name().isEmpty()) {
+					m_ui->pluginNameLabel->show();
+					m_ui->pluginNameValueLabel->show();
+					m_ui->pluginNameValueLabel->setText(info->name());
+				} else {
+					m_ui->pluginNameLabel->hide();
+					m_ui->pluginNameValueLabel->hide();
+				}
+
+				if(!info->author().isEmpty()) {
+					m_ui->pluginAuthorLabel->show();
+					m_ui->pluginAuthorValueLabel->show();
+
+					QString authorString = info->author();
+					if(!info->email().isEmpty()) {
+						authorString += QString("&lt;<a href=\"mailto:%1\">%1</a>&gt;").arg(info->email());
+					}
+
+					m_ui->pluginAuthorValueLabel->setText(authorString);
+				} else {
+					m_ui->pluginAuthorLabel->hide();
+					m_ui->pluginAuthorValueLabel->hide();
+				}
+
+				if(!info->version().isEmpty()) {
+					m_ui->pluginVersionLabel->show();
+					m_ui->pluginVersionValueLabel->show();
+					m_ui->pluginVersionValueLabel->setText(info->version());
+				} else {
+					m_ui->pluginVersionLabel->hide();
+					m_ui->pluginVersionValueLabel->hide();
+				}
+
+				if(!info->url().isEmpty()) {
+					m_ui->pluginWWWLabel->show();
+					m_ui->pluginWWWValueLabel->show();
+					m_ui->pluginWWWValueLabel->setText(QString("<a href=\"%1\">%1</a>").arg(info->url()));
+				} else {
+					m_ui->pluginWWWLabel->hide();
+					m_ui->pluginWWWValueLabel->hide();
+				}
 			} else {
-				m_ui->pluginNameValueLabel->setText(tr("Unknown"));
-				m_ui->pluginAuthorValueLabel->setText(tr("Unknown"));
-				m_ui->pluginVersionValueLabel->setText(tr("Unknown"));
-				m_ui->pluginWWWValueLabel->setText(tr("Unknown"));
+				m_ui->pluginNameLabel->hide();
+				m_ui->pluginNameValueLabel->hide();
+
+				m_ui->pluginAuthorLabel->hide();
+				m_ui->pluginAuthorValueLabel->hide();
+
+				m_ui->pluginVersionLabel->hide();
+				m_ui->pluginVersionValueLabel->hide();
+
+				m_ui->pluginWWWLabel->hide();
+				m_ui->pluginWWWValueLabel->hide();
 			}
 		}
 
