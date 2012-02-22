@@ -20,6 +20,10 @@ namespace Kitty
 
 		protected:
 			void showEvent(QShowEvent *event);
+			void changeEvent(QEvent *event);
+
+		private:
+			void updateAboutText();
 
 		private:
 			Ui::AboutWindow *m_ui;

@@ -28,6 +28,10 @@ MainSettings::~MainSettings()
 void MainSettings::retranslate()
 {
 	m_ui->retranslateUi(this);
+
+	if(m_ui->languageComboBox->count()) {
+		m_ui->languageComboBox->setItemText(0, tr("System"));
+	}
 }
 
 void MainSettings::apply()

@@ -25,6 +25,7 @@ namespace Kitty
 			void paintEvent(QPaintEvent *event);
 			void keyPressEvent(QKeyEvent *event);
 			void closeEvent(QCloseEvent *event);
+			void changeEvent(QEvent *event);
 
 		private slots:
 			void on_profilesWidget_currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous);

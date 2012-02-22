@@ -39,7 +39,17 @@ AboutWindow::~AboutWindow()
 void AboutWindow::showEvent(QShowEvent *event)
 {
 	QDialog::showEvent(event);
+	updateAboutText();
+}
 
+void AboutWindow::changeEvent(QEvent *event)
+{
+	m_ui->retranslateUi(this);
+	updateAboutText();
+}
+
+void AboutWindow::updateAboutText()
+{
 	QMap<QString, QString> programmers;
 
 	programmers.insert("Artur \"arturo182\" Pacholec", "arturo182@tlen.pl");

@@ -241,6 +241,9 @@ void ChatTab::setTypingNotify(bool typing, const int &length)
 			m_typingLabel->setToolTip(tr("Contact is not typing"));
 			m_typingLabel->setPixmap(Core::inst()->icon(KittySDK::Icons::I_TYPING_OFF));
 		}
+
+		m_typingLabel->setProperty("typing", typing);
+		m_typingLabel->setProperty("length", length);
 	}
 }
 
@@ -342,8 +345,7 @@ void ChatTab::sendMessage()
 
 void ChatTab::sendTypingNotify(bool typing, const int &length)
 {
-	KittySDK::IContact *cnt = m_chat->contacts().first();
-	if(cnt) {
+	if(KittySDK::IContact *cnt = m_chat->contacts().first()) {
 		m_chat->account()->sendTypingNotify(cnt, typing, length);
 	}
 }
@@ -535,6 +537,10 @@ void ChatTab::changeEvent(QEvent *event)
 
 		if(m_historyAction) {
 			m_historyAction->setText(tr("History"));
+		}
+
+		if(m_typingLabel) {
+			setTypingNotify(m_typingLabel->property("typing").toBool(), m_typingLabel->property("length").toInt());
 		}
 
 		m_colorPicker->retranslate();

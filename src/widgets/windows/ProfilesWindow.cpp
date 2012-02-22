@@ -105,6 +105,15 @@ void ProfilesWindow::closeEvent(QCloseEvent *event)
 	QDialog::closeEvent(event);
 }
 
+void ProfilesWindow::changeEvent(QEvent *event)
+{
+	if(event->type() == QEvent::LanguageChange) {
+		m_ui->retranslateUi(this);
+	}
+
+	QDialog::changeEvent(event);
+}
+
 void ProfilesWindow::on_profilesWidget_currentItemChanged(QTreeWidgetItem* current, QTreeWidgetItem* previous)
 {
 	m_ui->loginButton->setEnabled(false);

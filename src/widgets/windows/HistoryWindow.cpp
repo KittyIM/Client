@@ -219,6 +219,15 @@ void HistoryWindow::showEvent(QShowEvent *event)
 	QWidget::showEvent(event);
 }
 
+void HistoryWindow::changeEvent(QEvent *event)
+{
+	if(event->type() == QEvent::LanguageChange) {
+		m_ui->retranslateUi(this);
+	}
+
+	QWidget::changeEvent(event);
+}
+
 void HistoryWindow::on_contactSearchEdit_textChanged(const QString &text)
 {
 	m_proxy->setFilterWildcard(text);

@@ -27,7 +27,7 @@ ContactWindow::ContactWindow(KittySDK::IContact *cnt, QWidget *parent): QDialog(
 	setAttribute(Qt::WA_DeleteOnClose);
 
 	if(cnt) {
-		setWindowTitle(tr("Edit contact"));
+		setWindowTitle(tr("Edit contact") + ": " + cnt->display());
 	} else {
 		setWindowTitle(tr("Add contact"));
 	}
@@ -79,147 +79,7 @@ void ContactWindow::showEvent(QShowEvent *event)
 		m_ui->stackedWidget->removeWidget(m_ui->stackedWidget->widget(0));
 		delete m_ui->treeWidget->topLevelItem(0);
 	} else {
-		//create summary
-		QString summary;
-		if(m_contact->data(KittySDK::ContactInfos::I_FIRSTNAME).toBool() || m_contact->data(KittySDK::ContactInfos::I_MIDDLENAME).toBool() || m_contact->data(KittySDK::ContactInfos::I_NICKNAME).toBool() || m_contact->data(KittySDK::ContactInfos::I_LASTNAME).toBool()) {
-			QString nickname = m_contact->data(KittySDK::ContactInfos::I_NICKNAME).toString();
-			if(!nickname.isEmpty()) {
-				nickname.prepend("\"");
-				nickname.append("\" ");
-			}
-
-			summary += QString("<center><b>%1%2%3%4</b></center>").arg(Qt::escape(m_contact->data(KittySDK::ContactInfos::I_FIRSTNAME).toString()).append(" ")).arg(Qt::escape(m_contact->data(KittySDK::ContactInfos::I_MIDDLENAME).toString()).append(" ")).arg(Qt::escape(nickname)).arg(Qt::escape(m_contact->data(KittySDK::ContactInfos::I_LASTNAME).toString()).append(" "));
-		} else {
-			summary += QString("<center><b>%1</b></center>").arg(Qt::escape(m_contact->display()));
-		}
-
-		summary += "<center>";
-		if(m_contact->data(KittySDK::ContactInfos::I_SEX).toInt() == 1) {
-			summary += tr("female");
-		} else if(m_contact->data(KittySDK::ContactInfos::I_SEX).toInt() == 2) {
-			summary += tr("male");
-		}
-
-		summary += " <b>";
-
-		QDate birthday = m_contact->data(KittySDK::ContactInfos::I_BIRTHDAY).toDate();
-		int years = QDate::currentDate().year() - birthday.year();
-		if(QDate::currentDate() < birthday.addYears(years)) {
-			years--;
-		}
-		summary += QString(tr("%1 years old")).arg(years);
-		summary += "</b></center>";
-		summary += "<br>";
-
-		summary += "<b>" + tr("Account") + ":</b> " + Qt::escape(m_contact->protocol()->protoInfo()->protoName()) + " " + m_contact->account()->uid();
-		summary += "<br>";
-
-		summary += "<b>" + tr("UID") + ":</b> " + Qt::escape(m_contact->uid());
-		summary += "<br>";
-
-		QString description = m_contact->description();
-		if(!description.isEmpty()) {
-			description.prepend(" \"");
-			description.append("\"");
-		}
-		summary += "<b>" + tr("Status") + ":</b> " + Core::inst()->statusToString(m_contact->status()) + Qt::escape(description);
-		summary += "<br>";
-
-		if(!m_contact->data(KittySDK::ContactInfos::I_HOMEPAGE).toString().isEmpty()) {
-			summary += "<b>" + tr("Homepage") + ":</b> " + QString("<a href=\"%1\">%1</a>").arg(Qt::escape(m_contact->data(KittySDK::ContactInfos::I_HOMEPAGE).toString()));
-			summary += "<br>";
-		}
-
-		if(!m_contact->data(KittySDK::ContactInfos::I_EMAILS).toString().isEmpty()) {
-			QStringList list = m_contact->data(KittySDK::ContactInfos::I_EMAILS).toString().split(",");
-			QString emails;
-			foreach(QString email, list) {
-				if(!email.isEmpty()) {
-					emails += QString("<a href=\"mailto:%1\">%1</a>, ").arg(Qt::escape(email));
-				}
-			}
-
-			emails.chop(2);
-
-			summary += "<b>" + tr("Email(s)", "", list.count()) + ":</b> " + emails;
-			summary += "<br>";
-		}
-
-		if(!m_contact->data(KittySDK::ContactInfos::I_PHONES).toString().isEmpty()) {
-			summary += "<b>" + tr("Phone(s)", "", m_contact->data(KittySDK::ContactInfos::I_PHONES).toString().split(",").count()) + ":</b> " + Qt::escape(m_contact->data(KittySDK::ContactInfos::I_PHONES).toString());
-			summary += "<br>";
-		}
-
-		QString address = m_contact->data(KittySDK::ContactInfos::I_HOME_ADDRESS).toString();
-		QString city = m_contact->data(KittySDK::ContactInfos::I_HOME_CITY).toString();
-		QString country = m_contact->data(KittySDK::ContactInfos::I_HOME_COUNTRY).toString();
-		QString code = m_contact->data(KittySDK::ContactInfos::I_HOME_POSTALCODE).toString();
-		QString state = m_contact->data(KittySDK::ContactInfos::I_HOME_STATE).toString();
-
-		if(!state.isEmpty() || !code.isEmpty() || !country.isEmpty() || !city.isEmpty() || !address.isEmpty()) {
-			summary += "<center><b><u>" + tr("Home") + "</u></b><br>";
-
-			if(!address.isEmpty()) {
-				summary += Qt::escape(address) + "<br>";
-			}
-
-			if(!code.isEmpty() || !city.isEmpty()) {
-				summary += Qt::escape(code) + " " + Qt::escape(city) + "<br>";
-			}
-
-			if(!state.isEmpty()) {
-				summary += Qt::escape(state) + "<br>";
-			}
-
-			if(!country.isEmpty()) {
-				summary += Qt::escape(country) + "<br>";
-			}
-		}
-
-		address = m_contact->data(KittySDK::ContactInfos::I_WORK_ADDRESS).toString();
-		city = m_contact->data(KittySDK::ContactInfos::I_WORK_CITY).toString();
-		country = m_contact->data(KittySDK::ContactInfos::I_WORK_COUNTRY).toString();
-		code = m_contact->data(KittySDK::ContactInfos::I_WORK_POSTALCODE).toString();
-		state = m_contact->data(KittySDK::ContactInfos::I_WORK_STATE).toString();
-		QString company = m_contact->data(KittySDK::ContactInfos::I_WORK_COMPANY).toString();
-		QString position = m_contact->data(KittySDK::ContactInfos::I_WORK_POSITION).toString();
-		QString website = m_contact->data(KittySDK::ContactInfos::I_WORK_WEBSITE).toString();
-
-		if(!state.isEmpty() || !code.isEmpty() || !country.isEmpty() || !city.isEmpty() || !address.isEmpty() || !company.isEmpty() || !position.isEmpty() || !website.isEmpty()) {
-			summary += "<center><b><u>" + tr("Work") + "</u></b><br>";
-
-			if(!company.isEmpty() || !position.isEmpty()) {
-				summary += Qt::escape(position);
-
-				if(!company.isEmpty() && !position.isEmpty()) {
-					summary += " " + tr("in") + " ";
-				}
-
-				summary += Qt::escape(company) + "<br>";
-			}
-
-			if(!address.isEmpty()) {
-				summary += Qt::escape(address) + "<br>";
-			}
-
-			if(!code.isEmpty() || !city.isEmpty()) {
-				summary += Qt::escape(code) + " " + Qt::escape(city) + "<br>";
-			}
-
-			if(!state.isEmpty()) {
-				summary += Qt::escape(state) + "<br>";
-			}
-
-			if(!country.isEmpty()) {
-				summary += Qt::escape(country) + "<br>";
-			}
-
-			if(!website.isEmpty()) {
-				summary += QString("<a href=\"%1\">%1</a>").arg(Qt::escape(website));
-			}
-		}
-
-		m_ui->summaryTextBrowser->setHtml(summary);
+		updateSummary();
 	}
 
 	m_ui->treeWidget->setCurrentItem(m_ui->treeWidget->topLevelItem(0));
@@ -427,6 +287,16 @@ void ContactWindow::closeEvent(QCloseEvent *event)
 	QWidget::closeEvent(event);
 }
 
+void ContactWindow::changeEvent(QEvent *event)
+{
+	if(event->type() == QEvent::LanguageChange) {
+		m_ui->retranslateUi(this);
+		updateSummary();
+	}
+
+	QDialog::changeEvent(event);
+}
+
 void ContactWindow::on_emailAddButton_clicked()
 {
 	QString email = QInputDialog::getText(this, tr("Email"), tr("Please specify an email address:"));
@@ -515,6 +385,150 @@ void ContactWindow::finishEditing()
 			m_ui->displayComboBox->addItem(text);
 		}
 	}
+}
+
+void ContactWindow::updateSummary()
+{
+	QString summary;
+	if(m_contact->data(KittySDK::ContactInfos::I_FIRSTNAME).toBool() || m_contact->data(KittySDK::ContactInfos::I_MIDDLENAME).toBool() || m_contact->data(KittySDK::ContactInfos::I_NICKNAME).toBool() || m_contact->data(KittySDK::ContactInfos::I_LASTNAME).toBool()) {
+		QString nickname = m_contact->data(KittySDK::ContactInfos::I_NICKNAME).toString();
+		if(!nickname.isEmpty()) {
+			nickname.prepend("\"");
+			nickname.append("\" ");
+		}
+
+		summary += QString("<center><b>%1%2%3%4</b></center>").arg(Qt::escape(m_contact->data(KittySDK::ContactInfos::I_FIRSTNAME).toString()).append(" ")).arg(Qt::escape(m_contact->data(KittySDK::ContactInfos::I_MIDDLENAME).toString()).append(" ")).arg(Qt::escape(nickname)).arg(Qt::escape(m_contact->data(KittySDK::ContactInfos::I_LASTNAME).toString()).append(" "));
+	} else {
+		summary += QString("<center><b>%1</b></center>").arg(Qt::escape(m_contact->display()));
+	}
+
+	summary += "<center>";
+	if(m_contact->data(KittySDK::ContactInfos::I_SEX).toInt() == 1) {
+		summary += tr("female");
+	} else if(m_contact->data(KittySDK::ContactInfos::I_SEX).toInt() == 2) {
+		summary += tr("male");
+	}
+
+	summary += " <b>";
+
+	QDate birthday = m_contact->data(KittySDK::ContactInfos::I_BIRTHDAY).toDate();
+	int years = QDate::currentDate().year() - birthday.year();
+	if(QDate::currentDate() < birthday.addYears(years)) {
+		years--;
+	}
+	summary += QString(tr("%1 years old")).arg(years);
+	summary += "</b></center>";
+	summary += "<br>";
+
+	summary += "<b>" + tr("Account") + ":</b> " + Qt::escape(m_contact->protocol()->protoInfo()->protoName()) + " " + m_contact->account()->uid();
+	summary += "<br>";
+
+	summary += "<b>" + tr("UID") + ":</b> " + Qt::escape(m_contact->uid());
+	summary += "<br>";
+
+	QString description = m_contact->description();
+	if(!description.isEmpty()) {
+		description.prepend(" \"");
+		description.append("\"");
+	}
+	summary += "<b>" + tr("Status") + ":</b> " + Core::inst()->statusToString(m_contact->status()) + Qt::escape(description);
+	summary += "<br>";
+
+	if(!m_contact->data(KittySDK::ContactInfos::I_HOMEPAGE).toString().isEmpty()) {
+		summary += "<b>" + tr("Homepage") + ":</b> " + QString("<a href=\"%1\">%1</a>").arg(Qt::escape(m_contact->data(KittySDK::ContactInfos::I_HOMEPAGE).toString()));
+		summary += "<br>";
+	}
+
+	if(!m_contact->data(KittySDK::ContactInfos::I_EMAILS).toString().isEmpty()) {
+		QStringList list = m_contact->data(KittySDK::ContactInfos::I_EMAILS).toString().split(",");
+		QString emails;
+		foreach(QString email, list) {
+			if(!email.isEmpty()) {
+				emails += QString("<a href=\"mailto:%1\">%1</a>, ").arg(Qt::escape(email));
+			}
+		}
+
+		emails.chop(2);
+
+		summary += "<b>" + tr("Email(s)", "", list.count()) + ":</b> " + emails;
+		summary += "<br>";
+	}
+
+	if(!m_contact->data(KittySDK::ContactInfos::I_PHONES).toString().isEmpty()) {
+		summary += "<b>" + tr("Phone(s)", "", m_contact->data(KittySDK::ContactInfos::I_PHONES).toString().split(",").count()) + ":</b> " + Qt::escape(m_contact->data(KittySDK::ContactInfos::I_PHONES).toString());
+		summary += "<br>";
+	}
+
+	QString address = m_contact->data(KittySDK::ContactInfos::I_HOME_ADDRESS).toString();
+	QString city = m_contact->data(KittySDK::ContactInfos::I_HOME_CITY).toString();
+	QString country = m_contact->data(KittySDK::ContactInfos::I_HOME_COUNTRY).toString();
+	QString code = m_contact->data(KittySDK::ContactInfos::I_HOME_POSTALCODE).toString();
+	QString state = m_contact->data(KittySDK::ContactInfos::I_HOME_STATE).toString();
+
+	if(!state.isEmpty() || !code.isEmpty() || !country.isEmpty() || !city.isEmpty() || !address.isEmpty()) {
+		summary += "<center><b><u>" + tr("Home") + "</u></b><br>";
+
+		if(!address.isEmpty()) {
+			summary += Qt::escape(address) + "<br>";
+		}
+
+		if(!code.isEmpty() || !city.isEmpty()) {
+			summary += Qt::escape(code) + " " + Qt::escape(city) + "<br>";
+		}
+
+		if(!state.isEmpty()) {
+			summary += Qt::escape(state) + "<br>";
+		}
+
+		if(!country.isEmpty()) {
+			summary += Qt::escape(country) + "<br>";
+		}
+	}
+
+	address = m_contact->data(KittySDK::ContactInfos::I_WORK_ADDRESS).toString();
+	city = m_contact->data(KittySDK::ContactInfos::I_WORK_CITY).toString();
+	country = m_contact->data(KittySDK::ContactInfos::I_WORK_COUNTRY).toString();
+	code = m_contact->data(KittySDK::ContactInfos::I_WORK_POSTALCODE).toString();
+	state = m_contact->data(KittySDK::ContactInfos::I_WORK_STATE).toString();
+	QString company = m_contact->data(KittySDK::ContactInfos::I_WORK_COMPANY).toString();
+	QString position = m_contact->data(KittySDK::ContactInfos::I_WORK_POSITION).toString();
+	QString website = m_contact->data(KittySDK::ContactInfos::I_WORK_WEBSITE).toString();
+
+	if(!state.isEmpty() || !code.isEmpty() || !country.isEmpty() || !city.isEmpty() || !address.isEmpty() || !company.isEmpty() || !position.isEmpty() || !website.isEmpty()) {
+		summary += "<center><b><u>" + tr("Work") + "</u></b><br>";
+
+		if(!company.isEmpty() || !position.isEmpty()) {
+			summary += Qt::escape(position);
+
+			if(!company.isEmpty() && !position.isEmpty()) {
+				summary += " " + tr("in") + " ";
+			}
+
+			summary += Qt::escape(company) + "<br>";
+		}
+
+		if(!address.isEmpty()) {
+			summary += Qt::escape(address) + "<br>";
+		}
+
+		if(!code.isEmpty() || !city.isEmpty()) {
+			summary += Qt::escape(code) + " " + Qt::escape(city) + "<br>";
+		}
+
+		if(!state.isEmpty()) {
+			summary += Qt::escape(state) + "<br>";
+		}
+
+		if(!country.isEmpty()) {
+			summary += Qt::escape(country) + "<br>";
+		}
+
+		if(!website.isEmpty()) {
+			summary += QString("<a href=\"%1\">%1</a>").arg(Qt::escape(website));
+		}
+	}
+
+	m_ui->summaryTextBrowser->setHtml(summary);
 }
 
 }

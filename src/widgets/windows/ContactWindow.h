@@ -26,6 +26,11 @@ namespace Kitty
 		public slots:
 			void applySettings();
 
+		protected:
+			void showEvent(QShowEvent *event);
+			void closeEvent(QCloseEvent *event);
+			void changeEvent(QEvent *event);
+
 		private slots:
 			void on_treeWidget_currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous);
 			void on_buttonBox_accepted();
@@ -38,9 +43,8 @@ namespace Kitty
 			void on_phoneListWidget_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
 			void finishEditing();
 
-		protected:
-			void showEvent(QShowEvent *event);
-			void closeEvent(QCloseEvent *event);
+		private:
+			void updateSummary();
 
 		private:
 			Ui::ContactWindow *m_ui;
