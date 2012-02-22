@@ -13,6 +13,7 @@ RosterSettings::RosterSettings(QWidget *parent): KittySDK::ISettingsPage(0, pare
 	m_ui->setupUi(this);
 
 	setIcon(KittySDK::Icons::I_BULLET);
+	setId(KittySDK::SettingPages::S_DISPLAY_ROSTER);
 }
 
 RosterSettings::~RosterSettings()

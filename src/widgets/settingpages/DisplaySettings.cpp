@@ -15,6 +15,7 @@ DisplaySettings::DisplaySettings(QWidget *parent): KittySDK::ISettingsPage(0, pa
 	m_ui->setupUi(this);
 
 	setIcon(KittySDK::Icons::I_PALETTE);
+	setId(KittySDK::SettingPages::S_DISPLAY);
 }
 
 DisplaySettings::~DisplaySettings()

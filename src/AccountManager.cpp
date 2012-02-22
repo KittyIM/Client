@@ -58,8 +58,7 @@ KittySDK::IAccount *AccountManager::account(KittySDK::IProtocol *protocol, const
 
 KittySDK::IAccount *AccountManager::account(const QString &protocol, const QString &uid) const
 {
-	KittySDK::IProtocol *proto = ProtocolManager::inst()->protocolByName(protocol);
-	if(proto) {
+	if(KittySDK::IProtocol *proto = ProtocolManager::inst()->protocolByName(protocol)) {
 		foreach(KittySDK::IAccount *account, accountsByProtocol(proto)) {
 			if(account->uid() == uid) {
 				return account;

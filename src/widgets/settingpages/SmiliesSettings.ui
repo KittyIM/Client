@@ -13,9 +13,6 @@
   <property name="windowTitle">
    <string>Smilies</string>
   </property>
-  <property name="name" stdset="0">
-   <string notr="true">Display.ChatWindow.Smilies</string>
-  </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <property name="margin">
     <number>0</number>
@@ -107,7 +104,14 @@
    </item>
   </layout>
  </widget>
- <customwidgets/>
+ <customwidgets>
+  <customwidget>
+   <class>KittySDK::ISettingsPage</class>
+   <extends>QWidget</extends>
+   <header>ISettingsPage.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

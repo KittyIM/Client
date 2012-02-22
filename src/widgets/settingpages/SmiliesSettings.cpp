@@ -54,6 +54,7 @@ SmiliesSettings::SmiliesSettings(QWidget *parent): KittySDK::ISettingsPage(0, pa
 	m_ui->smiliesWidget->setItemDelegate(new SmiliesDelegate(this));
 
 	setIcon(KittySDK::Icons::I_SMILEY);
+	setId(KittySDK::SettingPages::S_DISPLAY_CHATWINDOW_SMILIES);
 }
 
 SmiliesSettings::~SmiliesSettings()

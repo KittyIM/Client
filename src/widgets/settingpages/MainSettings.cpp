@@ -17,6 +17,7 @@ MainSettings::MainSettings(QWidget *parent): KittySDK::ISettingsPage(0, parent),
 	m_ui->setupUi(this);
 
 	setIcon(KittySDK::Icons::I_SETTINGS);
+	setId(KittySDK::SettingPages::S_SETTINGS);
 }
 
 MainSettings::~MainSettings()

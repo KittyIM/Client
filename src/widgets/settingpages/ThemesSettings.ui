@@ -13,9 +13,6 @@
   <property name="windowTitle">
    <string>Themes</string>
   </property>
-  <property name="name" stdset="0">
-   <string notr="true">Display.Themes</string>
-  </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <property name="margin">
     <number>0</number>
@@ -139,6 +136,12 @@
    <class>QWebView</class>
    <extends>QWidget</extends>
    <header>QtWebKit/QWebView</header>
+  </customwidget>
+  <customwidget>
+   <class>KittySDK::ISettingsPage</class>
+   <extends>QWidget</extends>
+   <header>ISettingsPage.h</header>
+   <container>1</container>
   </customwidget>
   <customwidget>
    <class>Kitty::ChatWebView</class>

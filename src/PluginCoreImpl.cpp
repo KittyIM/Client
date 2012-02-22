@@ -5,6 +5,7 @@
 #include "3rdparty/json/json.h"
 #include "AccountManager.h"
 #include "ContactManager.h"
+#include "ActionManager.h"
 #include "PluginManager.h"
 #include "IconManager.h"
 #include "Profile.h"
@@ -83,6 +84,20 @@ void PluginCoreImpl::addToolbarAction(const QString &tb, QAction *action)
 void PluginCoreImpl::addAccount(KittySDK::IAccount *account)
 {
 	AccountManager::inst()->add(account);
+}
+
+QAction *PluginCoreImpl::action(const QString &id)
+{
+	return ActionManager::inst()->action(id);
+}
+
+void PluginCoreImpl::addAction(const QString &id, QAction *action)
+{
+	ActionManager::inst()->insert(id, action);
+}
+
+void PluginCoreImpl::removeAction(const QString &id)
+{
 }
 
 QPixmap PluginCoreImpl::icon(const QString &id)

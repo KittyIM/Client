@@ -82,30 +82,32 @@ QTreeWidgetItem *SettingsWindow::itemById(const QString &id)
 KittySDK::ISettingsPage *SettingsWindow::pageById(const QString &id)
 {
 	foreach(KittySDK::ISettingsPage *page, m_pages) {
-		if(page->name() == id) {
+		if(page->id() == id) {
 			return page;
 		}
 	}
-
-	qWarning() << "Page not found [" << id << "]";
 
 	return 0;
 }
 
 void SettingsWindow::addPage(KittySDK::ISettingsPage *page, const QString &parent)
 {
+	if(pageById(page->id())) {
+		qWarning() << "Page with id" << page->id() << "already exists!";
+		return;
+	}
+
 	QTreeWidgetItem *child = new QTreeWidgetItem();
 	child->setIcon(0, IconManager::inst()->icon(page->icon()));
 	child->setText(0, page->windowTitle());
-	child->setText(1, page->name());
+	child->setText(1, page->id());
 
 	if(parent.isEmpty()) {
 		m_ui->stackedWidget->addWidget(page);
 		m_pages.append(page);
 		m_ui->treeWidget->addTopLevelItem(child);
 	} else {
-		QTreeWidgetItem *item = itemById(parent);
-		if(item) {
+		if(QTreeWidgetItem *item = itemById(parent)) {
 			m_ui->stackedWidget->addWidget(page);
 			m_pages.append(page);
 			item->addChild(child);
@@ -120,15 +122,16 @@ void SettingsWindow::updateIcons()
 	Core *core = Core::inst();
 
 	foreach(KittySDK::ISettingsPage *page, m_pages) {
-		QTreeWidgetItem *item = itemById(page->name());
-		if(item) {
+		if(QTreeWidgetItem *item = itemById(page->id())) {
 			item->setIcon(0, core->icon(page->icon()));
 		} else {
-			qWarning() << "Page doesn't exist [" << page->name() << "]";
+			qWarning() << "Page doesn't exist [" << page->id() << "]";
 		}
 	}
 
-	dynamic_cast<DisplaySettings*>(pageById(KittySDK::SettingPages::S_DISPLAY))->updateIcons();
+	if(DisplaySettings *display = qobject_cast<DisplaySettings*>(pageById(KittySDK::SettingPages::S_DISPLAY))) {
+		display->updateIcons();
+	}
 }
 
 void SettingsWindow::resetSettings()
@@ -168,7 +171,9 @@ void SettingsWindow::showEvent(QShowEvent *event)
 	resetSettings();
 
 	m_ui->treeWidget->expandAll();
-	m_ui->treeWidget->setCurrentItem(m_ui->treeWidget->topLevelItem(0));
+	if(m_ui->treeWidget->topLevelItemCount()) {
+		m_ui->treeWidget->setCurrentItem(m_ui->treeWidget->topLevelItem(0));
+	}
 	m_ui->buttonBox->setFocus();
 }
 
@@ -179,7 +184,9 @@ void SettingsWindow::changeEvent(QEvent *event)
 
 		foreach(KittySDK::ISettingsPage *page, m_pages) {
 			page->retranslate();
-			itemById(page->name())->setText(0, page->windowTitle());
+			if(QTreeWidgetItem *item = itemById(page->id())) {
+				item->setText(0, page->windowTitle());
+			}
 		}
 
 		on_treeWidget_currentItemChanged(m_ui->treeWidget->currentItem(), 0);
@@ -194,7 +201,7 @@ void SettingsWindow::on_treeWidget_currentItemChanged(QTreeWidgetItem *current, 
 		m_ui->groupBox->setTitle(current->text(0));
 
 		for(int i = 0; i < m_ui->stackedWidget->count(); i++) {
-			if(m_ui->stackedWidget->widget(i)->property("name").toString() == current->text(1)) {
+			if(m_ui->stackedWidget->widget(i)->property("id").toString() == current->text(1)) {
 				m_ui->stackedWidget->setCurrentIndex(i);
 				return;
 			}

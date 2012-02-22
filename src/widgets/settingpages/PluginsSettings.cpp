@@ -19,6 +19,7 @@ PluginsSettings::PluginsSettings(QWidget *parent): KittySDK::ISettingsPage(0, pa
 	m_ui->pluginWidget->header()->restoreState(Core::inst()->setting("Kitty.Columns.PluginsSettings", m_ui->pluginWidget->header()->saveState()).toByteArray());
 
 	setIcon(KittySDK::Icons::I_PLUGIN);
+	setId(KittySDK::SettingPages::S_PLUGINS);
 }
 
 PluginsSettings::~PluginsSettings()

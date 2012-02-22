@@ -11,6 +11,7 @@ StartupSettings::StartupSettings(QWidget *parent): KittySDK::ISettingsPage(0, pa
 	m_ui->setupUi(this);
 
 	setIcon(KittySDK::Icons::I_BULLET);
+	setId(KittySDK::SettingPages::S_SETTINGS_STARTUP);
 }
 
 StartupSettings::~StartupSettings()

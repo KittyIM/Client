@@ -17,6 +17,7 @@ ChatWindowSettings::ChatWindowSettings(QWidget *parent): KittySDK::ISettingsPage
   m_ui->setupUi(this);
 
   setIcon(KittySDK::Icons::I_MESSAGE);
+  setId(KittySDK::SettingPages::S_DISPLAY_CHATWINDOW);
 }
 
 ChatWindowSettings::~ChatWindowSettings()

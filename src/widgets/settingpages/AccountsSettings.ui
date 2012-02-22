@@ -13,9 +13,6 @@
   <property name="windowTitle">
    <string>Accounts</string>
   </property>
-  <property name="name" stdset="0">
-   <string notr="true">User.Accounts</string>
-  </property>
   <layout class="QGridLayout" name="gridLayout">
    <property name="margin">
     <number>0</number>
@@ -88,7 +85,14 @@
    </item>
   </layout>
  </widget>
- <customwidgets/>
+ <customwidgets>
+  <customwidget>
+   <class>KittySDK::ISettingsPage</class>
+   <extends>QWidget</extends>
+   <header>ISettingsPage.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections>
   <connection>

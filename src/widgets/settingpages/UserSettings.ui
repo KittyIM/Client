@@ -13,11 +13,15 @@
   <property name="windowTitle">
    <string>User</string>
   </property>
-  <property name="name" stdset="0">
-   <string notr="true">User</string>
-  </property>
  </widget>
- <customwidgets/>
+ <customwidgets>
+  <customwidget>
+   <class>KittySDK::ISettingsPage</class>
+   <extends>QWidget</extends>
+   <header>ISettingsPage.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

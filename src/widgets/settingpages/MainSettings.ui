@@ -13,9 +13,6 @@
   <property name="windowTitle">
    <string>Settings</string>
   </property>
-  <property name="name" stdset="0">
-   <string notr="true">Settings</string>
-  </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <property name="margin">
     <number>0</number>
@@ -57,7 +54,14 @@
    </item>
   </layout>
  </widget>
- <customwidgets/>
+ <customwidgets>
+  <customwidget>
+   <class>KittySDK::ISettingsPage</class>
+   <extends>QWidget</extends>
+   <header>ISettingsPage.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

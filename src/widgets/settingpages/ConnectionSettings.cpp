@@ -13,6 +13,7 @@ ConnectionSettings::ConnectionSettings(QWidget *parent): KittySDK::ISettingsPage
 	m_ui->setupUi(this);
 
 	setIcon(KittySDK::Icons::I_CONNECT);
+	setId(KittySDK::SettingPages::S_SETTINGS_CONNECTION);
 }
 
 ConnectionSettings::~ConnectionSettings()

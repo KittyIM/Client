@@ -13,6 +13,7 @@ ChatWindowTabsSettings::ChatWindowTabsSettings(QWidget *parent): KittySDK::ISett
 	m_ui->setupUi(this);
 
 	setIcon(KittySDK::Icons::I_TAB);
+	setId(KittySDK::SettingPages::S_DISPLAY_CHATWINDOW_TABS);
 }
 
 ChatWindowTabsSettings::~ChatWindowTabsSettings()

@@ -20,7 +20,7 @@ namespace Kitty
 			void loadDefaults();
 			QStringList keys() const { return m_actions.keys(); }
 
-			void insert(const QString &id, QAction *action) { m_actions.insert(id, action); }
+			void insert(const QString &id, QAction *action);
 			QAction *action(const QString &id) const { return m_actions.value(id); }
 
 		public slots:

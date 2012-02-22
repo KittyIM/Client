@@ -13,6 +13,7 @@ HistorySettings::HistorySettings(QWidget *parent): KittySDK::ISettingsPage(0, pa
 	m_ui->setupUi(this);
 
 	setIcon(KittySDK::Icons::I_HISTORY);
+	setId(KittySDK::SettingPages::S_DISPLAY_HISTORY);
 }
 
 HistorySettings::~HistorySettings()

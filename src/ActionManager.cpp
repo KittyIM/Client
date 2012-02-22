@@ -77,6 +77,13 @@ void ActionManager::loadDefaults()
 	retranslate();
 }
 
+void ActionManager::insert(const QString &id, QAction *action)
+{
+	if(!m_actions.contains(id)) {
+		m_actions.insert(id, action);
+	}
+}
+
 void ActionManager::updateIcons()
 {
 	qDebug() << "Updating icons";
