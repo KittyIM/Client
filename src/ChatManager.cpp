@@ -67,7 +67,7 @@ void ChatManager::receiveMessage(KittySDK::IMessage &msg)
 	QList<Plugin*> plugins = PluginManager::inst()->plugins();
 	foreach(Plugin *plugin, plugins) {
 		if(plugin->isLoaded()) {
-			plugin->plugin()->receiveMessage(msg);
+			plugin->iplugin()->receiveMessage(msg);
 		}
 	}
 

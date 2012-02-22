@@ -22,7 +22,7 @@ namespace Kitty
 			QVariant setting(const QString &key, const QVariant &defaultValue = QVariant());
 			void setSetting(const QString &key, const QVariant &value);
 
-			void execPluginAction(const QString &plugin, const QString &name, const QMap<QString, QVariant> &args);
+			void execPluginAction(const QString &pluginId, const QString &name, const QMap<QString, QVariant> &args);
 
 			QString profileName();
 			QString kittyDir();

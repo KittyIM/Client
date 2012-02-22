@@ -211,7 +211,7 @@ void DebugWindow::on_refreshIconsButton_clicked()
 		item->setIcon(0, Core::inst()->icon(key));
 
 		if(prefix.isEmpty()) {
-			m_ui->actionsWidget->addTopLevelItem(item);
+			m_ui->iconsWidget->addTopLevelItem(item);
 		} else {
 			QList<QTreeWidgetItem*> items = m_ui->iconsWidget->findItems(prefix, Qt::MatchExactly);
 			if(items.count() > 0) {
@@ -225,4 +225,13 @@ void DebugWindow::on_refreshIconsButton_clicked()
 	}
 }
 
+}
+
+void Kitty::DebugWindow::on_iconsWidget_currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous)
+{
+	if(current) {
+		m_ui->iconPreviewLabel->setPixmap(Core::inst()->icon(current->text(0)));
+	} else {
+		m_ui->iconPreviewLabel->setPixmap(QPixmap());
+	}
 }

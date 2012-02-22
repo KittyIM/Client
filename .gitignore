@@ -6,9 +6,9 @@
 *.o
 *qrc_res.cpp
 *object_script.*
-/build.*
 *.exe
 *.dll
+/build.*
 /bin/profiles/*
 /bin/emoticons/*
 /bin/sounds/*
@@ -16,6 +16,5 @@
 /bin/plugins/*
 /bin/data/translations/*
 /bin/data/dictionaries/*
-
 /lib/hunspell/debug/*
 /lib/hunspell/release/*

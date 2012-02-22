@@ -35,9 +35,9 @@ void PluginCoreImpl::setSetting(const QString &key, const QVariant &value)
 	Core::inst()->setSetting(key, value);
 }
 
-void PluginCoreImpl::execPluginAction(const QString &plugin, const QString &name, const QMap<QString, QVariant> &args)
+void PluginCoreImpl::execPluginAction(const QString &pluginId, const QString &name, const QMap<QString, QVariant> &args)
 {
-	PluginManager::inst()->execAction(plugin, name, args);
+	PluginManager::inst()->execAction(pluginId, name, args);
 }
 
 QString PluginCoreImpl::profileName()
@@ -125,7 +125,11 @@ QStringList PluginCoreImpl::plugins()
 	QList<Plugin*> plugins = PluginManager::inst()->plugins();
 
 	foreach(Plugin *plug, plugins) {
-		result.append(plug->plugin()->info()->name());
+		if(KittySDK::IPlugin *iplugin = plug->iplugin()) {
+			if(KittySDK::IPluginInfo *info = iplugin->info()) {
+				result.append(info->id());
+			}
+		}
 	}
 
 	return result;

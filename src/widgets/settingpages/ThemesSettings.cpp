@@ -46,7 +46,8 @@ class KittyProto: public KittySDK::IProtocol
 	public:
 		KittyProto(KittySDK::IPluginCore *core): KittySDK::IProtocol(core)
 		{
-			m_info = new KittySDK::IProtocolInfo("", "", "", "", "", "KittyIM");
+			m_info = new KittySDK::IProtocolInfo();
+			static_cast<KittySDK::IProtocolInfo*>(m_info)->setProtoName("KittyIM");
 		}
 
 		~KittyProto()

@@ -18,7 +18,7 @@ namespace Kitty
 			void load();
 			void unload();
 
-			KittySDK::IPlugin *plugin() const { return m_plugin; }
+			KittySDK::IPlugin *iplugin() const { return m_plugin; }
 			QString fileName() const { return m_fileName; }
 			bool isLoaded() const { return m_loaded; }
 			bool isInited() const { return m_inited; }
@@ -41,7 +41,7 @@ namespace Kitty
 			Plugin *pluginByName(const QString &name) const;
 			Plugin *pluginByFileName(const QString &fileName) const;
 
-			void execAction(const QString &plugin, const QString &name, const QMap<QString, QVariant> &args);
+			void execAction(const QString &pluginId, const QString &name, const QMap<QString, QVariant> &args);
 
 			void load();
 

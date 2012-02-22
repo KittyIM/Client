@@ -39,10 +39,10 @@ void PluginsSettings::reset()
 	foreach(Plugin *plugin, PluginManager::inst()->plugins()) {
 		QTreeWidgetItem *item = new QTreeWidgetItem(m_ui->pluginWidget);
 
-		KittySDK::IPluginInfo *info = plugin->plugin()->info();
+		KittySDK::IPluginInfo *info = plugin->iplugin()->info();
 		if(info) {
-			item->setText(0, plugin->plugin()->info()->name());
-			item->setText(1, plugin->plugin()->info()->version());
+			item->setText(0, plugin->iplugin()->info()->name());
+			item->setText(1, plugin->iplugin()->info()->version());
 		} else {
 			item->setText(0, tr("Unknown"));
 			item->setText(1, tr("Unknown"));
@@ -58,7 +58,7 @@ void PluginsSettings::on_pluginWidget_currentItemChanged(QTreeWidgetItem *curren
 	if(current) {
 		Plugin *plug = PluginManager::inst()->pluginByFileName(current->text(2));
 		if(plug) {
-			KittySDK::IPluginInfo *info = plug->plugin()->info();
+			KittySDK::IPluginInfo *info = plug->iplugin()->info();
 			if(info) {
 				m_ui->pluginNameValueLabel->setText(info->name());
 				m_ui->pluginAuthorValueLabel->setText(QString("%1 &lt;<a href=\"mailto:%2\">%2</a>&gt;").arg(info->author()).arg(info->email()));

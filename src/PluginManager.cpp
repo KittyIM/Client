@@ -80,8 +80,8 @@ Plugin *PluginManager::pluginByName(const QString &name) const
 {
 	foreach(Plugin *plugin, m_plugins) {
 		if(plugin->isLoaded()) {
-			if(plugin->plugin() && plugin->plugin()->info()) {
-				if(plugin->plugin()->info()->name() == name) {
+			if(plugin->iplugin() && plugin->iplugin()->info()) {
+				if(plugin->iplugin()->info()->name() == name) {
 					return plugin;
 				}
 			}
@@ -102,11 +102,15 @@ Plugin *PluginManager::pluginByFileName(const QString &fileName) const
 	return 0;
 }
 
-void PluginManager::execAction(const QString &pluginName, const QString &name, const QMap<QString, QVariant> &args)
+void PluginManager::execAction(const QString &pluginId, const QString &name, const QMap<QString, QVariant> &args)
 {
 	foreach(Plugin *plugin, m_plugins) {
-		if(pluginName.isEmpty() || (plugin->plugin()->info()->name() == pluginName)) {
-			plugin->plugin()->execAction(name, args);
+		if(KittySDK::IPlugin *iplugin = plugin->iplugin()) {
+			if(KittySDK::IPluginInfo *info = iplugin->info()) {
+				if(pluginId.isEmpty() || (info->id() == pluginId)) {
+					iplugin->execAction(name, args);
+				}
+			}
 		}
 	}
 }

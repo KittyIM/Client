@@ -325,7 +325,7 @@ void ChatTab::sendMessage()
 		QList<Plugin*> plugins = PluginManager::inst()->plugins();
 		foreach(Plugin *plugin, plugins) {
 			if(plugin->isLoaded()) {
-				plugin->plugin()->processMessage(msg);
+				plugin->iplugin()->processMessage(msg);
 			}
 		}
 
@@ -474,7 +474,7 @@ void ChatTab::sendImage(const QString &fileName)
 	QList<Plugin*> plugins = PluginManager::inst()->plugins();
 	foreach(Plugin *plugin, plugins) {
 		if(plugin->isLoaded()) {
-			plugin->plugin()->processMessage(msg);
+			plugin->iplugin()->processMessage(msg);
 		}
 	}
 

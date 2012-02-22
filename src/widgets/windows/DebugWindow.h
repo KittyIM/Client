@@ -5,6 +5,7 @@
 
 #include <QtGui/QWidget>
 
+class QTreeWidgetItem;
 class QStringList;
 class QWebView;
 
@@ -36,6 +37,7 @@ namespace Kitty
 			void execCommand();
 			void on_refreshActionsButton_clicked();
 			void on_refreshIconsButton_clicked();
+			void on_iconsWidget_currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous);
 
 		private:
 			explicit DebugWindow();
