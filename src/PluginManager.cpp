@@ -1,9 +1,14 @@
 #include "PluginManager.h"
 
+#include "widgets/windows/SettingsWindow.h"
 #include "ProtocolManager.h"
 #include "PluginCoreImpl.h"
+#include "Core.h"
+
+#include <SDKConstants.h>
 #include <IProtocol.h>
 
+#include <QtCore/QTranslator>
 #include <QtCore/QLibrary>
 #include <QtCore/QDebug>
 #include <QtCore/QDir>
@@ -17,7 +22,9 @@ namespace Kitty
 
 typedef QObject *(*pluginInst)(KittySDK::IPluginCore*);
 
-Plugin::Plugin(const QString &fileName): m_fileName(fileName)
+Plugin::Plugin(const QString &fileName):
+	m_fileName(fileName),
+	m_translator(0)
 {
 	m_loaded = false;
 	m_inited = false;
@@ -46,6 +53,11 @@ Plugin::Plugin(const QString &fileName): m_fileName(fileName)
 	}
 }
 
+Plugin::~Plugin()
+{
+	delete m_translator;
+}
+
 void Plugin::init()
 {
 	if(!isInited()) {
@@ -69,6 +81,22 @@ void Plugin::load()
 void Plugin::unload()
 {
 
+}
+
+void Plugin::changeLocale(const QString &locale)
+{
+	if(KittySDK::IPluginInfo *info = m_plugin->info()) {
+		if(!info->id().isEmpty()) {
+			if(!m_translator) {
+				m_translator = new QTranslator();
+			}
+
+			QString dir = qApp->applicationDirPath() + "/data/translations/";
+			if(m_translator->load(info->id() + "_" + locale, dir)) {
+				QApplication::installTranslator(m_translator);
+			}
+		}
+	}
 }
 
 const QList<Plugin*> &PluginManager::plugins() const
@@ -145,6 +173,21 @@ void PluginManager::load()
 PluginManager::~PluginManager()
 {
 	qDeleteAll(m_plugins);
+}
+
+PluginManager::PluginManager(QObject *parent):
+	QObject(parent)
+{
+	connect(this, SIGNAL(allPluginsLoaded()), SLOT(updateLanguages()));
+	connect(Core::inst()->settingsWindow(), SIGNAL(settingsApplied()), SLOT(updateLanguages()));
+}
+
+void PluginManager::updateLanguages()
+{
+	QString locale = Core::inst()->setting(KittySDK::Settings::S_LANGUAGE, QLocale::system().name()).toString();
+	foreach(Plugin *plugin, m_plugins) {
+		plugin->changeLocale(locale);
+	}
 }
 
 }

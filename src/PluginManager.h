@@ -1,11 +1,13 @@
 #ifndef PLUGINMANAGER_H
 #define PLUGINMANAGER_H
 
-#include <IPlugin.h>
-
 #include "Singleton.h"
 
-#include <QtCore/QObject>
+#include <IPlugin.h>
+
+#include <QtCore/QDebug>
+
+class QTranslator;
 
 namespace Kitty
 {
@@ -13,10 +15,12 @@ namespace Kitty
 	{
 		public:
 			Plugin(const QString &fileName);
+			~Plugin();
 
 			void init();
 			void load();
 			void unload();
+			void changeLocale(const QString &locale);
 
 			KittySDK::IPlugin *iplugin() const { return m_plugin; }
 			QString fileName() const { return m_fileName; }
@@ -28,6 +32,7 @@ namespace Kitty
 			bool m_inited;
 			QString m_fileName;
 			KittySDK::IPlugin *m_plugin;
+			QTranslator *m_translator;
 	};
 
 	class PluginManager: public QObject, public Singleton<PluginManager>
@@ -48,8 +53,11 @@ namespace Kitty
 		signals:
 			void allPluginsLoaded();
 
+		private slots:
+			void updateLanguages();
+
 		private:
-			explicit PluginManager(QObject *parent = 0): QObject(parent) { }
+			explicit PluginManager(QObject *parent = 0);
 			~PluginManager();
 
 		private:

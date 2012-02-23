@@ -131,9 +131,7 @@ void App::applySettings()
 		m_qtTranslator = new QTranslator(this);
 	}
 
-	QString locale = QLocale::system().name();
-	locale = core->setting(KittySDK::Settings::S_LANGUAGE, locale).toString();
-
+	QString locale = core->setting(KittySDK::Settings::S_LANGUAGE, QLocale::system().name()).toString();
 	QString dir = applicationDirPath() + "/data/translations/";
 	if(m_translator->load("kitty_" + locale, dir) && m_qtTranslator->load("qt_" + locale, dir)) {
 		installTranslator(m_translator);
