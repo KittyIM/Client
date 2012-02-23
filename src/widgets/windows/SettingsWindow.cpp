@@ -200,7 +200,7 @@ void SettingsWindow::on_treeWidget_currentItemChanged(QTreeWidgetItem *current, 
 	if(current) {
 		m_ui->groupBox->setTitle(current->text(0));
 
-		for(int i = 0; i < m_ui->stackedWidget->count(); i++) {
+		for(int i = 0; i < m_ui->stackedWidget->count(); ++i) {
 			if(m_ui->stackedWidget->widget(i)->property("id").toString() == current->text(1)) {
 				m_ui->stackedWidget->setCurrentIndex(i);
 				return;

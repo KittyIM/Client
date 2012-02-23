@@ -49,7 +49,7 @@ ChatTab *ChatTabWidget::tabByChat(KittySDK::IChat *chat)
 
 int ChatTabWidget::indexByChat(KittySDK::IChat *chat)
 {
-	for(int i = 0; i < count(); i++) {
+	for(int i = 0; i < count(); ++i) {
 		ChatTab *tab = qobject_cast<ChatTab*>(widget(i));
 		if(tab->chat() == chat) {
 			return i;
@@ -121,7 +121,7 @@ void ChatTabWidget::applySettings()
 
 	updateTabBar();
 
-	for(int i = 0; i < count(); i++) {
+	for(int i = 0; i < count(); ++i) {
 		if(ChatTab *tab = qobject_cast<ChatTab*>(widget(i))) {
 			setTabText(i, createLabel(tab->chat()));
 
@@ -165,7 +165,7 @@ void ChatTabWidget::updateIcons()
 {
 	m_closedButton->setIcon(Core::inst()->icon(KittySDK::Icons::I_DELETE));
 
-	for(int i = 0; i < count(); i++) {
+	for(int i = 0; i < count(); ++i) {
 		if(ChatTab *tab = qobject_cast<ChatTab*>(widget(i))) {
 			tab->updateIcons();
 		}

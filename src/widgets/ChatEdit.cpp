@@ -27,7 +27,7 @@ QStringList SpellChecker::suggest(const QString &word)
 	int count = hunspell->suggest(&words, QTextCodec::codecForName(hunspell->get_dic_encoding())->fromUnicode(word).constData());
 
 	QStringList suggestions;
-	for(int i = 0; i < count; i++) {
+	for(int i = 0; i < count; ++i) {
 		suggestions.append(QTextCodec::codecForName(hunspell->get_dic_encoding())->toUnicode(words[i]));
 	}
 
@@ -149,7 +149,7 @@ void ChatEdit::contextMenuEvent(QContextMenuEvent *event)
 
 	QStringList suggestions = m_checker->suggest(word);
 	QList<QAction*> suggestActions;
-	for(int i = 0; i < suggestions.count(); i++) {
+	for(int i = 0; i < suggestions.count(); ++i) {
 		QAction *suggestedWord = new QAction(this);
 		suggestedWord->setText(suggestions.at(i));
 		connect(suggestedWord, SIGNAL(triggered()), this, SLOT(replaceWord()));

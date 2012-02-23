@@ -82,7 +82,7 @@ EmoticonPack::EmoticonPack(const QString &name, QObject *parent): QObject(parent
 				QDomElement root = doc.documentElement();
 				if(root.nodeName() == "Emots") {
 					QDomNodeList emots = root.elementsByTagName("Emot");
-					for(int i = 0; i < emots.count(); i++) {
+					for(int i = 0; i < emots.count(); ++i) {
 						QDomElement emot = emots.at(i).toElement();
 
 						QDomElement animation = emot.namedItem("Animation").toElement();
@@ -91,7 +91,7 @@ EmoticonPack::EmoticonPack(const QString &name, QObject *parent): QObject(parent
 						Emoticon *emo = new Emoticon(fileName);
 
 						QDomNodeList codes = emot.elementsByTagName("Code");
-						for(int j = 0; j < codes.count(); j++) {
+						for(int j = 0; j < codes.count(); ++j) {
 							emo->addText(codes.at(j).firstChild().nodeValue());
 						}
 
@@ -115,14 +115,14 @@ EmoticonPack::EmoticonPack(const QString &name, QObject *parent): QObject(parent
 				QDomElement defs = root.firstChildElement("defs");
 				if(!defs.isNull()) {
 					QDomNodeList items = defs.elementsByTagName("i");
-					for(int i = 0; i < items.count(); i++) {
+					for(int i = 0; i < items.count(); ++i) {
 						QDomElement item = items.at(i).toElement();
 						QString fileName = dir.filePath(item.attribute("g"));
 
 						Emoticon *emo = new Emoticon(fileName);
 
 						QDomNodeList texts = item.elementsByTagName("t");
-						for(int j = 0; j < texts.count(); j++) {
+						for(int j = 0; j < texts.count(); ++j) {
 							emo->addText(texts.at(j).firstChild().nodeValue());
 						}
 

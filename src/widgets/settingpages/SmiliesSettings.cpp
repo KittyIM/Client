@@ -27,7 +27,7 @@ void SmiliesDelegate::paint(QPainter *painter, const QStyleOptionViewItem &optio
 	QList<Emoticon*> emots = pack.emoticons();
 
 	int offsetX = 20;
-	for(int i = 0; i < qMin(emots.count(), 10); i++) {
+	for(int i = 0; i < qMin(emots.count(), 10); ++i) {
 		QImage img(emots.at(i)->fileName());
 
 		if(img.height() > 20) {

@@ -349,7 +349,7 @@ QString ChatWebView::findImages(const QString &body, ChatTheme *theme)
 		}
 
 		pos += imgs.matchedLength();
-		m_imageCount++;
+		++m_imageCount;
 	}
 
 	return result;
@@ -389,7 +389,7 @@ QString ChatWebView::findYoutubes(const QString &body, ChatTheme *theme)
 		}
 
 		pos += youtubes.matchedLength();
-		m_imageCount++;
+		++m_imageCount;
 	}
 
 	return result;

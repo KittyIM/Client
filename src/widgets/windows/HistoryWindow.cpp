@@ -48,7 +48,7 @@ bool ContactProxy::filterAcceptsRow(int row, const QModelIndex &parent) const
 
 	//accounts are only visible if atleast one contact is visible
 	if(sourceModel()->hasChildren(index)) {
-		for(int i = 0; i < sourceModel()->rowCount(index); i++) {
+		for(int i = 0; i < sourceModel()->rowCount(index); ++i) {
 			if(QSortFilterProxyModel::filterAcceptsRow(i, index)) {
 				return true;
 			}
@@ -363,7 +363,7 @@ void HistoryWindow::on_chatTree_currentItemChanged(QTreeWidgetItem *current, QTr
 
 QModelIndex HistoryWindow::findContact(KittySDK::IContact *contact, const QModelIndex &parent)
 {
-	for(int i = 0; i < m_proxy->rowCount(parent); i++) {
+	for(int i = 0; i < m_proxy->rowCount(parent); ++i) {
 		QModelIndex index = m_proxy->index(i, 0, parent);
 
 		if(index.data(HistoryWindow::RoleType).toInt() == HistoryWindow::ItemContact) {
@@ -553,7 +553,7 @@ void HistoryWindow::on_chatTree_doubleClicked(const QModelIndex &current)
 	if(current.isValid()) {
 		QModelIndex parent = m_ui->contactTree->currentIndex();
 		if(parent.data(HistoryWindow::RoleType).toInt() == HistoryWindow::ItemAccount) {
-			for(int i = 0; i < m_proxy->rowCount(parent); i++) {
+			for(int i = 0; i < m_proxy->rowCount(parent); ++i) {
 				QModelIndex index = m_proxy->index(i, 0, parent);
 				if(index.data() == current.data()) {
 					m_ui->contactTree->setCurrentIndex(index);

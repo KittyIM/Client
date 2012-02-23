@@ -54,7 +54,7 @@ ChatColorPicker::ChatColorPicker(QWidget *parent): QWidget(parent, Qt::Popup)
 
 		gridLayout->addWidget(frame, i / width, i % width);
 
-		i++;
+		++i;
 	}
 
 	m_moreButton = new QPushButton(this);

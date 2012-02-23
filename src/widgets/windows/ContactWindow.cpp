@@ -48,7 +48,7 @@ void ContactWindow::applySettings()
 {
 	Core *core = Core::inst();
 
-	for(int i = 0; i < m_ui->treeWidget->topLevelItemCount(); i++) {
+	for(int i = 0; i < m_ui->treeWidget->topLevelItemCount(); ++i) {
 		QTreeWidgetItem *item = m_ui->treeWidget->topLevelItem(i);
 		item->setIcon(0, core->icon(KittySDK::Icons::I_BULLET));
 	}
@@ -102,7 +102,7 @@ void ContactWindow::showEvent(QShowEvent *event)
 
 	if(m_contact) {
 		//select contact's group
-		for(int i = 0; i < m_ui->groupComboBox->count(); i++) {
+		for(int i = 0; i < m_ui->groupComboBox->count(); ++i) {
 			if(m_ui->groupComboBox->itemText(i) == m_contact->group()) {
 				m_ui->groupComboBox->setCurrentIndex(i);
 				break;
@@ -110,7 +110,7 @@ void ContactWindow::showEvent(QShowEvent *event)
 		}
 
 		//select contact's account
-		for(int i = 0; i < m_ui->accountComboBox->count(); i++) {
+		for(int i = 0; i < m_ui->accountComboBox->count(); ++i) {
 			if(m_ui->accountComboBox->itemText(i) == QString("%1 (%2)").arg(m_contact->account()->uid()).arg(m_contact->account()->protocol()->protoInfo()->protoName())) {
 				m_ui->accountComboBox->setCurrentIndex(i);
 				break;

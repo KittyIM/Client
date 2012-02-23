@@ -44,7 +44,7 @@ RosterTreeView::RosterTreeView(QWidget *parent): QTreeView(parent)
 void RosterTreeView::fixGroups()
 {
 	QModelIndex root = rootIndex();
-	for(int i = 0; i < model()->rowCount(root); i++) {
+	for(int i = 0; i < model()->rowCount(root); ++i) {
 		QModelIndex index = model()->index(i, 0, root);
 		if(index.data(RosterItem::TypeRole).toInt() == RosterItem::Group) {
 			setExpanded(index, index.data(RosterItem::ExpandedRole).toBool());

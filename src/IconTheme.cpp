@@ -33,12 +33,12 @@ IconTheme::IconTheme(const QString &name)
 
 			QDomElement root = doc.documentElement();
 			QDomNodeList children = root.childNodes();
-			for(int i = 0; i < children.count(); i++) {
+			for(int i = 0; i < children.count(); ++i) {
 				QDomNode child = children.at(i);
 
 				if(child.nodeName() == "info") {
 					QDomNodeList infos = child.childNodes();
-					for(int j = 0; j < infos.count(); j++) {
+					for(int j = 0; j < infos.count(); ++j) {
 						QDomNode info = infos.at(j);
 
 						if(info.nodeName() == "name") {
@@ -51,7 +51,7 @@ IconTheme::IconTheme(const QString &name)
 					}
 				} else if(child.nodeName() == "icons") {
 					QDomNodeList icons = child.toElement().elementsByTagName("icon");
-					for(int j = 0; j < icons.count(); j++) {
+					for(int j = 0; j < icons.count(); ++j) {
 						QDomElement icon = icons.at(j).toElement();
 
 						m_icons.insert(icon.attribute("id"), qApp->applicationDirPath() + "/themes/icon/" + name + "/" + icon.attribute("filename"));

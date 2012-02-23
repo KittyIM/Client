@@ -66,7 +66,7 @@ RosterItem *RosterItemModel::groupItem(const QString &name)
 	if(name.isEmpty()) {
 		return m_root;
 	} else {
-		for(int i = 0; i < m_root->childCount(); i++) {
+		for(int i = 0; i < m_root->childCount(); ++i) {
 			RosterItem *group = m_root->child(i);
 			if(group) {
 				if(group->data(Qt::DisplayRole).toString() == name) {
