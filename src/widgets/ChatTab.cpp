@@ -594,11 +594,11 @@ void ChatTab::updateImageMenu()
 						break;
 					}
 
-					visited.append(hWnd);
+					visited << hWnd;
 
-					if((GetWindowTextLength(hWnd) > 0)) {
+					RECT rect;
+					if(GetWindowRect(hWnd, &rect) && (rect.right - rect.left > 20) && (rect.bottom - rect.top > 20)) {
 						LONG style = GetWindowLong(hWnd, GWL_STYLE);
-
 						if((style & WS_VISIBLE) && (style & WS_CAPTION)) {
 							WCHAR *text = new WCHAR[255];
 							GetWindowText(hWnd, text, 250);
