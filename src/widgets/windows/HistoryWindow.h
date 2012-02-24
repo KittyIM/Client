@@ -40,10 +40,10 @@ namespace Kitty
 
 			enum
 			{
-				RoleType = Qt::UserRole + 1,
-				RoleProtocol,
-				RoleAccount,
-				RolePathName
+				TypeRole = Qt::UserRole + 1,
+				ProtocolRole,
+				AccountRole,
+				PathNameRole
 			};
 
 		public:
@@ -61,11 +61,12 @@ namespace Kitty
 
 		private slots:
 			void loadChats(const QItemSelection &selected, const QItemSelection &deselected);
-			void on_contactSearchEdit_textChanged(const QString &text);
+			void filterContacts(const QString &filter);
 			void on_chatTree_currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous);
 			void updateCurrentChat();
-			void on_filtersButton_toggled(bool checked);
+			void toggleFilters(bool checked);
 			void on_chatTree_doubleClicked(const QModelIndex &index);
+			void refreshChats ();
 
 		private:
 			QModelIndex findContact(KittySDK::IContact *contact, const QModelIndex &parent = QModelIndex());

@@ -525,7 +525,7 @@ bool Core::archiveMessage(const KittySDK::IMessage &msg)
 		query.bindValue(":body", msg.body());
 
 		if(!query.exec()) {
-			qDebug() << "Insert failed" << query.lastError().text();
+			qDebug() << "History insert failed" << query.lastError().text();
 			db.close();
 
 			return false;

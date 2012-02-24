@@ -306,13 +306,7 @@
       </layout>
      </item>
      <item row="1" column="1">
-      <widget class="Kitty::ChatWebView" name="chatWebView">
-       <property name="url">
-        <url>
-         <string>about:blank</string>
-        </url>
-       </property>
-      </widget>
+      <widget class="Kitty::ChatWebView" name="chatWebView"/>
      </item>
      <item row="0" column="1">
       <widget class="QTreeWidget" name="chatTree">
@@ -359,18 +353,19 @@
   </customwidget>
  </customwidgets>
  <tabstops>
+  <tabstop>chatTree</tabstop>
   <tabstop>contactSearchEdit</tabstop>
   <tabstop>searchEdit</tabstop>
+  <tabstop>directionComboBox</tabstop>
+  <tabstop>dateFromEdit</tabstop>
+  <tabstop>dateToEdit</tabstop>
   <tabstop>refreshButton</tabstop>
   <tabstop>exportButton</tabstop>
   <tabstop>importButton</tabstop>
   <tabstop>printButton</tabstop>
   <tabstop>filtersButton</tabstop>
-  <tabstop>directionComboBox</tabstop>
-  <tabstop>dateFromEdit</tabstop>
-  <tabstop>dateToEdit</tabstop>
+  <tabstop>searchButton</tabstop>
   <tabstop>contactTree</tabstop>
-  <tabstop>chatTree</tabstop>
   <tabstop>chatWebView</tabstop>
  </tabstops>
  <resources>

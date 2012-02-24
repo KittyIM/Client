@@ -915,47 +915,47 @@
     <name>Kitty::ChatTab</name>
     <message>
         <location filename="../src/widgets/ChatTab.cpp" line="+81"/>
-        <location line="+420"/>
+        <location line="+422"/>
         <source>Bold</source>
         <translation>Pogrubienie</translation>
     </message>
     <message>
-        <location line="-414"/>
-        <location line="+418"/>
+        <location line="-416"/>
+        <location line="+420"/>
         <source>Italic</source>
         <translation>Pochylenie</translation>
     </message>
     <message>
-        <location line="-412"/>
-        <location line="+416"/>
+        <location line="-414"/>
+        <location line="+418"/>
         <source>Underline</source>
         <translation>Podkreślenie</translation>
     </message>
     <message>
-        <location line="-410"/>
+        <location line="-412"/>
         <source>Strikethrough</source>
         <translation>Przekreślenie</translation>
     </message>
     <message>
         <location line="+10"/>
-        <location line="+408"/>
+        <location line="+410"/>
         <source>Color</source>
         <translation>Kolor</translation>
     </message>
     <message>
-        <location line="-404"/>
-        <location line="+408"/>
+        <location line="-406"/>
+        <location line="+410"/>
         <source>Smilies</source>
         <translation>Emotikonki</translation>
     </message>
     <message>
-        <location line="-400"/>
-        <location line="+404"/>
+        <location line="-402"/>
+        <location line="+406"/>
         <source>Send image</source>
         <translation>Wyślij obrazek</translation>
     </message>
     <message>
-        <location line="-399"/>
+        <location line="-401"/>
         <source>From file...</source>
         <translation>Z pliku...</translation>
     </message>
@@ -986,23 +986,23 @@
     </message>
     <message>
         <location line="+10"/>
-        <location line="+369"/>
+        <location line="+371"/>
         <source>Send file</source>
         <translation>Wyślij plik</translation>
     </message>
     <message>
-        <location line="-361"/>
+        <location line="-363"/>
         <source>vCard</source>
         <translation>Profil</translation>
     </message>
     <message>
         <location line="+3"/>
-        <location line="+366"/>
+        <location line="+368"/>
         <source>History</source>
         <translation>Historia</translation>
     </message>
     <message>
-        <location line="-359"/>
+        <location line="-361"/>
         <location line="+63"/>
         <source>Contact is not typing</source>
         <translation>Kontakt nie pisze</translation>
@@ -1013,7 +1013,7 @@
         <translation>Kontakt pisze</translation>
     </message>
     <message>
-        <location line="+115"/>
+        <location line="+117"/>
         <source>Select file</source>
         <translation>Wybierz plik</translation>
     </message>
@@ -1062,7 +1062,7 @@
         <translation>Dodaj kontakt</translation>
     </message>
     <message>
-        <location line="+66"/>
+        <location line="+375"/>
         <source>female</source>
         <translation>kobieta</translation>
     </message>
@@ -1130,7 +1130,7 @@
         <translation>w</translation>
     </message>
     <message>
-        <location line="+237"/>
+        <location line="-202"/>
         <source>Email</source>
         <translation>Email</translation>
     </message>
@@ -1140,7 +1140,7 @@
         <translation>Telefon</translation>
     </message>
     <message>
-        <location line="-43"/>
+        <location line="-53"/>
         <source>Choose avatar file</source>
         <translation>Wybierz plik awatara</translation>
     </message>
@@ -1150,7 +1150,7 @@
         <translation>Pliki obrazków</translation>
     </message>
     <message>
-        <location line="+20"/>
+        <location line="+30"/>
         <source>Please specify an email address:</source>
         <translation>Podaj adres email:</translation>
     </message>
@@ -1344,13 +1344,13 @@
     </message>
     <message>
         <location line="+4"/>
-        <location line="+80"/>
+        <location line="+81"/>
         <source>Loaded</source>
         <translation>Załadowany</translation>
     </message>
     <message>
-        <location line="-80"/>
-        <location line="+80"/>
+        <location line="-81"/>
+        <location line="+81"/>
         <source>Not loaded</source>
         <translation>Nie załadowany</translation>
     </message>
@@ -1563,7 +1563,7 @@
     <name>MainSettings</name>
     <message>
         <location filename="../src/widgets/settingpages/MainSettings.ui"/>
-        <location filename="../src/ui_MainSettings.h" line="+76"/>
+        <location filename="../src/ui_MainSettings.h" line="+77"/>
         <location filename="../win64/src/ui_MainSettings.h" line="+77"/>
         <source>Settings</source>
         <translation>Ustawienia</translation>
@@ -2034,12 +2034,12 @@
     <name>Kitty::ChatTabWidget</name>
     <message>
         <location filename="../src/widgets/ChatTabWidget.cpp" line="+26"/>
-        <location line="+237"/>
+        <location line="+238"/>
         <source>Recently closed tabs</source>
         <translation>Ostatnio zamknięte zakładki</translation>
     </message>
     <message>
-        <location line="-179"/>
+        <location line="-180"/>
         <source>Unknown</source>
         <translation>Nieznane</translation>
     </message>
@@ -2054,7 +2054,7 @@
         <translation>Mężczyzna</translation>
     </message>
     <message>
-        <location line="+113"/>
+        <location line="+114"/>
         <source>Clear recently closed tabs list</source>
         <translation>Wyczyść listę</translation>
     </message>
@@ -2174,11 +2174,6 @@
     </message>
     <message>
         <location/>
-        <source>about:blank</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location/>
         <location filename="../src/ui_HistoryWindow.h" line="+4"/>
         <location filename="../win64/src/ui_HistoryWindow.h" line="+4"/>
         <source>Duration</source>
@@ -2210,12 +2205,12 @@
 <context>
     <name>Kitty::HistoryWindow</name>
     <message>
-        <location filename="../src/widgets/windows/HistoryWindow.cpp" line="+147"/>
+        <location filename="../src/widgets/windows/HistoryWindow.cpp" line="+150"/>
         <source>Conversations</source>
         <translation>Rozmowy</translation>
     </message>
     <message>
-        <location line="+248"/>
+        <location line="+257"/>
         <source>Account</source>
         <translation>Konto</translation>
     </message>
@@ -2225,25 +2220,25 @@
         <translation>Kontakt</translation>
     </message>
     <message numerus="yes">
-        <location line="+47"/>
-        <source>chat(s)</source>
+        <location line="+55"/>
+        <source>%n chat(s)</source>
         <translation>
-            <numerusform>rozmowa</numerusform>
-            <numerusform>%n rozmów</numerusform>
-            <numerusform>%n rozmów</numerusform>
+            <numerusform>%n chat</numerusform>
+            <numerusform>%n chaty</numerusform>
+            <numerusform>%n chatów</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location line="+0"/>
-        <source>message(s)</source>
+        <source>%n message(s)</source>
         <translation>
-            <numerusform>wiadomość</numerusform>
+            <numerusform>%n wiadomość</numerusform>
             <numerusform>%n wiadomości</numerusform>
             <numerusform>%n wiadomości</numerusform>
         </translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+16"/>
         <source>Message</source>
         <translation>Wiadomość</translation>
     </message>
