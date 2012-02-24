@@ -58,6 +58,7 @@ void Profile::load(const QString &name)
 		loadIconTheme(settings()->value(KittySDK::Settings::S_ICON_THEME).toString());
 	}
 
+	dynamic_cast<App*>(qApp)->retranslate();
 	dynamic_cast<App*>(qApp)->applySettings();
 
 	ActionManager::inst()->loadDefaults();

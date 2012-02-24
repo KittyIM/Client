@@ -46,6 +46,7 @@ SettingsWindow::SettingsWindow(QWidget *parent): QDialog(parent), m_ui(new Ui::S
 
 	Core *core = Core::inst();
 
+	connect(this, SIGNAL(languageChanged()), dynamic_cast<App*>(qApp), SLOT(retranslate()));
 	connect(this, SIGNAL(settingsApplied()), dynamic_cast<App*>(qApp), SLOT(applySettings()));
 	connect(this, SIGNAL(settingsApplied()), core->mainWindow(), SLOT(applySettings()));
 
@@ -215,8 +216,14 @@ void SettingsWindow::applySettings()
 {
 	qDebug() << "Applying all pages [" << m_pages.count() << "]";
 
+	QString lang = Core::inst()->setting(KittySDK::Settings::S_LANGUAGE).toString();
+
 	foreach(KittySDK::ISettingsPage *page, m_pages) {
 		page->apply();
+	}
+
+	if(lang != Core::inst()->setting(KittySDK::Settings::S_LANGUAGE).toString()) {
+		emit languageChanged();
 	}
 
 	emit settingsApplied();

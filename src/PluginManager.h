@@ -43,7 +43,7 @@ namespace Kitty
 
 		public:
 			const QList<Plugin*> &plugins() const;
-			Plugin *pluginByName(const QString &name) const;
+			Plugin *pluginById(const QString &id) const;
 			Plugin *pluginByFileName(const QString &fileName) const;
 
 			void execAction(const QString &pluginId, const QString &name, const QMap<QString, QVariant> &args);

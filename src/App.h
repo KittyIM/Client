@@ -18,6 +18,7 @@ namespace Kitty
 
 		public slots:
 			void applySettings();
+			void retranslate();
 
 		private slots:
 			void cleanUp();

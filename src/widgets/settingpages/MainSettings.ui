@@ -34,7 +34,11 @@
        </widget>
       </item>
       <item row="0" column="1">
-       <widget class="QComboBox" name="languageComboBox"/>
+       <widget class="QComboBox" name="languageComboBox">
+        <property name="sizeAdjustPolicy">
+         <enum>QComboBox::AdjustToContents</enum>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>
@@ -58,7 +62,7 @@
   <customwidget>
    <class>KittySDK::ISettingsPage</class>
    <extends>QWidget</extends>
-   <header>ISettingsPage.h</header>
+   <header location="global">ISettingsPage.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

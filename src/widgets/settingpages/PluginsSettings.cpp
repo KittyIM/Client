@@ -51,6 +51,7 @@ void PluginsSettings::reset()
 
 		item->setText(2, QFileInfo(plugin->fileName()).fileName());
 		item->setText(3, (plugin->isLoaded())?tr("Loaded"):tr("Not loaded"));
+		item->setText(4, plugin->iplugin()->info()->id());
 	}
 }
 
@@ -128,8 +129,8 @@ void PluginsSettings::retranslate()
 
 	for(int i = 0; i < m_ui->pluginWidget->topLevelItemCount(); ++i) {
 		QTreeWidgetItem *item = m_ui->pluginWidget->topLevelItem(i);
-		Plugin *plugin = PluginManager::inst()->pluginByName(item->text(0));
-		if(plugin) {
+		if(Plugin *plugin = PluginManager::inst()->pluginById(item->text(4))) {
+			item->setText(0, plugin->iplugin()->info()->name());
 			item->setText(3, (plugin->isLoaded())?tr("Loaded"):tr("Not loaded"));
 		}
 	}

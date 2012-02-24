@@ -127,7 +127,7 @@ void AccountManager::load(const QString &profile)
 						KittySDK::IProtocol *proto = ProtocolManager::inst()->protocolByName(settings.value("protocol").toString());
 
 						if(proto) {
-							Plugin *plug = PluginManager::inst()->pluginByName(proto->info()->name());
+							Plugin *plug = PluginManager::inst()->pluginById(proto->info()->id());
 							if(plug->isLoaded()) {
 								KittySDK::IAccount *acc = proto->newAccount(settings.value("uid").toString());
 								if(acc) {

@@ -50,7 +50,7 @@ void MainSettings::reset()
 	m_ui->languageComboBox->addItem("English", "C");
 
 	if(core->setting(KittySDK::Settings::S_LANGUAGE, "C").toString() == "C") {
-		m_ui->languageComboBox->setCurrentIndex(0);
+		m_ui->languageComboBox->setCurrentIndex(1);
 	}
 
 	QDir langDir(qApp->applicationDirPath() + "/data/translations/");

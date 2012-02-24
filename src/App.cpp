@@ -123,24 +123,6 @@ void App::applySettings()
 {
 	Core *core = Core::inst();
 
-	if(!m_translator) {
-		m_translator = new QTranslator(this);
-	}
-
-	if(!m_qtTranslator) {
-		m_qtTranslator = new QTranslator(this);
-	}
-
-	QString locale = core->setting(KittySDK::Settings::S_LANGUAGE, QLocale::system().name()).toString();
-	QString dir = applicationDirPath() + "/data/translations/";
-	if(m_translator->load("kitty_" + locale, dir) && m_qtTranslator->load("qt_" + locale, dir)) {
-		installTranslator(m_translator);
-		installTranslator(m_qtTranslator);
-	} else {
-		m_translator->load("");
-		m_qtTranslator->load("");
-	}
-
 	if(core->profile()) {
 		core->profile()->loadIconTheme(core->setting(KittySDK::Settings::S_ICON_THEME).toString());
 	}
@@ -158,6 +140,33 @@ void App::applySettings()
 	}
 
 	QNetworkProxy::setApplicationProxy(proxy);
+}
+
+void App::retranslate()
+{
+	Core *core = Core::inst();
+
+	if(!m_translator) {
+		m_translator = new QTranslator(this);
+	}
+
+	if(!m_qtTranslator) {
+		m_qtTranslator = new QTranslator(this);
+	}
+
+	QString locale = core->setting(KittySDK::Settings::S_LANGUAGE).toString();
+	if(locale.isEmpty()) {
+		locale = QLocale::system().name();
+	}
+
+	QString dir = applicationDirPath() + "/data/translations/";
+	if(m_translator->load("kitty_" + locale, dir) && m_qtTranslator->load("qt_" + locale, dir)) {
+		installTranslator(m_translator);
+		installTranslator(m_qtTranslator);
+	} else {
+		m_translator->load("");
+		m_qtTranslator->load("");
+	}
 }
 
 void App::cleanUp()

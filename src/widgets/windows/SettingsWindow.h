@@ -38,6 +38,7 @@ namespace Kitty
 
 		signals:
 			void settingsApplied();
+			void languageChanged();
 
 		protected:
 			void showEvent(QShowEvent *event);
