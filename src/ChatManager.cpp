@@ -8,8 +8,15 @@
 #include <IContact.h>
 #include <IMessage.h>
 
+#include <QtCore/QCryptographicHash>
+
 #define qDebug() qDebug() << "[ChatManager]"
 #define qWarning() qWarning() << "[ChatManager]"
+
+bool contactCompare(KittySDK::IContact *left, KittySDK::IContact *right)
+{
+	return left->uid().toLower() < right->uid().toLower();
+}
 
 namespace Kitty
 {
@@ -34,8 +41,14 @@ const QList<KittySDK::IChat*> ChatManager::chatsByAccount(KittySDK::IAccount *ac
 
 KittySDK::IChat *ChatManager::chat(KittySDK::IContact *me, const QList<KittySDK::IContact*> &contacts) const
 {
+	QList<KittySDK::IContact*> sortedContacts = contacts;
+	qSort(sortedContacts.begin(), sortedContacts.end(), contactCompare);
+
 	foreach(KittySDK::IChat *chat, chatsByAccount(me->account())) {
-		if(chat->contacts() == contacts) {
+		QList<KittySDK::IContact*> chatContacts = chat->contacts();
+		qSort(chatContacts.begin(), chatContacts.end(), contactCompare);
+
+		if(chatContacts == sortedContacts) {
 			return chat;
 		}
 	}
@@ -52,14 +65,23 @@ void ChatManager::startChat(KittySDK::IContact *me, const QList<KittySDK::IConta
 {
 	KittySDK::IChat *ch = chat(me, contacts);
 	if(!ch) {
-		ch = new KittySDK::IChat(me, contacts, qrand());
-		m_chats.append(ch);
+		ch = createChat(me, contacts);
 	}
 
 	Core::inst()->chatWindow()->startChat(ch);
 	Core::inst()->chatWindow()->switchTo(ch);
 	Core::inst()->chatWindow()->show();
 	Core::inst()->chatWindow()->activateWindow();
+}
+
+KittySDK::IChat *ChatManager::createChat(KittySDK::IContact *me, const QList<KittySDK::IContact *> &contacts)
+{
+	QString seed = contacts.first()->uid() + QString::number(QDateTime::currentDateTime().toMSecsSinceEpoch());
+
+	KittySDK::IChat *ch = new KittySDK::IChat(me, contacts, QCryptographicHash::hash(seed.toAscii(), QCryptographicHash::Sha1).toHex());
+	m_chats.append(ch);
+
+	return ch;
 }
 
 void ChatManager::receiveMessage(KittySDK::IMessage &msg)
@@ -78,18 +100,13 @@ void ChatManager::receiveMessage(KittySDK::IMessage &msg)
 
 		KittySDK::IChat *ch = chat(me, contacts);
 		if(!ch) {
-			ch = new KittySDK::IChat(me, contacts, qrand());
-			m_chats.append(ch);
+			ch = createChat(me, contacts);
 		}
 
 		msg.setChat(ch);
 
 		ChatTab *tab = Core::inst()->chatWindow()->startChat(ch);
 		tab->appendMessage(msg);
-
-		Core::inst()->chatWindow()->switchTo(ch);
-		Core::inst()->chatWindow()->show();
-		Core::inst()->chatWindow()->activateWindow();
 	}
 }
 

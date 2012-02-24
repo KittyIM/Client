@@ -473,9 +473,10 @@ bool Core::archiveMessage(const KittySDK::IMessage &msg)
 		}
 
 		//remove chars that are illegal in path names
-		protocol.replace(QRegExp("[/\\:*?\"<>|]"), "-");
-		account.replace(QRegExp("[/\\:*?\"<>|]"), "-");
-		fileName.replace(QRegExp("[/\\:*?\"<>|]"), "-");
+		const QRegExp illegals("[/\\:*?\"<>|]");
+		protocol.replace(illegals, "-");
+		account.replace(illegals, "-");
+		fileName.replace(illegals, "-");
 
 		fileName += ".db";
 
@@ -504,7 +505,7 @@ bool Core::archiveMessage(const KittySDK::IMessage &msg)
 		if(!db.tables().count()) {
 			db.exec("CREATE TABLE 'messages' ("
 					" 'id' INTEGER PRIMARY KEY AUTOINCREMENT,"
-					" 'chatId' INTEGER,"
+					" 'chatId' VARCHAR(40),"
 					" 'timeStamp' INTEGER(11),"
 					" 'dir' TINYINT(1),"
 					" 'body' TEXT);");

@@ -7,6 +7,8 @@
 
 #include <QtCore/QObject>
 
+bool contactCompare(KittySDK::IContact *left, KittySDK::IContact *right);
+
 namespace Kitty
 {
 	class ChatManager: public QObject, public Singleton<ChatManager>
@@ -23,6 +25,7 @@ namespace Kitty
 			KittySDK::IChat *chat(KittySDK::IContact *me, KittySDK::IContact *sender) const;
 
 			void startChat(KittySDK::IContact *me, const QList<KittySDK::IContact*> &contacts);
+			KittySDK::IChat *createChat(KittySDK::IContact *me, const QList<KittySDK::IContact*> &contacts);
 
 		public slots:
 			void receiveMessage(KittySDK::IMessage &msg);

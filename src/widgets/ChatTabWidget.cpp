@@ -101,6 +101,7 @@ ChatTab *ChatTabWidget::startChat(KittySDK::IChat *chat)
 		connect(chatTab, SIGNAL(tabChanged()), this, SLOT(changeTab()));
 
 		m_tabs.append(chatTab);
+		addTab(chatTab, "");
 	}
 
 	return chatTab;
