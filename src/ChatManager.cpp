@@ -9,6 +9,7 @@
 #include <IMessage.h>
 
 #include <QtCore/QCryptographicHash>
+#include <QtGui/QApplication>
 
 #define qDebug() qDebug() << "[ChatManager]"
 #define qWarning() qWarning() << "[ChatManager]"
@@ -107,6 +108,8 @@ void ChatManager::receiveMessage(KittySDK::IMessage &msg)
 
 		ChatTab *tab = Core::inst()->chatWindow()->startChat(ch);
 		tab->appendMessage(msg);
+
+		QApplication::alert(Core::inst()->chatWindow());
 	}
 }
 
