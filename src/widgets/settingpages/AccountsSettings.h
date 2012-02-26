@@ -10,6 +10,11 @@ namespace Ui
 	class AccountsSettings;
 }
 
+namespace KittySDK
+{
+	class IAccount;
+}
+
 namespace Kitty
 {
 	class AccountsSettings: public KittySDK::ISettingsPage
@@ -26,6 +31,7 @@ namespace Kitty
 
 		private slots:
 			void refreshAccounts();
+			void refreshAccount(KittySDK::IAccount *account);
 			void addAccount();
 			void on_addButton_clicked();
 			void on_treeWidget_currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous);

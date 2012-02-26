@@ -20,7 +20,8 @@ AccountsSettings::AccountsSettings(QWidget *parent): KittySDK::ISettingsPage(0, 
 {
 	m_ui->setupUi(this);
 
-	connect(AccountManager::inst(), SIGNAL(accountAdded()), this, SLOT(refreshAccounts()));
+	connect(AccountManager::inst(), SIGNAL(accountAdded()), SLOT(refreshAccounts()));
+	connect(AccountManager::inst(), SIGNAL(accountStatusChanged(KittySDK::IAccount*,KittySDK::IProtocol::Status,QString)), SLOT(refreshAccount(KittySDK::IAccount*)));
 
 	setIcon(KittySDK::Icons::I_KEY);
 	setId(KittySDK::SettingPages::S_USER_ACCOUNTS);
@@ -49,12 +50,27 @@ void AccountsSettings::reset()
 void AccountsSettings::refreshAccounts()
 {
 	foreach(KittySDK::IAccount *account, AccountManager::inst()->accounts()) {
-		if(m_ui->treeWidget->findItems(account->uid(), Qt::MatchExactly).count() == 0) {
-			QTreeWidgetItem *item = new QTreeWidgetItem(m_ui->treeWidget);
+		refreshAccount(account);
+	}
+}
 
-			item->setIcon(0, Core::inst()->icon(account->protocol()->protoInfo()->protoIcon()));
+void AccountsSettings::refreshAccount(KittySDK::IAccount *account)
+{
+	QList<QTreeWidgetItem*> items = m_ui->treeWidget->findItems(account->uid(), Qt::MatchExactly);
+	QTreeWidgetItem *item = 0;
+
+	if(items.count()) {
+		item = items.first();
+	} else {
+		item = new QTreeWidgetItem(m_ui->treeWidget);
+	}
+
+	if(KittySDK::IProtocol *proto = account->protocol()) {
+		if(KittySDK::IProtocolInfo *info = proto->protoInfo()) {
+			item->setIcon(0, Core::inst()->icon(info->protoIcon()));
 			item->setText(0, account->uid());
-			item->setText(1, account->protocol()->protoInfo()->protoName());
+			item->setText(1, info->protoName());
+			item->setText(2, Core::inst()->statusToString(account->status()));
 		}
 	}
 }
