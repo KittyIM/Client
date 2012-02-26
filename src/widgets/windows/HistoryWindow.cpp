@@ -81,6 +81,7 @@ HistoryWindow::HistoryWindow(QWidget *parent): QWidget(parent), m_ui(new Ui::His
 	connect(m_ui->refreshButton, SIGNAL(clicked()), SLOT(refreshChats()));
 
 	restoreGeometry(core->setting(KittySDK::Settings::S_HISTORYWINDOW_GEOMETRY).toByteArray());
+	m_ui->splitter->restoreState(core->setting(KittySDK::Settings::S_HISTORYWINDOW_SPLITTER).toByteArray());
 
 	m_ui->chatWebView->setAutoScroll(false);
 
@@ -97,6 +98,7 @@ HistoryWindow::~HistoryWindow()
 	Core *core = Core::inst();
 
 	core->setSetting(KittySDK::Settings::S_HISTORYWINDOW_GEOMETRY, saveGeometry());
+	core->setSetting(KittySDK::Settings::S_HISTORYWINDOW_SPLITTER, m_ui->splitter->saveState());
 	core->setSetting(KittySDK::Settings::S_HISTORYWINDOW_COLUMNS, m_ui->chatTree->header()->saveState());
 	core->setSetting(KittySDK::Settings::S_HISTORYWINDOW_FILTERS, m_ui->filtersButton->isChecked());
 
@@ -519,7 +521,7 @@ void HistoryWindow::loadChats(const QItemSelection &selected, const QItemSelecti
 					while(query.next()) {
 						QTreeWidgetItem *item = new QTreeWidgetItem(m_ui->chatTree);
 
-						QString text = query.value(4).toString().remove(QRegExp("<[^>]*>"));
+						QString text = query.value(4).toString().remove(QRegExp("<[^>]*>")).remove("\n");
 						if(text.length() > 60) {
 							text = text.left(60).append("...");
 						}

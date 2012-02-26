@@ -12,8 +12,8 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>536</width>
-    <height>309</height>
+    <width>540</width>
+    <height>310</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -23,11 +23,11 @@
    <iconset resource="../../../res/res.qrc">
     <normaloff>:/icons/history.ico</normaloff>:/icons/history.ico</iconset>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_2">
+  <layout class="QGridLayout" name="gridLayout" columnstretch="1,100" columnminimumwidth="200,0">
    <property name="margin">
     <number>6</number>
    </property>
-   <item>
+   <item row="0" column="0" colspan="2">
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <widget class="QToolButton" name="refreshButton">
@@ -177,166 +177,178 @@
      </item>
     </layout>
    </item>
-   <item>
-    <layout class="QGridLayout" name="gridLayout">
-     <item row="0" column="0" rowspan="2">
-      <layout class="QVBoxLayout" name="verticalLayout">
-       <item>
-        <widget class="QLineEdit" name="contactSearchEdit">
-         <property name="placeholderText">
-          <string>Search contacts</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QTreeView" name="contactTree">
-         <property name="minimumSize">
-          <size>
-           <width>150</width>
-           <height>0</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>200</width>
-           <height>16777215</height>
-          </size>
-         </property>
-         <property name="editTriggers">
-          <set>QAbstractItemView::NoEditTriggers</set>
-         </property>
-         <property name="indentation">
-          <number>10</number>
-         </property>
-         <attribute name="headerVisible">
-          <bool>false</bool>
-         </attribute>
-         <attribute name="headerDefaultSectionSize">
-          <number>0</number>
-         </attribute>
-        </widget>
-       </item>
-       <item>
-        <widget class="QWidget" name="filtersWidget" native="true">
-         <layout class="QVBoxLayout" name="verticalLayout_3">
-          <property name="margin">
-           <number>0</number>
-          </property>
-          <item>
-           <widget class="QGroupBox" name="filtersGroupBox">
-            <property name="enabled">
-             <bool>true</bool>
-            </property>
-            <property name="title">
-             <string>Filters</string>
-            </property>
-            <layout class="QFormLayout" name="formLayout">
-             <property name="leftMargin">
-              <number>6</number>
-             </property>
-             <property name="topMargin">
-              <number>3</number>
-             </property>
-             <property name="rightMargin">
-              <number>6</number>
-             </property>
-             <property name="bottomMargin">
-              <number>6</number>
-             </property>
-             <item row="1" column="0">
-              <widget class="QLabel" name="dateFromLabel">
-               <property name="text">
-                <string>From:</string>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="1">
-              <widget class="QDateEdit" name="dateFromEdit">
-               <property name="date">
-                <date>
-                 <year>1970</year>
-                 <month>1</month>
-                 <day>1</day>
-                </date>
-               </property>
-               <property name="calendarPopup">
-                <bool>true</bool>
-               </property>
-              </widget>
-             </item>
-             <item row="3" column="1">
-              <widget class="QDateEdit" name="dateToEdit">
-               <property name="calendarPopup">
-                <bool>true</bool>
-               </property>
-              </widget>
-             </item>
-             <item row="3" column="0">
-              <widget class="QLabel" name="dateToLabel">
-               <property name="text">
-                <string>To:</string>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="0" colspan="2">
-              <widget class="QComboBox" name="directionComboBox">
-               <item>
-                <property name="text">
-                 <string>Both directions</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>Incoming</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>Outgoing</string>
-                </property>
-               </item>
-              </widget>
-             </item>
-            </layout>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
-      </layout>
+   <item row="1" column="0">
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <widget class="QLineEdit" name="contactSearchEdit">
+       <property name="placeholderText">
+        <string>Search contacts</string>
+       </property>
+      </widget>
      </item>
-     <item row="1" column="1">
-      <widget class="Kitty::ChatWebView" name="chatWebView"/>
-     </item>
-     <item row="0" column="1">
-      <widget class="QTreeWidget" name="chatTree">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Minimum" vsizetype="MinimumExpanding">
-         <horstretch>10</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
+     <item>
+      <widget class="QTreeView" name="contactTree">
+       <property name="minimumSize">
+        <size>
+         <width>150</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>200</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="editTriggers">
+        <set>QAbstractItemView::NoEditTriggers</set>
        </property>
        <property name="indentation">
-        <number>0</number>
+        <number>10</number>
        </property>
-       <column>
-        <property name="text">
-         <string notr="true">Contact</string>
+       <attribute name="headerVisible">
+        <bool>false</bool>
+       </attribute>
+       <attribute name="headerDefaultSectionSize">
+        <number>0</number>
+       </attribute>
+      </widget>
+     </item>
+     <item>
+      <widget class="QWidget" name="filtersWidget" native="true">
+       <layout class="QVBoxLayout" name="verticalLayout_3">
+        <property name="margin">
+         <number>0</number>
         </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>Duration</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>Count</string>
-        </property>
-       </column>
+        <item>
+         <widget class="QGroupBox" name="filtersGroupBox">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
+          <property name="title">
+           <string>Filters</string>
+          </property>
+          <layout class="QFormLayout" name="formLayout">
+           <property name="leftMargin">
+            <number>6</number>
+           </property>
+           <property name="topMargin">
+            <number>3</number>
+           </property>
+           <property name="rightMargin">
+            <number>6</number>
+           </property>
+           <property name="bottomMargin">
+            <number>6</number>
+           </property>
+           <item row="1" column="0">
+            <widget class="QLabel" name="dateFromLabel">
+             <property name="text">
+              <string>From:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QDateEdit" name="dateFromEdit">
+             <property name="date">
+              <date>
+               <year>1970</year>
+               <month>1</month>
+               <day>1</day>
+              </date>
+             </property>
+             <property name="calendarPopup">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="1">
+            <widget class="QDateEdit" name="dateToEdit">
+             <property name="calendarPopup">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="0">
+            <widget class="QLabel" name="dateToLabel">
+             <property name="text">
+              <string>To:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="0" colspan="2">
+            <widget class="QComboBox" name="directionComboBox">
+             <item>
+              <property name="text">
+               <string>Both directions</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Incoming</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Outgoing</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
       </widget>
      </item>
     </layout>
+   </item>
+   <item row="1" column="1">
+    <widget class="QSplitter" name="splitter">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="childrenCollapsible">
+      <bool>false</bool>
+     </property>
+     <widget class="QTreeWidget" name="chatTree">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>100</height>
+       </size>
+      </property>
+      <property name="indentation">
+       <number>0</number>
+      </property>
+      <column>
+       <property name="text">
+        <string notr="true">Contact</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Duration</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Count</string>
+       </property>
+      </column>
+     </widget>
+     <widget class="Kitty::ChatWebView" name="chatWebView">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>50</height>
+       </size>
+      </property>
+      <property name="acceptDrops">
+       <bool>false</bool>
+      </property>
+     </widget>
+    </widget>
    </item>
   </layout>
  </widget>
