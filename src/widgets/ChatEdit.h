@@ -35,6 +35,7 @@ namespace Kitty
 		public slots:
 			void clearHistory();
 			void addHistory(const QString &msg);
+			void updateSize();
 
 		private slots:
 			void pasteFormatted();
@@ -53,9 +54,6 @@ namespace Kitty
 			void contextMenuEvent(QContextMenuEvent *event);
 			bool canInsertFromMimeData(const QMimeData *source) const;
 			void insertFromMimeData(const QMimeData *source);
-
-		private:
-			void updateSize();
 
 		private:
 			QStringList m_history;

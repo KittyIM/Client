@@ -58,7 +58,6 @@ ChatTab::ChatTab(KittySDK::IChat *chat, QWidget *parent): QWidget(parent), m_ui(
 	m_toolBar = new QToolBar(this);
 	m_toolBar->setIconSize(QSize(16, 16));
 	m_toolBar->setStyleSheet("QToolBar { border: 0; }");
-	m_ui->verticalLayout->addWidget(m_toolBar);
 
 	m_colorPicker = new ChatColorPicker(this);
 	connect(m_colorPicker, SIGNAL(colorSelected(QColor)), m_ui->textEdit, SLOT(colorText(QColor)));
@@ -282,6 +281,15 @@ void ChatTab::applySettings()
 		m_cleanTimer.setInterval(core->setting(KittySDK::Settings::S_CHATWINDOW_CLEAR_INTERVAL).toInt() * 60 * 1000);
 		m_cleanTimer.start();
 	}
+
+	m_ui->verticalLayout->removeWidget(m_toolBar);
+	if(core->setting(KittySDK::Settings::S_CHATWINDOW_TOOLBAR_POS, 1).toInt() == 0) {
+		m_ui->verticalLayout->insertWidget(1, m_toolBar);
+	} else {
+		m_ui->verticalLayout->insertWidget(2, m_toolBar);
+	}
+
+	m_ui->textEdit->updateSize();
 }
 
 void ChatTab::appendMessage(KittySDK::IMessage &msg)

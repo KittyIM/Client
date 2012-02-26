@@ -75,21 +75,21 @@
     <name>ChatWindowSettings</name>
     <message>
         <location filename="../src/widgets/settingpages/ChatWindowSettings.ui"/>
-        <location filename="../src/ui_ChatWindowSettings.h" line="+210"/>
+        <location filename="../src/ui_ChatWindowSettings.h" line="+271"/>
         <location filename="../win64/src/ui_ChatWindowSettings.h" line="+211"/>
         <source>Enable sent message history (Ctrl+Up and Ctrl+Down)</source>
         <translation>Włącz historię wysyłanych wiadomości (Ctrl+Góra i Ctrl+Dół)</translation>
     </message>
     <message>
         <location/>
-        <location filename="../src/ui_ChatWindowSettings.h" line="+1"/>
+        <location filename="../src/ui_ChatWindowSettings.h" line="-2"/>
         <location filename="../win64/src/ui_ChatWindowSettings.h" line="+1"/>
         <source>Copy selection to clipboard</source>
         <translation>Kopiuj zaznaczenie do schowka</translation>
     </message>
     <message>
         <location/>
-        <location filename="../src/ui_ChatWindowSettings.h" line="+1"/>
+        <location filename="../src/ui_ChatWindowSettings.h" line="+3"/>
         <location filename="../win64/src/ui_ChatWindowSettings.h" line="+1"/>
         <source>When starting a conversation load last:</source>
         <translation>Przy rozpoczęciu rozmowy, ładuj ostatnie:</translation>
@@ -97,7 +97,7 @@
     <message>
         <location/>
         <location filename="../src/ui_ChatWindowSettings.h" line="+1"/>
-        <location line="+10"/>
+        <location line="+17"/>
         <location filename="../win64/src/ui_ChatWindowSettings.h" line="+1"/>
         <location line="+10"/>
         <source> messages</source>
@@ -108,7 +108,7 @@
         <location filename="../src/ui_ChatWindowSettings.h" line="-8"/>
         <location filename="../win64/src/ui_ChatWindowSettings.h" line="-8"/>
         <source>Display</source>
-        <translation>Wygląd</translation>
+        <translation>Wyświetlanie</translation>
     </message>
     <message>
         <location/>
@@ -147,14 +147,14 @@
     </message>
     <message>
         <location/>
-        <location filename="../src/ui_ChatWindowSettings.h" line="-16"/>
+        <location filename="../src/ui_ChatWindowSettings.h" line="-24"/>
         <location filename="../win64/src/ui_ChatWindowSettings.h" line="-16"/>
         <source>Chat Window</source>
         <translation>Okno rozmowy</translation>
     </message>
     <message>
         <location/>
-        <location filename="../src/ui_ChatWindowSettings.h" line="+17"/>
+        <location filename="../src/ui_ChatWindowSettings.h" line="+25"/>
         <location filename="../win64/src/ui_ChatWindowSettings.h" line="+17"/>
         <source>Spell checker</source>
         <translation>Sprawdzanie pisowni</translation>
@@ -182,14 +182,14 @@
     </message>
     <message>
         <location/>
-        <location filename="../src/ui_ChatWindowSettings.h" line="-14"/>
+        <location filename="../src/ui_ChatWindowSettings.h" line="-25"/>
         <location filename="../win64/src/ui_ChatWindowSettings.h" line="-14"/>
         <source>Group messages</source>
         <translation>Grupuj wiadomości</translation>
     </message>
     <message>
         <location/>
-        <location filename="../src/ui_ChatWindowSettings.h" line="+6"/>
+        <location filename="../src/ui_ChatWindowSettings.h" line="+17"/>
         <location filename="../win64/src/ui_ChatWindowSettings.h" line="+6"/>
         <source>Clearing</source>
         <translation>Czyszczenie</translation>
@@ -202,6 +202,36 @@
         <location line="+1"/>
         <source>Clear chat window every:</source>
         <translation>Czyść okno rozmowy co:</translation>
+    </message>
+    <message>
+        <location/>
+        <location filename="../src/ui_ChatWindowSettings.h" line="-15"/>
+        <source>Toolbar position:</source>
+        <translation>Pozycja paska narzędzi:</translation>
+    </message>
+    <message>
+        <location/>
+        <location filename="../src/ui_ChatWindowSettings.h" line="+3"/>
+        <source>On top of the edit field</source>
+        <translation>Nad polem wiadomości</translation>
+    </message>
+    <message>
+        <location/>
+        <location filename="../src/ui_ChatWindowSettings.h" line="+1"/>
+        <source>Under the edit field</source>
+        <translation>Pod polem wiadomości</translation>
+    </message>
+    <message>
+        <location/>
+        <location filename="../src/ui_ChatWindowSettings.h" line="+2"/>
+        <source>Minimum edit filed height:</source>
+        <translation>Minimalna wysokość pola wiadomości:</translation>
+    </message>
+    <message>
+        <location/>
+        <location filename="../src/ui_ChatWindowSettings.h" line="+1"/>
+        <source> rows</source>
+        <translation> wierszy</translation>
     </message>
 </context>
 <context>
@@ -346,7 +376,7 @@
 <context>
     <name>ContactWindow</name>
     <message>
-        <location filename="../src/widgets/windows/contactwindow.ui"/>
+        <location filename="../src/widgets/windows/ContactWindow.ui"/>
         <location filename="../src/ui_ContactWindow.h" line="+733"/>
         <location filename="../win64/src/ui_ContactWindow.h" line="+733"/>
         <source>Summary</source>
@@ -840,7 +870,7 @@
 <context>
     <name>Kitty::AccountsSettings</name>
     <message>
-        <location filename="../src/widgets/settingpages/AccountsSettings.cpp" line="+91"/>
+        <location filename="../src/widgets/settingpages/AccountsSettings.cpp" line="+107"/>
         <source>No protocols available</source>
         <translation>Brak dostępnych protokołów</translation>
     </message>
@@ -915,19 +945,19 @@
     <name>Kitty::ChatTab</name>
     <message>
         <location filename="../src/widgets/ChatTab.cpp" line="+81"/>
-        <location line="+422"/>
+        <location line="+425"/>
         <source>Bold</source>
         <translation>Pogrubienie</translation>
     </message>
     <message>
-        <location line="-416"/>
-        <location line="+420"/>
+        <location line="-418"/>
+        <location line="+422"/>
         <source>Italic</source>
         <translation>Pochylenie</translation>
     </message>
     <message>
-        <location line="-414"/>
-        <location line="+418"/>
+        <location line="-415"/>
+        <location line="+419"/>
         <source>Underline</source>
         <translation>Podkreślenie</translation>
     </message>
@@ -1101,7 +1131,7 @@
         <source>Email(s)</source>
         <translation>
             <numerusform>Email</numerusform>
-            <numerusform></numerusform>
+            <numerusform>Emaile</numerusform>
             <numerusform>Emaile</numerusform>
         </translation>
     </message>
@@ -1110,7 +1140,7 @@
         <source>Phone(s)</source>
         <translation>
             <numerusform>Telefon</numerusform>
-            <numerusform></numerusform>
+            <numerusform>Telefony</numerusform>
             <numerusform>Telefony</numerusform>
         </translation>
     </message>
@@ -2197,7 +2227,7 @@
 <context>
     <name>Kitty::ChatEdit</name>
     <message>
-        <location filename="../src/widgets/ChatEdit.cpp" line="+142"/>
+        <location filename="../src/widgets/ChatEdit.cpp" line="+146"/>
         <source>Paste formatted</source>
         <translation>Wklej sformatowane</translation>
     </message>
@@ -2205,7 +2235,7 @@
 <context>
     <name>Kitty::HistoryWindow</name>
     <message>
-        <location filename="../src/widgets/windows/HistoryWindow.cpp" line="+150"/>
+        <location filename="../src/widgets/windows/HistoryWindow.cpp" line="+152"/>
         <source>Conversations</source>
         <translation>Rozmowy</translation>
     </message>
