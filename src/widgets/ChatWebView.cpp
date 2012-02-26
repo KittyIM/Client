@@ -197,8 +197,10 @@ void ChatWebView::appendMessage(const KittySDK::IMessage &msg, ChatTheme *theme)
 	}
 
 	if(m_autoScroll) {
+		int value = page()->mainFrame()->scrollBarValue(Qt::Vertical);
+		int max = page()->mainFrame()->scrollBarMaximum(Qt::Vertical);
 		//without the timer, the scollbars wouldn't update
-		if(page()->mainFrame()->scrollBarValue(Qt::Vertical) == page()->mainFrame()->scrollBarMaximum(Qt::Vertical)) {
+		if((value == max) || (msg.direction() == KittySDK::IMessage::Outgoing)) {
 			QTimer::singleShot(0, this, SLOT(updateScrollbar()));
 		}
 	}
