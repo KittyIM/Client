@@ -124,13 +124,10 @@ void AccountManager::load(const QString &profile)
 					QVariantMap settings = item.toMap();
 
 					if(settings.contains("protocol")) {
-						KittySDK::IProtocol *proto = ProtocolManager::inst()->protocolByName(settings.value("protocol").toString());
-
-						if(proto) {
+						if(KittySDK::IProtocol *proto = ProtocolManager::inst()->protocolByName(settings.value("protocol").toString())) {
 							Plugin *plug = PluginManager::inst()->pluginById(proto->info()->id());
 							if(plug->isLoaded()) {
-								KittySDK::IAccount *acc = proto->newAccount(settings.value("uid").toString());
-								if(acc) {
+								if(KittySDK::IAccount *acc = proto->newAccount(settings.value("uid").toString())) {
 									acc->setPassword(settings.value("password").toString());
 
 									settings.remove("protocol");

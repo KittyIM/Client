@@ -16,6 +16,7 @@
 #include <QtCore/QFile>
 #include <QtCore/QDir>
 #include <QtNetwork/QNetworkProxy>
+#include <QtWebKit/QWebSettings>
 
 #define qDebug() qDebug() << "[App]"
 #define qWarning() qWarning() << "[App]"
@@ -34,6 +35,7 @@ App::App(int &argc, char **argv): QApplication(argc, argv)
 	QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
 
 	QCoreApplication::setApplicationName("KittyIM");
+	QWebSettings::globalSettings()->setFontFamily(QWebSettings::StandardFont, font().family());
 
 	qInstallMsgHandler(DebugWindow::addMessage);
 	setQuitOnLastWindowClosed(false);
