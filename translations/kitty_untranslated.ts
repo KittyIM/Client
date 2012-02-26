@@ -339,7 +339,7 @@
     <name>ChatWindowSettings</name>
     <message>
         <location filename="../src/widgets/settingpages/ChatWindowSettings.ui"/>
-        <location filename="../src/ui_ChatWindowSettings.h" line="+271"/>
+        <location filename="../src/ui_ChatWindowSettings.h" line="+276"/>
         <location filename="../win64/src/ui_ChatWindowSettings.h" line="+211"/>
         <source>Enable sent message history (Ctrl+Up and Ctrl+Down)</source>
         <translation type="unfinished"></translation>
@@ -438,15 +438,13 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location/>
-        <location filename="../src/ui_ChatWindowSettings.h" line="+1"/>
         <location filename="../win64/src/ui_ChatWindowSettings.h" line="+1"/>
         <source>Suggestions list:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location/>
-        <location filename="../src/ui_ChatWindowSettings.h" line="-25"/>
+        <location filename="../src/widgets/settingpages/ChatWindowSettings.ui"/>
+        <location filename="../src/ui_ChatWindowSettings.h" line="-24"/>
         <location filename="../win64/src/ui_ChatWindowSettings.h" line="-14"/>
         <source>Group messages</source>
         <translation type="unfinished"></translation>
@@ -495,6 +493,12 @@
         <location/>
         <location filename="../src/ui_ChatWindowSettings.h" line="+1"/>
         <source> rows</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location/>
+        <location filename="../src/ui_ChatWindowSettings.h" line="+14"/>
+        <source>Suggestion limit (0 - unlimited):</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1255,48 +1259,48 @@
 <context>
     <name>Kitty::ChatTab</name>
     <message>
-        <location filename="../src/widgets/ChatTab.cpp" line="+81"/>
-        <location line="+425"/>
+        <location filename="../src/widgets/ChatTab.cpp" line="+80"/>
+        <location line="+434"/>
         <source>Bold</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-418"/>
-        <location line="+422"/>
+        <location line="-427"/>
+        <location line="+431"/>
         <source>Italic</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-415"/>
-        <location line="+419"/>
+        <location line="-424"/>
+        <location line="+428"/>
         <source>Underline</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-412"/>
+        <location line="-421"/>
         <source>Strikethrough</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+10"/>
-        <location line="+410"/>
+        <location line="+419"/>
         <source>Color</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-406"/>
-        <location line="+410"/>
+        <location line="-415"/>
+        <location line="+419"/>
         <source>Smilies</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-402"/>
-        <location line="+406"/>
+        <location line="-411"/>
+        <location line="+415"/>
         <source>Send image</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-401"/>
+        <location line="-410"/>
         <source>From file...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1327,23 +1331,23 @@
     </message>
     <message>
         <location line="+10"/>
-        <location line="+371"/>
+        <location line="+380"/>
         <source>Send file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-363"/>
+        <location line="-372"/>
         <source>vCard</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+3"/>
-        <location line="+368"/>
+        <location line="+377"/>
         <source>History</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-361"/>
+        <location line="-370"/>
         <location line="+63"/>
         <source>Contact is not typing</source>
         <translation type="unfinished"></translation>
@@ -1354,7 +1358,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+117"/>
+        <location line="+126"/>
         <source>Select file</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1377,7 +1381,7 @@
 <context>
     <name>Kitty::ChatWindowSettings</name>
     <message>
-        <location filename="../src/widgets/settingpages/ChatWindowSettings.cpp" line="+62"/>
+        <location filename="../src/widgets/settingpages/ChatWindowSettings.cpp" line="+65"/>
         <source>None</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2223,8 +2227,13 @@
 <context>
     <name>Kitty::ChatEdit</name>
     <message>
-        <location filename="../src/widgets/ChatEdit.cpp" line="+146"/>
+        <location filename="../src/widgets/ChatEdit.cpp" line="+151"/>
         <source>Paste formatted</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Add to dictionary</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

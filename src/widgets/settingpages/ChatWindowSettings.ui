@@ -269,7 +269,7 @@
       <item row="3" column="0">
        <widget class="QLabel" name="spellCheckSuggestionsLabel">
         <property name="text">
-         <string>Suggestions list:</string>
+         <string>Suggestion limit (0 - unlimited):</string>
         </property>
        </widget>
       </item>
@@ -277,6 +277,9 @@
        <widget class="QSpinBox" name="spellCheckSuggestionsSpinBox">
         <property name="enabled">
          <bool>false</bool>
+        </property>
+        <property name="value">
+         <number>7</number>
         </property>
        </widget>
       </item>

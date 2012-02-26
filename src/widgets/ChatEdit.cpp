@@ -26,6 +26,11 @@ QStringList SpellChecker::suggest(const QString &word)
 
 	int count = hunspell->suggest(&words, QTextCodec::codecForName(hunspell->get_dic_encoding())->fromUnicode(word).constData());
 
+	int limit = Core::inst()->setting(KittySDK::Settings::S_CHATWINDOW_SPELLCHECK_SUGGESTIONS, 7).toInt();
+	if(limit) {
+		count = qMin(count, limit);
+	}
+
 	QStringList suggestions;
 	for(int i = 0; i < count; ++i) {
 		suggestions.append(QTextCodec::codecForName(hunspell->get_dic_encoding())->toUnicode(words[i]));
@@ -147,7 +152,7 @@ void ChatEdit::contextMenuEvent(QContextMenuEvent *event)
 	menu->insertAction(menu->actions().at(6), actFormatted);
 
 	if(!cursor.selection().isEmpty()) {
-		menu->insertAction(menu->actions().first(), new QAction("Add to dictionary", this));
+		menu->insertAction(menu->actions().first(), new QAction(tr("Add to dictionary"), this));
 		menu->addSeparator();
 	}
 

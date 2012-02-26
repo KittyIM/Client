@@ -41,6 +41,7 @@ void ChatWindowSettings::apply()
 	core->setSetting(KittySDK::Settings::S_CHATWINDOW_CLEAR_MESSAGES, m_ui->clearMessagesAmountSpinBox->value());
 	core->setSetting(KittySDK::Settings::S_CHATWINDOW_CLEAR_INTERVAL, m_ui->clearMinutesAmountSpinBox->value());
 	core->setSetting(KittySDK::Settings::S_CHATWINDOW_TOOLBAR_POS, m_ui->toolbarPositionComboBox->currentIndex());
+	core->setSetting(KittySDK::Settings::S_CHATWINDOW_SPELLCHECK_SUGGESTIONS, m_ui->spellCheckSuggestionsSpinBox->value());
 }
 
 void ChatWindowSettings::reset()
@@ -58,6 +59,7 @@ void ChatWindowSettings::reset()
 	m_ui->clearMessagesAmountSpinBox->setValue(core->setting(KittySDK::Settings::S_CHATWINDOW_CLEAR_MESSAGES).toInt());
 	m_ui->clearMinutesAmountSpinBox->setValue(core->setting(KittySDK::Settings::S_CHATWINDOW_CLEAR_INTERVAL).toInt());
 	m_ui->toolbarPositionComboBox->setCurrentIndex(core->setting(KittySDK::Settings::S_CHATWINDOW_TOOLBAR_POS, 1).toInt());
+	m_ui->spellCheckSuggestionsSpinBox->setValue(core->setting(KittySDK::Settings::S_CHATWINDOW_SPELLCHECK_SUGGESTIONS, 7).toInt());
 
 	m_ui->spellCheckDictionaryComboBox->clear();
 	m_ui->spellCheckDictionaryComboBox->addItem(tr("None"), QString());
