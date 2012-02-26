@@ -80,18 +80,21 @@ ChatTab::ChatTab(KittySDK::IChat *chat, QWidget *parent): QWidget(parent), m_ui(
 	if(proto->abilities() & KittySDK::IProtocol::TextBold) {
 		m_boldAction = m_toolBar->addAction(tr("Bold"), m_ui->textEdit, SLOT(boldText()));
 		m_boldAction->setCheckable(true);
+		m_boldAction->setShortcut(QKeySequence::Bold);
 		m_boldAction->setProperty("icon_id", KittySDK::Icons::I_BOLD);
 	}
 
 	if(proto->abilities() & KittySDK::IProtocol::TextItalics) {
 		m_italicAction = m_toolBar->addAction(tr("Italic"), m_ui->textEdit, SLOT(italicText()));
 		m_italicAction->setCheckable(true);
+		m_italicAction->setShortcut(QKeySequence::Italic);
 		m_italicAction->setProperty("icon_id", KittySDK::Icons::I_ITALIC);
 	}
 
 	if(proto->abilities() & KittySDK::IProtocol::TextUnderline) {
 		m_underlineAction = m_toolBar->addAction(tr("Underline"), m_ui->textEdit, SLOT(underlineText()));
 		m_underlineAction->setCheckable(true);
+		m_underlineAction->setShortcut(QKeySequence::Underline);
 		m_underlineAction->setProperty("icon_id", KittySDK::Icons::I_UNDERLINE);
 	}
 

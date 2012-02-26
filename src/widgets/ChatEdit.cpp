@@ -96,7 +96,7 @@ void ChatEdit::keyPressEvent(QKeyEvent *event)
 {
 	if(((event->key() == Qt::Key_Enter) || (event->key() == Qt::Key_Return)) && !(event->modifiers() & Qt::ShiftModifier)) {
 		emit returnPressed();
-	} else if(((event->key() == Qt::Key_Up) || (event->key() == Qt::Key_Down))&& (event->modifiers() & Qt::ControlModifier))  {
+	} else if(((event->key() == Qt::Key_Up) || (event->key() == Qt::Key_Down)) && (event->modifiers() & Qt::ControlModifier))  {
 		if(m_history.size() > 0) {
 			if(m_historyPos < m_history.size()) {
 				setText(m_history.at(m_historyPos));
@@ -116,7 +116,11 @@ void ChatEdit::keyPressEvent(QKeyEvent *event)
 			}
 		}
 	} else {
-		QTextEdit::keyPressEvent(event);
+		if(!event->matches(QKeySequence::NextChild) && !event->matches(QKeySequence::PreviousChild)) {
+			QTextEdit::keyPressEvent(event);
+		}
+
+		event->ignore();
 	}
 
 	updateSize();
@@ -180,6 +184,8 @@ void ChatEdit::insertFromMimeData(const QMimeData *source)
 	if(source->hasImage()) {
 		QPixmap pixmap = qvariant_cast<QPixmap>(source->imageData());
 		emit pixmapDropped(pixmap);
+	} else {
+		QTextEdit::insertFromMimeData(source);
 	}
 }
 
