@@ -436,11 +436,13 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
 					m_ui->filterEdit->setFocus();
 				}
 			} else if(obj == m_ui->filterEdit) {
-				if(ev->key() == Qt::Key_Escape) {
+				if((ev->key() == Qt::Key_Escape) || (ev->key() == Qt::Key_Return)) {
 					m_ui->filterEdit->clear();
 					m_ui->filterEdit->hide();
 					m_ui->rosterTreeView->setFocus();
-				} else if((ev->key() == Qt::Key_Down) || (ev->key() == Qt::Key_Up)) {
+				}
+
+				if((ev->key() == Qt::Key_Down) || (ev->key() == Qt::Key_Up) || (ev->key() == Qt::Key_Return)) {
 					qApp->postEvent(m_ui->rosterTreeView, new QKeyEvent(QEvent::KeyPress, ev->key(), Qt::NoModifier));
 				}
 			}
