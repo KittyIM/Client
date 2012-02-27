@@ -66,8 +66,8 @@ void RosterItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 		painter->setPen(vopt.palette.color(cg, QPalette::Text));
 	}
 
-	QFont normalFont = painter->font();
-	QFont boldFont = painter->font();
+	QFont normalFont = vopt.font;
+	QFont boldFont = vopt.font;
 	boldFont.setBold(true);
 
 	if(type == RosterItem::Group) {
@@ -114,10 +114,10 @@ void RosterItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 				painter->setFont(normalFont);
 				if(width > 0) {
 					QFont font = painter->font();
-					font.setPointSize(font.pointSize() - 2);
+					font.setPointSize(font.pointSize() - 1);
 					painter->setFont(font);
 
-					painter->drawText(QRect(textRect.x() + (textRect.width() - width), textRect.top(), width - 5, textRect.height()), Qt::AlignVCenter | Qt::AlignRight | Qt::TextSingleLine, painter->fontMetrics().elidedText(description, Qt::ElideRight, width));
+					painter->drawText(QRect(textRect.x() + (textRect.width() - width), textRect.top(), width - 5, textRect.height()), Qt::AlignVCenter | Qt::AlignRight | Qt::TextSingleLine, painter->fontMetrics().elidedText(description, Qt::ElideRight, width - 5));
 				}
 			} else if(descriptionPos == 2) {
 			//description under name
