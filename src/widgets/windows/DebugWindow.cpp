@@ -25,7 +25,9 @@ QWebView *Kitty::DebugWindow::m_wvLog = 0;
 namespace Kitty
 {
 
-DebugWindow::DebugWindow(): QWidget(0), m_ui(new Ui::DebugWindow)
+DebugWindow::DebugWindow():
+	QWidget(),
+	m_ui(new Ui::DebugWindow)
 {
 	m_ui->setupUi(this);
 
@@ -134,31 +136,6 @@ void DebugWindow::execCommand()
 	m_ui->commandEdit->clear();
 }
 
-DebugWindow *DebugWindow::inst()
-{
-	static QMutex mutex;
-
-	if(!m_inst) {
-		mutex.lock();
-		m_inst = new DebugWindow();
-		mutex.unlock();
-	}
-
-	return m_inst;
-}
-
-void DebugWindow::destroy()
-{
-	static QMutex mutex;
-
-	if(m_inst) {
-		mutex.lock();
-		delete m_inst;
-		m_inst = 0;
-		mutex.unlock();
-	}
-}
-
 void DebugWindow::on_refreshActionsButton_clicked()
 {
 	m_ui->actionsWidget->clear();
@@ -225,13 +202,13 @@ void DebugWindow::on_refreshIconsButton_clicked()
 	}
 }
 
-}
-
-void Kitty::DebugWindow::on_iconsWidget_currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous)
+void DebugWindow::on_iconsWidget_currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous)
 {
 	if(current) {
 		m_ui->iconPreviewLabel->setPixmap(Core::inst()->icon(current->text(0)));
 	} else {
 		m_ui->iconPreviewLabel->setPixmap(QPixmap());
 	}
+}
+
 }

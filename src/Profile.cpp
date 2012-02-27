@@ -71,6 +71,11 @@ void Profile::load(const QString &name)
 
 	ContactManager::inst()->load(name);
 
+	if(!core->setting(KittySDK::Settings::S_MAINWINDOW_STARTHIDDEN).toBool()) {
+		core->mainWindow()->show();
+		qDebug() << "Showing";
+	}
+
 	qDebug() << "Profile " + name + " loaded!";
 }
 

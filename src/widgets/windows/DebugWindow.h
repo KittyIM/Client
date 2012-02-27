@@ -16,15 +16,14 @@ namespace Ui
 
 namespace Kitty
 {
-	class DebugWindow: public QWidget
+	class DebugWindow: public QWidget, public Singleton<DebugWindow>
 	{
 		Q_OBJECT
 
+		friend class Singleton<DebugWindow>;
+
 		public:
 			~DebugWindow();
-
-			static DebugWindow* inst();
-			static void destroy();
 
 			static void addMessage(QtMsgType type, const char *msg);
 

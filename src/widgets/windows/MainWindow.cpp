@@ -93,10 +93,6 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), m_ui(new Ui::MainW
 	m_ui->pluginsToolBar->setMovable(core->setting(QString("%1.%2").arg(KittySDK::Settings::S_MAINWINDOW_TB_LOCKS).arg(KittySDK::Toolbars::TB_PLUGINS), true).toBool());
 
 	applySettings();
-
-	if(!core->setting(KittySDK::Settings::S_MAINWINDOW_STARTHIDDEN).toBool()) {
-		show();
-	}
 }
 
 MainWindow::~MainWindow()

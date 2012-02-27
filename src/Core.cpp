@@ -84,7 +84,7 @@ Core::~Core()
 	ProtocolManager::destr();
 	PluginManager::destr();
 
-	DebugWindow::destroy();
+	DebugWindow::destr();
 }
 
 QString Core::statusToString(const int &status)
