@@ -47,10 +47,10 @@ void RosterSettings::reset()
 	m_ui->groupsAsTabsCheckBox->setChecked(core->setting(KittySDK::Settings::S_ROSTER_GROUPS_AS_TABS).toBool());
 	m_ui->groupsOnMainCheckBox->setChecked(core->setting(KittySDK::Settings::S_ROSTER_GROUPS_ON_MAIN).toBool());
 	m_ui->tipsCheckBox->setChecked(core->setting(KittySDK::Settings::S_ROSTER_TIPS, true).toBool());
-	m_ui->displayTipsIPCheckBox->setChecked(core->setting(KittySDK::Settings::S_ROSTER_TIPS_IP).toBool());
-	m_ui->displayTipsEmailCheckBox->setChecked(core->setting(KittySDK::Settings::S_ROSTER_TIPS_EMAIL).toBool());
-	m_ui->displayTipsPhoneCheckBox->setChecked(core->setting(KittySDK::Settings::S_ROSTER_TIPS_PHONE).toBool());
-	m_ui->displayTipsDescriptionCheckBox->setChecked(core->setting(KittySDK::Settings::S_ROSTER_TIPS_DESCRIPTION).toBool());
+	m_ui->displayTipsIPCheckBox->setChecked(core->setting(KittySDK::Settings::S_ROSTER_TIPS_IP, true).toBool());
+	m_ui->displayTipsEmailCheckBox->setChecked(core->setting(KittySDK::Settings::S_ROSTER_TIPS_EMAIL, true).toBool());
+	m_ui->displayTipsPhoneCheckBox->setChecked(core->setting(KittySDK::Settings::S_ROSTER_TIPS_PHONE, true).toBool());
+	m_ui->displayTipsDescriptionCheckBox->setChecked(core->setting(KittySDK::Settings::S_ROSTER_TIPS_DESCRIPTION, true).toBool());
 }
 
 void RosterSettings::on_descriptionComboBox_currentIndexChanged(int index)
