@@ -30,6 +30,7 @@
 #endif
 
 #include <QtCore/QCryptographicHash>
+#include <QtCore/QTextCodec>
 #include <QtCore/QFileInfo>
 #include <QtCore/QRegExp>
 #include <QtCore/QDebug>
@@ -303,6 +304,16 @@ Hunspell *Core::hunspell()
 		QByteArray aff = QString(qApp->applicationDirPath() + "/data/dictionaries/" + setting(KittySDK::Settings::S_CHATWINDOW_SPELLCHECK_DICT).toString() + ".aff").toLocal8Bit();
 
 		m_hunspell = new Hunspell(aff.constData(), dic.constData());
+
+		//load custom words
+		QFile customDict(currentProfileDir() + "custom.dic");
+		if(customDict.open(QFile::ReadOnly | QFile::Text)) {
+			while(!customDict.atEnd()) {
+				m_hunspell->add(customDict.readLine().trimmed().constData());
+			}
+
+			customDict.close();
+		}
 	}
 
 	return m_hunspell;

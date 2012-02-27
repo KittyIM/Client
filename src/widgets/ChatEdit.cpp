@@ -19,12 +19,18 @@
 namespace Kitty
 {
 
+SpellChecker::SpellChecker(QTextDocument *parent):
+	QSyntaxHighlighter(parent)
+{
+	m_hunspell = Core::inst()->hunspell();
+	m_codec = QTextCodec::codecForName(m_hunspell->get_dic_encoding());
+}
+
 QStringList SpellChecker::suggest(const QString &word)
 {
-	Hunspell *hunspell = Core::inst()->hunspell();
 	char **words;
 
-	int count = hunspell->suggest(&words, QTextCodec::codecForName(hunspell->get_dic_encoding())->fromUnicode(word).constData());
+	int count = m_hunspell->suggest(&words, m_codec->fromUnicode(word).constData());
 
 	int limit = Core::inst()->setting(KittySDK::Settings::S_CHATWINDOW_SPELLCHECK_SUGGESTIONS, 7).toInt();
 	if(limit) {
@@ -33,18 +39,34 @@ QStringList SpellChecker::suggest(const QString &word)
 
 	QStringList suggestions;
 	for(int i = 0; i < count; ++i) {
-		suggestions.append(QTextCodec::codecForName(hunspell->get_dic_encoding())->toUnicode(words[i]));
+		suggestions.append(m_codec->toUnicode(words[i]));
 	}
 
-	hunspell->free_list(&words, count);
+	m_hunspell->free_list(&words, count);
 
 	return suggestions;
 }
 
+bool SpellChecker::spell(const QString &word)
+{
+	return m_hunspell->spell(m_codec->fromUnicode(word).constData());
+}
+
+void SpellChecker::addToDictionary(const QString &word)
+{
+	m_hunspell->add(m_codec->fromUnicode(word).constData());
+
+	QFile dictFile(Core::inst()->currentProfileDir() + "custom.dic");
+	if(dictFile.open(QFile::Append | QIODevice::Text)) {
+		dictFile.write(m_codec->fromUnicode(word) + "\n");
+		dictFile.close();
+	}
+
+	rehighlight();
+}
+
 void SpellChecker::highlightBlock(const QString &text)
 {
-	Hunspell *hunspell = Core::inst()->hunspell();
-
 	QTextCharFormat format;
 	format.setUnderlineColor(Qt::red);
 	format.setUnderlineStyle(QTextCharFormat::SpellCheckUnderline);
@@ -64,16 +86,19 @@ void SpellChecker::highlightBlock(const QString &text)
 		length = finder.toNextBoundary() - start;
 		word = text.mid(start, length);
 
-		if(!hunspell->spell(QTextCodec::codecForName(hunspell->get_dic_encoding())->fromUnicode(word).constData())) {
+		if(!m_hunspell->spell(m_codec->fromUnicode(word).constData())) {
 			setFormat(start, length, format);
 		}
 	}
 }
 
 
-ChatEdit::ChatEdit(QWidget *parent): QTextEdit(parent)
+ChatEdit::ChatEdit(QWidget *parent):
+	QTextEdit(parent),
+	m_checker(0)
 {
 	if(Core::inst()->setting(KittySDK::Settings::S_CHATWINDOW_SPELLCHECK_ENABLED, false).toBool()) {
+		qDebug() << "enabled";
 		m_checker = new SpellChecker(document());
 	}
 
@@ -84,6 +109,8 @@ ChatEdit::ChatEdit(QWidget *parent): QTextEdit(parent)
 	m_typingTimer.setInterval(2000);
 	m_typingStopTimer.setSingleShot(true);
 	m_typingStopTimer.setInterval(2000);
+
+	setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
 	updateSize();
 	clearHistory();
@@ -140,34 +167,46 @@ void ChatEdit::resizeEvent(QResizeEvent *event)
 
 void ChatEdit::contextMenuEvent(QContextMenuEvent *event)
 {
-	QTextCursor cursor = textCursor();
-	cursor.setPosition(cursorForPosition(event->pos()).position());
-	cursor.select(QTextCursor::WordUnderCursor);
-	setTextCursor(cursor);
-
-	QString word = cursor.selection().toPlainText();
-
 	QMenu *menu = QTextEdit::createStandardContextMenu();
-	QAction *actFormatted = menu->addAction(tr("Paste formatted"), this, SLOT(pasteFormatted()));
-	menu->insertAction(menu->actions().at(6), actFormatted);
 
-	if(!cursor.selection().isEmpty()) {
-		menu->insertAction(menu->actions().first(), new QAction(tr("Add to dictionary"), this));
-		menu->addSeparator();
-	}
+	if(m_checker) {
+		QTextCursor cursor = textCursor();
+		cursor.setPosition(cursorForPosition(event->pos()).position());
+		cursor.select(QTextCursor::WordUnderCursor);
+		setTextCursor(cursor);
 
-	QStringList suggestions = m_checker->suggest(word);
-	QList<QAction*> suggestActions;
-	for(int i = 0; i < suggestions.count(); ++i) {
-		QAction *suggestedWord = new QAction(this);
-		suggestedWord->setText(suggestions.at(i));
-		connect(suggestedWord, SIGNAL(triggered()), this, SLOT(replaceWord()));
-		suggestActions.append(suggestedWord);
-	}
+		QString word = cursor.selection().toPlainText();
 
-	if(suggestActions.count() > 0) {
-		menu->insertActions(menu->actions().first(), suggestActions);
-		menu->addSeparator();
+		if(!m_checker->spell(word)) {
+			QAction *actFormatted = menu->addAction(tr("Paste formatted"), this, SLOT(pasteFormatted()));
+			menu->insertAction(menu->actions().at(6), actFormatted);
+
+			if(!cursor.selection().isEmpty()) {
+				QAction *addAction = new QAction(tr("Add to dictionary"), this);
+				addAction->setProperty("word", word);
+				connect(addAction, SIGNAL(triggered()), SLOT(addToDictionary()));
+
+				menu->insertSeparator(menu->actions().first());
+				menu->insertAction(menu->actions().first(), addAction);
+			}
+
+			QStringList suggestions = m_checker->suggest(word);
+			QList<QAction*> suggestActions;
+			for(int i = 0; i < suggestions.count(); ++i) {
+				QAction *suggestedWord = new QAction(this);
+				QFont boldFont = suggestedWord->font();
+				boldFont.setBold(true);
+				suggestedWord->setFont(boldFont);
+				suggestedWord->setText(suggestions.at(i));
+				connect(suggestedWord, SIGNAL(triggered()), this, SLOT(replaceWord()));
+				suggestActions.append(suggestedWord);
+			}
+
+			if(suggestActions.count() > 0) {
+				menu->insertSeparator(menu->actions().first());
+				menu->insertActions(menu->actions().first(), suggestActions);
+			}
+		}
 	}
 
 	menu->exec(event->globalPos());
@@ -275,11 +314,21 @@ void ChatEdit::sendTypingStopped()
 	emit typingChanged(false, toPlainText().length());
 }
 
+void ChatEdit::addToDictionary()
+{
+	if(QAction *action = qobject_cast<QAction*>(sender())) {
+		if(m_checker) {
+			m_checker->addToDictionary(action->property("word").toString());
+		}
+	}
+}
+
 void ChatEdit::pasteFormatted()
 {
 	setAcceptRichText(true);
 	paste();
 	setAcceptRichText(false);
 }
+
 
 }

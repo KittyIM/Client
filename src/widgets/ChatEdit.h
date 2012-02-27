@@ -5,6 +5,9 @@
 #include <QtGui/QSyntaxHighlighter>
 #include <QtGui/QTextEdit>
 
+class QTextCodec;
+class Hunspell;
+
 namespace Kitty
 {
 	class SpellChecker: public QSyntaxHighlighter
@@ -12,12 +15,16 @@ namespace Kitty
 		Q_OBJECT
 
 		public:
-			SpellChecker(QTextDocument *parent): QSyntaxHighlighter(parent) { }
+			SpellChecker(QTextDocument *parent);
 
 			QStringList suggest(const QString &word);
+			bool spell(const QString &word);
+			void addToDictionary(const QString &word);
 
 		private:
 			void highlightBlock(const QString &text);
+			Hunspell *m_hunspell;
+			QTextCodec *m_codec;
 	};
 
 	class ChatEdit: public QTextEdit
@@ -47,6 +54,7 @@ namespace Kitty
 			void checkTyping();
 			void sendTypingNotify();
 			void sendTypingStopped();
+			void addToDictionary();
 
 		protected:
 			void keyPressEvent(QKeyEvent *event);
