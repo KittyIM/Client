@@ -98,7 +98,6 @@ ChatEdit::ChatEdit(QWidget *parent):
 	m_checker(0)
 {
 	if(Core::inst()->setting(KittySDK::Settings::S_CHATWINDOW_SPELLCHECK_ENABLED, false).toBool()) {
-		qDebug() << "enabled";
 		m_checker = new SpellChecker(document());
 	}
 

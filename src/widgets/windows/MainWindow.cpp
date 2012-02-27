@@ -66,6 +66,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), m_ui(new Ui::MainW
 	m_ui->rosterTreeView->setSortingEnabled(true);
 
 	connect(m_proxy, SIGNAL(layoutChanged()), m_ui->rosterTreeView, SLOT(fixGroups()));
+	//connect(m_proxy, SIGNAL(layoutChanged()), m_ui->rosterTreeView, SLOT(selectFirst()));
 	connect(IconManager::inst(), SIGNAL(iconsUpdated()), m_proxy, SLOT(invalidate()));
 
 	m_hideTimer.setSingleShot(true);
@@ -375,6 +376,7 @@ void MainWindow::setToolbarTextUnder()
 void MainWindow::setFilterText(const QString &text)
 {
 	m_proxy->setFilterWildcard(text);
+	m_proxy->invalidate();
 }
 
 void MainWindow::toggleToolbarLock()
@@ -432,14 +434,22 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
 					m_ui->filterEdit->setFocus();
 				}
 			} else if(obj == m_ui->filterEdit) {
+				if(ev->key() == Qt::Key_Return) {
+					m_ui->rosterTreeView->sendMessage();
+				}
+
+				if((ev->key() == Qt::Key_Down) ||
+				   (ev->key() == Qt::Key_Up) ||
+				   (ev->key() == Qt::Key_Left) ||
+				   (ev->key() == Qt::Key_Right))
+				{
+					qApp->postEvent(m_ui->rosterTreeView, new QKeyEvent(QEvent::KeyPress, ev->key(), Qt::NoModifier));
+				}
+
 				if((ev->key() == Qt::Key_Escape) || (ev->key() == Qt::Key_Return)) {
 					m_ui->filterEdit->clear();
 					m_ui->filterEdit->hide();
 					m_ui->rosterTreeView->setFocus();
-				}
-
-				if((ev->key() == Qt::Key_Down) || (ev->key() == Qt::Key_Up) || (ev->key() == Qt::Key_Return)) {
-					qApp->postEvent(m_ui->rosterTreeView, new QKeyEvent(QEvent::KeyPress, ev->key(), Qt::NoModifier));
 				}
 			}
 		}

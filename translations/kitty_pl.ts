@@ -1070,7 +1070,7 @@
 <context>
     <name>Kitty::ChatWebView</name>
     <message>
-        <location filename="../src/widgets/ChatWebView.cpp" line="+284"/>
+        <location filename="../src/widgets/ChatWebView.cpp" line="+286"/>
         <source>Clear</source>
         <translation>Wyczyść</translation>
     </message>
@@ -1197,7 +1197,7 @@
 <context>
     <name>Kitty::Core</name>
     <message>
-        <location filename="../src/Core.cpp" line="+93"/>
+        <location filename="../src/Core.cpp" line="+94"/>
         <source>Online</source>
         <translation>Dostępny</translation>
     </message>
@@ -1235,7 +1235,7 @@
 <context>
     <name>Kitty::DebugWindow</name>
     <message>
-        <location filename="../src/widgets/windows/DebugWindow.cpp" line="+112"/>
+        <location filename="../src/widgets/windows/DebugWindow.cpp" line="+114"/>
         <source>Unknown command, type &lt;i&gt;help&lt;/i&gt; for list of commands.</source>
         <translation>Nieznana komenda, wpisz &lt;i&gt;help&lt;/i&gt; by uzyskać listę komend.</translation>
     </message>
@@ -1343,7 +1343,7 @@
 <context>
     <name>Kitty::MainWindow</name>
     <message>
-        <location filename="../src/widgets/windows/MainWindow.cpp" line="+310"/>
+        <location filename="../src/widgets/windows/MainWindow.cpp" line="+307"/>
         <source>Lock</source>
         <translation>Zablokuj</translation>
     </message>
@@ -1456,7 +1456,7 @@
 <context>
     <name>Kitty::RosterTreeView</name>
     <message>
-        <location filename="../src/widgets/RosterTreeView.cpp" line="+130"/>
+        <location filename="../src/widgets/RosterTreeView.cpp" line="+160"/>
         <source>Add new group</source>
         <translation>Dodaj grupę</translation>
     </message>
@@ -2068,12 +2068,12 @@
     <name>Kitty::ChatTabWidget</name>
     <message>
         <location filename="../src/widgets/ChatTabWidget.cpp" line="+26"/>
-        <location line="+238"/>
+        <location line="+253"/>
         <source>Recently closed tabs</source>
         <translation>Ostatnio zamknięte zakładki</translation>
     </message>
     <message>
-        <location line="-180"/>
+        <location line="-192"/>
         <source>Unknown</source>
         <translation>Nieznane</translation>
     </message>
@@ -2088,7 +2088,7 @@
         <translation>Mężczyzna</translation>
     </message>
     <message>
-        <location line="+114"/>
+        <location line="+126"/>
         <source>Clear recently closed tabs list</source>
         <translation>Wyczyść listę</translation>
     </message>
@@ -2096,7 +2096,7 @@
 <context>
     <name>Kitty::ChatWindow</name>
     <message>
-        <location filename="../src/widgets/windows/ChatWindow.cpp" line="+144"/>
+        <location filename="../src/widgets/windows/ChatWindow.cpp" line="+145"/>
         <source>Unknown</source>
         <translation>Nieznane</translation>
     </message>
@@ -2231,7 +2231,7 @@
 <context>
     <name>Kitty::ChatEdit</name>
     <message>
-        <location filename="../src/widgets/ChatEdit.cpp" line="+151"/>
+        <location filename="../src/widgets/ChatEdit.cpp" line="+180"/>
         <source>Paste formatted</source>
         <translation>Wklej sformatowane</translation>
     </message>

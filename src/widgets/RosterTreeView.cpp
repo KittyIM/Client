@@ -37,8 +37,8 @@ RosterTreeView::RosterTreeView(QWidget *parent): QTreeView(parent)
 	//setDropIndicatorShown(true);
 	//setDragDropMode(QAbstractItemView::InternalMove);
 
-	connect(this, SIGNAL(expanded(QModelIndex)), this, SLOT(itemExpanded(QModelIndex)));
-	connect(this, SIGNAL(collapsed(QModelIndex)), this, SLOT(itemCollapsed(QModelIndex)));
+	connect(this, SIGNAL(expanded(QModelIndex)), SLOT(itemExpanded(QModelIndex)));
+	connect(this, SIGNAL(collapsed(QModelIndex)), SLOT(itemCollapsed(QModelIndex)));
 }
 
 void RosterTreeView::fixGroups()
@@ -52,17 +52,47 @@ void RosterTreeView::fixGroups()
 	}
 }
 
+void RosterTreeView::selectFirst()
+{
+	/*qDebug() << "select first";
+	QModelIndex root = rootIndex();
+
+	if(model()->rowCount(root)) {
+		QModelIndex index = model()->index(0, 0, root);
+		if(index.isValid()) {
+			setCurrentIndex(index);
+		}
+	}*/
+}
+
 void RosterTreeView::sendMessage()
 {
 	QModelIndexList list = selectedIndexes();
 
-	if(RosterSortProxy *proxy = dynamic_cast<RosterSortProxy*>(model())) {
-		foreach(QModelIndex in, list) {
-			QModelIndex index = proxy->mapToSource(in);
-			if(index.data(RosterItem::TypeRole) == RosterItem::Contact) {
-				if(RosterContact *cnt = static_cast<RosterContact*>(index.internalPointer())) {
-					ChatManager::inst()->startChat(cnt->contact()->account()->me(), QList<KittySDK::IContact*>() << cnt->contact());
+	if(list.count()) {
+		if(RosterSortProxy *proxy = dynamic_cast<RosterSortProxy*>(model())) {
+			QList<KittySDK::IContact*> contacts;
+			KittySDK::IContact *me = 0;
+
+			foreach(QModelIndex in, list) {
+				QModelIndex index = proxy->mapToSource(in);
+				if(index.data(RosterItem::TypeRole) == RosterItem::Contact) {
+					if(RosterContact *cnt = static_cast<RosterContact*>(index.internalPointer())) {
+						//for 1st one we set the account used
+						if(in == list.first()) {
+							me = cnt->contact()->account()->me();
+							contacts << cnt->contact();
+
+						//only add for the same account
+						} else if(me == cnt->contact()->account()->me()) {
+							contacts << cnt->contact();
+						}
+					}
 				}
+			}
+
+			if(contacts.count()) {
+				ChatManager::inst()->startChat(me, contacts);
 			}
 		}
 	}

@@ -23,6 +23,7 @@ namespace Kitty
 
 		public slots:
 			void fixGroups();
+			void selectFirst();
 			void sendMessage();
 			void copyName();
 			void copyUid();
