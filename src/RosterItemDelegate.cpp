@@ -66,8 +66,14 @@ void RosterItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 		painter->setPen(vopt.palette.color(cg, QPalette::Text));
 	}
 
+	QFont normalFont = painter->font();
+	QFont boldFont = painter->font();
+	boldFont.setBold(true);
+
 	if(type == RosterItem::Group) {
+		painter->setFont(boldFont);
 		painter->drawText(textRect.translated(17, 0), Qt::AlignVCenter | Qt::TextSingleLine, vopt.text);
+		painter->setFont(normalFont);
 	} else {
 		QString description;
 		if(Core::inst()->setting(KittySDK::Settings::S_ROSTER_STATUS_DESCRIPTION, true).toBool()) {
@@ -87,7 +93,7 @@ void RosterItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 					painter->drawPixmap(textRect.x(), vopt.rect.top() + 2, 32, 32, avatar);
 					textRect.adjust(34, 0, 0, 0);
 				} else if(avatarPos == 2) {
-					//avatar on the right
+				//avatar on the right
 					textRect.adjust(0, 0, -34, 0);
 					painter->drawPixmap(vopt.rect.width() - 34, vopt.rect.top() + 2, 32, 32, avatar);
 				}
@@ -95,13 +101,17 @@ void RosterItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 		}
 
 		if((descriptionPos <= 1) || ((descriptionPos == 2) && description.isEmpty())) {
+			painter->setFont(boldFont);
 			painter->drawText(textRect, Qt::AlignVCenter | Qt::TextSingleLine, painter->fontMetrics().elidedText(vopt.text, Qt::ElideRight, textRect.width()));
+			painter->setFont(normalFont);
 		}
 
 		if(!description.isEmpty()) {
 			//description on the right
 			if(descriptionPos == 1) {
+				painter->setFont(boldFont);
 				int width = textRect.width() - painter->fontMetrics().width(vopt.text) - 10;
+				painter->setFont(normalFont);
 				if(width > 0) {
 					QFont font = painter->font();
 					font.setPointSize(font.pointSize() - 2);
@@ -110,11 +120,13 @@ void RosterItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 					painter->drawText(QRect(textRect.x() + (textRect.width() - width), textRect.top(), width - 5, textRect.height()), Qt::AlignVCenter | Qt::AlignRight | Qt::TextSingleLine, painter->fontMetrics().elidedText(description, Qt::ElideRight, width));
 				}
 			} else if(descriptionPos == 2) {
-				//description under name
+			//description under name
 				QRect rect = textRect;
 				rect.translate(0, 3);
 				rect.setHeight(16);
+				painter->setFont(boldFont);
 				painter->drawText(rect, Qt::TextSingleLine, painter->fontMetrics().elidedText(vopt.text, Qt::ElideRight, textRect.width()));
+				painter->setFont(normalFont);
 
 				QFont descFont = vopt.font;
 				descFont.setPointSize(descFont.pointSize() - 1);
