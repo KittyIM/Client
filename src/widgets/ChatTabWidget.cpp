@@ -61,31 +61,41 @@ int ChatTabWidget::indexByChat(KittySDK::IChat *chat)
 
 QString ChatTabWidget::createLabel(KittySDK::IChat *chat)
 {
-	QString label = Core::inst()->setting(KittySDK::Settings::S_CHATTAB_CAPTION, "%display%").toString();
-	KittySDK::IContact *cnt = chat->contacts().first();
+	QString label;
 
-	label.replace("%display%", cnt->display());
-	label.replace("%status%", Core::inst()->statusToString(cnt->status()));
+	if(chat->contacts().count() == 1) {
+		KittySDK::IContact *cnt = chat->contacts().first();
 
-	if(cnt->description().length() > 0) {
-		label.replace("%description%", QString("\"%1\"").arg(cnt->description()));
+		label = Core::inst()->setting(KittySDK::Settings::S_CHATTAB_CAPTION, "%display%").toString();
+		label.replace("%display%", cnt->display());
+		label.replace("%status%", Core::inst()->statusToString(cnt->status()));
+
+		if(cnt->description().length() > 0) {
+			label.replace("%description%", QString("\"%1\"").arg(cnt->description()));
+		} else {
+			label.replace("%description%", "");
+		}
+
+		label.replace("%unread%", QString::number(0));
+		label.replace("%uid%", cnt->uid());
+		label.replace("%nickname%", cnt->data(KittySDK::ContactInfos::I_NICKNAME).toString());
+		label.replace("%firstname%", cnt->data(KittySDK::ContactInfos::I_FIRSTNAME).toString());
+		label.replace("%lastname%", cnt->data(KittySDK::ContactInfos::I_LASTNAME).toString());
+
+		int sex = cnt->data(KittySDK::ContactInfos::I_SEX).toInt();
+		if(sex == 0) {
+			label.replace("%sex%", tr("Unknown"));
+		} else if(sex == 1) {
+			label.replace("%sex%", tr("Female"));
+		} else {
+			label.replace("%sex%", tr("Male"));
+		}
 	} else {
-		label.replace("%description%", "");
-	}
+		foreach(KittySDK::IContact *cnt, chat->contacts()) {
+			label += cnt->display() + ", ";
+		}
 
-	label.replace("%unread%", QString::number(0));
-	label.replace("%uid%", cnt->uid());
-	label.replace("%nickname%", cnt->data(KittySDK::ContactInfos::I_NICKNAME).toString());
-	label.replace("%firstname%", cnt->data(KittySDK::ContactInfos::I_FIRSTNAME).toString());
-	label.replace("%lastname%", cnt->data(KittySDK::ContactInfos::I_LASTNAME).toString());
-
-	int sex = cnt->data(KittySDK::ContactInfos::I_SEX).toInt();
-	if(sex == 0) {
-		label.replace("%sex%", tr("Unknown"));
-	} else if(sex == 1) {
-		label.replace("%sex%", tr("Female"));
-	} else {
-		label.replace("%sex%", tr("Male"));
+		label.chop(2);
 	}
 
 	return label;
@@ -186,11 +196,16 @@ void ChatTabWidget::changeTab()
 void ChatTabWidget::updateTab(int i)
 {
 	if(ChatTab *tab = qobject_cast<ChatTab*>(widget(i))) {
-		KittySDK::IContact *cnt = tab->chat()->contacts().first();
-		KittySDK::IProtocol *proto = cnt->protocol();
-
-		setTabIcon(i, Core::inst()->icon(proto->statusIcon(cnt->status())));
 		setTabText(i, createLabel(tab->chat()));
+
+		if(tab->chat()->contacts().count() == 1) {
+			KittySDK::IContact *cnt = tab->chat()->contacts().first();
+			if(KittySDK::IProtocol *proto = cnt->protocol()) {
+				setTabIcon(i, Core::inst()->icon(proto->statusIcon(cnt->status())));
+			}
+		} else {
+			setTabIcon(i, Core::inst()->icon(KittySDK::Icons::I_GROUP_CHAT));
+		}
 	}
 
 	emit currentChanged(i);

@@ -112,6 +112,7 @@ void IconTheme::loadDefaults()
 	m_icons.insert(KittySDK::Icons::I_ERASE,			":/glyphs/erase.png");
 	m_icons.insert(KittySDK::Icons::I_TYPING_ON,		":/glyphs/typing_on.png");
 	m_icons.insert(KittySDK::Icons::I_TYPING_OFF,		":/glyphs/typing_off.png");
+	m_icons.insert(KittySDK::Icons::I_GROUP_CHAT,		":/glyphs/group_chat.png");
 	m_icons.insert(KittySDK::Icons::I_BLANK,			":/glyphs/blank.png");
 	m_icons.insert(KittySDK::Icons::I_STATUS_ONLINE,	":/glyphs/status_online.png");
 	m_icons.insert(KittySDK::Icons::I_STATUS_AWAY,		":/glyphs/status_away.png");

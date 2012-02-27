@@ -123,5 +123,6 @@
         <file>glyphs/typing_off.png</file>
         <file>glyphs/typing_on.png</file>
         <file>glyphs/blank.png</file>
+        <file>glyphs/group_chat.png</file>
     </qresource>
 </RCC>

@@ -123,34 +123,44 @@ void ChatWindow::closeEvent(QCloseEvent *event)
 void ChatWindow::on_tabWidget_currentChanged(int index)
 {
 	if(ChatTab *tab = qobject_cast<ChatTab*>(m_ui->tabWidget->widget(index))) {
-		if(KittySDK::IContact *cnt = tab->chat()->contacts().first()) {
-			QString title = Core::inst()->setting(KittySDK::Settings::S_CHATWINDOW_CAPTION, "%display% [%status%] \"%description%\"").toString();
-			title.replace("%display%", cnt->display());
-			title.replace("%status%", Core::inst()->statusToString(cnt->status()));
+		if(tab->chat()->contacts().count() == 1) {
+			if(KittySDK::IContact *cnt = tab->chat()->contacts().first()) {
+				QString title = Core::inst()->setting(KittySDK::Settings::S_CHATWINDOW_CAPTION, "%display% [%status%] \"%description%\"").toString();
+				title.replace("%display%", cnt->display());
+				title.replace("%status%", Core::inst()->statusToString(cnt->status()));
 
-			if(cnt->description().length() > 0) {
-				title.replace("%description%", QString("\"%1\"").arg(cnt->description()));
-			} else {
-				title.replace("%description%", "");
+				if(cnt->description().length() > 0) {
+					title.replace("%description%", QString("\"%1\"").arg(cnt->description()));
+				} else {
+					title.replace("%description%", "");
+				}
+
+				title.replace("%uid%", cnt->uid());
+				title.replace("%nickname%", cnt->data(KittySDK::ContactInfos::I_NICKNAME).toString());
+				title.replace("%firstname%", cnt->data(KittySDK::ContactInfos::I_FIRSTNAME).toString());
+				title.replace("%lastname%", cnt->data(KittySDK::ContactInfos::I_LASTNAME).toString());
+
+				int sex = cnt->data(KittySDK::ContactInfos::I_SEX).toInt();
+				if(sex == 0) {
+					title.replace("%sex%", tr("Unknown"));
+				} else if(sex == 1) {
+					title.replace("%sex%", tr("Female"));
+				} else {
+					title.replace("%sex%", tr("Male"));
+				}
+
+				//title.replace("%phone%", cnt->data(KittySDK::ContactInfos::I_NICKNAME));
+				//title.replace("%email%", cnt->data(KittySDK::ContactInfos::I_NICKNAME));
+
+				setWindowTitle(title);
+			}
+		} else {
+			QString title;
+			foreach(KittySDK::IContact *cnt, tab->chat()->contacts()) {
+				title += cnt->display() + ", ";
 			}
 
-			title.replace("%uid%", cnt->uid());
-			title.replace("%nickname%", cnt->data(KittySDK::ContactInfos::I_NICKNAME).toString());
-			title.replace("%firstname%", cnt->data(KittySDK::ContactInfos::I_FIRSTNAME).toString());
-			title.replace("%lastname%", cnt->data(KittySDK::ContactInfos::I_LASTNAME).toString());
-
-			int sex = cnt->data(KittySDK::ContactInfos::I_SEX).toInt();
-			if(sex == 0) {
-				title.replace("%sex%", tr("Unknown"));
-			} else if(sex == 1) {
-				title.replace("%sex%", tr("Female"));
-			} else {
-				title.replace("%sex%", tr("Male"));
-			}
-
-			//title.replace("%phone%", cnt->data(KittySDK::ContactInfos::I_NICKNAME));
-			//title.replace("%email%", cnt->data(KittySDK::ContactInfos::I_NICKNAME));
-
+			title.chop(2);
 			setWindowTitle(title);
 		}
 	}
