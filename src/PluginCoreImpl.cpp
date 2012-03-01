@@ -7,7 +7,9 @@
 #include "ContactManager.h"
 #include "ActionManager.h"
 #include "PluginManager.h"
+#include "MessageQueue.h"
 #include "IconManager.h"
+#include "constants.h"
 #include "Profile.h"
 #include "Core.h"
 
@@ -174,6 +176,31 @@ QToolButton *PluginCoreImpl::buttonForAction(const QString &tb, QAction *action)
 void PluginCoreImpl::removeIcon(const QString &id)
 {
 	IconManager::inst()->remove(id);
+}
+
+QString PluginCoreImpl::kittyVersion()
+{
+	return QString("kitty.im ") + Constants::VERSION;
+}
+
+quint32 PluginCoreImpl::queueMsgId(const KittySDK::IMessage &msg)
+{
+	return MessageQueue::inst()->idByMsg(msg);
+}
+
+void PluginCoreImpl::dequeue(const quint32 &msgId)
+{
+	MessageQueue::inst()->dequeue(msgId);
+}
+
+void PluginCoreImpl::dequeue(const QString &chatId)
+{
+	MessageQueue::inst()->dequeue(chatId);
+}
+
+quint32 PluginCoreImpl::enqueue(const KittySDK::IMessage &msg)
+{
+	return MessageQueue::inst()->enqueue(msg);
 }
 
 }

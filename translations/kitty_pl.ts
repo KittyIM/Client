@@ -697,77 +697,59 @@
     <name>DisplaySettings</name>
     <message>
         <location filename="../src/widgets/settingpages/DisplaySettings.ui"/>
-        <location filename="../src/ui_DisplaySettings.h" line="+240"/>
+        <location filename="../src/ui_DisplaySettings.h" line="+184"/>
         <location filename="../win64/src/ui_DisplaySettings.h" line="+241"/>
         <source>Display</source>
         <translation>Wygląd</translation>
     </message>
     <message>
-        <location/>
-        <location filename="../src/ui_DisplaySettings.h" line="+1"/>
         <location filename="../win64/src/ui_DisplaySettings.h" line="+1"/>
         <source>Main window</source>
         <translation>Okno główne</translation>
     </message>
     <message>
-        <location/>
-        <location filename="../src/ui_DisplaySettings.h" line="+1"/>
-        <location filename="../win64/src/ui_DisplaySettings.h" line="+1"/>
+        <location line="+1"/>
         <source>Always on top</source>
         <translation>Zawsze na wierzchu</translation>
     </message>
     <message>
-        <location/>
-        <location filename="../src/ui_DisplaySettings.h" line="+1"/>
-        <location filename="../win64/src/ui_DisplaySettings.h" line="+1"/>
+        <location line="+1"/>
         <source>Transparency:</source>
         <translation>Przezroczystość:</translation>
     </message>
     <message>
-        <location/>
-        <location filename="../src/ui_DisplaySettings.h" line="+1"/>
-        <location filename="../win64/src/ui_DisplaySettings.h" line="+1"/>
+        <location line="+1"/>
         <source>Autohide after:</source>
         <translation>Automatycznie chowaj po:</translation>
     </message>
     <message>
-        <location/>
-        <location filename="../src/ui_DisplaySettings.h" line="+1"/>
-        <location filename="../win64/src/ui_DisplaySettings.h" line="+1"/>
+        <location line="+1"/>
         <source>0 sec</source>
         <translation>0 sek</translation>
     </message>
     <message>
-        <location/>
-        <location filename="../src/ui_DisplaySettings.h" line="+1"/>
-        <location filename="../win64/src/ui_DisplaySettings.h" line="+1"/>
+        <location line="+1"/>
         <source>120 sec</source>
         <translation>120 sek</translation>
     </message>
     <message>
-        <location/>
-        <location filename="../src/ui_DisplaySettings.h" line="+1"/>
-        <location filename="../win64/src/ui_DisplaySettings.h" line="+1"/>
+        <location line="+1"/>
         <source>Docking</source>
         <translation>Dokowanie</translation>
     </message>
     <message>
-        <location/>
-        <location filename="../src/ui_DisplaySettings.h" line="+1"/>
-        <location filename="../win64/src/ui_DisplaySettings.h" line="+1"/>
+        <location line="+1"/>
         <source>When closer than:</source>
         <translation>Gdy bliżej niż:</translation>
     </message>
     <message>
-        <location/>
-        <location filename="../src/ui_DisplaySettings.h" line="+2"/>
-        <location filename="../win64/src/ui_DisplaySettings.h" line="+2"/>
+        <location line="+2"/>
         <source>Dock to desktop edges</source>
         <translation>Dokuj do krawędzi pulpitu</translation>
     </message>
     <message>
-        <location/>
-        <location filename="../src/ui_DisplaySettings.h" line="+1"/>
+        <location filename="../src/widgets/settingpages/DisplaySettings.ui"/>
+        <location filename="../src/ui_DisplaySettings.h" line="+7"/>
         <location filename="../win64/src/ui_DisplaySettings.h" line="+1"/>
         <source>Captions</source>
         <translation>Nagłówki</translation>
@@ -794,11 +776,39 @@
         <translation>Zakładki okna rozmowy:</translation>
     </message>
     <message>
-        <location/>
-        <location filename="../src/ui_DisplaySettings.h" line="-7"/>
         <location filename="../win64/src/ui_DisplaySettings.h" line="-7"/>
         <source> px</source>
         <translation> px</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/settingpages/DisplaySettings.ui"/>
+        <location filename="../src/ui_DisplaySettings.h" line="-11"/>
+        <source>System tray</source>
+        <translation>Zasobnik systemowy</translation>
+    </message>
+    <message>
+        <location/>
+        <location filename="../src/ui_DisplaySettings.h" line="+1"/>
+        <source>Account to use as icon:</source>
+        <translation>Konto które użyć jako ikonkę:</translation>
+    </message>
+    <message>
+        <location/>
+        <location filename="../src/ui_DisplaySettings.h" line="+2"/>
+        <source>Fast</source>
+        <translation>Szybko</translation>
+    </message>
+    <message>
+        <location/>
+        <location filename="../src/ui_DisplaySettings.h" line="+1"/>
+        <source>Slow</source>
+        <translation>Wolno</translation>
+    </message>
+    <message>
+        <location/>
+        <location filename="../src/ui_DisplaySettings.h" line="+1"/>
+        <source>Blinking icons animation:</source>
+        <translation>Animacja migających ikon:</translation>
     </message>
 </context>
 <context>
@@ -948,7 +958,7 @@
 <context>
     <name>Kitty::ChatTab</name>
     <message>
-        <location filename="../src/widgets/ChatTab.cpp" line="+80"/>
+        <location filename="../src/widgets/ChatTab.cpp" line="+87"/>
         <location line="+434"/>
         <source>Bold</source>
         <translation>Pogrubienie</translation>
@@ -1197,7 +1207,7 @@
 <context>
     <name>Kitty::Core</name>
     <message>
-        <location filename="../src/Core.cpp" line="+94"/>
+        <location filename="../src/Core.cpp" line="+92"/>
         <source>Online</source>
         <translation>Dostępny</translation>
     </message>
@@ -1248,7 +1258,12 @@
 <context>
     <name>Kitty::DisplaySettings</name>
     <message>
-        <location filename="../src/widgets/settingpages/DisplaySettings.cpp" line="+67"/>
+        <location filename="../src/widgets/settingpages/DisplaySettings.cpp" line="+74"/>
+        <source>None, use Kitty&apos;s icon</source>
+        <translation>Żadne, użyj ikonki Kitty</translation>
+    </message>
+    <message>
+        <location line="+19"/>
         <location line="+7"/>
         <location line="+16"/>
         <source>Available variables:</source>
@@ -1343,7 +1358,7 @@
 <context>
     <name>Kitty::MainWindow</name>
     <message>
-        <location filename="../src/widgets/windows/MainWindow.cpp" line="+307"/>
+        <location filename="../src/widgets/windows/MainWindow.cpp" line="+331"/>
         <source>Lock</source>
         <translation>Zablokuj</translation>
     </message>
@@ -1456,7 +1471,7 @@
 <context>
     <name>Kitty::RosterTreeView</name>
     <message>
-        <location filename="../src/widgets/RosterTreeView.cpp" line="+160"/>
+        <location filename="../src/widgets/RosterTreeView.cpp" line="+171"/>
         <source>Add new group</source>
         <translation>Dodaj grupę</translation>
     </message>
@@ -1466,7 +1481,7 @@
         <translation>Podaj nazwę nowej grupy:</translation>
     </message>
     <message>
-        <location line="+86"/>
+        <location line="+135"/>
         <source>Send message</source>
         <translation>Wyślij wiadomość</translation>
     </message>
@@ -1748,7 +1763,7 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/RosterContact.cpp" line="+65"/>
+        <location filename="../src/RosterContact.cpp" line="+100"/>
         <source>Account</source>
         <translation>Konto</translation>
     </message>
@@ -2067,13 +2082,13 @@
 <context>
     <name>Kitty::ChatTabWidget</name>
     <message>
-        <location filename="../src/widgets/ChatTabWidget.cpp" line="+26"/>
-        <location line="+253"/>
+        <location filename="../src/widgets/ChatTabWidget.cpp" line="+30"/>
+        <location line="+331"/>
         <source>Recently closed tabs</source>
         <translation>Ostatnio zamknięte zakładki</translation>
     </message>
     <message>
-        <location line="-192"/>
+        <location line="-258"/>
         <source>Unknown</source>
         <translation>Nieznane</translation>
     </message>
@@ -2088,7 +2103,7 @@
         <translation>Mężczyzna</translation>
     </message>
     <message>
-        <location line="+126"/>
+        <location line="+143"/>
         <source>Clear recently closed tabs list</source>
         <translation>Wyczyść listę</translation>
     </message>
@@ -2333,6 +2348,69 @@
         <location line="+32"/>
         <source>Start draging with left mouse button to select or right-click to cancel.</source>
         <translation>Zacznij przeciąganie by zaznaczyć lub kliknij prawym przyciskiem by anulować.</translation>
+    </message>
+</context>
+<context>
+    <name>MainWindowSettings</name>
+    <message>
+        <location filename="../src/widgets/settingpages/MainWindowSettings.ui"/>
+        <location filename="../src/ui_MainWindowSettings.h" line="+171"/>
+        <source>Main Window</source>
+        <translation>Okno główne</translation>
+    </message>
+    <message>
+        <location/>
+        <location filename="../src/ui_MainWindowSettings.h" line="+2"/>
+        <source>Always on top</source>
+        <translation>Zawsze na wierzchu</translation>
+    </message>
+    <message>
+        <location/>
+        <location filename="../src/ui_MainWindowSettings.h" line="+1"/>
+        <source>Transparency:</source>
+        <translation>Przezroczystość:</translation>
+    </message>
+    <message>
+        <location/>
+        <location filename="../src/ui_MainWindowSettings.h" line="+1"/>
+        <source>Autohide after:</source>
+        <translation>Automatycznie chowaj po:</translation>
+    </message>
+    <message>
+        <location/>
+        <location filename="../src/ui_MainWindowSettings.h" line="+1"/>
+        <source>0 sec</source>
+        <translation>0 sek</translation>
+    </message>
+    <message>
+        <location/>
+        <location filename="../src/ui_MainWindowSettings.h" line="+1"/>
+        <source>120 sec</source>
+        <translation>120 sek</translation>
+    </message>
+    <message>
+        <location/>
+        <location filename="../src/ui_MainWindowSettings.h" line="+1"/>
+        <source>Docking</source>
+        <translation>Dokowanie</translation>
+    </message>
+    <message>
+        <location/>
+        <location filename="../src/ui_MainWindowSettings.h" line="+1"/>
+        <source>When closer than:</source>
+        <translation>Gdy bliżej niż:</translation>
+    </message>
+    <message>
+        <location/>
+        <location filename="../src/ui_MainWindowSettings.h" line="+1"/>
+        <source> px</source>
+        <translation> px</translation>
+    </message>
+    <message>
+        <location/>
+        <location filename="../src/ui_MainWindowSettings.h" line="+1"/>
+        <source>Dock to desktop edges</source>
+        <translation>Dokuj do krawędzi pulpitu</translation>
     </message>
 </context>
 </TS>

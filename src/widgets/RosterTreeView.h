@@ -7,12 +7,14 @@
 namespace KittySDK
 {
 	class IContact;
+	class IMessage;
 }
 
 namespace Kitty
 {
 	class RosterItemDelegate;
 	class ContactWindow;
+	class RosterContact;
 
 	class RosterTreeView: public QTreeView
 	{
@@ -36,6 +38,9 @@ namespace Kitty
 		private slots:
 			void itemExpanded(const QModelIndex &index);
 			void itemCollapsed(const QModelIndex &index);
+			void setupBlinking(quint32 msgId, const KittySDK::IMessage &msg);
+			void blinkIcon();
+			void unblinkIcon(quint32 msgId);
 
 		signals:
 			void vCardRequested(KittySDK::IContact *cnt);
@@ -45,6 +50,12 @@ namespace Kitty
 			void mousePressEvent(QMouseEvent *event);
 			void mouseDoubleClickEvent(QMouseEvent *event);
 			void keyPressEvent(QKeyEvent *event);
+
+		private:
+			RosterContact *rosterContact(const QString &account, const QString &uid);
+
+		private:
+			QMap<quint32, QTimer*> m_blinkTimers;
 	};
 }
 

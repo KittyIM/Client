@@ -105,7 +105,7 @@ int RosterItemModel::columnCount(const QModelIndex &parent) const
 	return 1;
 }
 
-//FIXME
+//FIXME:
 /*Qt::ItemFlags RosterItemModel::flags(const QModelIndex &index) const
 {
   Qt::ItemFlags basic = Qt::ItemIsEnabled | Qt::ItemIsSelectable;

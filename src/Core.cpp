@@ -39,7 +39,6 @@
 #include <QtCore/QDir>
 #include <QtCore/QUrl>
 #include <QtGui/QDesktopServices>
-#include <QtGui/QSystemTrayIcon>
 #include <QtGui/QApplication>
 #include <QtGui/QMenu>
 #include <QtSql/QSqlDatabase>
@@ -70,7 +69,6 @@ Core::~Core()
 
 	delete m_profilesWindow;
 	delete m_historyWindow;
-	delete m_trayIcon;
 
 	ActionManager::destr();
 	IconManager::destr();
@@ -270,24 +268,6 @@ void Core::showAddContactWindow()
 	wnd->show();
 }
 
-QSystemTrayIcon *Core::trayIcon()
-{
-	if(!m_trayIcon) {
-		m_trayIcon = new QSystemTrayIcon(icon(KittySDK::Icons::I_KITTY));
-		m_trayIcon->setToolTip(QString("KittyIM v%1").arg(Constants::VERSION));
-		connect(m_trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(trayIconActivated(QSystemTrayIcon::ActivationReason)));
-
-		QMenu *menu = new QMenu(m_mainWindow);
-		menu->addAction(action(KittySDK::Actions::A_SHOW_HIDE));
-		menu->addSeparator();
-		menu->addAction(action(KittySDK::Actions::A_SETTINGS));
-		menu->addAction(action(KittySDK::Actions::A_QUIT));
-		m_trayIcon->setContextMenu(menu);
-	}
-
-	return m_trayIcon;
-}
-
 Profile *Core::profile()
 {
 	if(!m_profile) {
@@ -355,11 +335,6 @@ QString Core::currentProfileDir() const
 	return profilesDir() + profileName() + "/";
 }
 
-void Core::showTrayIcon()
-{
-	trayIcon()->show();
-}
-
 void Core::showAboutWindow()
 {
 	aboutWindow()->show();
@@ -394,13 +369,6 @@ void Core::changeProfile(const QString &profile, const QString &password)
 	setAppArguments(args);
 
 	restart();
-}
-
-void Core::trayIconActivated(QSystemTrayIcon::ActivationReason reason)
-{
-	if(reason == QSystemTrayIcon::Trigger) {
-		action(KittySDK::Actions::A_SHOW_HIDE)->trigger();
-	}
 }
 
 void Core::toggleMainWindow()
@@ -470,9 +438,13 @@ bool Core::removeDir(const QString &dirName)
 }
 
 // TODO: add to PluginCore
-bool Core::archiveMessage(const KittySDK::IMessage &msg)
+void Core::archiveMessage(const KittySDK::IMessage &msg)
 {
 	if(setting(KittySDK::Settings::S_HISTORY_ENABLED, true).toBool()) {
+		if(msg.to().count() > 1) {
+			return;
+		}
+
 		QString protocol = msg.chat()->protocol()->protoInfo()->protoName();
 		QString account = msg.chat()->account()->uid();
 		QString fileName;
@@ -497,7 +469,7 @@ bool Core::archiveMessage(const KittySDK::IMessage &msg)
 		if(!dir.exists()) {
 			if(!dir.mkpath(".")) {
 				qDebug() << "Can't create history path" << dir.absolutePath();
-				return false;
+				return;
 			}
 		}
 
@@ -509,7 +481,7 @@ bool Core::archiveMessage(const KittySDK::IMessage &msg)
 		db.setDatabaseName(dir.absoluteFilePath(fileName));
 		if(!db.open()) {
 			qDebug() << "Failed to open history db" << db.databaseName() << db.lastError().text();
-			return false;
+			return;
 		}
 
 		//create tables if necessary
@@ -539,13 +511,11 @@ bool Core::archiveMessage(const KittySDK::IMessage &msg)
 			qDebug() << "History insert failed" << query.lastError().text();
 			db.close();
 
-			return false;
+			return;
 		}
 
 		query.clear();
 		db.close();
 	}
-
-	return true;
 }
 }

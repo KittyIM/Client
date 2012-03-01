@@ -25,6 +25,7 @@ namespace Kitty
 			void updateIcons();
 
 		private slots:
+			void refreshAccounts();
 			void on_mainWindowCaptionHelpButton_clicked();
 			void on_chatWindowCaptionHelpButton_clicked();
 			void on_chatTabCaptionHelpButton_clicked();

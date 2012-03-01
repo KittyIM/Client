@@ -16,9 +16,12 @@
 namespace Kitty
 {
 
-RosterContact::RosterContact(KittySDK::IContact *contact, RosterItem *parent): RosterItem(parent), m_contact(contact)
+RosterContact::RosterContact(KittySDK::IContact *contact, RosterItem *parent):
+	RosterItem(parent),
+	m_contact(contact)
 {
 	setData(RosterItem::Contact, RosterItem::TypeRole);
+	setData(false, BlinkRole);
 }
 
 QVariant RosterContact::data(int role) const
@@ -31,11 +34,43 @@ QVariant RosterContact::data(int role) const
 		break;
 
 		case Qt::DecorationRole:
-			return Core::inst()->icon(m_contact->account()->protocol()->statusIcon(m_contact->status()));
+		{
+			if(data(BlinkRole).toBool()) {
+				return Core::inst()->icon(KittySDK::Icons::I_MESSAGE);
+			} else {
+				if(KittySDK::IAccount *acc = m_contact->account()) {
+					if(KittySDK::IProtocol *proto = acc->protocol()) {
+						return Core::inst()->icon(proto->statusIcon(m_contact->status()));
+					}
+				}
+
+				return QVariant();
+			}
+		}
 		break;
 
 		case RosterItem::AccountRole:
-			return QString("%1 (%2)").arg(m_contact->account()->uid()).arg(m_contact->account()->protocol()->protoInfo()->protoName());
+		{
+			if(KittySDK::IAccount *acc = m_contact->account()) {
+				return acc->uid();
+			}
+
+			return QVariant();
+		}
+		break;
+
+		case RosterItem::ProtocolRole:
+		{
+			if(KittySDK::IAccount *acc = m_contact->account()) {
+				if(KittySDK::IProtocol *proto = acc->protocol()) {
+					if(KittySDK::IProtocolInfo *info = proto->protoInfo()) {
+						return info->protoName();
+					}
+				}
+			}
+
+			return QVariant();
+		}
 		break;
 
 		case RosterItem::UidRole:
@@ -62,7 +97,7 @@ QVariant RosterContact::data(int role) const
 				tooltip += "<table><tr><td>";
 				tooltip += QString("<b>%1</b><br>").arg(Qt::escape(m_contact->display()));
 				tooltip += QString("<font size=\"2\">%1</font><br>").arg(Qt::escape(m_contact->uid()));
-				tooltip += QString("<font size=\"2\"><b>%1</b>: %2</font><br>").arg(QObject::tr("Account")).arg(Qt::escape(data(RosterItem::AccountRole).toString()));
+				tooltip += QString("<font size=\"2\"><b>%1</b>: %2</font><br>").arg(QObject::tr("Account")).arg(Qt::escape(QString("%1 (%2)").arg(data(RosterItem::AccountRole).toString()).arg(data(RosterItem::ProtocolRole).toString())));
 
 				if(core->setting(KittySDK::Settings::S_ROSTER_TIPS_EMAIL).toBool()) {
 					QString emails = m_contact->data(KittySDK::ContactInfos::I_EMAILS).toString();
@@ -104,7 +139,7 @@ QVariant RosterContact::data(int role) const
 		break;
 
 		default:
-		return RosterItem::data(role);
+			return RosterItem::data(role);
 		break;
 	}
 }

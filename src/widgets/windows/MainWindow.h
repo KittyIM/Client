@@ -4,6 +4,7 @@
 #include <IProtocol.h>
 
 #include <QtCore/QTimer>
+#include <QtGui/QSystemTrayIcon>
 #include <QtGui/QMainWindow>
 
 class QToolButton;
@@ -54,6 +55,11 @@ namespace Kitty
 			void setFilterText(const QString &text);
 			void toggleToolbarLock();
 			void requestHistory(KittySDK::IContact *contact);
+			void trayIconActivated(QSystemTrayIcon::ActivationReason reason);
+			void resetTrayIcon();
+			void maybeSetupBlink(const quint32 &msgId);
+			void blinkTrayIcon();
+			void maybeUnblink(const quint32 &msgId);
 
 		protected:
 			void changeEvent(QEvent *event);
@@ -63,7 +69,10 @@ namespace Kitty
 
 		private:
 			QTimer m_hideTimer;
+			QTimer m_blinkTimer;
+			QList<quint32> m_blinkQueue;
 			Ui::MainWindow *m_ui;
+			QSystemTrayIcon *m_trayIcon;
 			RosterHeader *m_header;
 			RosterItemModel *m_model;
 			RosterSortProxy *m_proxy;

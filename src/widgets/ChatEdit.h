@@ -36,6 +36,7 @@ namespace Kitty
 
 		signals:
 			void returnPressed();
+			void focusedIn();
 			void typingChanged(bool typing, const int &length);
 			void pixmapDropped(const QPixmap &pix);
 
@@ -62,6 +63,7 @@ namespace Kitty
 			void contextMenuEvent(QContextMenuEvent *event);
 			bool canInsertFromMimeData(const QMimeData *source) const;
 			void insertFromMimeData(const QMimeData *source);
+			void focusInEvent(QFocusEvent *event);
 
 		private:
 			QStringList m_history;

@@ -19,6 +19,17 @@ ContactManager::~ContactManager()
 	qDeleteAll(m_contacts);
 }
 
+KittySDK::IContact *ContactManager::contact(KittySDK::IAccount *acc, const QString &uid) const
+{
+	foreach(KittySDK::IContact *cnt, contactsByAccount(acc)) {
+		if(cnt->uid() == uid) {
+			return cnt;
+		}
+	}
+
+	return 0;
+}
+
 const QList<KittySDK::IContact*> &ContactManager::contacts() const
 {
 	return m_contacts;
@@ -56,6 +67,19 @@ const QList<KittySDK::IContact*> ContactManager::contactsByAccount(const QString
 
 	foreach(KittySDK::IContact *cnt, m_contacts) {
 		if((cnt->protocol()->protoInfo()->protoName() == proto) && (cnt->account()->uid() == acc)) {
+			contacts.append(cnt);
+		}
+	}
+
+	return contacts;
+}
+
+const QList<KittySDK::IContact *> ContactManager::contactsByAccount(KittySDK::IAccount *acc) const
+{
+	QList<KittySDK::IContact*> contacts;
+
+	foreach(KittySDK::IContact *cnt, m_contacts) {
+		if(cnt->account() == acc) {
 			contacts.append(cnt);
 		}
 	}

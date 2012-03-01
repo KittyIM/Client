@@ -14,10 +14,12 @@ namespace Kitty
 		friend class Singleton<ContactManager>;
 
 		public:
+			KittySDK::IContact *contact(KittySDK::IAccount *acc, const QString &uid) const;
 			const QList<KittySDK::IContact*> &contacts() const;
 			const QList<KittySDK::IContact*> contactsByProtocol(const QString &proto);
 			const QList<KittySDK::IContact*> contactsByProtocol(KittySDK::IProtocol *proto);
 			const QList<KittySDK::IContact*> contactsByAccount(const QString &acc, const QString &proto);
+			const QList<KittySDK::IContact*> contactsByAccount(KittySDK::IAccount *acc) const;
 
 			const QStringList groups() const;
 

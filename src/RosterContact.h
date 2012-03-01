@@ -13,6 +13,12 @@ namespace Kitty
 	class RosterContact: public RosterItem
 	{
 		public:
+			enum
+			{
+				BlinkRole = ExpandedRole + 1
+			};
+
+		public:
 			explicit RosterContact(KittySDK::IContact *contact, RosterItem *parent = 0);
 
 			KittySDK::IContact *contact() const { return m_contact; }

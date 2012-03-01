@@ -7,6 +7,7 @@
 #include "widgets/windows/ChatWindow.h"
 #include "widgets/ChatColorPicker.h"
 #include "PluginManager.h"
+#include "MessageQueue.h"
 #include "IconManager.h"
 #include "ChatTheme.h"
 #include "Profile.h"
@@ -29,6 +30,7 @@
 #include <QtGui/QFileDialog>
 #include <QtGui/QToolButton>
 #include <QtGui/QClipboard>
+#include <QtGui/QKeyEvent>
 #include <QtGui/QToolBar>
 #include <QtGui/QLabel>
 #include <QtGui/QMenu>
@@ -42,7 +44,10 @@
 namespace Kitty
 {
 
-ChatTab::ChatTab(KittySDK::IChat *chat, QWidget *parent): QWidget(parent), m_ui(new Ui::ChatTab), m_chat(chat)
+ChatTab::ChatTab(KittySDK::IChat *chat, QWidget *parent):
+	QWidget(parent),
+	m_ui(new Ui::ChatTab),
+	m_chat(chat)
 {
 	m_ui->setupUi(this);
 
@@ -54,6 +59,8 @@ ChatTab::ChatTab(KittySDK::IChat *chat, QWidget *parent): QWidget(parent), m_ui(
 	connect(chat->contacts().first(), SIGNAL(statusChanged(KittySDK::IProtocol::Status,QString)), SLOT(changeStatus(KittySDK::IProtocol::Status, QString)));
 	connect(chat->contacts().first(), SIGNAL(dataChanged()), SIGNAL(tabChanged()));
 	connect(&m_cleanTimer, SIGNAL(timeout()), SLOT(clearMessages()));
+	connect(MessageQueue::inst(), SIGNAL(messageEnqueued(quint32,KittySDK::IMessage)), SLOT(checkDequeue(quint32,KittySDK::IMessage)));
+	connect(m_ui->textEdit, SIGNAL(focusedIn()), SLOT(editFocused()));
 
 	m_toolBar = new QToolBar(this);
 	m_toolBar->setIconSize(QSize(16, 16));
@@ -262,6 +269,7 @@ void ChatTab::updateIcons()
 
 void ChatTab::setEditFocus()
 {
+	MessageQueue::inst()->dequeue(m_chat);
 	m_ui->textEdit->setFocus();
 }
 
@@ -300,7 +308,7 @@ void ChatTab::appendMessage(KittySDK::IMessage &msg)
 			clearMessages();
 		}
 
-		m_messageCount++;
+		++m_messageCount;
 	}
 
 	core->archiveMessage(msg);
@@ -560,6 +568,15 @@ void ChatTab::changeEvent(QEvent *event)
 	QWidget::changeEvent(event);
 }
 
+void ChatTab::showEvent(QShowEvent *event)
+{
+	QWidget::showEvent(event);
+
+	if(!event->spontaneous()) {
+		MessageQueue::inst()->dequeue(m_chat);
+	}
+}
+
 void ChatTab::updateButtons()
 {
 	QTextCharFormat fmt = m_ui->textEdit->currentCharFormat();
@@ -614,7 +631,14 @@ void ChatTab::updateImageMenu()
 							WCHAR *text = new WCHAR[255];
 							GetWindowText(hWnd, text, 250);
 
-							QAction *action = windowMenu->addAction(QString::fromWCharArray(text), this, SLOT(sendImageWindow()));
+							const int maxTitleLength = 60;
+
+							QString title = QString::fromWCharArray(text);
+							if(title.length() > maxTitleLength) {
+								title = title.left(maxTitleLength) + "...";
+							}
+
+							QAction *action = windowMenu->addAction(title, this, SLOT(sendImageWindow()));
 							action->setData((int)hWnd);
 
 							HICON hIcon = (HICON)SendMessage(hWnd, WM_GETICON, ICON_SMALL, 0);
@@ -639,7 +663,7 @@ void ChatTab::updateImageMenu()
 								action->setIcon(icon);
 							}
 
-							delete text;
+							delete [] text;
 							delete hIcon;
 						}
 					}
@@ -669,6 +693,18 @@ void ChatTab::showContactWindow()
 void ChatTab::showHistoryWindow()
 {
 	Core::inst()->historyWindow()->showContact(m_chat->contacts().first());
+}
+
+void ChatTab::checkDequeue(quint32 msgId, const KittySDK::IMessage &msg)
+{
+	if(m_ui->textEdit->hasFocus()) {
+		MessageQueue::inst()->dequeue(msgId);
+	}
+}
+
+void ChatTab::editFocused()
+{
+	MessageQueue::inst()->dequeue(m_chat);
 }
 
 }

@@ -70,7 +70,7 @@ IconTheme::IconTheme(const QString &name)
 
 void IconTheme::loadDefaults()
 {
-	m_icons.insert(KittySDK::Icons::I_KITTY,			":/icons/main.ico");
+	m_icons.insert(KittySDK::Icons::I_KITTY,			":/glyphs/kitty.png");
 	m_icons.insert(KittySDK::Icons::I_QUIT,				":/glyphs/quit.png");
 	m_icons.insert(KittySDK::Icons::I_SETTINGS,			":/glyphs/settings.png");
 	m_icons.insert(KittySDK::Icons::I_PLUGIN,			":/glyphs/plugin.png");

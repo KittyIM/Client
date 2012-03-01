@@ -63,9 +63,12 @@ namespace Kitty
 			void changeStatus(KittySDK::IProtocol::Status status, QString description);
 			void showContactWindow();
 			void showHistoryWindow();
+			void checkDequeue(quint32 msgId, const KittySDK::IMessage &msg);
+			void editFocused();
 
 		protected:
 			void changeEvent(QEvent *event);
+			void showEvent(QShowEvent *event);
 
 		private:
 			Ui::ChatTab *m_ui;

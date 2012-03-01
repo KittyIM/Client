@@ -1,5 +1,6 @@
 #include "ChatTabWidget.h"
 
+#include "MessageQueue.h"
 #include "ChatTab.h"
 #include "Core.h"
 
@@ -21,6 +22,10 @@ namespace Kitty
 
 ChatTabWidget::ChatTabWidget(QWidget *parent): QTabWidget(parent)
 {
+	connect(MessageQueue::inst(), SIGNAL(messageEnqueued(quint32,KittySDK::IMessage)), SLOT(setupBlinking(quint32,KittySDK::IMessage)));
+	connect(MessageQueue::inst(), SIGNAL(messageDequeued(quint32)), SLOT(unblinkIcon(quint32)));
+	connect(this, SIGNAL(currentChanged(int)), SLOT(updateTabFocus(int)));
+
 	m_closedButton = new QToolButton(this);
 	m_closedButton->setAutoRaise(true);
 	m_closedButton->setToolTip(tr("Recently closed tabs"));
@@ -52,6 +57,18 @@ int ChatTabWidget::indexByChat(KittySDK::IChat *chat)
 	for(int i = 0; i < count(); ++i) {
 		ChatTab *tab = qobject_cast<ChatTab*>(widget(i));
 		if(tab->chat() == chat) {
+			return i;
+		}
+	}
+
+	return -1;
+}
+
+int ChatTabWidget::indexByChatId(const QString &chatId)
+{
+	for(int i = 0; i < count(); ++i) {
+		ChatTab *tab = qobject_cast<ChatTab*>(widget(i));
+		if(tab->chat()->id() == chatId) {
 			return i;
 		}
 	}
@@ -105,13 +122,24 @@ ChatTab *ChatTabWidget::startChat(KittySDK::IChat *chat)
 {
 	ChatTab *chatTab = tabByChat(chat);
 
+	//create if not exists
 	if(!chatTab) {
 		chatTab = new ChatTab(chat, this);
 
 		connect(chatTab, SIGNAL(tabChanged()), this, SLOT(changeTab()));
 
 		m_tabs.append(chatTab);
+	}
+
+	//make sure the tabs is inserted
+	if(indexByChat(chat) == -1) {
 		addTab(chatTab, "");
+	}
+
+	//remove the chat from recently closed tabs
+	m_closedTabs.removeAll(chat);
+	if(m_closedTabs.count() == 0) {
+		m_closedButton->setEnabled(false);
 	}
 
 	return chatTab;
@@ -189,6 +217,7 @@ void ChatTabWidget::changeTab()
 		int i = indexByChat(tab->chat());
 
 		updateTab(i);
+		emit currentChanged(i);
 	}
 }
 
@@ -197,7 +226,14 @@ void ChatTabWidget::updateTab(int i)
 {
 	if(ChatTab *tab = qobject_cast<ChatTab*>(widget(i))) {
 		setTabText(i, createLabel(tab->chat()));
+	}
 
+	updateTabIcon(i);
+}
+
+void ChatTabWidget::updateTabIcon(int i)
+{
+	if(ChatTab *tab = qobject_cast<ChatTab*>(widget(i))) {
 		if(tab->chat()->contacts().count() == 1) {
 			KittySDK::IContact *cnt = tab->chat()->contacts().first();
 			if(KittySDK::IProtocol *proto = cnt->protocol()) {
@@ -207,8 +243,13 @@ void ChatTabWidget::updateTab(int i)
 			setTabIcon(i, Core::inst()->icon(KittySDK::Icons::I_GROUP_CHAT));
 		}
 	}
+}
 
-	emit currentChanged(i);
+void ChatTabWidget::updateTabFocus(int i)
+{
+	if(ChatTab *tab = qobject_cast<ChatTab*>(widget(i))) {
+		tab->setEditFocus();
+	}
 }
 
 void ChatTabWidget::showRecentlyClosed()
@@ -220,15 +261,21 @@ void ChatTabWidget::showRecentlyClosed()
 	foreach(KittySDK::IChat *chat, m_closedTabs) {
 		QIcon icon;
 
-		KittySDK::IContact *cnt = chat->contacts().first();
-		if(cnt) {
+		if(KittySDK::IContact *cnt = chat->contacts().first()) {
 			KittySDK::IProtocol *proto = cnt->protocol();
 			if(proto) {
 				icon = QIcon(Core::inst()->icon(proto->statusIcon(cnt->status())));
 			}
 		}
 
-		QAction *act = menu.addAction(icon, createLabel(chat), this, SLOT(restoreClosedTab()));
+		QString title;
+		if(chat->contacts().count() == 1) {
+			title = chat->contacts().first()->display();
+		} else {
+			title = createLabel(chat);
+		}
+
+		QAction *act = menu.addAction(icon, title, this, SLOT(restoreClosedTab()));
 		act->setData(m_closedTabs.indexOf(chat));
 
 	}
@@ -250,6 +297,49 @@ void ChatTabWidget::restoreClosedTab()
 		KittySDK::IChat *chat = m_closedTabs.takeAt(index);
 		m_closedButton->setEnabled(m_closedTabs.count());
 		switchTo(chat);
+	}
+}
+
+void ChatTabWidget::setupBlinking(quint32 msgId, const KittySDK::IMessage &msg)
+{
+	if(msg.direction() == KittySDK::IMessage::Incoming) {
+		if(!MessageQueue::inst()->isFirstForChat(msg.chat())) {
+			return;
+		}
+
+		QTimer *blinkTimer = new QTimer(this);
+		blinkTimer->setProperty("chatId", msg.chat()->id());
+		connect(blinkTimer, SIGNAL(timeout()), SLOT(blinkTab()));
+		blinkTimer->start(Core::inst()->setting(KittySDK::Settings::S_BLINKING_SPEED, 500).toInt());
+
+		m_blinkTimers.insert(msgId, blinkTimer);
+	}
+}
+
+void ChatTabWidget::blinkTab()
+{
+	if(QTimer *timer = qobject_cast<QTimer*>(sender())) {
+		int index = indexByChatId(timer->property("chatId").toString());
+
+		if(timer->property("blink").toBool()) {
+			setTabIcon(index, Core::inst()->icon(KittySDK::Icons::I_MESSAGE));
+		} else {
+			updateTabIcon(index);
+		}
+
+		timer->setProperty("blink", !timer->property("blink").toBool());
+	}
+}
+
+void ChatTabWidget::unblinkIcon(quint32 msgId)
+{
+	if(m_blinkTimers.contains(msgId)) {
+		QTimer *timer = m_blinkTimers.take(msgId);
+
+		int index = indexByChatId(timer->property("chatId").toString());
+		updateTab(index);
+
+		delete timer;
 	}
 }
 

@@ -8,8 +8,9 @@
 #include "AccountManager.h"
 #include "ActionManager.h"
 #include "PluginManager.h"
-#include "IconManager.h"
+#include "MessageQueue.h"
 #include "JsonSettings.h"
+#include "IconManager.h"
 #include "ChatTheme.h"
 #include "IconTheme.h"
 #include "Core.h"
@@ -42,6 +43,7 @@ Profile::~Profile()
 	if(isLoaded()) {
 		settings()->setValue(KittySDK::Settings::S_DEBUGWINDOW_GEOMETRY, DebugWindow::inst()->saveGeometry());
 
+		MessageQueue::inst()->save(m_name);
 		AccountManager::inst()->save(m_name);
 		ContactManager::inst()->save(m_name);
 	}

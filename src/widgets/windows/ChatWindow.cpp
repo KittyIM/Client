@@ -85,6 +85,16 @@ void ChatWindow::switchTo(KittySDK::IChat *chat)
 	m_ui->tabWidget->switchTo(chat);
 }
 
+void ChatWindow::showChat(KittySDK::IChat *chat)
+{
+	startChat(chat);
+	switchTo(chat);
+
+	show();
+	activateWindow();
+	setWindowState(windowState() & (~Qt::WindowMinimized | Qt::WindowActive));
+}
+
 void ChatWindow::on_tabWidget_tabCloseRequested(int index)
 {
 	m_ui->tabWidget->removeTab(index);

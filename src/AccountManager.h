@@ -5,8 +5,6 @@
 
 #include <IAccount.h>
 
-#include <QtCore/QObject>
-
 namespace Kitty
 {
 	class AccountManager: public QObject, public Singleton<AccountManager>

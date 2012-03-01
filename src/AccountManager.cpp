@@ -5,6 +5,7 @@
 #include "ProtocolManager.h"
 #include "ContactManager.h"
 #include "PluginManager.h"
+#include "MessageQueue.h"
 #include "ChatManager.h"
 #include "Core.h"
 
@@ -81,6 +82,7 @@ bool AccountManager::add(KittySDK::IAccount *account)
 
 	connect(account, SIGNAL(statusChanged(KittySDK::IProtocol::Status,QString)), this, SLOT(notifyStatusChange(KittySDK::IProtocol::Status,QString)));
 	connect(account, SIGNAL(messageReceived(KittySDK::IMessage&)), ChatManager::inst(), SLOT(receiveMessage(KittySDK::IMessage&)));
+	connect(account, SIGNAL(messageReceived(KittySDK::IMessage&)), MessageQueue::inst(), SLOT(enqueue(KittySDK::IMessage&)));
 	connect(account, SIGNAL(contactAdded(KittySDK::IContact*)), ContactManager::inst(), SLOT(add(KittySDK::IContact*)));
 	connect(account, SIGNAL(typingNotifyReceived(KittySDK::IContact*,bool,int)), ChatManager::inst(), SLOT(receiveTypingNotify(KittySDK::IContact*,bool,int)));
 
@@ -120,7 +122,7 @@ void AccountManager::load(const QString &profile)
 			QVariantMap map = Json::parse(qUncompress(file.readAll())).toMap();
 			if(map.contains("accounts")) {
 				QVariantList list = map.value("accounts").toList();
-				foreach(QVariant item, list) {
+				foreach(const QVariant &item, list) {
 					QVariantMap settings = item.toMap();
 
 					if(settings.contains("protocol")) {

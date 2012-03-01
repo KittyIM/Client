@@ -7,14 +7,17 @@
 #include "RosterItemModel.h"
 #include "ContactManager.h"
 #include "RosterContact.h"
+#include "MessageQueue.h"
 #include "ChatManager.h"
 #include "RosterItem.h"
 #include "Core.h"
 
 #include <SDKConstants.h>
 #include <IContact.h>
+#include <IMessage.h>
 
 #include <QtCore/QDebug>
+#include <QtCore/QTimer>
 #include <QtCore/QUrl>
 #include <QtGui/QDesktopServices>
 #include <QtGui/QInputDialog>
@@ -39,6 +42,8 @@ RosterTreeView::RosterTreeView(QWidget *parent): QTreeView(parent)
 
 	connect(this, SIGNAL(expanded(QModelIndex)), SLOT(itemExpanded(QModelIndex)));
 	connect(this, SIGNAL(collapsed(QModelIndex)), SLOT(itemCollapsed(QModelIndex)));
+	connect(MessageQueue::inst(), SIGNAL(messageEnqueued(quint32,KittySDK::IMessage)), SLOT(setupBlinking(quint32,KittySDK::IMessage)));
+	connect(MessageQueue::inst(), SIGNAL(messageDequeued(quint32)), SLOT(unblinkIcon(quint32)));
 }
 
 void RosterTreeView::fixGroups()
@@ -54,15 +59,21 @@ void RosterTreeView::fixGroups()
 
 void RosterTreeView::selectFirst()
 {
-	/*qDebug() << "select first";
-	QModelIndex root = rootIndex();
+	for(int i = 0; i < model()->rowCount(); ++i) {
+		QModelIndex idx = model()->index(i, 0, rootIndex());
+		QModelIndex index = dynamic_cast<RosterSortProxy*>(model())->mapToSource(idx);
 
-	if(model()->rowCount(root)) {
-		QModelIndex index = model()->index(0, 0, root);
-		if(index.isValid()) {
-			setCurrentIndex(index);
+		if(index.data(RosterItem::TypeRole).toInt() == RosterItem::Contact) {
+			selectionModel()->setCurrentIndex(index, QItemSelectionModel::ClearAndSelect);
+			return;
+		} else if(index.data(RosterItem::TypeRole).toInt() == RosterItem::Group) {
+			if(model()->rowCount(idx)) {
+				selectionModel()->setCurrentIndex(model()->index(0, 0, idx), QItemSelectionModel::ClearAndSelect);
+				return;
+			}
 		}
-	}*/
+	}
+
 }
 
 void RosterTreeView::sendMessage()
@@ -232,6 +243,56 @@ void RosterTreeView::itemCollapsed(const QModelIndex &index)
 	}
 }
 
+void RosterTreeView::setupBlinking(quint32 msgId, const KittySDK::IMessage &msg)
+{
+	if(msg.direction() == KittySDK::IMessage::Incoming) {
+		if(!MessageQueue::inst()->isFirstForChat(msg.chat())) {
+			return;
+		}
+
+		QTimer *blinkTimer = new QTimer(this);
+		connect(blinkTimer, SIGNAL(timeout()), SLOT(blinkIcon()));
+		blinkTimer->setProperty("account", msg.chat()->account()->uid());
+		blinkTimer->setProperty("uid", msg.from()->uid());
+		blinkTimer->start(Core::inst()->setting(KittySDK::Settings::S_BLINKING_SPEED, 500).toInt());
+
+		m_blinkTimers.insert(msgId, blinkTimer);
+	}
+}
+
+void RosterTreeView::blinkIcon()
+{
+	if(QTimer *timer = qobject_cast<QTimer*>(sender())) {
+		QString account = timer->property("account").toString();
+		QString uid = timer->property("uid").toString();
+
+		if(RosterContact *cnt = rosterContact(account, uid)) {
+			cnt->setData(!cnt->data(RosterContact::BlinkRole).toBool(), RosterContact::BlinkRole);
+
+			viewport()->update();
+		}
+	}
+}
+
+void RosterTreeView::unblinkIcon(quint32 msgId)
+{
+	if(m_blinkTimers.contains(msgId)) {
+		QTimer *timer = m_blinkTimers.take(msgId);
+		timer->stop();
+
+		QString account = timer->property("account").toString();
+		QString uid = timer->property("uid").toString();
+
+		if(RosterContact *cnt = rosterContact(account, uid)) {
+			cnt->setData(false, RosterContact::BlinkRole);
+
+			viewport()->update();
+		}
+
+		delete timer;
+	}
+}
+
 void RosterTreeView::mousePressEvent(QMouseEvent *event)
 {
 	QTreeView::mousePressEvent(event);
@@ -240,8 +301,7 @@ void RosterTreeView::mousePressEvent(QMouseEvent *event)
 	if(index.isValid()) {
 		if(event->button() == Qt::RightButton) {
 			if(index.data(RosterItem::TypeRole).toInt() == RosterItem::Contact) {
-				RosterContact *cnt = static_cast<RosterContact*>(index.internalPointer());
-				if(cnt) {
+				if(RosterContact *cnt = static_cast<RosterContact*>(index.internalPointer())) {
 					QMenu menu(this);
 					menu.addAction(Core::inst()->icon(KittySDK::Icons::I_MESSAGE), tr("Send message"), this, SLOT(sendMessage()));
 
@@ -287,7 +347,7 @@ void RosterTreeView::mousePressEvent(QMouseEvent *event)
 
 					groupMenu->addSeparator();
 
-					// TODO
+					// TODO:
 					QStringList groups = ContactManager::inst()->groups();
 					foreach(QString group, groups) {
 						QAction *action = groupMenu->addAction(group, this, SLOT(moveToGroup()));
@@ -340,6 +400,34 @@ void RosterTreeView::keyPressEvent(QKeyEvent *event)
 	}
 
 	QTreeView::keyPressEvent(event);
+}
+
+RosterContact *RosterTreeView::rosterContact(const QString &account, const QString &uid)
+{
+	for(int i = 0; i < model()->rowCount(); ++i) {
+		QModelIndex idx = model()->index(i, 0, rootIndex());
+		QModelIndex index = dynamic_cast<RosterSortProxy*>(model())->mapToSource(idx);
+
+		if(index.data(RosterItem::TypeRole).toInt() == RosterItem::Contact) {
+			if((index.data(RosterItem::AccountRole).toString() == account) && (index.data(RosterItem::UidRole).toString() == uid)) {
+				if(RosterContact *cnt = static_cast<RosterContact*>(index.internalPointer())) {
+					return cnt;
+				}
+			}
+		} else if(index.data(RosterItem::TypeRole).toInt() == RosterItem::Group) {
+			for(int j = 0; j < model()->rowCount(idx); ++j) {
+				QModelIndex child = dynamic_cast<RosterSortProxy*>(model())->mapToSource(model()->index(j, 0, idx));
+
+				if((child.data(RosterItem::AccountRole).toString() == account) && (child.data(RosterItem::UidRole).toString() == uid)) {
+					if(RosterContact *cnt = static_cast<RosterContact*>(child.internalPointer())) {
+						return cnt;
+					}
+				}
+			}
+		}
+	}
+
+	return 0;
 }
 
 }

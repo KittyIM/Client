@@ -35,6 +35,7 @@ namespace Kitty
 			void applySettings();
 			ChatTab *startChat(KittySDK::IChat *chat);
 			void switchTo(KittySDK::IChat *chat);
+			void showChat(KittySDK::IChat *chat);
 
 		private slots:
 			void on_tabWidget_tabCloseRequested(int index);

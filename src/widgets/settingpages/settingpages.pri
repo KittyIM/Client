@@ -10,7 +10,8 @@ SOURCES      += $$PWD/AccountsSettings.cpp \
                 $$PWD/SmiliesSettings.cpp \
                 $$PWD/StartupSettings.cpp \
                 $$PWD/ThemesSettings.cpp \
-                $$PWD/UserSettings.cpp
+                $$PWD/UserSettings.cpp \
+                $$PWD/MainWindowSettings.cpp
 
 HEADERS      += $$PWD/AccountsSettings.h \
                 $$PWD/ChatWindowSettings.h \
@@ -24,7 +25,8 @@ HEADERS      += $$PWD/AccountsSettings.h \
                 $$PWD/SmiliesSettings.h \
                 $$PWD/StartupSettings.h \
                 $$PWD/ThemesSettings.h \
-                $$PWD/UserSettings.h
+                $$PWD/UserSettings.h \
+                $$PWD/MainWindowSettings.h
 
 FORMS        += $$PWD/AccountsSettings.ui \
                 $$PWD/ChatWindowSettings.ui \
@@ -38,4 +40,5 @@ FORMS        += $$PWD/AccountsSettings.ui \
                 $$PWD/SmiliesSettings.ui \
                 $$PWD/StartupSettings.ui \
                 $$PWD/ThemesSettings.ui \
-                $$PWD/UserSettings.ui
+                $$PWD/UserSettings.ui \
+                $$PWD/MainWindowSettings.ui

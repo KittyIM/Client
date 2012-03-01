@@ -26,7 +26,8 @@ SOURCES      += main.cpp \
                 RosterItem.cpp \
                 RosterItemDelegate.cpp \
                 RosterItemModel.cpp \
-                RosterSortProxy.cpp
+                RosterSortProxy.cpp \
+    MessageQueue.cpp
 
 HEADERS      += constants.h \
                 AbstractTheme.h \
@@ -52,7 +53,8 @@ HEADERS      += constants.h \
                 RosterItemDelegate.h \
                 RosterItemModel.h \
                 RosterSortProxy.h \
-                Singleton.h
+                Singleton.h \
+    MessageQueue.h
 
 include(3rdparty/3rdparty.pri)
 include(widgets/widgets.pri)

@@ -3,10 +3,9 @@
 
 #include "Singleton.h"
 
+#include <QtCore/QStringList>
 #include <QtCore/QPointer>
 #include <QtCore/QVariant>
-#include <QtCore/QObject>
-#include <QtGui/QSystemTrayIcon>
 
 class QAction;
 class Hunspell;
@@ -58,7 +57,6 @@ namespace Kitty
 			ProfilesWindow *profilesWindow();
 			SettingsWindow *settingsWindow();
 			HistoryWindow *historyWindow();
-			QSystemTrayIcon *trayIcon();
 			Profile *profile();
 			Hunspell *hunspell();
 			JsonSettings *settings();
@@ -68,7 +66,7 @@ namespace Kitty
 			QString profilesDir() const;
 			QString currentProfileDir() const;
 			bool removeDir(const QString &dirName);
-			bool archiveMessage(const KittySDK::IMessage &msg);
+			void archiveMessage(const KittySDK::IMessage &msg);
 
 			void setRestart(bool restart) { m_restart = restart; }
 			bool hasToRestart() const { return m_restart; }
@@ -82,7 +80,6 @@ namespace Kitty
 		public slots:
 			void restart();
 			void changeProfile(const QString &profile, const QString &password);
-			void showTrayIcon();
 			void showAboutWindow();
 			void showMainWindow();
 			void showChatWindow();
@@ -95,13 +92,8 @@ namespace Kitty
 			void openProfilesFolder();
 			void showContactWindow(KittySDK::IContact *cnt);
 
-		private slots:
-			void trayIconActivated(QSystemTrayIcon::ActivationReason reason);
-
 		private:
 			Core();
-			Core(const Core &);
-			void operator=(const Core &);
 
 		private:
 			bool m_restart;
@@ -111,7 +103,6 @@ namespace Kitty
 			QPointer<ProfilesWindow> m_profilesWindow;
 			QPointer<SettingsWindow> m_settingsWindow;
 			QPointer<HistoryWindow> m_historyWindow;
-			QPointer<QSystemTrayIcon> m_trayIcon;
 			QPointer<AboutWindow> m_aboutWindow;
 			QPointer<MainWindow> m_mainWindow;
 			QPointer<ChatWindow> m_chatWindow;

@@ -1,6 +1,7 @@
 #include "DisplaySettings.h"
 #include "ui_DisplaySettings.h"
 
+#include "AccountManager.h"
 #include "Core.h"
 
 #include <SDKConstants.h>
@@ -10,9 +11,13 @@
 namespace Kitty
 {
 
-DisplaySettings::DisplaySettings(QWidget *parent): KittySDK::ISettingsPage(0, parent), m_ui(new Ui::DisplaySettings)
+DisplaySettings::DisplaySettings(QWidget *parent):
+	KittySDK::ISettingsPage(0, parent),
+	m_ui(new Ui::DisplaySettings)
 {
 	m_ui->setupUi(this);
+
+	connect(AccountManager::inst(), SIGNAL(accountAdded()), SLOT(refreshAccounts()));
 
 	setIcon(KittySDK::Icons::I_PALETTE);
 	setId(KittySDK::SettingPages::S_DISPLAY);
@@ -27,13 +32,17 @@ void DisplaySettings::apply()
 {
 	Core *core = Core::inst();
 
-	core->setSetting(KittySDK::Settings::S_MAINWINDOW_ALWAYS_ON_TOP, m_ui->alwaysOnTopCheckBox->isChecked());
-	core->setSetting(KittySDK::Settings::S_MAINWINDOW_AUTOHIDE, m_ui->autoHideCheckBox->isChecked());
-	core->setSetting(KittySDK::Settings::S_MAINWINDOW_AUTOHIDE_DELAY, m_ui->autoHideSlider->value());
-	core->setSetting(KittySDK::Settings::S_MAINWINDOW_TRANSPARENCY, m_ui->transparencyCheckBox->isChecked());
-	core->setSetting(KittySDK::Settings::S_MAINWINDOW_TRANSPARENCY_VALUE, m_ui->transparencySlider->value());
-	core->setSetting(KittySDK::Settings::S_MAINWINDOW_DOCKING, m_ui->dockToEdgesCheckBox->isChecked());
-	core->setSetting(KittySDK::Settings::S_MAINWINDOW_DOCKING_DISTANCE, m_ui->dockDistanceSpinBox->value());
+	QString trayProtocol = m_ui->systemTrayAccountComboBox->itemData(m_ui->systemTrayAccountComboBox->currentIndex()).toString();
+	QString trayAccount = m_ui->systemTrayAccountComboBox->itemData(m_ui->systemTrayAccountComboBox->currentIndex(), Qt::UserRole + 1).toString();
+	if(trayProtocol.isEmpty() || trayAccount.isEmpty()) {
+		core->setSetting(KittySDK::Settings::S_TRAYICON_PROTOCOL, QVariant());
+		core->setSetting(KittySDK::Settings::S_TRAYICON_ACCOUNT, QVariant());
+	} else {
+		core->setSetting(KittySDK::Settings::S_TRAYICON_PROTOCOL, trayProtocol);
+		core->setSetting(KittySDK::Settings::S_TRAYICON_ACCOUNT, trayAccount);
+	}
+
+	core->setSetting(KittySDK::Settings::S_BLINKING_SPEED, m_ui->blinkingSlider->value());
 	core->setSetting(KittySDK::Settings::S_MAINWINDOW_CAPTION, m_ui->mainWindowCaptionEdit->text());
 	core->setSetting(KittySDK::Settings::S_CHATWINDOW_CAPTION, m_ui->chatWindowCaptionEdit->text());
 	core->setSetting(KittySDK::Settings::S_CHATTAB_CAPTION, m_ui->chatTabCaptionEdit->text());
@@ -43,13 +52,9 @@ void DisplaySettings::reset()
 {
 	Core *core = Core::inst();
 
-	m_ui->alwaysOnTopCheckBox->setChecked(core->setting(KittySDK::Settings::S_MAINWINDOW_ALWAYS_ON_TOP).toBool());
-	m_ui->autoHideCheckBox->setChecked(core->setting(KittySDK::Settings::S_MAINWINDOW_AUTOHIDE).toBool());
-	m_ui->autoHideSlider->setValue(core->setting(KittySDK::Settings::S_MAINWINDOW_AUTOHIDE_DELAY, 5).toInt());
-	m_ui->transparencyCheckBox->setChecked(core->setting(KittySDK::Settings::S_MAINWINDOW_TRANSPARENCY).toBool());
-	m_ui->transparencySlider->setValue(core->setting(KittySDK::Settings::S_MAINWINDOW_TRANSPARENCY_VALUE, 80).toInt());
-	m_ui->dockToEdgesCheckBox->setChecked(core->setting(KittySDK::Settings::S_MAINWINDOW_DOCKING).toBool());
-	m_ui->dockDistanceSpinBox->setValue(core->setting(KittySDK::Settings::S_MAINWINDOW_DOCKING_DISTANCE).toInt());
+	refreshAccounts();
+
+	m_ui->blinkingSlider->setValue(core->setting(KittySDK::Settings::S_BLINKING_SPEED, 500).toInt());
 	m_ui->mainWindowCaptionEdit->setText(core->setting(KittySDK::Settings::S_MAINWINDOW_CAPTION, "KittyIM %version% [%profile%]").toString());
 	m_ui->chatWindowCaptionEdit->setText(core->setting(KittySDK::Settings::S_CHATWINDOW_CAPTION, "%display% [%status%] %description%").toString());
 	m_ui->chatTabCaptionEdit->setText(core->setting(KittySDK::Settings::S_CHATTAB_CAPTION, "%display%").toString());
@@ -60,6 +65,28 @@ void DisplaySettings::updateIcons()
 	m_ui->mainWindowCaptionHelpButton->setIcon(Core::inst()->icon(KittySDK::Icons::I_INFO));
 	m_ui->chatWindowCaptionHelpButton->setIcon(Core::inst()->icon(KittySDK::Icons::I_INFO));
 	m_ui->chatTabCaptionHelpButton->setIcon(Core::inst()->icon(KittySDK::Icons::I_INFO));
+}
+
+void DisplaySettings::refreshAccounts()
+{
+	Core *core = Core::inst();
+
+	m_ui->systemTrayAccountComboBox->clear();
+	m_ui->systemTrayAccountComboBox->addItem(core->icon(KittySDK::Icons::I_KITTY), tr("None, use Kitty's icon"));
+	foreach(KittySDK::IAccount *acc, AccountManager::inst()->accounts()) {
+		if(KittySDK::IProtocol *proto = acc->protocol()) {
+			if(KittySDK::IProtocolInfo *info = proto->protoInfo()) {
+					QString text = QString("%1 (%2)").arg(acc->uid()).arg(info->protoName());
+
+				m_ui->systemTrayAccountComboBox->addItem(core->icon(info->protoIcon()), text, info->protoName());
+				m_ui->systemTrayAccountComboBox->setItemData(m_ui->systemTrayAccountComboBox->count() - 1, acc->uid(), Qt::UserRole + 1);
+
+				if((core->setting(KittySDK::Settings::S_TRAYICON_ACCOUNT).toString() == acc->uid() && (core->setting(KittySDK::Settings::S_TRAYICON_PROTOCOL).toString() == info->protoName()))) {
+					m_ui->systemTrayAccountComboBox->setCurrentIndex(m_ui->systemTrayAccountComboBox->count() - 1);
+				}
+			}
+		}
+	}
 }
 
 void DisplaySettings::on_mainWindowCaptionHelpButton_clicked()

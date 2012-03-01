@@ -9,6 +9,7 @@
 #include "ActionManager.h"
 #include "HistoryWindow.h"
 #include "RosterContact.h"
+#include "MessageQueue.h"
 #include "IconManager.h"
 #include "constants.h"
 #include "Profile.h"
@@ -23,6 +24,7 @@
 #include <QtCore/QDebug>
 #include <QtCore/QTimer>
 #include <QtCore/QFile>
+#include <QtGui/QSystemTrayIcon>
 #include <QtGui/QLinearGradient>
 #include <QtGui/QToolButton>
 #include <QtGui/QKeyEvent>
@@ -34,7 +36,9 @@
 namespace Kitty
 {
 
-MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), m_ui(new Ui::MainWindow)
+MainWindow::MainWindow(QWidget *parent):
+	QMainWindow(parent),
+	m_ui(new Ui::MainWindow)
 {
 	m_ui->setupUi(this);
 
@@ -44,6 +48,9 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), m_ui(new Ui::MainW
 
 	connect(m_ui->rosterTreeView, SIGNAL(vCardRequested(KittySDK::IContact*)), Core::inst(), SLOT(showContactWindow(KittySDK::IContact*)));
 	connect(m_ui->rosterTreeView, SIGNAL(historyRequested(KittySDK::IContact*)), this, SLOT(requestHistory(KittySDK::IContact*)));
+	connect(MessageQueue::inst(), SIGNAL(messageEnqueued(quint32,KittySDK::IMessage)), SLOT(maybeSetupBlink(quint32)));
+	connect(MessageQueue::inst(), SIGNAL(messageDequeued(quint32)), SLOT(maybeUnblink(quint32)));
+	connect(&m_blinkTimer, SIGNAL(timeout()), SLOT(blinkTrayIcon()));
 
 	m_header = new RosterHeader(this);
 	m_ui->headerToolBar->addWidget(m_header);
@@ -66,7 +73,6 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), m_ui(new Ui::MainW
 	m_ui->rosterTreeView->setSortingEnabled(true);
 
 	connect(m_proxy, SIGNAL(layoutChanged()), m_ui->rosterTreeView, SLOT(fixGroups()));
-	//connect(m_proxy, SIGNAL(layoutChanged()), m_ui->rosterTreeView, SLOT(selectFirst()));
 	connect(IconManager::inst(), SIGNAL(iconsUpdated()), m_proxy, SLOT(invalidate()));
 
 	m_hideTimer.setSingleShot(true);
@@ -74,7 +80,10 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), m_ui(new Ui::MainW
 
 	Core *core = Core::inst();
 
-	core->showTrayIcon();
+	m_trayIcon = new QSystemTrayIcon(core->icon(KittySDK::Icons::I_KITTY), this);
+	m_trayIcon->setToolTip(QString("KittyIM v%1").arg(Constants::VERSION));
+	connect(m_trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(trayIconActivated(QSystemTrayIcon::ActivationReason)));
+	m_trayIcon->show();
 
 	initToolbars();
 
@@ -112,6 +121,7 @@ MainWindow::~MainWindow()
 	core->setSetting(QString("%1.%2").arg(KittySDK::Settings::S_MAINWINDOW_TB_LOCKS).arg(KittySDK::Toolbars::TB_PLUGINS), m_ui->pluginsToolBar->isMovable());
 
 	delete m_ui;
+	delete m_trayIcon;
 }
 
 bool MainWindow::isObscured()
@@ -233,6 +243,8 @@ void MainWindow::applySettings()
 
 	m_header->applySettings();
 
+	resetTrayIcon();
+
 	if(core->setting(KittySDK::Settings::S_MAINWINDOW_TRANSPARENCY).toBool()) {
 		setWindowOpacity(core->setting(KittySDK::Settings::S_MAINWINDOW_TRANSPARENCY_VALUE, 80).toReal() / 100.0);
 	} else {
@@ -286,6 +298,18 @@ void MainWindow::showAccountStatusMenu()
 
 void MainWindow::updateAccountStatusIcon(KittySDK::IAccount *account, KittySDK::IProtocol::Status status, const QString &description)
 {
+	Core *core = Core::inst();
+
+	//tray icon
+	if(KittySDK::IProtocol *proto = account->protocol()) {
+		if(KittySDK::IProtocolInfo *info = proto->protoInfo()) {
+			if((account->uid() == core->setting(KittySDK::Settings::S_TRAYICON_ACCOUNT).toString()) && (info->protoName() == core->setting(KittySDK::Settings::S_TRAYICON_PROTOCOL).toString())) {
+				m_trayIcon->setIcon(core->icon(proto->statusIcon(account->status())));
+			}
+		}
+	}
+
+	//accounts toolbar
 	foreach(QAction *action, m_ui->networksToolBar->actions()) {
 		if((action->property("protocol").toString() == account->protocol()->protoInfo()->protoName()) && (action->property("uid").toString() == account->uid())) {
 			action->setIcon(Core::inst()->icon(account->protocol()->statusIcon(status)));
@@ -429,6 +453,8 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
 		if(QKeyEvent *ev = static_cast<QKeyEvent*>(event)) {
 			if(obj == m_ui->rosterTreeView) {
 				if(!ev->text().isEmpty() && ev->text().at(0).isPrint()) {
+					connect(m_proxy, SIGNAL(layoutChanged()), m_ui->rosterTreeView, SLOT(selectFirst()));
+
 					m_ui->filterEdit->show();
 					m_ui->filterEdit->setText(ev->text());
 					m_ui->filterEdit->setFocus();
@@ -447,6 +473,8 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
 				}
 
 				if((ev->key() == Qt::Key_Escape) || (ev->key() == Qt::Key_Return)) {
+					disconnect(m_proxy, SIGNAL(layoutChanged()), m_ui->rosterTreeView, SLOT(selectFirst()));
+
 					m_ui->filterEdit->clear();
 					m_ui->filterEdit->hide();
 					m_ui->rosterTreeView->setFocus();
@@ -461,6 +489,88 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
 void MainWindow::requestHistory(KittySDK::IContact *contact)
 {
 	Core::inst()->historyWindow()->showContact(contact);
+}
+
+void MainWindow::trayIconActivated(QSystemTrayIcon::ActivationReason reason)
+{
+	Core *core = Core::inst();
+
+	if(reason == QSystemTrayIcon::Trigger) {
+		if(!m_blinkTimer.isActive()) {
+			core->action(KittySDK::Actions::A_SHOW_HIDE)->trigger();
+		} else {
+			if(m_blinkQueue.count()) {
+				MessageQueue::inst()->dequeueAndShow(m_blinkQueue.last());
+			}
+		}
+	} else if(reason == QSystemTrayIcon::Context) {
+		QMenu menu;
+
+		foreach(KittySDK::IAccount *acc, AccountManager::inst()->accounts()) {
+			if(QMenu *statusMenu = acc->statusMenu()) {
+				QAction *accAction = menu.addMenu(statusMenu);
+				accAction->setIcon(Core::inst()->icon(acc->protocol()->statusIcon(acc->status())));
+				accAction->setText(acc->uid());
+			}
+		}
+
+		if(menu.actions().count()) {
+			menu.addSeparator();
+		}
+
+		menu.addAction(core->action(KittySDK::Actions::A_SHOW_HIDE));
+		menu.addAction(core->action(KittySDK::Actions::A_SETTINGS));
+		menu.addAction(core->action(KittySDK::Actions::A_QUIT));
+		menu.exec(QCursor::pos());
+	}
+}
+
+void MainWindow::resetTrayIcon()
+{
+	Core *core = Core::inst();
+
+	if(KittySDK::IAccount *acc = AccountManager::inst()->account(core->setting(KittySDK::Settings::S_TRAYICON_PROTOCOL).toString(), core->setting(KittySDK::Settings::S_TRAYICON_ACCOUNT).toString())) {
+		if(KittySDK::IProtocol *proto = acc->protocol()) {
+			m_trayIcon->setIcon(core->icon(proto->statusIcon(acc->status())));
+		}
+	} else {
+		m_trayIcon->setIcon(core->icon(KittySDK::Icons::I_KITTY));
+	}
+}
+
+void MainWindow::maybeSetupBlink(const quint32 &msgId)
+{
+	if(!m_blinkTimer.isActive()) {
+		m_blinkTimer.setProperty("blink", true);
+		m_blinkTimer.start(Core::inst()->setting(KittySDK::Settings::S_BLINKING_SPEED, 500).toInt());
+	}
+
+	m_blinkQueue << msgId;
+}
+
+void MainWindow::blinkTrayIcon()
+{
+	if(QTimer *timer = qobject_cast<QTimer*>(sender())) {
+		bool blink = timer->property("blink").toBool();
+
+		if(blink) {
+			resetTrayIcon();
+		} else {
+			m_trayIcon->setIcon(Core::inst()->icon(KittySDK::Icons::I_MESSAGE));
+		}
+
+		timer->setProperty("blink", !blink);
+	}
+}
+
+void MainWindow::maybeUnblink(const quint32 &msgId)
+{
+	m_blinkQueue.removeAll(msgId);
+
+	if(!m_blinkQueue.count()) {
+		resetTrayIcon();
+		m_blinkTimer.stop();
+	}
 }
 
 }

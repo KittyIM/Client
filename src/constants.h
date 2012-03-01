@@ -5,7 +5,7 @@ namespace Kitty
 {
 	namespace Constants
 	{
-		const char * const VERSION = "0.0.1 alpha";
+		const char VERSION[] = "0.0.1 alpha";
 	}
 }
 

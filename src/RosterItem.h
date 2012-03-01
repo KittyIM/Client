@@ -18,6 +18,7 @@ namespace Kitty
 			{
 				TypeRole = Qt::UserRole + 1,
 				AccountRole,
+				ProtocolRole,
 				UidRole,
 				StatusRole,
 				DescriptionRole,

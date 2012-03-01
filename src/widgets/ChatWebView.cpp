@@ -382,8 +382,7 @@ QString ChatWebView::findYoutubes(const QString &body, ChatTheme *theme)
 		if(!added.contains(url)) {
 			QString code = style;
 
-			// TODO
-			// Display movie title instead of url, source:
+			// TODO: Display movie title instead of url, source:
 			// http://gdata.youtube.com/feeds/api/videos/[id]?alt=json
 			code.replace("%message%", QString("<a href=\"kitty:img%2\">%1</a><div id=\"img%2\" style=\"display: none;\"><object type=\"application/x-shockwave-flash\" style=\"width:450px; height:366px;\" data=\"http://www.youtube.com/v/%3?rel=0&fs=1\"><param name=\"movie\" value=\"http://www.youtube.com/v/%3?rel=0&fs=1\"><param name=\"allowFullScreen\" value=\"true\"></object></div>").arg(url).arg(m_imageCount).arg(id));
 			result.append(code);

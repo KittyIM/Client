@@ -102,6 +102,7 @@ ChatEdit::ChatEdit(QWidget *parent):
 	}
 
 	connect(this, SIGNAL(textChanged()), SLOT(checkTyping()));
+	connect(this, SIGNAL(textChanged()), SLOT(updateSize()));
 	connect(&m_typingTimer, SIGNAL(timeout()), SLOT(sendTypingNotify()));
 	connect(&m_typingStopTimer, SIGNAL(timeout()), SLOT(sendTypingStopped()));
 
@@ -118,9 +119,7 @@ ChatEdit::ChatEdit(QWidget *parent):
 void ChatEdit::updateSize()
 {
 	int height = document()->size().height() + document()->documentMargin();
-	if(height < 200) {
-		setFixedHeight(height);
-	}
+	setFixedHeight(qMin(height, 200));
 }
 
 void ChatEdit::keyPressEvent(QKeyEvent *event)
@@ -135,7 +134,7 @@ void ChatEdit::keyPressEvent(QKeyEvent *event)
 			}
 
 			if(event->key() == Qt::Key_Up) {
-				m_historyPos++;
+				++m_historyPos;
 				if(m_historyPos >= m_history.size()) {
 					m_historyPos = 0;
 				}
@@ -168,6 +167,8 @@ void ChatEdit::contextMenuEvent(QContextMenuEvent *event)
 {
 	QMenu *menu = QTextEdit::createStandardContextMenu();
 
+	int spell_actions = 0;
+
 	if(m_checker) {
 		QTextCursor cursor = textCursor();
 		cursor.setPosition(cursorForPosition(event->pos()).position());
@@ -177,9 +178,6 @@ void ChatEdit::contextMenuEvent(QContextMenuEvent *event)
 		QString word = cursor.selection().toPlainText();
 
 		if(!m_checker->spell(word)) {
-			QAction *actFormatted = menu->addAction(tr("Paste formatted"), this, SLOT(pasteFormatted()));
-			menu->insertAction(menu->actions().at(6), actFormatted);
-
 			if(!cursor.selection().isEmpty()) {
 				QAction *addAction = new QAction(tr("Add to dictionary"), this);
 				addAction->setProperty("word", word);
@@ -187,6 +185,8 @@ void ChatEdit::contextMenuEvent(QContextMenuEvent *event)
 
 				menu->insertSeparator(menu->actions().first());
 				menu->insertAction(menu->actions().first(), addAction);
+
+				spell_actions += 2;
 			}
 
 			QStringList suggestions = m_checker->suggest(word);
@@ -204,9 +204,14 @@ void ChatEdit::contextMenuEvent(QContextMenuEvent *event)
 			if(suggestActions.count() > 0) {
 				menu->insertSeparator(menu->actions().first());
 				menu->insertActions(menu->actions().first(), suggestActions);
+
+				spell_actions += suggestions.count() + 1;
 			}
 		}
 	}
+
+	QAction *actFormatted = menu->addAction(tr("Paste formatted"), this, SLOT(pasteFormatted()));
+	menu->insertAction(menu->actions().at(6 + spell_actions), actFormatted);
 
 	menu->exec(event->globalPos());
 
@@ -230,6 +235,13 @@ void ChatEdit::insertFromMimeData(const QMimeData *source)
 	} else {
 		QTextEdit::insertFromMimeData(source);
 	}
+}
+
+void ChatEdit::focusInEvent(QFocusEvent *event)
+{
+	QTextEdit::focusInEvent(event);
+
+	emit focusedIn();
 }
 
 void ChatEdit::clearHistory()

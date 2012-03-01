@@ -69,10 +69,7 @@ void ChatManager::startChat(KittySDK::IContact *me, const QList<KittySDK::IConta
 		ch = createChat(me, contacts);
 	}
 
-	Core::inst()->chatWindow()->startChat(ch);
-	Core::inst()->chatWindow()->switchTo(ch);
-	Core::inst()->chatWindow()->show();
-	Core::inst()->chatWindow()->activateWindow();
+	Core::inst()->chatWindow()->showChat(ch);
 }
 
 KittySDK::IChat *ChatManager::createChat(KittySDK::IContact *me, const QList<KittySDK::IContact *> &contacts)
@@ -109,6 +106,9 @@ void ChatManager::receiveMessage(KittySDK::IMessage &msg)
 		ChatTab *tab = Core::inst()->chatWindow()->startChat(ch);
 		tab->appendMessage(msg);
 
+	}
+
+	if(msg.direction() == KittySDK::IMessage::Incoming) {
 		QApplication::alert(Core::inst()->chatWindow());
 	}
 }
