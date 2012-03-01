@@ -9,6 +9,7 @@
 #include <QtCore/QTextBoundaryFinder>
 #include <QtCore/QTextCodec>
 #include <QtCore/QDebug>
+#include <QtCore/QFile>
 #include <QtGui/QTextDocumentFragment>
 #include <QtGui/QKeyEvent>
 #include <QtGui/QMenu>

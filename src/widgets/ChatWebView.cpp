@@ -132,13 +132,13 @@ void ChatWebView::appendMessage(const KittySDK::IMessage &msg, ChatTheme *theme)
 			if(!QFile::exists(avatar)) {
 				avatar = theme->iconPath(ChatTheme::Incoming);
 			}
-			style.replace("%userIconPath%", avatar);
+			style.replace("%userIconPath%", "file:/" + avatar);
 		} else {
 			QString avatar = core->currentProfileDir() + "avatar.png";
 			if(!QFile::exists(avatar)) {
 				avatar = theme->iconPath(ChatTheme::Outgoing);
 			}
-			style.replace("%userIconPath%", avatar);
+			style.replace("%userIconPath%", "file:/" + avatar);
 		}
 
 		style.replace("%senderScreenName%", msg.from()->uid());
@@ -147,7 +147,7 @@ void ChatWebView::appendMessage(const KittySDK::IMessage &msg, ChatTheme *theme)
 		style.replace("%senderStatusIcon%", "");
 		style.replace("%messageDirection%", "ltr");
 		style.replace("%senderDisplayName%", "");
-		style.replace(QRegExp("%textbackgroundcolor{*}%", Qt::CaseInsensitive, QRegExp::Wildcard), "");
+		style.replace(QRegExp("%textbackgroundcolor{*}%", Qt::CaseInsensitive), "");
 	}
 
 	QString body = msg.body();
@@ -170,6 +170,7 @@ void ChatWebView::appendMessage(const KittySDK::IMessage &msg, ChatTheme *theme)
 
 	style.replace("%variant%", core->setting(KittySDK::Settings::S_CHAT_THEME_VARIANT, QString()).toString().remove(".css").replace(" ", "_"));
 	style.replace("%userIcons%", "showIcons");
+
 
 	QWebElement elem = page()->mainFrame()->documentElement().findFirst("body");
 
@@ -233,11 +234,11 @@ void ChatWebView::clearTo(bool custom, const QString &theme, const QString &vari
 	QString path = "qrc:/chat";
 	if(custom) {
 		if(!theme.isEmpty()) {
-			path = qApp->applicationDirPath() + "/themes/chat/" + theme;
+			path = "file:/" + qApp->applicationDirPath() + "/themes/chat/" + theme;
 		}
 	} else {
 		if(!core->setting(KittySDK::Settings::S_CHAT_THEME).toString().isEmpty()) {
-			path = qApp->applicationDirPath() + "/themes/chat/" + core->setting(KittySDK::Settings::S_CHAT_THEME).toString();
+			path = "file:/" + qApp->applicationDirPath() + "/themes/chat/" + core->setting(KittySDK::Settings::S_CHAT_THEME).toString();
 		}
 	}
 
