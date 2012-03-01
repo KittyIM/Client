@@ -101,15 +101,15 @@ QString ChatTheme::iconPath(const IconType &type)
 {
 	switch(type) {
 		case Incoming:
-		return qApp->applicationDirPath() + "/themes/chat/" + m_name + "/Incoming/buddy_icon.png";
+			return "file://" + qApp->applicationDirPath() + "/themes/chat/" + m_name + "/Incoming/buddy_icon.png";
 		break;
 
 		case Outgoing:
-		return qApp->applicationDirPath() + "/themes/chat/" + m_name + "/Outgoing/buddy_icon.png";
+			return "file://" + qApp->applicationDirPath() + "/themes/chat/" + m_name + "/Outgoing/buddy_icon.png";
 		break;
 
 		default:
-		return "";
+			return "";
 		break;
 	}
 }

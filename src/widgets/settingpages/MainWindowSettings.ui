@@ -197,5 +197,38 @@
   </customwidget>
  </customwidgets>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>autoHideCheckBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>autoHideSlider</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>76</x>
+     <y>38</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>85</x>
+     <y>74</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>transparencyCheckBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>transparencySlider</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>42</x>
+     <y>110</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>50</x>
+     <y>136</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>
