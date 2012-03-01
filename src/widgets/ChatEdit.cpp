@@ -119,8 +119,20 @@ ChatEdit::ChatEdit(QWidget *parent):
 
 void ChatEdit::updateSize()
 {
-	int height = document()->size().height() + document()->documentMargin();
-	setFixedHeight(qMin(height, 200));
+	int height = document()->size().height();
+	height = qMin(height, 200);
+	setFixedHeight(height + document()->documentMargin());
+}
+
+void ChatEdit::resetCharFormat()
+{
+	QTextCharFormat newFormat = QTextCharFormat();
+	newFormat.setFont(font());
+
+	QTextCursor cursor = textCursor();
+	cursor.mergeCharFormat(newFormat);
+
+	setCurrentCharFormat(cursor.charFormat());
 }
 
 void ChatEdit::keyPressEvent(QKeyEvent *event)

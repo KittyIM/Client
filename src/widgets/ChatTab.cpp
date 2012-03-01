@@ -358,7 +358,9 @@ void ChatTab::sendMessage()
 		}
 
 		m_chat->account()->sendMessage(msg);
+
 		m_ui->textEdit->clear();
+		m_ui->textEdit->resetCharFormat();
 	}
 }
 

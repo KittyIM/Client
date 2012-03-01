@@ -44,6 +44,7 @@ namespace Kitty
 			void clearHistory();
 			void addHistory(const QString &msg);
 			void updateSize();
+			void resetCharFormat();
 
 		private slots:
 			void pasteFormatted();
