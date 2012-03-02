@@ -17,10 +17,17 @@
 #define qDebug() qDebug() << "[PluginManager]"
 #define qWarning() qWarning() << "[PluginManager]"
 
+#ifdef QT_NO_DEBUG
+	#define KITTY_DEBUG_STR "false"
+#else
+	#define KITTY_DEBUG_STR "true"
+#endif
+
 namespace Kitty
 {
 
 typedef QObject *(*pluginInst)(KittySDK::IPluginCore*);
+typedef const char *(*pluginInfo)();
 
 Plugin::Plugin(const QString &fileName):
 	m_fileName(fileName),
@@ -28,34 +35,72 @@ Plugin::Plugin(const QString &fileName):
 {
 	m_loaded = false;
 	m_inited = false;
-
-	QLibrary lib(m_fileName);
-	pluginInst inst = (pluginInst)lib.resolve("inst");
-
-	if(inst) {
-		if((m_plugin = dynamic_cast<KittySDK::IPlugin*>(inst(new PluginCoreImpl())))) {
-			if(m_plugin->type() == KittySDK::IPlugin::Type) {
-				//nothing for now
-			} else if(m_plugin->type() == KittySDK::IProtocol::Type) {
-				if(KittySDK::IProtocol *prot = dynamic_cast<KittySDK::IProtocol*>(m_plugin)) {
-					ProtocolManager::inst()->add(prot);
-				} else {
-					qWarning() << "Could not cast to protocol for file" << QFileInfo(m_fileName).fileName();
-				}
-			} else {
-				qWarning() << "Unknown type for file" << QFileInfo(m_fileName).fileName();
-			}
-		} else {
-			qWarning() << "Could not cast to Plugin for file" << QFileInfo(m_fileName).fileName();
-		}
-	} else {
-		qWarning() << "Resolve failed" << QFileInfo(m_fileName).fileName();
-	}
 }
 
 Plugin::~Plugin()
 {
 	delete m_translator;
+}
+
+bool Plugin::setup()
+{
+	QLibrary lib(m_fileName);
+
+	if(pluginInfo info = (pluginInfo)lib.resolve("info")) {
+		QStringList lines = QString(info()).split("\n");
+		if(lines.count() == 3) {
+			if(lines[0] != QString("sdkversion=" KITTYSDK_VERSION)) {
+				qDebug() << "Wrong sdk version";
+				lib.unload();
+				return false;
+			}
+
+			if(lines[1] != QString("debug=" KITTY_DEBUG_STR)) {
+				qDebug() << "Wrong compile type";
+				lib.unload();
+				return false;
+			}
+
+			if(lines[2] != QString("buildkey=" QT_BUILD_KEY)) {
+				qDebug() << "Wrong qt build key";
+				lib.unload();
+				return false;
+			}
+		} else {
+			qWarning() << "Wrong plugin infos count.";
+			lib.unload();
+			return false;
+		}
+
+		if(pluginInst inst = (pluginInst)lib.resolve("inst")) {
+			if((m_plugin = dynamic_cast<KittySDK::IPlugin*>(inst(new PluginCoreImpl())))) {
+				if(m_plugin->type() == KittySDK::IPlugin::Type) {
+					//nothing for now
+				} else if(m_plugin->type() == KittySDK::IProtocol::Type) {
+					if(KittySDK::IProtocol *prot = dynamic_cast<KittySDK::IProtocol*>(m_plugin)) {
+						ProtocolManager::inst()->add(prot);
+					} else {
+						qWarning() << "Could not cast to protocol for file" << QFileInfo(m_fileName).fileName();
+						return false;
+					}
+				} else {
+					qWarning() << "Unknown type for file" << QFileInfo(m_fileName).fileName();
+					return false;
+				}
+			} else {
+				qWarning() << "Could not cast to Plugin for file" << QFileInfo(m_fileName).fileName();
+				return false;
+			}
+		} else {
+			qWarning() << "Inst resolve failed" << QFileInfo(m_fileName).fileName();
+			return false;
+		}
+	} else {
+		qWarning() << "Info resolve failed" << QFileInfo(m_fileName).fileName();
+		return false;
+	}
+
+	return true;
 }
 
 void Plugin::init()
@@ -163,8 +208,12 @@ void PluginManager::load()
 		qDebug() << "Found file: " << info.fileName();
 
 		Plugin *plug = new Plugin(info.absoluteFilePath());
-		plug->load();
-		m_plugins.append(plug);
+		if(plug->setup()) {
+			plug->load();
+			m_plugins.append(plug);
+		} else {
+			delete plug;
+		}
 	}
 
 	emit allPluginsLoaded();

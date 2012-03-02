@@ -17,6 +17,7 @@ namespace Kitty
 			Plugin(const QString &fileName);
 			~Plugin();
 
+			bool setup();
 			void init();
 			void load();
 			void unload();
