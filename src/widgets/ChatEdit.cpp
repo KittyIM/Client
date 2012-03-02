@@ -128,6 +128,8 @@ void ChatEdit::resetCharFormat()
 {
 	QTextCharFormat newFormat = QTextCharFormat();
 	newFormat.setFont(font());
+	newFormat.setForeground(palette().color(QPalette::WindowText));
+	newFormat.setBackground(palette().color(QPalette::Base));
 
 	QTextCursor cursor = textCursor();
 	cursor.mergeCharFormat(newFormat);
