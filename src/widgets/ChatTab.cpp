@@ -297,6 +297,24 @@ void ChatTab::applySettings()
 		m_ui->verticalLayout->insertWidget(2, m_toolBar);
 	}
 
+	QFont previous_font = m_ui->textEdit->font();
+
+	QFont font = qApp->font();
+	font.setFamily(core->setting(KittySDK::Settings::S_CHATEDIT_FONT_FAMILY, qApp->font().family()).toString());
+	font.setPointSize(core->setting(KittySDK::Settings::S_CHATEDIT_FONT_SIZE, qApp->font().pointSize()).toInt());
+	font.setStyleStrategy(core->setting(KittySDK::Settings::S_CHATEDIT_FONT_ANTIALIASING, false).toBool() ? QFont::PreferAntialias : QFont::NoAntialias);
+
+	if(font != previous_font) {
+		QString text = m_ui->textEdit->toPlainText();
+
+		m_ui->textEdit->setFont(font);
+		m_ui->textEdit->document()->setDefaultFont(font);
+		m_ui->textEdit->document()->clear();
+		m_ui->textEdit->resetCharFormat();
+
+		m_ui->textEdit->setPlainText(text);
+	}
+
 	m_ui->textEdit->updateSize();
 }
 

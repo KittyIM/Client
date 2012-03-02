@@ -11,7 +11,8 @@ SOURCES      += $$PWD/AccountsSettings.cpp \
                 $$PWD/StartupSettings.cpp \
                 $$PWD/ThemesSettings.cpp \
                 $$PWD/UserSettings.cpp \
-                $$PWD/MainWindowSettings.cpp
+                $$PWD/MainWindowSettings.cpp \
+                $$PWD/ChatWindowEditSettings.cpp
 
 HEADERS      += $$PWD/AccountsSettings.h \
                 $$PWD/ChatWindowSettings.h \
@@ -26,7 +27,8 @@ HEADERS      += $$PWD/AccountsSettings.h \
                 $$PWD/StartupSettings.h \
                 $$PWD/ThemesSettings.h \
                 $$PWD/UserSettings.h \
-                $$PWD/MainWindowSettings.h
+                $$PWD/MainWindowSettings.h \
+                $$PWD/ChatWindowEditSettings.h
 
 FORMS        += $$PWD/AccountsSettings.ui \
                 $$PWD/ChatWindowSettings.ui \
@@ -41,4 +43,5 @@ FORMS        += $$PWD/AccountsSettings.ui \
                 $$PWD/StartupSettings.ui \
                 $$PWD/ThemesSettings.ui \
                 $$PWD/UserSettings.ui \
-                $$PWD/MainWindowSettings.ui
+                $$PWD/MainWindowSettings.ui \
+    widgets/settingpages/ChatWindowEditSettings.ui

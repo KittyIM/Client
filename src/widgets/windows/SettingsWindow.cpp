@@ -1,6 +1,7 @@
 #include "SettingsWindow.h"
 #include "ui_SettingsWindow.h"
 
+#include "widgets/settingpages/ChatWindowEditSettings.h"
 #include "widgets/settingpages/ChatWindowTabsSettings.h"
 #include "widgets/settingpages/ConnectionSettings.h"
 #include "widgets/settingpages/ChatWindowSettings.h"
@@ -161,6 +162,7 @@ void SettingsWindow::addDefaultPages()
 	addPage(new RosterSettings(this), KittySDK::SettingPages::S_DISPLAY);
 	addPage(new HistorySettings(this), KittySDK::SettingPages::S_DISPLAY);
 	addPage(new ChatWindowSettings(this), KittySDK::SettingPages::S_DISPLAY);
+	addPage(new ChatWindowEditSettings(this), KittySDK::SettingPages::S_DISPLAY_CHATWINDOW);
 	addPage(new ChatWindowTabsSettings(this), KittySDK::SettingPages::S_DISPLAY_CHATWINDOW);
 	addPage(new SmiliesSettings(this), KittySDK::SettingPages::S_DISPLAY_CHATWINDOW);
 

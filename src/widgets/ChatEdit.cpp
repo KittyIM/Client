@@ -11,6 +11,7 @@
 #include <QtCore/QDebug>
 #include <QtCore/QFile>
 #include <QtGui/QTextDocumentFragment>
+#include <QtGui/QTextLayout>
 #include <QtGui/QKeyEvent>
 #include <QtGui/QMenu>
 
@@ -133,7 +134,6 @@ void ChatEdit::resetCharFormat()
 
 	QTextCursor cursor = textCursor();
 	cursor.mergeCharFormat(newFormat);
-
 	setCurrentCharFormat(cursor.charFormat());
 }
 

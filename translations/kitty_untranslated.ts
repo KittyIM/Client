@@ -339,7 +339,7 @@
     <name>ChatWindowSettings</name>
     <message>
         <location filename="../src/widgets/settingpages/ChatWindowSettings.ui"/>
-        <location filename="../src/ui_ChatWindowSettings.h" line="+276"/>
+        <location filename="../src/ui_ChatWindowSettings.h" line="+231"/>
         <location filename="../win64/src/ui_ChatWindowSettings.h" line="+211"/>
         <source>Enable sent message history (Ctrl+Up and Ctrl+Down)</source>
         <translation type="unfinished"></translation>
@@ -417,34 +417,28 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location/>
-        <location filename="../src/ui_ChatWindowSettings.h" line="+25"/>
         <location filename="../win64/src/ui_ChatWindowSettings.h" line="+17"/>
         <source>Spell checker</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location/>
-        <location filename="../src/ui_ChatWindowSettings.h" line="+1"/>
-        <location filename="../win64/src/ui_ChatWindowSettings.h" line="+1"/>
+        <location line="+1"/>
         <source>Check spelling</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location/>
-        <location filename="../src/ui_ChatWindowSettings.h" line="+1"/>
-        <location filename="../win64/src/ui_ChatWindowSettings.h" line="+1"/>
+        <location line="+1"/>
         <source>Dictionary:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../win64/src/ui_ChatWindowSettings.h" line="+1"/>
+        <location line="+1"/>
         <source>Suggestions list:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/settingpages/ChatWindowSettings.ui"/>
-        <location filename="../src/ui_ChatWindowSettings.h" line="-24"/>
+        <location filename="../src/ui_ChatWindowSettings.h" line="+3"/>
         <location filename="../win64/src/ui_ChatWindowSettings.h" line="-14"/>
         <source>Group messages</source>
         <translation type="unfinished"></translation>
@@ -493,12 +487,6 @@
         <location/>
         <location filename="../src/ui_ChatWindowSettings.h" line="+1"/>
         <source> rows</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location/>
-        <location filename="../src/ui_ChatWindowSettings.h" line="+14"/>
-        <source>Suggestion limit (0 - unlimited):</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -579,7 +567,7 @@
     <name>DisplaySettings</name>
     <message>
         <location filename="../src/widgets/settingpages/DisplaySettings.ui"/>
-        <location filename="../src/ui_DisplaySettings.h" line="+184"/>
+        <location filename="../src/ui_DisplaySettings.h" line="+185"/>
         <location filename="../win64/src/ui_DisplaySettings.h" line="+241"/>
         <source>Display</source>
         <translation type="unfinished"></translation>
@@ -1175,7 +1163,7 @@
 <context>
     <name>Kitty::DisplaySettings</name>
     <message>
-        <location filename="../src/widgets/settingpages/DisplaySettings.cpp" line="+74"/>
+        <location filename="../src/widgets/settingpages/DisplaySettings.cpp" line="+75"/>
         <source>None, use Kitty&apos;s icon</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1275,47 +1263,47 @@
     <name>Kitty::ChatTab</name>
     <message>
         <location filename="../src/widgets/ChatTab.cpp" line="+87"/>
-        <location line="+434"/>
+        <location line="+455"/>
         <source>Bold</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-427"/>
-        <location line="+431"/>
+        <location line="-448"/>
+        <location line="+452"/>
         <source>Italic</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-424"/>
-        <location line="+428"/>
+        <location line="-445"/>
+        <location line="+449"/>
         <source>Underline</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-421"/>
+        <location line="-442"/>
         <source>Strikethrough</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+10"/>
-        <location line="+419"/>
+        <location line="+440"/>
         <source>Color</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-415"/>
-        <location line="+419"/>
+        <location line="-436"/>
+        <location line="+440"/>
         <source>Smilies</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-411"/>
-        <location line="+415"/>
+        <location line="-432"/>
+        <location line="+436"/>
         <source>Send image</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-410"/>
+        <location line="-431"/>
         <source>From file...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1346,23 +1334,23 @@
     </message>
     <message>
         <location line="+10"/>
-        <location line="+380"/>
+        <location line="+401"/>
         <source>Send file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-372"/>
+        <location line="-393"/>
         <source>vCard</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+3"/>
-        <location line="+377"/>
+        <location line="+398"/>
         <source>History</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-370"/>
+        <location line="-391"/>
         <location line="+63"/>
         <source>Contact is not typing</source>
         <translation type="unfinished"></translation>
@@ -1373,7 +1361,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+126"/>
+        <location line="+147"/>
         <source>Select file</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1390,14 +1378,6 @@
     <message>
         <location line="+20"/>
         <source>Profile</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>Kitty::ChatWindowSettings</name>
-    <message>
-        <location filename="../src/widgets/settingpages/ChatWindowSettings.cpp" line="+65"/>
-        <source>None</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1511,7 +1491,7 @@
 <context>
     <name>Kitty::ChatWebView</name>
     <message>
-        <location filename="../src/widgets/ChatWebView.cpp" line="+286"/>
+        <location filename="../src/widgets/ChatWebView.cpp" line="+287"/>
         <source>Clear</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2078,13 +2058,13 @@
 <context>
     <name>Kitty::ChatTabWidget</name>
     <message>
-        <location filename="../src/widgets/ChatTabWidget.cpp" line="+30"/>
-        <location line="+331"/>
+        <location filename="../src/widgets/ChatTabWidget.cpp" line="+31"/>
+        <location line="+338"/>
         <source>Recently closed tabs</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-258"/>
+        <location line="-265"/>
         <source>Unknown</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2099,7 +2079,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+143"/>
+        <location line="+150"/>
         <source>Clear recently closed tabs list</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2107,7 +2087,7 @@
 <context>
     <name>Kitty::ChatWindow</name>
     <message>
-        <location filename="../src/widgets/windows/ChatWindow.cpp" line="+145"/>
+        <location filename="../src/widgets/windows/ChatWindow.cpp" line="+155"/>
         <source>Unknown</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2242,12 +2222,12 @@
 <context>
     <name>Kitty::ChatEdit</name>
     <message>
-        <location filename="../src/widgets/ChatEdit.cpp" line="+180"/>
+        <location filename="../src/widgets/ChatEdit.cpp" line="+228"/>
         <source>Paste formatted</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="-31"/>
         <source>Add to dictionary</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2346,7 +2326,7 @@
     <name>MainWindowSettings</name>
     <message>
         <location filename="../src/widgets/settingpages/MainWindowSettings.ui"/>
-        <location filename="../src/ui_MainWindowSettings.h" line="+171"/>
+        <location filename="../src/ui_MainWindowSettings.h" line="+173"/>
         <source>Main Window</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2402,6 +2382,84 @@
         <location/>
         <location filename="../src/ui_MainWindowSettings.h" line="+1"/>
         <source>Dock to desktop edges</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ChatWindowEditSettings</name>
+    <message>
+        <location filename="../src/widgets/settingpages/ChatWindowEditSettings.ui"/>
+        <location filename="../src/ui_ChatEditSettings.h" line="+39"/>
+        <location filename="../src/ui_ChatWindowEditSettings.h" line="+187"/>
+        <source>Message field</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location/>
+        <location filename="../src/ui_ChatWindowEditSettings.h" line="+2"/>
+        <source>Minimum height:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location/>
+        <location filename="../src/ui_ChatWindowEditSettings.h" line="+1"/>
+        <source> rows</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location/>
+        <location filename="../src/ui_ChatWindowEditSettings.h" line="+1"/>
+        <source>Font</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location/>
+        <location filename="../src/ui_ChatWindowEditSettings.h" line="+1"/>
+        <source>Antialiasing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location/>
+        <location filename="../src/ui_ChatWindowEditSettings.h" line="+1"/>
+        <source>Family:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location/>
+        <location filename="../src/ui_ChatWindowEditSettings.h" line="+1"/>
+        <source>Size:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location/>
+        <location filename="../src/ui_ChatWindowEditSettings.h" line="+1"/>
+        <source>Spell checker</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location/>
+        <location filename="../src/ui_ChatWindowEditSettings.h" line="+1"/>
+        <source>Check spelling</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location/>
+        <location filename="../src/ui_ChatWindowEditSettings.h" line="+1"/>
+        <source>Dictionary:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location/>
+        <location filename="../src/ui_ChatWindowEditSettings.h" line="+1"/>
+        <source>Suggestion limit (0 - unlimited):</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Kitty::ChatWindowEditSettings</name>
+    <message>
+        <location filename="../src/widgets/settingpages/ChatWindowEditSettings.cpp" line="+66"/>
+        <source>None</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -237,56 +237,6 @@
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="spellCheckerGroupBox">
-     <property name="title">
-      <string>Spell checker</string>
-     </property>
-     <layout class="QFormLayout" name="_5">
-      <property name="fieldGrowthPolicy">
-       <enum>QFormLayout::FieldsStayAtSizeHint</enum>
-      </property>
-      <item row="0" column="0">
-       <widget class="QCheckBox" name="spellCheckCheckBox">
-        <property name="text">
-         <string>Check spelling</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="spellCheckDictionaryLabel">
-        <property name="text">
-         <string>Dictionary:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="1">
-       <widget class="QComboBox" name="spellCheckDictionaryComboBox">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="0">
-       <widget class="QLabel" name="spellCheckSuggestionsLabel">
-        <property name="text">
-         <string>Suggestion limit (0 - unlimited):</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="1">
-       <widget class="QSpinBox" name="spellCheckSuggestionsSpinBox">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-        <property name="value">
-         <number>7</number>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item>
     <spacer name="spacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -310,38 +260,5 @@
   </customwidget>
  </customwidgets>
  <resources/>
- <connections>
-  <connection>
-   <sender>spellCheckCheckBox</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>spellCheckDictionaryComboBox</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>63</x>
-     <y>364</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>174</x>
-     <y>396</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>spellCheckCheckBox</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>spellCheckSuggestionsSpinBox</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>91</x>
-     <y>364</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>147</x>
-     <y>422</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>
