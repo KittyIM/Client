@@ -3,12 +3,15 @@
 #include "widgets/windows/ChatWindow.h"
 #include "widgets/ChatTab.h"
 #include "PluginManager.h"
+#include "MessageQueue.h"
 #include "Core.h"
 
+#include <SoundsConstants.h>
 #include <IContact.h>
 #include <IMessage.h>
 
 #include <QtCore/QCryptographicHash>
+#include <QtGui/QTextDocument>
 #include <QtGui/QApplication>
 
 #define qDebug() qDebug() << "[ChatManager]"
@@ -62,6 +65,17 @@ KittySDK::IChat *ChatManager::chat(KittySDK::IContact *me, KittySDK::IContact *s
 	return chat(me, QList<KittySDK::IContact*>() << sender);
 }
 
+KittySDK::IChat *ChatManager::chat(const QString &chatId) const
+{
+	foreach(KittySDK::IChat *chat, m_chats) {
+		if(chat->id() == chatId) {
+			return chat;
+		}
+	}
+
+	return 0;
+}
+
 void ChatManager::startChat(KittySDK::IContact *me, const QList<KittySDK::IContact*> &contacts)
 {
 	KittySDK::IChat *ch = chat(me, contacts);
@@ -96,18 +110,76 @@ void ChatManager::receiveMessage(KittySDK::IMessage &msg)
 		KittySDK::IContact *me = contacts.takeFirst();
 		contacts.prepend(msg.from());
 
+		QMap<QString, QVariant> soundsArgs;
+
+		bool notify = false;
+
+		//get/create chat
 		KittySDK::IChat *ch = chat(me, contacts);
 		if(!ch) {
 			ch = createChat(me, contacts);
+			notify = true;
+			soundsArgs.insert("id", Sounds::Sounds::S_MSG_RECV_FIRST);
+		} else {
+			soundsArgs.insert("id", Sounds::Sounds::S_MSG_RECV);
 		}
 
 		msg.setChat(ch);
 
-		ChatTab *tab = Core::inst()->chatWindow()->startChat(ch);
-		tab->appendMessage(msg);
+		//see if we even need a notify
+		ChatWindow *chatWindow = Core::inst()->chatWindow();
+		if(!notify) {
+			if(!chatWindow->isVisible()) {
+				notify = true;
+			} else {
+				if(!chatWindow->isChatActive(ch)) {
+					notify = true;
+				}
+			}
+		}
 
+		//only 1 notify per chat
+		if(notify) {
+			if(MessageQueue::inst()->incomingForChat(ch) > 0) {
+				notify = false;
+			}
+		}
+
+		//show the notify
+		if(notify) {
+			const int maxBodyLength = 40;
+
+			QString notifyText = "<a href=\"core://openChat?chatId=" + ch->id() + "\"><span class=\"notifyText\">";
+			notifyText += tr("Message from") + " ";
+			notifyText += "<b>" + Qt::escape(msg.from()->display()) + "</b></span>";
+			notifyText += "<br><span class=\"notifyLink\">\"";
+
+			QString plain = msg.body();
+			plain.remove(QRegExp("<[^>]*>"));
+
+			if(plain.length() > maxBodyLength) {
+				notifyText += plain.left(maxBodyLength) + "...";
+			} else {
+				notifyText += plain;
+			}
+
+			notifyText += "\"</span></a>";
+
+			QMap<QString, QVariant> notifyArgs;
+			notifyArgs.insert("icon", Core::inst()->icon(KittySDK::Icons::I_MESSAGE));
+			notifyArgs.insert("text", notifyText);
+			PluginManager::inst()->execAction("notify", "addNotify", notifyArgs);
+		}
+
+		//let the music play!
+		PluginManager::inst()->execAction("sounds", "playSound", soundsArgs);
+
+		//show the window
+		ChatTab *tab = chatWindow->startChat(ch);
+		tab->appendMessage(msg);
 	}
 
+	//maaaybe blink the taskbar
 	if(msg.direction() == KittySDK::IMessage::Incoming) {
 		QApplication::alert(Core::inst()->chatWindow());
 	}

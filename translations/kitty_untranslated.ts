@@ -339,29 +339,29 @@
     <name>ChatWindowSettings</name>
     <message>
         <location filename="../src/widgets/settingpages/ChatWindowSettings.ui"/>
-        <location filename="../src/ui_ChatWindowSettings.h" line="+231"/>
+        <location filename="../src/ui_ChatWindowSettings.h" line="+207"/>
         <location filename="../win64/src/ui_ChatWindowSettings.h" line="+211"/>
         <source>Enable sent message history (Ctrl+Up and Ctrl+Down)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location/>
-        <location filename="../src/ui_ChatWindowSettings.h" line="-2"/>
+        <location filename="../src/ui_ChatWindowSettings.h" line="-3"/>
         <location filename="../win64/src/ui_ChatWindowSettings.h" line="+1"/>
         <source>Copy selection to clipboard</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location/>
-        <location filename="../src/ui_ChatWindowSettings.h" line="+3"/>
+        <location filename="../src/ui_ChatWindowSettings.h" line="+1"/>
         <location filename="../win64/src/ui_ChatWindowSettings.h" line="+1"/>
         <source>When starting a conversation load last:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location/>
-        <location filename="../src/ui_ChatWindowSettings.h" line="+1"/>
-        <location line="+17"/>
+        <location filename="../src/ui_ChatWindowSettings.h" line="+4"/>
+        <location line="+14"/>
         <location filename="../win64/src/ui_ChatWindowSettings.h" line="+1"/>
         <location line="+10"/>
         <source> messages</source>
@@ -411,7 +411,7 @@
     </message>
     <message>
         <location/>
-        <location filename="../src/ui_ChatWindowSettings.h" line="-24"/>
+        <location filename="../src/ui_ChatWindowSettings.h" line="-22"/>
         <location filename="../win64/src/ui_ChatWindowSettings.h" line="-16"/>
         <source>Chat Window</source>
         <translation type="unfinished"></translation>
@@ -438,14 +438,14 @@
     </message>
     <message>
         <location filename="../src/widgets/settingpages/ChatWindowSettings.ui"/>
-        <location filename="../src/ui_ChatWindowSettings.h" line="+3"/>
+        <location filename="../src/ui_ChatWindowSettings.h" line="+6"/>
         <location filename="../win64/src/ui_ChatWindowSettings.h" line="-14"/>
         <source>Group messages</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location/>
-        <location filename="../src/ui_ChatWindowSettings.h" line="+17"/>
+        <location filename="../src/ui_ChatWindowSettings.h" line="+12"/>
         <location filename="../win64/src/ui_ChatWindowSettings.h" line="+6"/>
         <source>Clearing</source>
         <translation type="unfinished"></translation>
@@ -461,13 +461,13 @@
     </message>
     <message>
         <location/>
-        <location filename="../src/ui_ChatWindowSettings.h" line="-15"/>
+        <location filename="../src/ui_ChatWindowSettings.h" line="-16"/>
         <source>Toolbar position:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location/>
-        <location filename="../src/ui_ChatWindowSettings.h" line="+3"/>
+        <location filename="../src/ui_ChatWindowSettings.h" line="+6"/>
         <source>On top of the edit field</source>
         <translation type="unfinished"></translation>
     </message>
@@ -475,18 +475,6 @@
         <location/>
         <location filename="../src/ui_ChatWindowSettings.h" line="+1"/>
         <source>Under the edit field</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location/>
-        <location filename="../src/ui_ChatWindowSettings.h" line="+2"/>
-        <source>Minimum edit filed height:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location/>
-        <location filename="../src/ui_ChatWindowSettings.h" line="+1"/>
-        <source> rows</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2059,12 +2047,12 @@
     <name>Kitty::ChatTabWidget</name>
     <message>
         <location filename="../src/widgets/ChatTabWidget.cpp" line="+31"/>
-        <location line="+338"/>
+        <location line="+339"/>
         <source>Recently closed tabs</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-265"/>
+        <location line="-266"/>
         <source>Unknown</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2087,7 +2075,7 @@
 <context>
     <name>Kitty::ChatWindow</name>
     <message>
-        <location filename="../src/widgets/windows/ChatWindow.cpp" line="+155"/>
+        <location filename="../src/widgets/windows/ChatWindow.cpp" line="+154"/>
         <source>Unknown</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2222,7 +2210,7 @@
 <context>
     <name>Kitty::ChatEdit</name>
     <message>
-        <location filename="../src/widgets/ChatEdit.cpp" line="+228"/>
+        <location filename="../src/widgets/ChatEdit.cpp" line="+232"/>
         <source>Paste formatted</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2458,8 +2446,86 @@
 <context>
     <name>Kitty::ChatWindowEditSettings</name>
     <message>
-        <location filename="../src/widgets/settingpages/ChatWindowEditSettings.cpp" line="+66"/>
+        <location filename="../src/widgets/settingpages/ChatWindowEditSettings.cpp" line="+68"/>
         <source>None</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Kitty::ContactManager</name>
+    <message>
+        <location filename="../src/ContactManager.cpp" line="+228"/>
+        <source>changed hers description</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>changed his description</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+17"/>
+        <source>is online</source>
+        <comment>female</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>is online</source>
+        <comment>male</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>is away</source>
+        <comment>female</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>is away</source>
+        <comment>male</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>is free for chat</source>
+        <comment>female</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>is free for chat</source>
+        <comment>male</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>shouldn&apos;t be disturbed</source>
+        <comment>female</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>shouldn&apos;t be disturbed</source>
+        <comment>male</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>is offline</source>
+        <comment>female</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>is offline</source>
+        <comment>male</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>is wtf</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

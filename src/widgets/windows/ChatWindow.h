@@ -28,6 +28,7 @@ namespace Kitty
 			~ChatWindow();
 
 			ChatTab *tabByChat(KittySDK::IChat *chat);
+			bool isChatActive(KittySDK::IChat *chat);
 
 			ChatTheme *theme() const { return m_theme; }
 

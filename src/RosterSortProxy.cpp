@@ -23,7 +23,7 @@ RosterSortProxy::RosterSortProxy(QObject *parent): QSortFilterProxyModel(parent)
 
 	//m_groupFilter = "Friends";
 
-	connect(ContactManager::inst(), SIGNAL(statusUpdated()), this, SLOT(invalidate()));
+	connect(ContactManager::inst(), SIGNAL(statusUpdated()), SLOT(invalidate()));
 }
 
 bool RosterSortProxy::lessThan(const QModelIndex &left, const QModelIndex &right) const

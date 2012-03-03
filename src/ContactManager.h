@@ -33,6 +33,9 @@ namespace Kitty
 			void contactAdded(KittySDK::IContact *contact);
 			void statusUpdated();
 
+		private slots:
+			void updateStatus(KittySDK::IProtocol::Status status, const QString &description);
+
 		private:
 			ContactManager(QObject *parent = 0): QObject(parent) { }
 			~ContactManager();

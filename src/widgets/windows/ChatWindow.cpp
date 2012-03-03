@@ -60,6 +60,11 @@ ChatTab *ChatWindow::tabByChat(KittySDK::IChat *chat)
 	return m_ui->tabWidget->tabByChat(chat);
 }
 
+bool ChatWindow::isChatActive(KittySDK::IChat *chat)
+{
+	return (m_ui->tabWidget->currentIndex() == m_ui->tabWidget->indexByChat(chat));
+}
+
 void ChatWindow::applySettings()
 {
 	Core *core = Core::inst();

@@ -23,6 +23,7 @@ namespace Kitty
 
 			KittySDK::IChat *chat(KittySDK::IContact *me, const QList<KittySDK::IContact*> &contacts) const;
 			KittySDK::IChat *chat(KittySDK::IContact *me, KittySDK::IContact *sender) const;
+			KittySDK::IChat *chat(const QString &chatId) const;
 
 			void startChat(KittySDK::IContact *me, const QList<KittySDK::IContact*> &contacts);
 			KittySDK::IChat *createChat(KittySDK::IContact *me, const QList<KittySDK::IContact*> &contacts);

@@ -1,8 +1,10 @@
 #include "PluginManager.h"
 
 #include "widgets/windows/SettingsWindow.h"
+#include "widgets/windows/ChatWindow.h"
 #include "ProtocolManager.h"
 #include "PluginCoreImpl.h"
+#include "ChatManager.h"
 #include "Core.h"
 
 #include <SDKConstants.h>
@@ -177,11 +179,22 @@ Plugin *PluginManager::pluginByFileName(const QString &fileName) const
 
 void PluginManager::execAction(const QString &pluginId, const QString &name, const QMap<QString, QVariant> &args)
 {
-	foreach(Plugin *plugin, m_plugins) {
-		if(KittySDK::IPlugin *iplugin = plugin->iplugin()) {
-			if(KittySDK::IPluginInfo *info = iplugin->info()) {
-				if(pluginId.isEmpty() || (info->id() == pluginId)) {
-					iplugin->execAction(name, args);
+	if(pluginId == "core") {
+		if(name == "openChat") {
+			QString chatId = args.value("chatId").toString();
+			if(!chatId.isEmpty()) {
+				if(KittySDK::IChat *chat = ChatManager::inst()->chat(chatId)) {
+					Core::inst()->chatWindow()->showChat(chat);
+				}
+			}
+		}
+	} else {
+		foreach(Plugin *plugin, m_plugins) {
+			if(KittySDK::IPlugin *iplugin = plugin->iplugin()) {
+				if(KittySDK::IPluginInfo *info = iplugin->info()) {
+					if(pluginId.isEmpty() || (info->id() == pluginId)) {
+						iplugin->execAction(name, args);
+					}
 				}
 			}
 		}
