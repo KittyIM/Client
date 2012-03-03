@@ -123,11 +123,10 @@ void ChatWindow::closeEvent(QCloseEvent *event)
 
 	//Close all tabs
 	if(core->setting(KittySDK::Settings::S_CHATWINDOW_TABBAR_CLOSE_WND, false).toBool()) {
-		//FIXME This freezes the window for some reason
-		//m_ui->tabWidget->clear();
+		m_ui->tabWidget->clear();
 	}
 
-	event->accept();
+	QWidget::closeEvent(event);
 }
 
 void ChatWindow::on_tabWidget_currentChanged(int index)

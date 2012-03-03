@@ -338,7 +338,7 @@ QString ChatWebView::findImages(const QString &body, ChatTheme *theme)
 	style.replace("%userIcons%", "showIcons");
 
 	QStringList added;
-	QRegExp imgs("http://[-A-Z0-9+&@#/%?=~_|$!:,.;]*\\.(png|gif|jpeg|jpg|tiff|bmp)", Qt::CaseInsensitive);
+	const QRegExp imgs("http://[-A-Z0-9+&@#/%?=~_|$!:,.;]*\\.(png|gif|jpeg|jpg|tiff|bmp)", Qt::CaseInsensitive);
 	int pos = 0;
 	while((pos = imgs.indexIn(body, pos)) != -1) {
 		QString url = imgs.cap(0);
@@ -373,7 +373,7 @@ QString ChatWebView::findYoutubes(const QString &body, ChatTheme *theme)
 	style.replace("%userIcons%", "showIcons");
 
 	QStringList added;
-	QRegExp youtubes("http://\\w{0,3}.?youtube+\\.\\w{2,3}/watch\\?(?:[A-z0-9]*=[A-z0-9]*&)*v=([\\w-]{11})", Qt::CaseInsensitive);
+	const QRegExp youtubes("http://\\w{0,3}.?youtube+\\.\\w{2,3}/watch\\?(?:[A-z0-9]*=[A-z0-9]*&)*v=([\\w-]{11})", Qt::CaseInsensitive);
 	int pos = 0;
 	while((pos = youtubes.indexIn(body, pos)) != -1) {
 		QString url = youtubes.cap(0);
