@@ -357,7 +357,8 @@ void ChatTabWidget::tabRemoved(int index)
 void ChatTabWidget::mousePressEvent(QMouseEvent *event)
 {
 	if(event->button() == Qt::MiddleButton) {
-		emit tabCloseRequested(tabBar()->tabAt(event->pos()));
+		QPoint realPos = tabBar()->mapFromParent(event->pos());
+		emit tabCloseRequested(tabBar()->tabAt(realPos));
 	}
 
 	QTabWidget::mousePressEvent(event);
