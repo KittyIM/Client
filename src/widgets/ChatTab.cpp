@@ -52,7 +52,7 @@ ChatTab::ChatTab(KittySDK::IChat *chat, QWidget *parent):
 	m_ui->setupUi(this);
 
 	connect(m_ui->textEdit, SIGNAL(returnPressed()), SLOT(sendMessage()));
-	connect(m_ui->textEdit, SIGNAL(cursorPositionChanged()), SLOT(updateButtons()));
+	connect(m_ui->textEdit, SIGNAL(currentCharFormatChanged(QTextCharFormat)), SLOT(updateButtons(QTextCharFormat)));
 	connect(m_ui->textEdit, SIGNAL(typingChanged(bool,int)), SLOT(sendTypingNotify(bool,int)));
 	connect(m_ui->textEdit, SIGNAL(pixmapDropped(QPixmap)), SLOT(sendPixmap(QPixmap)));
 	connect(m_ui->webView, SIGNAL(keyPressed()), m_ui->textEdit, SLOT(setFocus()));
@@ -597,24 +597,24 @@ void ChatTab::showEvent(QShowEvent *event)
 	}
 }
 
-void ChatTab::updateButtons()
+void ChatTab::updateButtons(const QTextCharFormat &format)
 {
-	QTextCharFormat fmt = m_ui->textEdit->currentCharFormat();
+	QFont font = format.font();
 
 	if(m_boldAction) {
-		m_boldAction->setChecked(fmt.fontWeight() == QFont::Bold);
+		m_boldAction->setChecked(font.bold());
 	}
 
 	if(m_italicAction) {
-		m_italicAction->setChecked(fmt.fontItalic());
+		m_italicAction->setChecked(font.italic());
 	}
 
 	if(m_underlineAction) {
-		m_underlineAction->setChecked(fmt.fontUnderline());
+		m_underlineAction->setChecked(font.underline());
 	}
 
 	if(m_strikethroughAction) {
-		m_strikethroughAction->setChecked(fmt.fontStrikeOut());
+		m_strikethroughAction->setChecked(font.strikeOut());
 	}
 }
 

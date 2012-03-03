@@ -120,9 +120,13 @@ ChatEdit::ChatEdit(QWidget *parent):
 
 void ChatEdit::updateSize()
 {
+	const int maxEditHeight = 200;
+	int line_count = Core::inst()->setting(KittySDK::Settings::S_CHATWINDOW_MIN_EDIT_HEIGHT, 1).toInt();
+	int min_height = QFontMetrics(font()).lineSpacing() * line_count + document()->documentMargin() * 2 + frameWidth() * 2;
+
 	int height = document()->size().height();
-	height = qMin(height, 200);
-	setFixedHeight(height + document()->documentMargin());
+	height = qBound(min_height, height, maxEditHeight);
+	setFixedHeight(height);
 }
 
 void ChatEdit::resetCharFormat()
@@ -284,29 +288,23 @@ void ChatEdit::replaceWord()
 
 void ChatEdit::boldText()
 {
-	QTextCharFormat fmt = currentCharFormat();
-
-	if(fmt.fontWeight() == QFont::Bold) {
-		fmt.setFontWeight(QFont::Normal);
-	} else {
-		fmt.setFontWeight(QFont::Bold);
-	}
-
-	setCurrentCharFormat(fmt);
+	QTextCharFormat fmt;
+	fmt.setFontWeight(currentCharFormat().font().bold() ? QFont::Normal : QFont::Bold);
+	mergeFormat(fmt);
 }
 
 void ChatEdit::italicText()
 {
-	QTextCharFormat fmt = currentCharFormat();
-	fmt.setFontItalic(!fmt.fontItalic());
-	setCurrentCharFormat(fmt);
+	QTextCharFormat fmt;
+	fmt.setFontItalic(!currentCharFormat().font().italic());
+	mergeFormat(fmt);
 }
 
 void ChatEdit::underlineText()
 {
-	QTextCharFormat fmt = currentCharFormat();
-	fmt.setFontUnderline(!fmt.fontUnderline());
-	setCurrentCharFormat(fmt);
+	QTextCharFormat fmt;
+	fmt.setFontUnderline(!currentCharFormat().font().underline());
+	mergeFormat(fmt);
 }
 
 void ChatEdit::colorText(QColor color)
@@ -347,6 +345,17 @@ void ChatEdit::addToDictionary()
 			m_checker->addToDictionary(action->property("word").toString());
 		}
 	}
+}
+
+void ChatEdit::mergeFormat(const QTextCharFormat &format)
+{
+	QTextCursor cursor = textCursor();
+	if(!cursor.hasSelection()) {
+		cursor.select(QTextCursor::WordUnderCursor);
+	}
+
+	cursor.mergeCharFormat(format);
+	mergeCurrentCharFormat(format);
 }
 
 void ChatEdit::pasteFormatted()

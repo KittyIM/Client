@@ -45,6 +45,7 @@ void ChatWindowEditSettings::apply()
 	core->setSetting(KittySDK::Settings::S_CHATEDIT_FONT_FAMILY, m_ui->fontFamilyComboBox->currentFont().family());
 	core->setSetting(KittySDK::Settings::S_CHATEDIT_FONT_SIZE, m_ui->fontSizeComboBox->currentText());
 	core->setSetting(KittySDK::Settings::S_CHATEDIT_FONT_ANTIALIASING, m_ui->antialiasingCheckBox->isChecked());
+	core->setSetting(KittySDK::Settings::S_CHATWINDOW_MIN_EDIT_HEIGHT, m_ui->minHeightSpinBox->value());
 }
 
 void ChatWindowEditSettings::reset()
@@ -58,6 +59,7 @@ void ChatWindowEditSettings::reset()
 	updateFontSizes();
 
 	m_ui->antialiasingCheckBox->setChecked(core->setting(KittySDK::Settings::S_CHATEDIT_FONT_ANTIALIASING, false).toBool());
+	m_ui->minHeightSpinBox->setValue(core->setting(KittySDK::Settings::S_CHATWINDOW_MIN_EDIT_HEIGHT, 1).toInt());
 
 	m_ui->spellCheckCheckBox->setChecked(core->setting(KittySDK::Settings::S_CHATWINDOW_SPELLCHECK_ENABLED, false).toBool());
 	m_ui->spellCheckSuggestionsSpinBox->setValue(core->setting(KittySDK::Settings::S_CHATWINDOW_SPELLCHECK_SUGGESTIONS, 7).toInt());

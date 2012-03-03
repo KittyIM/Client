@@ -4,6 +4,7 @@
 #include <IProtocol.h>
 
 #include <QtCore/QTimer>
+#include <QtGui/QTextCharFormat>
 #include <QtGui/QWidget>
 
 class QToolBar;
@@ -48,7 +49,7 @@ namespace Kitty
 			void clearMessages();
 
 		private slots:
-			void updateButtons();
+			void updateButtons(const QTextCharFormat &format);
 			void updateImageMenu();
 			void showColorPicker();
 			void sendMessage();

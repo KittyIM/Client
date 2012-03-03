@@ -58,6 +58,9 @@ namespace Kitty
 			void sendTypingStopped();
 			void addToDictionary();
 
+		private:
+			void mergeFormat(const QTextCharFormat &format);
+
 		protected:
 			void keyPressEvent(QKeyEvent *event);
 			void resizeEvent(QResizeEvent *event);
