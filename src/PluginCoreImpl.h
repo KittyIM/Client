@@ -56,10 +56,8 @@ namespace Kitty
 			void addIcon(const QString &id, const QPixmap &pixmap, bool replace = true);
 			void removeIcon(const QString &id);
 
-			quint32 enqueue(const KittySDK::IMessage &msg);
-			void dequeue(const quint32 &msgId);
-			void dequeue(const QString &chatId);
-			quint32 queueMsgId(const KittySDK::IMessage &msg);
+			quint32 enqueueMsg(const KittySDK::IMessage &msg);
+			void archiveMsg(const KittySDK::IMessage &msg);
 
 			virtual QString kittyVersion();
 	};

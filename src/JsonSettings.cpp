@@ -17,9 +17,10 @@ QSettings::Format Kitty::JsonSettings::jsonFormat = QSettings::registerFormat("j
 namespace Kitty
 {
 
-JsonSettings::JsonSettings(const QString &fileName, QObject *parent): QSettings(fileName, JsonSettings::jsonFormat, parent)
+JsonSettings::JsonSettings(const QString &fileName, QObject *parent):
+	QSettings(fileName, JsonSettings::jsonFormat, parent)
 {
-	qDebug() << "Loading" << fileName;
+
 }
 
 void JsonSettings::readMap(SettingsMap &map, const QVariant &root, const QString &name)
@@ -76,15 +77,13 @@ bool JsonSettings::jsonRead(QIODevice &device, SettingsMap &map)
 	QVariant vmap = Json::parse(qUncompress(device.readAll()));
 	readMap(map, vmap, "");
 
-	qDebug() << "Read" << map.count() << "positions";
+	//qDebug() << "Read" << map.count() << "positions";
 
 	return true;
 }
 
 bool JsonSettings::jsonWrite(QIODevice &device, const SettingsMap &map)
 {
-	qDebug() << "Writing";
-
 	QVariant vmap;
 
 	QMapIterator<QString, QVariant> i(map);
@@ -98,7 +97,7 @@ bool JsonSettings::jsonWrite(QIODevice &device, const SettingsMap &map)
 
 	device.write(qCompress(json.toAscii()));
 
-	qDebug() << "Wrote" << map.count() << "positions," << json.count() << "bytes";
+	//qDebug() << "Wrote" << map.count() << "positions," << json.count() << "bytes";
 
 	return true;
 }

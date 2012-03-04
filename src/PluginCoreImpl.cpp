@@ -187,24 +187,14 @@ QString PluginCoreImpl::kittyVersion()
 	return QString("kitty.im ") + Constants::VERSION;
 }
 
-quint32 PluginCoreImpl::queueMsgId(const KittySDK::IMessage &msg)
-{
-	return MessageQueue::inst()->idByMsg(msg);
-}
-
-void PluginCoreImpl::dequeue(const quint32 &msgId)
-{
-	MessageQueue::inst()->dequeue(msgId);
-}
-
-void PluginCoreImpl::dequeue(const QString &chatId)
-{
-	MessageQueue::inst()->dequeue(chatId);
-}
-
-quint32 PluginCoreImpl::enqueue(const KittySDK::IMessage &msg)
+quint32 PluginCoreImpl::enqueueMsg(const KittySDK::IMessage &msg)
 {
 	return MessageQueue::inst()->enqueue(msg);
+}
+
+void PluginCoreImpl::archiveMsg(const KittySDK::IMessage &msg)
+{
+	Core::inst()->archiveMessage(msg);
 }
 
 }

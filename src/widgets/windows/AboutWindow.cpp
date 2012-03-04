@@ -26,12 +26,12 @@ AboutWindow::AboutWindow(QWidget *parent): QDialog(parent), m_ui(new Ui::AboutWi
 		setContentsMargins(0, 0, 0, 0);
 	}
 
-	qDebug() << "Creating";
+	//qDebug() << "Creating";
 }
 
 AboutWindow::~AboutWindow()
 {
-	qDebug() << "Destroying";
+	//qDebug() << "Destroying";
 
 	delete m_ui;
 }
