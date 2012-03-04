@@ -64,6 +64,7 @@ ChatTab::ChatTab(KittySDK::IChat *chat, QWidget *parent):
 
 	m_toolBar = new QToolBar(this);
 	m_toolBar->setIconSize(QSize(16, 16));
+	m_toolBar->setMaximumHeight(30);
 	m_toolBar->setStyleSheet("QToolBar { border: 0; }");
 
 	m_colorPicker = new ChatColorPicker(this);
