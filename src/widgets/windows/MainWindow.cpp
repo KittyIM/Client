@@ -296,6 +296,13 @@ void MainWindow::showAccountStatusMenu()
 	}
 }
 
+void MainWindow::hideFilterEdit()
+{
+	m_ui->filterEdit->clear();
+	m_ui->filterEdit->hide();
+	m_ui->rosterTreeView->setFocus();
+}
+
 void MainWindow::updateAccountStatusIcon(KittySDK::IAccount *account, KittySDK::IProtocol::Status status, const QString &description)
 {
 	Core *core = Core::inst();
@@ -475,9 +482,7 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
 				if((ev->key() == Qt::Key_Escape) || (ev->key() == Qt::Key_Return)) {
 					disconnect(m_proxy, SIGNAL(layoutChanged()), m_ui->rosterTreeView, SLOT(selectFirst()));
 
-					m_ui->filterEdit->clear();
-					m_ui->filterEdit->hide();
-					m_ui->rosterTreeView->setFocus();
+					hideFilterEdit();
 				}
 			}
 		}

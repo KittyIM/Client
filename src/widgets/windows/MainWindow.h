@@ -44,6 +44,7 @@ namespace Kitty
 			void addContact(KittySDK::IContact *contact);
 			void applySettings();
 			void showAccountStatusMenu();
+			void hideFilterEdit();
 			void updateAccountStatusIcon(KittySDK::IAccount *account, KittySDK::IProtocol::Status status, const QString &description);
 
 		private slots:

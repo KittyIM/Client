@@ -2,6 +2,7 @@
 
 #include "widgets/windows/SettingsWindow.h"
 #include "widgets/windows/ContactWindow.h"
+#include "widgets/windows/MainWindow.h"
 #include "RosterItemDelegate.h"
 #include "RosterSortProxy.h"
 #include "RosterItemModel.h"
@@ -103,6 +104,7 @@ void RosterTreeView::sendMessage()
 			}
 
 			if(contacts.count()) {
+				Core::inst()->mainWindow()->hideFilterEdit();
 				ChatManager::inst()->startChat(me, contacts);
 			}
 		}
