@@ -33,7 +33,7 @@ void RosterItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 	initStyleOption(&vopt, index);
 
 	const QWidget *widget = vopt.widget;
-	QStyle *style = widget?widget->style():QApplication::style();
+	QStyle *style = widget ? widget->style() : QApplication::style();
 
 	painter->save();
 
@@ -55,7 +55,7 @@ void RosterItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 		vopt.icon.paint(painter, iconRect, vopt.decorationAlignment, QIcon::Normal, QIcon::On);
 	}
 
-	QPalette::ColorGroup cg = (vopt.state & QStyle::State_Enabled)?QPalette::Normal:QPalette::Disabled;
+	QPalette::ColorGroup cg = (vopt.state & QStyle::State_Enabled) ? QPalette::Normal : QPalette::Disabled;
 	if((cg == QPalette::Normal) && !(vopt.state & QStyle::State_Active)) {
 		cg = QPalette::Inactive;
 	}
@@ -112,8 +112,9 @@ void RosterItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 				painter->setFont(boldFont);
 				int width = textRect.width() - painter->fontMetrics().width(vopt.text) - 10;
 				painter->setFont(normalFont);
+
 				if(width > 0) {
-					QFont font = painter->font();
+					QFont font = vopt.font;
 					font.setPointSize(font.pointSize() - 1);
 					painter->setFont(font);
 
@@ -139,10 +140,17 @@ void RosterItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 			}
 		}
 
-		/*if(!index.parent().isValid()) {
-	  painter->setPen(Qt::black);
-	  painter->drawLine(option.rect.left(), option.rect.top(), option.rect.width(), option.rect.top());
-	}*/
+		//a line over the first contact without a group
+		if(!index.parent().isValid()) {
+			QModelIndex prev = index.sibling(index.row() - 1, 0);
+			if(prev.isValid()) {
+				if(prev.data(RosterItem::TypeRole).toInt() == RosterItem::Group) {
+
+					painter->setPen(vopt.palette.color(cg, QPalette::Mid));
+					painter->drawLine(option.rect.left(), option.rect.top(), option.rect.width(), option.rect.top());
+				}
+			}
+		}
 	}
 
 	painter->restore();

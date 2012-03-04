@@ -21,15 +21,13 @@ RosterSortProxy::RosterSortProxy(QObject *parent): QSortFilterProxyModel(parent)
 	setDynamicSortFilter(true);
 	setFilterCaseSensitivity(Qt::CaseInsensitive);
 
-	//m_groupFilter = "Friends";
-
 	connect(ContactManager::inst(), SIGNAL(statusUpdated()), SLOT(invalidate()));
 }
 
 bool RosterSortProxy::lessThan(const QModelIndex &left, const QModelIndex &right) const
 {
 	int leftType = left.data(RosterItem::TypeRole).toInt();
-	int rightType = left.data(RosterItem::TypeRole).toInt();
+	int rightType = right.data(RosterItem::TypeRole).toInt();
 
 	if((leftType == RosterItem::Contact) && (rightType == RosterItem::Contact)) {
 		if(left.data(RosterItem::StatusRole).toInt() == right.data(RosterItem::StatusRole).toInt()) {
