@@ -22,9 +22,11 @@ namespace Kitty
 			void load();
 			void unload();
 			void changeLocale(const QString &locale);
+			bool hasError() const;
 
 			KittySDK::IPlugin *iplugin() const { return m_plugin; }
 			QString fileName() const { return m_fileName; }
+			QString error() const { return m_error; }
 			bool isLoaded() const { return m_loaded; }
 			bool isInited() const { return m_inited; }
 
@@ -32,6 +34,7 @@ namespace Kitty
 			bool m_loaded;
 			bool m_inited;
 			QString m_fileName;
+			QString m_error;
 			KittySDK::IPlugin *m_plugin;
 			QTranslator *m_translator;
 	};
@@ -46,6 +49,8 @@ namespace Kitty
 			const QList<Plugin*> &plugins() const;
 			Plugin *pluginById(const QString &id) const;
 			Plugin *pluginByFileName(const QString &fileName) const;
+
+			bool hasError() const;
 
 			void execAction(const QString &pluginId, const QString &name, const QMap<QString, QVariant> &args);
 

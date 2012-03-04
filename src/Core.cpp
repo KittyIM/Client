@@ -177,8 +177,6 @@ void Core::loadProfile(const QString &name)
 {
 	profile()->load(name);
 
-	DebugWindow::inst()->restoreGeometry(setting(KittySDK::Settings::S_DEBUGWINDOW_GEOMETRY).toByteArray());
-
 	mainWindow();
 }
 

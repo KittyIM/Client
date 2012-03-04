@@ -38,6 +38,10 @@ void PluginsSettings::reset()
 	m_ui->pluginWidget->clear();
 
 	foreach(Plugin *plugin, PluginManager::inst()->plugins()) {
+		if(plugin->hasError()) {
+			continue;
+		}
+
 		QTreeWidgetItem *item = new QTreeWidgetItem(m_ui->pluginWidget);
 
 		KittySDK::IPluginInfo *info = plugin->iplugin()->info();

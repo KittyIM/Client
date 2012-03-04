@@ -6,7 +6,8 @@ SOURCES      += $$PWD/AboutWindow.cpp \
                 $$PWD/MainWindow.cpp \
                 $$PWD/PortabilityWindow.cpp \
                 $$PWD/ProfilesWindow.cpp \
-                $$PWD/SettingsWindow.cpp
+                $$PWD/SettingsWindow.cpp \
+                $$PWD/PluginErrorWindow.cpp
 
 HEADERS      += $$PWD/AboutWindow.h \
                 $$PWD/ChatWindow.h \
@@ -16,7 +17,8 @@ HEADERS      += $$PWD/AboutWindow.h \
                 $$PWD/MainWindow.h \
                 $$PWD/PortabilityWindow.h \
                 $$PWD/ProfilesWindow.h \
-                $$PWD/SettingsWindow.h
+                $$PWD/SettingsWindow.h \
+                $$PWD/PluginErrorWindow.h
 
 FORMS        += $$PWD/AboutWindow.ui \
                 $$PWD/ChatWindow.ui \
@@ -26,4 +28,5 @@ FORMS        += $$PWD/AboutWindow.ui \
                 $$PWD/MainWindow.ui \
                 $$PWD/PortabilityWindow.ui \
                 $$PWD/ProfilesWindow.ui \
-                $$PWD/SettingsWindow.ui
+                $$PWD/SettingsWindow.ui \
+                $$PWD/PluginErrorWindow.ui

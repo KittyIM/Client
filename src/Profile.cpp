@@ -1,5 +1,6 @@
 #include "Profile.h"
 
+#include "widgets/windows/PluginErrorWindow.h"
 #include "widgets/windows/SettingsWindow.h"
 #include "widgets/windows/DebugWindow.h"
 #include "widgets/windows/ChatWindow.h"
@@ -63,6 +64,8 @@ void Profile::load(const QString &name)
 	dynamic_cast<App*>(qApp)->retranslate();
 	dynamic_cast<App*>(qApp)->applySettings();
 
+	DebugWindow::inst()->restoreGeometry(core->setting(KittySDK::Settings::S_DEBUGWINDOW_GEOMETRY).toByteArray());
+
 	ActionManager::inst()->loadDefaults();
 
 	connect(IconManager::inst(), SIGNAL(iconsUpdated()), ActionManager::inst(), SLOT(updateIcons()));
@@ -75,10 +78,16 @@ void Profile::load(const QString &name)
 
 	if(!core->setting(KittySDK::Settings::S_MAINWINDOW_STARTHIDDEN).toBool()) {
 		core->mainWindow()->show();
-		qDebug() << "Showing";
 	}
 
+	//MessageQueue::inst()->load(name);
+
 	qDebug() << "Profile " + name + " loaded!";
+
+	if(PluginManager::inst()->hasError()) {
+		PluginErrorWindow dlg;
+		dlg.exec();
+	}
 }
 
 void Profile::loadIconTheme(const QString &name)

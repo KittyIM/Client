@@ -1354,7 +1354,7 @@
 <context>
     <name>Kitty::PluginsSettings</name>
     <message>
-        <location filename="../src/widgets/settingpages/PluginsSettings.cpp" line="+48"/>
+        <location filename="../src/widgets/settingpages/PluginsSettings.cpp" line="+52"/>
         <location line="+1"/>
         <source>Unknown</source>
         <translation>Nieznany</translation>
@@ -1755,6 +1755,46 @@
         <source>Contacts</source>
         <translation>Kontakty</translation>
     </message>
+    <message>
+        <location filename="../src/PluginManager.cpp" line="+57"/>
+        <source>Wrong SDK version &quot;%1&quot;, Kitty has &apos;&quot;%2&quot;.</source>
+        <translation>Zła wersja SDK &quot;%1&quot;, Kitty posiada &quot;%2&quot;.</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Wrong build mode &quot;%1&quot;, Kitty is &quot;%2&quot;.</source>
+        <translation>Zły tryb kompilacji &quot;%1&quot;, Kitty jest &quot;%2&quot;.</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Wrong Qt build key &quot;%1&quot;, Kitty has &quot;%2&quot;.</source>
+        <translation>Zła wersja Qt &quot;%1&quot;, Kitty używa &quot;%2&quot;.</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Wrong verification info count.</source>
+        <translation>Nieodopowiednia ilość danych weryfikacyjncyh.</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Can&apos;t resolve info().</source>
+        <translation>Nie można znaleść info().</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Could not cast to IPlugin.</source>
+        <translation>Nie można rzutować na IPlugin.</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Could not cast to IProtocol.</source>
+        <translation>Nie można rzutować na IProtocol.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Invalid plugin type.</source>
+        <translation>Nieznany typ wtyczki.</translation>
+    </message>
 </context>
 <context>
     <name>RosterHeader</name>
@@ -2079,7 +2119,7 @@
 <context>
     <name>Kitty::ChatWindow</name>
     <message>
-        <location filename="../src/widgets/windows/ChatWindow.cpp" line="+154"/>
+        <location filename="../src/widgets/windows/ChatWindow.cpp" line="+159"/>
         <source>Unknown</source>
         <translation>Nieznane</translation>
     </message>
@@ -2535,6 +2575,35 @@
         <location line="+6"/>
         <source>is wtf</source>
         <translation>co do ^#$@</translation>
+    </message>
+</context>
+<context>
+    <name>PluginErrorWindow</name>
+    <message>
+        <location filename="../src/widgets/windows/PluginErrorWindow.ui"/>
+        <location filename="../src/ui_PluginErrorWindow.h" line="+74"/>
+        <source>Plugin problems</source>
+        <translation>Problemy z wtyczkami</translation>
+    </message>
+    <message>
+        <location/>
+        <location filename="../src/ui_PluginErrorWindow.h" line="+1"/>
+        <source>The following plugins had problems loading:</source>
+        <translation>Następujące wtyczki miały problemy z załadowaniem:</translation>
+    </message>
+    <message>
+        <location/>
+        <location filename="../src/ui_PluginErrorWindow.h" line="+1"/>
+        <source>More info:</source>
+        <translation>Więcej informacji:</translation>
+    </message>
+</context>
+<context>
+    <name>Kitty::ChatManager</name>
+    <message>
+        <location filename="../src/ChatManager.cpp" line="+153"/>
+        <source>Message from</source>
+        <translation>Wiadomość od</translation>
     </message>
 </context>
 </TS>
