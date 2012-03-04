@@ -33,6 +33,7 @@ typedef const char *(*pluginInfo)();
 
 Plugin::Plugin(const QString &fileName):
 	m_fileName(fileName),
+	m_plugin(0),
 	m_translator(0)
 {
 	m_loaded = false;
@@ -127,7 +128,10 @@ void Plugin::load()
 
 void Plugin::unload()
 {
-
+	if(isLoaded()) {
+		m_plugin->unload();
+		m_loaded = false;
+	}
 }
 
 void Plugin::changeLocale(const QString &locale)

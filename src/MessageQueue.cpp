@@ -4,6 +4,7 @@
 #include "3rdparty/json/json.h"
 #include "AccountManager.h"
 #include "ContactManager.h"
+#include "ChatManager.h"
 #include "Core.h"
 
 #include <IChat.h>
@@ -199,7 +200,7 @@ quint32 MessageQueue::enqueue(KittySDK::IMessage &msg)
 {
 	//dequeue(msg.chat());
 
-	KittySDK::IMessage *mess = new KittySDK::IMessage(msg.from(), msg.to(), msg.body(), msg.timeStamp(), msg.type(), msg.direction());
+	KittySDK::IMessage *mess = new KittySDK::IMessage(msg.from(), msg.to(), msg.body(), msg.timeStamp(), msg.direction());
 	mess->setChat(msg.chat());
 
 	++m_nextId;
