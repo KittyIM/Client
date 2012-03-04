@@ -67,6 +67,10 @@ void AboutWindow::updateAboutText()
 	text.append(QString("<br><b>%1</b><br>").arg(tr("Plugins")));
 
 	foreach(Plugin *plug, PluginManager::inst()->plugins()) {
+		if(plug->hasError()) {
+			continue;
+		}
+
 		if(KittySDK::IPlugin *iplugin = plug->iplugin()) {
 			if(KittySDK::IPluginInfo *info = iplugin->info()) {
 				text.append(QString("<br><i>%1 %2</i><br>%3 &lt;<a href=\"mailto:%4\">%4</a>&gt;<br><a href=\"%5\">%5</a><br>").arg(info->name()).arg(info->version()).arg(info->author()).arg(info->email()).arg(info->url()));

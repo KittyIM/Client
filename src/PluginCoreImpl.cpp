@@ -142,6 +142,10 @@ QStringList PluginCoreImpl::plugins()
 	QList<Plugin*> plugins = PluginManager::inst()->plugins();
 
 	foreach(Plugin *plug, plugins) {
+		if(plug->hasError()) {
+			continue;
+		}
+
 		if(KittySDK::IPlugin *iplugin = plug->iplugin()) {
 			if(KittySDK::IPluginInfo *info = iplugin->info()) {
 				result.append(info->id());
