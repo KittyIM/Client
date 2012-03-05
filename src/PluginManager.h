@@ -57,7 +57,7 @@ namespace Kitty
 			void load();
 
 		signals:
-			void allPluginsLoaded();
+			void allLoaded();
 
 		private slots:
 			void updateLanguages();

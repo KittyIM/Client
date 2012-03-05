@@ -264,7 +264,7 @@ void PluginManager::load()
 		m_plugins.append(plug);
 	}
 
-	emit allPluginsLoaded();
+	emit allLoaded();
 }
 
 PluginManager::~PluginManager()
@@ -275,7 +275,7 @@ PluginManager::~PluginManager()
 PluginManager::PluginManager(QObject *parent):
 	QObject(parent)
 {
-	connect(this, SIGNAL(allPluginsLoaded()), SLOT(updateLanguages()));
+	connect(this, SIGNAL(allLoaded()), SLOT(updateLanguages()));
 	connect(Core::inst()->settingsWindow(), SIGNAL(languageChanged()), SLOT(updateLanguages()));
 }
 
