@@ -156,11 +156,15 @@ void ContactManager::load(const QString &profile)
 			qWarning() << "Could not open file!";
 		}
 	}
+
+	emit allLoaded();
 }
 
 void ContactManager::save(const QString &profile)
 {
-	qDebug() << "saving contacts for" << profile;
+	//qDebug() << "saving contacts for" << profile;
+
+	emit aboutToSave();
 
 	QVariantList list;
 

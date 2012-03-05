@@ -934,7 +934,7 @@
 <context>
     <name>Kitty::ChatTab</name>
     <message>
-        <location filename="../src/widgets/ChatTab.cpp" line="+87"/>
+        <location filename="../src/widgets/ChatTab.cpp" line="+88"/>
         <location line="+455"/>
         <source>Bold</source>
         <translation>Pogrubienie</translation>
@@ -1326,7 +1326,7 @@
 <context>
     <name>Kitty::MainWindow</name>
     <message>
-        <location filename="../src/widgets/windows/MainWindow.cpp" line="+331"/>
+        <location filename="../src/widgets/windows/MainWindow.cpp" line="+338"/>
         <source>Lock</source>
         <translation>Zablokuj</translation>
     </message>
@@ -1439,7 +1439,7 @@
 <context>
     <name>Kitty::RosterTreeView</name>
     <message>
-        <location filename="../src/widgets/RosterTreeView.cpp" line="+171"/>
+        <location filename="../src/widgets/RosterTreeView.cpp" line="+173"/>
         <source>Add new group</source>
         <translation>Dodaj grupę</translation>
     </message>

@@ -32,6 +32,8 @@ namespace Kitty
 		signals:
 			void contactAdded(KittySDK::IContact *contact);
 			void statusUpdated();
+			void allLoaded();
+			void aboutToSave();
 
 		private slots:
 			void updateStatus(KittySDK::IProtocol::Status status, const QString &description);

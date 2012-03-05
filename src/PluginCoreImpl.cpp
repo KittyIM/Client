@@ -25,7 +25,12 @@ namespace Kitty
 
 PluginCoreImpl::PluginCoreImpl(QObject *parent)
 {
-	connect(PluginManager::inst(), SIGNAL(allPluginsLoaded()), this, SIGNAL(allPluginsLoaded()));
+	connect(PluginManager::inst(), SIGNAL(allLoaded()), SIGNAL(allPluginsLoaded()));
+	connect(AccountManager::inst(), SIGNAL(allLoaded()), SIGNAL(allAccountsLoaded()));
+	connect(ContactManager::inst(), SIGNAL(allLoaded()), SIGNAL(allContactsLoaded()));
+
+	connect(AccountManager::inst(), SIGNAL(aboutToSave()), SIGNAL(accountsAboutToSave()));
+	connect(ContactManager::inst(), SIGNAL(aboutToSave()), SIGNAL(contactsAboutToSave()));
 }
 
 QVariant PluginCoreImpl::setting(const QString &key, const QVariant &defaultValue)

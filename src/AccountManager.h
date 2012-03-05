@@ -31,6 +31,8 @@ namespace Kitty
 
 		signals:
 			void accountAdded();
+			void allLoaded();
+			void aboutToSave();
 			void accountStatusChanged(KittySDK::IAccount *account, KittySDK::IProtocol::Status status, const QString &description);
 
 		private slots:

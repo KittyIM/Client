@@ -159,11 +159,15 @@ void AccountManager::load(const QString &profile)
 			qDebug() << "Could not open file!";
 		}
 	}
+
+	emit allLoaded();
 }
 
 void AccountManager::save(const QString &profile)
 {
-	qDebug() << "saving accounts for" << profile;
+	//qDebug() << "saving accounts for" << profile;
+
+	emit aboutToSave();
 
 	QVariantList list;
 	foreach(KittySDK::IAccount *account, m_accounts) {
