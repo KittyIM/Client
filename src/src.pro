@@ -63,13 +63,15 @@ include(SDK/KittySDK.pri)
 RESOURCES    += ../res/res.qrc
 RC_FILE       = ../res.rc
 
-LIBS         += -lhunspell
-
-debug {
+CONFIG(debug, debug|release) {
     LIBS     += -L../lib/hunspell/debug
-} else {
+}
+
+CONFIG(release, debug|release) {
     LIBS     += -L../lib/hunspell/release
 }
+
+LIBS         += -lhunspell
 
 windows {
     LIBS     += -lgdi32
