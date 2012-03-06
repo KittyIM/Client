@@ -56,17 +56,17 @@ namespace Kitty
 			void showContact(KittySDK::IContact *contact);
 
 		protected:
-			void showEvent(QShowEvent *event);
 			void changeEvent(QEvent *event);
 
 		private slots:
+			void loadData();
 			void loadChats(const QItemSelection &selected, const QItemSelection &deselected);
 			void filterContacts(const QString &filter);
 			void on_chatTree_currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous);
 			void updateCurrentChat();
 			void toggleFilters(bool checked);
 			void on_chatTree_doubleClicked(const QModelIndex &index);
-			void refreshChats ();
+			void refreshChats();
 
 		private:
 			QModelIndex findContact(KittySDK::IContact *contact, const QModelIndex &parent = QModelIndex());

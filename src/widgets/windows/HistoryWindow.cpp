@@ -68,7 +68,7 @@ HistoryWindow::HistoryWindow(QWidget *parent): QWidget(parent), m_ui(new Ui::His
 
 	m_ui->setupUi(this);
 
-	qDebug() << "Creating";
+	//qDebug() << "Creating";
 
 	m_proxy = new ContactProxy(this);
 	m_ui->contactTree->setModel(m_proxy);
@@ -91,6 +91,8 @@ HistoryWindow::HistoryWindow(QWidget *parent): QWidget(parent), m_ui(new Ui::His
 
 	applySettings();
 	updateIcons();
+
+	QTimer::singleShot(0, this, SLOT(loadData()));
 }
 
 HistoryWindow::~HistoryWindow()
@@ -137,7 +139,7 @@ void HistoryWindow::showContact(KittySDK::IContact *contact)
 	}
 }
 
-void HistoryWindow::showEvent(QShowEvent *event)
+void HistoryWindow::loadData()
 {
 	Core *core = Core::inst();
 
@@ -220,8 +222,6 @@ void HistoryWindow::showEvent(QShowEvent *event)
 
 		m_ui->contactTree->expandAll();
 	}
-
-	QWidget::showEvent(event);
 }
 
 void HistoryWindow::changeEvent(QEvent *event)

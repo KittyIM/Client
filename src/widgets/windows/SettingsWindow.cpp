@@ -34,7 +34,9 @@
 namespace Kitty
 {
 
-SettingsWindow::SettingsWindow(QWidget *parent): QDialog(parent), m_ui(new Ui::SettingsWindow)
+SettingsWindow::SettingsWindow(QWidget *parent):
+	QDialog(parent),
+	m_ui(new Ui::SettingsWindow)
 {
 	m_ui->setupUi(this);
 	m_ui->treeWidget->header()->hideSection(1);

@@ -9,6 +9,7 @@
 #include <SDKConstants.h>
 
 #include <QtCore/QCryptographicHash>
+#include <QtCore/QTimer>
 #include <QtCore/QFile>
 #include <QtGui/QInputDialog>
 #include <QtGui/QFileDialog>
@@ -35,6 +36,8 @@ ContactWindow::ContactWindow(KittySDK::IContact *cnt, QWidget *parent): QDialog(
 	restoreGeometry(Core::inst()->setting(KittySDK::Settings::S_CONTACTWINDOW_GEOMETRY).toByteArray());
 
 	applySettings();
+
+	QTimer::singleShot(0, this, SLOT(loadData()));
 }
 
 ContactWindow::~ContactWindow()
@@ -65,114 +68,6 @@ void ContactWindow::on_treeWidget_currentItemChanged(QTreeWidgetItem *current, Q
 	if(current) {
 		m_ui->groupBox->setTitle(current->text(0));
 		m_ui->stackedWidget->setCurrentIndex(m_ui->treeWidget->indexOfTopLevelItem(current));
-	}
-}
-
-void ContactWindow::showEvent(QShowEvent *event)
-{
-	QDialog::showEvent(event);
-
-	Core *core = Core::inst();
-
-	if(!m_contact) {
-		//remove summary when adding contact
-		m_ui->stackedWidget->removeWidget(m_ui->stackedWidget->widget(0));
-		delete m_ui->treeWidget->topLevelItem(0);
-	} else {
-		updateSummary();
-	}
-
-	m_ui->treeWidget->setCurrentItem(m_ui->treeWidget->topLevelItem(0));
-
-	//add empty group
-	m_ui->groupComboBox->addItem("");
-	m_ui->groupComboBox->setCurrentIndex(0);
-
-	//add all the other groups
-	QStringList groups = ContactManager::inst()->groups();
-	m_ui->groupComboBox->addItems(groups);
-
-	//add all accounts
-	foreach(KittySDK::IAccount *acc, AccountManager::inst()->accounts()) {
-		m_ui->accountComboBox->addItem(QString("%1 (%2)").arg(acc->uid()).arg(acc->protocol()->protoInfo()->protoName()));
-		m_ui->accountComboBox->setItemIcon(m_ui->accountComboBox->count() - 1, core->icon(acc->protocol()->protoInfo()->protoIcon()));
-		m_ui->accountComboBox->setItemData(m_ui->accountComboBox->count() - 1, acc->protocol()->protoInfo()->protoName(), Qt::UserRole + 1);
-		m_ui->accountComboBox->setItemData(m_ui->accountComboBox->count() - 1, acc->uid(), Qt::UserRole + 2);
-	}
-
-	if(m_contact) {
-		//select contact's group
-		for(int i = 0; i < m_ui->groupComboBox->count(); ++i) {
-			if(m_ui->groupComboBox->itemText(i) == m_contact->group()) {
-				m_ui->groupComboBox->setCurrentIndex(i);
-				break;
-			}
-		}
-
-		//select contact's account
-		for(int i = 0; i < m_ui->accountComboBox->count(); ++i) {
-			if(m_ui->accountComboBox->itemText(i) == QString("%1 (%2)").arg(m_contact->account()->uid()).arg(m_contact->account()->protocol()->protoInfo()->protoName())) {
-				m_ui->accountComboBox->setCurrentIndex(i);
-				break;
-			}
-		}
-		m_ui->accountComboBox->setEnabled(false);
-
-		//set
-		m_ui->uidEdit->setText(m_contact->uid());
-		m_ui->uidEdit->setReadOnly(true);
-
-		//general
-		m_ui->displayComboBox->addItem(m_contact->display());
-		m_ui->nicknameEdit->setText(m_contact->data(KittySDK::ContactInfos::I_NICKNAME).toString());
-		m_ui->firstNameEdit->setText(m_contact->data(KittySDK::ContactInfos::I_FIRSTNAME).toString());
-		m_ui->middleNameEdit->setText(m_contact->data(KittySDK::ContactInfos::I_MIDDLENAME).toString());
-		m_ui->lastNameEdit->setText(m_contact->data(KittySDK::ContactInfos::I_LASTNAME).toString());
-		m_ui->birthdayDateEdit->setDate(m_contact->data(KittySDK::ContactInfos::I_BIRTHDAY).toDate());
-		m_ui->sexComboBox->setCurrentIndex(m_contact->data(KittySDK::ContactInfos::I_SEX).toInt());
-
-		QString fileName = Core::inst()->avatarPath(m_contact);
-		if(QFile::exists(fileName)) {
-			m_ui->avatarLabel->setPixmap(QPixmap(fileName));
-		}
-
-		//contact
-		QStringList emails = m_contact->data(KittySDK::ContactInfos::I_EMAILS).toString().split(",");
-		foreach(QString email, emails) {
-			if(!email.isEmpty()) {
-				QListWidgetItem *item = new QListWidgetItem(email, m_ui->emailListWidget);
-				item->setFlags(item->flags() | Qt::ItemIsEditable);
-			}
-		}
-
-		QStringList phones = m_contact->data(KittySDK::ContactInfos::I_PHONES).toString().split(",");
-		foreach(QString phone, phones) {
-			if(!phone.isEmpty()) {
-				QListWidgetItem *item = new QListWidgetItem(phone, m_ui->phoneListWidget);
-				item->setFlags(item->flags() | Qt::ItemIsEditable);
-			}
-		}
-
-		//home
-		m_ui->homeAddressEdit->setText(m_contact->data(KittySDK::ContactInfos::I_HOME_ADDRESS).toString());
-		m_ui->homeCityEdit->setText(m_contact->data(KittySDK::ContactInfos::I_HOME_CITY).toString());
-		m_ui->homePostalCodeEdit->setText(m_contact->data(KittySDK::ContactInfos::I_HOME_POSTALCODE).toString());
-		m_ui->homeStateEdit->setText(m_contact->data(KittySDK::ContactInfos::I_HOME_STATE).toString());
-		m_ui->homeCountryEdit->setText(m_contact->data(KittySDK::ContactInfos::I_HOME_COUNTRY).toString());
-
-		//work
-		m_ui->workCompanyEdit->setText(m_contact->data(KittySDK::ContactInfos::I_WORK_COMPANY).toString());
-		m_ui->workPositionEdit->setText(m_contact->data(KittySDK::ContactInfos::I_WORK_POSITION).toString());
-		m_ui->workAddressEdit->setText(m_contact->data(KittySDK::ContactInfos::I_WORK_ADDRESS).toString());
-		m_ui->workCityEdit->setText(m_contact->data(KittySDK::ContactInfos::I_WORK_CITY).toString());
-		m_ui->workPostalCodeEdit->setText(m_contact->data(KittySDK::ContactInfos::I_WORK_POSTALCODE).toString());
-		m_ui->workStateEdit->setText(m_contact->data(KittySDK::ContactInfos::I_WORK_STATE).toString());
-		m_ui->workCountryEdit->setText(m_contact->data(KittySDK::ContactInfos::I_WORK_COUNTRY).toString());
-		m_ui->workWebsiteEdit->setText(m_contact->data(KittySDK::ContactInfos::I_WORK_WEBSITE).toString());
-
-		//more
-		m_ui->homepageEdit->setText(m_contact->data(KittySDK::ContactInfos::I_HOMEPAGE).toString());
-		m_ui->notesEdit->setPlainText(m_contact->data(KittySDK::ContactInfos::I_NOTES).toString());
 	}
 }
 
@@ -346,6 +241,114 @@ void ContactWindow::on_phoneListWidget_currentItemChanged(QListWidgetItem *curre
 {
 	m_ui->phoneDeleteButton->setEnabled(current != 0);
 }
+
+
+void ContactWindow::loadData()
+{
+	Core *core = Core::inst();
+
+	if(!m_contact) {
+		//remove summary when adding contact
+		m_ui->stackedWidget->removeWidget(m_ui->stackedWidget->widget(0));
+		delete m_ui->treeWidget->topLevelItem(0);
+	} else {
+		updateSummary();
+	}
+
+	m_ui->treeWidget->setCurrentItem(m_ui->treeWidget->topLevelItem(0));
+
+	//add empty group
+	m_ui->groupComboBox->addItem("");
+	m_ui->groupComboBox->setCurrentIndex(0);
+
+	//add all the other groups
+	QStringList groups = ContactManager::inst()->groups();
+	m_ui->groupComboBox->addItems(groups);
+
+	//add all accounts
+	foreach(KittySDK::IAccount *acc, AccountManager::inst()->accounts()) {
+		m_ui->accountComboBox->addItem(QString("%1 (%2)").arg(acc->uid()).arg(acc->protocol()->protoInfo()->protoName()));
+		m_ui->accountComboBox->setItemIcon(m_ui->accountComboBox->count() - 1, core->icon(acc->protocol()->protoInfo()->protoIcon()));
+		m_ui->accountComboBox->setItemData(m_ui->accountComboBox->count() - 1, acc->protocol()->protoInfo()->protoName(), Qt::UserRole + 1);
+		m_ui->accountComboBox->setItemData(m_ui->accountComboBox->count() - 1, acc->uid(), Qt::UserRole + 2);
+	}
+
+	if(m_contact) {
+		//select contact's group
+		for(int i = 0; i < m_ui->groupComboBox->count(); ++i) {
+			if(m_ui->groupComboBox->itemText(i) == m_contact->group()) {
+				m_ui->groupComboBox->setCurrentIndex(i);
+				break;
+			}
+		}
+
+		//select contact's account
+		for(int i = 0; i < m_ui->accountComboBox->count(); ++i) {
+			if(m_ui->accountComboBox->itemText(i) == QString("%1 (%2)").arg(m_contact->account()->uid()).arg(m_contact->account()->protocol()->protoInfo()->protoName())) {
+				m_ui->accountComboBox->setCurrentIndex(i);
+				break;
+			}
+		}
+		m_ui->accountComboBox->setEnabled(false);
+
+		//set
+		m_ui->uidEdit->setText(m_contact->uid());
+		m_ui->uidEdit->setReadOnly(true);
+
+		//general
+		m_ui->displayComboBox->addItem(m_contact->display());
+		m_ui->nicknameEdit->setText(m_contact->data(KittySDK::ContactInfos::I_NICKNAME).toString());
+		m_ui->firstNameEdit->setText(m_contact->data(KittySDK::ContactInfos::I_FIRSTNAME).toString());
+		m_ui->middleNameEdit->setText(m_contact->data(KittySDK::ContactInfos::I_MIDDLENAME).toString());
+		m_ui->lastNameEdit->setText(m_contact->data(KittySDK::ContactInfos::I_LASTNAME).toString());
+		m_ui->birthdayDateEdit->setDate(m_contact->data(KittySDK::ContactInfos::I_BIRTHDAY).toDate());
+		m_ui->sexComboBox->setCurrentIndex(m_contact->data(KittySDK::ContactInfos::I_SEX).toInt());
+
+		QString fileName = Core::inst()->avatarPath(m_contact);
+		if(QFile::exists(fileName)) {
+			m_ui->avatarLabel->setPixmap(QPixmap(fileName));
+		}
+
+		//contact
+		QStringList emails = m_contact->data(KittySDK::ContactInfos::I_EMAILS).toString().split(",");
+		foreach(QString email, emails) {
+			if(!email.isEmpty()) {
+				QListWidgetItem *item = new QListWidgetItem(email, m_ui->emailListWidget);
+				item->setFlags(item->flags() | Qt::ItemIsEditable);
+			}
+		}
+
+		QStringList phones = m_contact->data(KittySDK::ContactInfos::I_PHONES).toString().split(",");
+		foreach(QString phone, phones) {
+			if(!phone.isEmpty()) {
+				QListWidgetItem *item = new QListWidgetItem(phone, m_ui->phoneListWidget);
+				item->setFlags(item->flags() | Qt::ItemIsEditable);
+			}
+		}
+
+		//home
+		m_ui->homeAddressEdit->setText(m_contact->data(KittySDK::ContactInfos::I_HOME_ADDRESS).toString());
+		m_ui->homeCityEdit->setText(m_contact->data(KittySDK::ContactInfos::I_HOME_CITY).toString());
+		m_ui->homePostalCodeEdit->setText(m_contact->data(KittySDK::ContactInfos::I_HOME_POSTALCODE).toString());
+		m_ui->homeStateEdit->setText(m_contact->data(KittySDK::ContactInfos::I_HOME_STATE).toString());
+		m_ui->homeCountryEdit->setText(m_contact->data(KittySDK::ContactInfos::I_HOME_COUNTRY).toString());
+
+		//work
+		m_ui->workCompanyEdit->setText(m_contact->data(KittySDK::ContactInfos::I_WORK_COMPANY).toString());
+		m_ui->workPositionEdit->setText(m_contact->data(KittySDK::ContactInfos::I_WORK_POSITION).toString());
+		m_ui->workAddressEdit->setText(m_contact->data(KittySDK::ContactInfos::I_WORK_ADDRESS).toString());
+		m_ui->workCityEdit->setText(m_contact->data(KittySDK::ContactInfos::I_WORK_CITY).toString());
+		m_ui->workPostalCodeEdit->setText(m_contact->data(KittySDK::ContactInfos::I_WORK_POSTALCODE).toString());
+		m_ui->workStateEdit->setText(m_contact->data(KittySDK::ContactInfos::I_WORK_STATE).toString());
+		m_ui->workCountryEdit->setText(m_contact->data(KittySDK::ContactInfos::I_WORK_COUNTRY).toString());
+		m_ui->workWebsiteEdit->setText(m_contact->data(KittySDK::ContactInfos::I_WORK_WEBSITE).toString());
+
+		//more
+		m_ui->homepageEdit->setText(m_contact->data(KittySDK::ContactInfos::I_HOMEPAGE).toString());
+		m_ui->notesEdit->setPlainText(m_contact->data(KittySDK::ContactInfos::I_NOTES).toString());
+	}
+}
+
 
 void ContactWindow::finishEditing()
 {
