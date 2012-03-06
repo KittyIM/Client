@@ -30,11 +30,18 @@ bool RosterSortProxy::lessThan(const QModelIndex &left, const QModelIndex &right
 	int rightType = right.data(RosterItem::TypeRole).toInt();
 
 	if((leftType == RosterItem::Contact) && (rightType == RosterItem::Contact)) {
-		if(left.data(RosterItem::StatusRole).toInt() == right.data(RosterItem::StatusRole).toInt()) {
+		if(left.data(RosterItem::TemporaryRole).toBool() && !right.data(RosterItem::TemporaryRole).toBool()) {
+			 return true;
+		} else if(!left.data(RosterItem::TemporaryRole).toBool() && right.data(RosterItem::TemporaryRole).toBool()) {
+			 return false;
+		} else if(left.data(RosterItem::StatusRole).toInt() == right.data(RosterItem::StatusRole).toInt()) {
+			return QString::localeAwareCompare(left.data().toString(), right.data().toString()) > 0;
+		} else if((left.data(RosterItem::StatusRole).toInt() == right.data(RosterItem::StatusRole).toInt()) ||
+				  (left.data(RosterItem::TemporaryRole).toBool() && right.data(RosterItem::TemporaryRole).toBool())) {
 			return QString::localeAwareCompare(left.data().toString(), right.data().toString()) > 0;
 		} else {
-			return left.data(RosterItem::StatusRole).toInt() > right.data(RosterItem::StatusRole).toInt();
-		}
+			 return left.data(RosterItem::StatusRole).toInt() > right.data(RosterItem::StatusRole).toInt();
+		 }
 	} else if((leftType == RosterItem::Group) && (rightType == RosterItem::Group)) {
 		return QString::localeAwareCompare(left.data().toString(), right.data().toString()) > 0;
 	} else {

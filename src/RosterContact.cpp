@@ -89,6 +89,10 @@ QVariant RosterContact::data(int role) const
 			return Core::inst()->avatarPath(m_contact);
 		break;
 
+		case RosterItem::TemporaryRole:
+			return m_contact->data(KittySDK::ContactInfos::I_TEMPORARY);
+		break;
+
 		case Qt::ToolTipRole:
 		{
 			QString tooltip;

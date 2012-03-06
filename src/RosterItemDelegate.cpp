@@ -53,6 +53,10 @@ void RosterItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 		}
 	} else {
 		vopt.icon.paint(painter, iconRect, vopt.decorationAlignment, QIcon::Normal, QIcon::On);
+
+		if(index.data(RosterItem::TemporaryRole).toBool()) {
+			painter->drawPixmap(iconRect.adjusted(0, 8, -8, 0), Core::inst()->icon(KittySDK::Icons::I_DELETE));
+		}
 	}
 
 	QPalette::ColorGroup cg = (vopt.state & QStyle::State_Enabled) ? QPalette::Normal : QPalette::Disabled;

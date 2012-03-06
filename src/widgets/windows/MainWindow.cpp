@@ -452,6 +452,7 @@ void MainWindow::addContact(KittySDK::IContact *contact)
 
 	m_model->addContact(cnt, m_model->groupItem(contact->group()));
 	m_proxy->invalidate();
+	m_ui->rosterTreeView->update();
 }
 
 bool MainWindow::eventFilter(QObject *obj, QEvent *event)

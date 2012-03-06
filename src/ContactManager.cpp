@@ -109,11 +109,13 @@ const QStringList ContactManager::groups() const
 
 void ContactManager::add(KittySDK::IContact *contact)
 {
-	m_contacts.append(contact);
+	if(!m_contacts.contains(contact)) {
+		m_contacts.append(contact);
 
-	connect(contact, SIGNAL(statusChanged(KittySDK::IProtocol::Status,QString)), SLOT(updateStatus(KittySDK::IProtocol::Status,QString)));
+		connect(contact, SIGNAL(statusChanged(KittySDK::IProtocol::Status,QString)), SLOT(updateStatus(KittySDK::IProtocol::Status,QString)));
 
-	emit contactAdded(contact);
+		emit contactAdded(contact);
+	}
 }
 
 void ContactManager::load(const QString &profile)
@@ -169,14 +171,16 @@ void ContactManager::save(const QString &profile)
 	QVariantList list;
 
 	foreach(KittySDK::IContact *contact, m_contacts) {
-		QMap<QString, QVariant> settings = contact->saveSettings();
-		settings.insert("protocol", contact->account()->protocol()->protoInfo()->protoName());
-		settings.insert("account", contact->account()->uid());
-		settings.insert("uid", contact->uid());
-		settings.insert("display", contact->display());
-		settings.insert("group", contact->group());
+		if(!contact->data(KittySDK::ContactInfos::I_TEMPORARY).toBool()) {
+			QMap<QString, QVariant> settings = contact->saveSettings();
+			settings.insert("protocol", contact->account()->protocol()->protoInfo()->protoName());
+			settings.insert("account", contact->account()->uid());
+			settings.insert("uid", contact->uid());
+			settings.insert("display", contact->display());
+			settings.insert("group", contact->group());
 
-		list.append(settings);
+			list.append(settings);
+		}
 	}
 
 	QVariantMap map;

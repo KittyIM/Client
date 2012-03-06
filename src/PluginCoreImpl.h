@@ -31,7 +31,8 @@ namespace Kitty
 
 			int contactCount();
 			KittySDK::IContact *contact(const int &id);
-			QList<KittySDK::IContact*> contacts(const QString &account, const QString &protocol);
+			KittySDK::IContact *contact(const QString &protocol, const QString &account, const QString &uid);
+			QList<KittySDK::IContact*> contacts(const QString &protocol, const QString &account);
 			QList<KittySDK::IContact*> contacts(const QString &protocol);
 
 			QStringList plugins();

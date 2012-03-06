@@ -131,7 +131,16 @@ KittySDK::IContact *PluginCoreImpl::contact(const int &id)
 	return 0;
 }
 
-QList<KittySDK::IContact*> PluginCoreImpl::contacts(const QString &account, const QString &protocol)
+KittySDK::IContact *PluginCoreImpl::contact(const QString &protocol, const QString &account, const QString &uid)
+{
+	if(KittySDK::IAccount *acc = AccountManager::inst()->account(protocol, account)) {
+		return ContactManager::inst()->contact(acc, uid);
+	}
+
+	return 0;
+}
+
+QList<KittySDK::IContact*> PluginCoreImpl::contacts(const QString &protocol, const QString &account)
 {
 	return ContactManager::inst()->contactsByAccount(account, protocol);
 }

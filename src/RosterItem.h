@@ -23,6 +23,7 @@ namespace Kitty
 				StatusRole,
 				DescriptionRole,
 				AvatarRole,
+				TemporaryRole,
 				ExpandedRole
 			};
 
