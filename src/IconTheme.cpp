@@ -61,10 +61,10 @@ IconTheme::IconTheme(const QString &name)
 
 			file.close();
 		} else {
-			qDebug() << "Could not open icon theme file" << name;
+			qWarning() << "Could not open icon theme file" << name;
 		}
 	} else {
-		qDebug() << "Icon theme directory does not exist" << name;
+		qWarning() << "Icon theme directory does not exist" << name;
 	}
 }
 

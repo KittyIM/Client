@@ -14,7 +14,7 @@ namespace Kitty
 
 RosterItemModel::RosterItemModel(QObject *parent): QAbstractItemModel(parent)
 {
-	qDebug() << "Creating";
+	//qDebug() << "Creating";
 
 	m_root = new RosterItem();
 }

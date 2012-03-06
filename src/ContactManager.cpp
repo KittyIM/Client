@@ -120,7 +120,7 @@ void ContactManager::add(KittySDK::IContact *contact)
 
 void ContactManager::load(const QString &profile)
 {
-	qDebug() << "Loading contacts for" << profile;
+	//qDebug() << "Loading contacts for" << profile;
 
 	QFile file(Core::inst()->profilesDir() + profile + "/contacts.dat");
 	if(file.exists()) {

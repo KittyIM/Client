@@ -46,7 +46,7 @@ SettingsWindow::SettingsWindow(QWidget *parent):
 
 	setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
 
-	qDebug() << "Creating";
+	//qDebug() << "Creating";
 
 	Core *core = Core::inst();
 
@@ -149,7 +149,7 @@ void SettingsWindow::resetSettings()
 
 void SettingsWindow::addDefaultPages()
 {
-	qDebug() << "Adding default pages";
+	//qDebug() << "Adding default pages";
 
 	addPage(new MainSettings(this));
 	addPage(new StartupSettings(this), KittySDK::SettingPages::S_SETTINGS);

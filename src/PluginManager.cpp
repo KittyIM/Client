@@ -242,7 +242,7 @@ void PluginManager::execAction(const QString &pluginId, const QString &name, con
 
 void PluginManager::load()
 {
-	qDebug() << "Starting";
+	//qDebug() << "Starting";
 	QDir dir(qApp->applicationDirPath() + "/plugins");
 	QStringList filter;
 

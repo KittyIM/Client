@@ -82,7 +82,7 @@ void Profile::load(const QString &name)
 
 	//MessageQueue::inst()->load(name);
 
-	qDebug() << "Profile " + name + " loaded!";
+	//qDebug() << "Profile " + name + " loaded!";
 
 	if(PluginManager::inst()->hasError()) {
 		PluginErrorWindow dlg;
@@ -92,7 +92,7 @@ void Profile::load(const QString &name)
 
 void Profile::loadIconTheme(const QString &name)
 {
-	qDebug() << "Loading icon theme " + name;
+	//qDebug() << "Loading icon theme " + name;
 
 	IconTheme theme(name);
 	QHashIterator<QString, QString> i(theme.icons());

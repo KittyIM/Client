@@ -27,7 +27,7 @@ void IconManager::loadDefaults()
 {
 	IconTheme theme;
 
-	qDebug() << "Loading default icons [" << theme.icons().count() << "]";
+	//qDebug() << "Loading default icons [" << theme.icons().count() << "]";
 
 	QHashIterator<QString, QString> i(theme.icons());
 	while(i.hasNext()) {

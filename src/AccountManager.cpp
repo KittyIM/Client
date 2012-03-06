@@ -72,7 +72,7 @@ KittySDK::IAccount *AccountManager::account(const QString &protocol, const QStri
 
 bool AccountManager::add(KittySDK::IAccount *account)
 {
-	qDebug() << "Adding new account" << account->uid() << account->password() << account->protocol()->protoInfo()->protoName();
+	//qDebug() << "Adding new account" << account->uid() << account->password() << account->protocol()->protoInfo()->protoName();
 
 	foreach(KittySDK::IAccount *acc, accountsByProtocol(account->protocol())) {
 		if(account->uid() == acc->uid()) {
@@ -114,7 +114,7 @@ bool AccountManager::add(KittySDK::IAccount *account)
 
 void AccountManager::load(const QString &profile)
 {
-	qDebug() << "Loading accounts for" << profile;
+	//qDebug() << "Loading accounts for" << profile;
 
 	QFile file(Core::inst()->profilesDir() + profile + "/accounts.dat");
 	if(file.exists()) {
@@ -151,12 +151,12 @@ void AccountManager::load(const QString &profile)
 					}
 				}
 			} else {
-				qDebug() << "No accounts info!";
+				qWarning() << "No accounts info!";
 			}
 
 			file.close();
 		} else {
-			qDebug() << "Could not open file!";
+			qWarning() << "Could not open file!";
 		}
 	}
 

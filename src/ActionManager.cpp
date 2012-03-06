@@ -16,7 +16,7 @@ namespace Kitty
 
 void ActionManager::loadDefaults()
 {
-	qDebug() << "Loading default actions";
+	//qDebug() << "Loading default actions";
 
 	Core *core = Core::inst();
 
@@ -86,7 +86,7 @@ void ActionManager::insert(const QString &id, QAction *action)
 
 void ActionManager::updateIcons()
 {
-	qDebug() << "Updating icons";
+	//qDebug() << "Updating icons";
 
 	Core *core = Core::inst();
 

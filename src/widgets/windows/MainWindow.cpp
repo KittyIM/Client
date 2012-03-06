@@ -44,7 +44,7 @@ MainWindow::MainWindow(QWidget *parent):
 
 	setWindowFlags(windowFlags() | Qt::Tool);
 
-	qDebug() << "Creating";
+	//qDebug() << "Creating";
 
 	connect(m_ui->rosterTreeView, SIGNAL(vCardRequested(KittySDK::IContact*)), Core::inst(), SLOT(showContactWindow(KittySDK::IContact*)));
 	connect(m_ui->rosterTreeView, SIGNAL(historyRequested(KittySDK::IContact*)), this, SLOT(requestHistory(KittySDK::IContact*)));
@@ -161,7 +161,7 @@ bool MainWindow::isObscured()
 
 void MainWindow::initToolbars()
 {
-	qDebug() << "Initializing toolbars";
+	//qDebug() << "Initializing toolbars";
 
 	Core *core = Core::inst();
 
