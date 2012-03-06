@@ -214,7 +214,11 @@ void ContactWindow::on_buttonBox_accepted()
 	m_contact->setData(KittySDK::ContactInfos::I_FIRSTNAME, m_ui->firstNameEdit->text());
 	m_contact->setData(KittySDK::ContactInfos::I_MIDDLENAME, m_ui->middleNameEdit->text());
 	m_contact->setData(KittySDK::ContactInfos::I_LASTNAME, m_ui->lastNameEdit->text());
-	m_contact->setData(KittySDK::ContactInfos::I_BIRTHDAY, m_ui->birthdayDateEdit->date());
+
+	if(m_ui->birthdayDateEdit->date() != QDate(1900, 1, 1)) {
+		m_contact->setData(KittySDK::ContactInfos::I_BIRTHDAY, m_ui->birthdayDateEdit->date());
+	}
+
 	m_contact->setData(KittySDK::ContactInfos::I_SEX, m_ui->sexComboBox->currentIndex());
 
 	QString fileName = Core::inst()->avatarPath(m_contact);
@@ -402,23 +406,35 @@ void ContactWindow::updateSummary()
 		summary += QString("<center><b>%1</b></center>").arg(Qt::escape(m_contact->display()));
 	}
 
-	summary += "<center>";
-	if(m_contact->data(KittySDK::ContactInfos::I_SEX).toInt() == 1) {
+	QDate birthday = m_contact->data(KittySDK::ContactInfos::I_BIRTHDAY).toDate();
+	int sex = m_contact->data(KittySDK::ContactInfos::I_SEX).toInt();
+
+	if(sex || (birthday != QDate(1900, 1, 1))) {
+		summary += "<center>";
+	}
+
+	if(sex == 1) {
 		summary += tr("female");
-	} else if(m_contact->data(KittySDK::ContactInfos::I_SEX).toInt() == 2) {
+	} else if(sex == 2) {
 		summary += tr("male");
 	}
 
-	summary += " <b>";
+	if(birthday != QDate(1900, 1, 1)) {
+		summary += " <b>";
 
-	QDate birthday = m_contact->data(KittySDK::ContactInfos::I_BIRTHDAY).toDate();
-	int years = QDate::currentDate().year() - birthday.year();
-	if(QDate::currentDate() < birthday.addYears(years)) {
-		years--;
+		int years = QDate::currentDate().year() - birthday.year();
+		if(QDate::currentDate() < birthday.addYears(years)) {
+			years--;
+		}
+
+		summary += QString(tr("%1 years old")).arg(years);
+		summary += "</b>";
 	}
-	summary += QString(tr("%1 years old")).arg(years);
-	summary += "</b></center>";
-	summary += "<br>";
+
+	if(sex || (birthday != QDate(1900, 1, 1))) {
+		summary += "</center>";
+		summary += "<br>";
+	}
 
 	summary += "<b>" + tr("Account") + ":</b> " + Qt::escape(m_contact->protocol()->protoInfo()->protoName()) + " " + m_contact->account()->uid();
 	summary += "<br>";
