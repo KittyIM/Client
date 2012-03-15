@@ -45,7 +45,7 @@ Plugin::~Plugin()
 	delete m_translator;
 }
 
-bool Plugin::setup()
+bool Plugin::setup(PluginCoreImpl *pcore)
 {
 	QLibrary lib(m_fileName);
 
@@ -90,7 +90,7 @@ bool Plugin::setup()
 			return false;
 		}
 
-		m_plugin = dynamic_cast<KittySDK::IPlugin*>(inst(new PluginCoreImpl()));
+		m_plugin = dynamic_cast<KittySDK::IPlugin*>(inst(pcore));
 		if(!m_plugin) {
 			m_error = QObject::tr("Could not cast to IPlugin.");
 
@@ -178,15 +178,16 @@ const QList<Plugin*> &PluginManager::plugins() const
 
 PluginManager::PluginManager(Core *core):
 	QObject(core),
-	m_core(core)
+	m_core(core),
+	m_pluginCore(0)
 {
 	connect(this, SIGNAL(allLoaded()), SLOT(updateLanguages()));
-	connect(Core::inst()->settingsWindow(), SIGNAL(languageChanged()), SLOT(updateLanguages()));
+	connect(m_core->settingsWindow(), SIGNAL(languageChanged()), SLOT(updateLanguages()));
 }
 
 void PluginManager::updateLanguages()
 {
-	QString locale = Core::inst()->setting(KittySDK::Settings::S_LANGUAGE).toString();
+	QString locale = m_core->setting(KittySDK::Settings::S_LANGUAGE).toString();
 	if(locale.isEmpty()) {
 		locale = QLocale::system().name();
 	}
@@ -250,8 +251,8 @@ void PluginManager::execAction(const QString &pluginId, const QString &name, con
 		if(name == "openChat") {
 			QString chatId = args.value("chatId").toString();
 			if(!chatId.isEmpty()) {
-				if(KittySDK::IChat *chat = Core::inst()->chatManager()->chat(chatId)) {
-					Core::inst()->chatWindow()->showChat(chat);
+				if(KittySDK::IChat *chat = m_core->chatManager()->chat(chatId)) {
+					m_core->chatWindow()->showChat(chat);
 				}
 			}
 		}
@@ -287,10 +288,14 @@ void PluginManager::load()
 	filter.append("*.so");
 #endif
 
+	if(!m_pluginCore) {
+		m_pluginCore = new PluginCoreImpl(m_core);
+	}
+
 	QFileInfoList files = dir.entryInfoList(filter, QDir::Files);
 	foreach(const QFileInfo &info, files) {
 		Plugin *plug = new Plugin(info.absoluteFilePath());
-		if(plug->setup()) {
+		if(plug->setup(m_pluginCore)) {
 			plug->load();
 		}
 		m_plugins.append(plug);

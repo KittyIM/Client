@@ -94,7 +94,7 @@ void ChatManager::startChat(KittySDK::IContact *me, const QList<KittySDK::IConta
 		ch = createChat(me, contacts);
 	}
 
-	Core::inst()->chatWindow()->showChat(ch);
+	m_core->chatWindow()->showChat(ch);
 }
 
 KittySDK::IChat *ChatManager::createChat(KittySDK::IContact *me, const QList<KittySDK::IContact *> &contacts)
@@ -138,7 +138,7 @@ void ChatManager::receiveMessage(KittySDK::IMessage &msg)
 		msg.setChat(ch);
 
 		//see if we even need a notify
-		ChatWindow *chatWindow = Core::inst()->chatWindow();
+		ChatWindow *chatWindow = m_core->chatWindow();
 		if(!notify) {
 			if(!chatWindow->isVisible()) {
 				notify = true;
@@ -177,7 +177,7 @@ void ChatManager::receiveMessage(KittySDK::IMessage &msg)
 			notifyText += "\"</span></a>";
 
 			QMap<QString, QVariant> notifyArgs;
-			notifyArgs.insert("icon", Core::inst()->icon(KittySDK::Icons::I_MESSAGE));
+			notifyArgs.insert("icon", m_core->icon(KittySDK::Icons::I_MESSAGE));
 			notifyArgs.insert("text", notifyText);
 			m_core->pluginManager()->execAction("notify", "addNotify", notifyArgs);
 		}
@@ -192,7 +192,7 @@ void ChatManager::receiveMessage(KittySDK::IMessage &msg)
 
 	//maaaybe blink the taskbar
 	if(msg.direction() == KittySDK::IMessage::Incoming) {
-		QApplication::alert(Core::inst()->chatWindow());
+		QApplication::alert(m_core->chatWindow());
 	}
 }
 
@@ -200,7 +200,7 @@ void ChatManager::receiveTypingNotify(KittySDK::IContact *contact, bool typing, 
 {
 	KittySDK::IChat *ch = chat(contact->account()->me(), contact);
 	if(ch) {
-		ChatTab *tab = Core::inst()->chatWindow()->tabByChat(ch);
+		ChatTab *tab = m_core->chatWindow()->tabByChat(ch);
 		if(tab) {
 			tab->setTypingNotify(typing, length);
 		}

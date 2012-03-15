@@ -9,6 +9,7 @@ class QTranslator;
 
 namespace Kitty
 {
+	class PluginCoreImpl;
 	class Core;
 
 	class Plugin
@@ -17,7 +18,7 @@ namespace Kitty
 			Plugin(const QString &fileName);
 			~Plugin();
 
-			bool setup();
+			bool setup(PluginCoreImpl *pcore);
 			void init();
 			void load();
 			void unload();
@@ -66,6 +67,7 @@ namespace Kitty
 		private:
 			QList<Plugin*> m_plugins;
 			Core *m_core;
+			PluginCoreImpl *m_pluginCore;
 	};
 }
 

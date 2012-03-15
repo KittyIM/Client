@@ -24,7 +24,8 @@
 namespace Kitty
 {
 
-App::App(int &argc, char **argv): QApplication(argc, argv)
+App::App(int &argc, char **argv):
+	QApplication(argc, argv)
 {
 	m_startDate = QDateTime::currentDateTime();
 

@@ -12,12 +12,14 @@ namespace KittySDK
 
 namespace Kitty
 {
+	class Core;
+
 	class PluginCoreImpl: public KittySDK::IPluginCore
 	{
 		Q_OBJECT
 
 		public:
-			PluginCoreImpl(QObject *parent = 0);
+			PluginCoreImpl(Core *core);
 
 			QVariant setting(const QString &key, const QVariant &defaultValue = QVariant());
 			void setSetting(const QString &key, const QVariant &value);
@@ -61,6 +63,9 @@ namespace Kitty
 			void archiveMsg(const KittySDK::IMessage &msg);
 
 			virtual QString kittyVersion();
+
+		private:
+			Core *m_core;
 	};
 }
 

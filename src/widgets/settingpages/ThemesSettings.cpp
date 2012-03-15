@@ -152,7 +152,7 @@ void ThemesSettings::updateChatPreview()
 
 	ChatTheme theme(m_ui->chatThemeComboBox->currentText());
 
-	PluginCoreImpl core;
+	PluginCoreImpl core(m_core);
 	KittyProto proto(&core);
 	if(KittyAccount *acc = dynamic_cast<KittyAccount*>(proto.newAccount("me@example.com"))) {
 		if(KittySDK::IContact *kittyBot = acc->newContact("kittybot@kittyim.pl")) {

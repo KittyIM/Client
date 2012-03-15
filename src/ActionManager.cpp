@@ -28,9 +28,6 @@ ActionManager::~ActionManager()
 void ActionManager::loadDefaults()
 {
 	//qDebug() << "Loading default actions";
-
-	Core *core = Core::inst();
-
 	QAction *actQuit = new QAction(this);
 	actQuit->setProperty("icon_id", KittySDK::Icons::I_QUIT);
 	connect(actQuit, SIGNAL(triggered()), qApp, SLOT(quit()));
@@ -38,22 +35,22 @@ void ActionManager::loadDefaults()
 
 	QAction *actRestart = new QAction(this);
 	actRestart->setProperty("icon_id", KittySDK::Icons::I_REFRESH);
-	connect(actRestart, SIGNAL(triggered()), core, SLOT(restart()));
+	connect(actRestart, SIGNAL(triggered()), m_core, SLOT(restart()));
 	insert(KittySDK::Actions::A_RESTART, actRestart);
 
 	QAction *actProfileFolder = new QAction(this);
 	actProfileFolder->setProperty("icon_id", KittySDK::Icons::I_FOLDER);
-	connect(actProfileFolder, SIGNAL(triggered()), core, SLOT(openProfilesFolder()));
+	connect(actProfileFolder, SIGNAL(triggered()), m_core, SLOT(openProfilesFolder()));
 	insert(KittySDK::Actions::A_PROFILE_FOLDER, actProfileFolder);
 
 	QAction *actKittyFolder = new QAction(this);
 	actKittyFolder->setProperty("icon_id", KittySDK::Icons::I_FOLDER_KITTY);
-	connect(actKittyFolder, SIGNAL(triggered()), core, SLOT(openKittyFolder()));
+	connect(actKittyFolder, SIGNAL(triggered()), m_core, SLOT(openKittyFolder()));
 	insert(KittySDK::Actions::A_KITTY_FOLDER, actKittyFolder);
 
 	QAction *actAbout = new QAction(this);
 	actAbout->setProperty("icon_id", KittySDK::Icons::I_INFO);
-	connect(actAbout, SIGNAL(triggered()), core, SLOT(showAboutWindow()));
+	connect(actAbout, SIGNAL(triggered()), m_core, SLOT(showAboutWindow()));
 	insert(KittySDK::Actions::A_ABOUT, actAbout);
 
 	QAction *actDebug = new QAction(this);
@@ -63,25 +60,25 @@ void ActionManager::loadDefaults()
 
 	QAction *actSettings = new QAction(this);
 	actSettings->setProperty("icon_id", KittySDK::Icons::I_SETTINGS);
-	connect(actSettings, SIGNAL(triggered()), core, SLOT(showSettingsWindow()));
+	connect(actSettings, SIGNAL(triggered()), m_core, SLOT(showSettingsWindow()));
 	insert(KittySDK::Actions::A_SETTINGS, actSettings);
 
 	QAction *actShowHide = new QAction(this);
-	connect(actShowHide, SIGNAL(triggered()), core, SLOT(toggleMainWindow()));
+	connect(actShowHide, SIGNAL(triggered()), m_core, SLOT(toggleMainWindow()));
 	insert(KittySDK::Actions::A_SHOW_HIDE, actShowHide);
 
 	QAction *actAddContact = new QAction(this);
 	actAddContact->setProperty("icon_id", KittySDK::Icons::I_USER);
-	connect(actAddContact, SIGNAL(triggered()), core, SLOT(showAddContactWindow()));
+	connect(actAddContact, SIGNAL(triggered()), m_core, SLOT(showAddContactWindow()));
 	insert(KittySDK::Actions::A_ADD_CONTACT, actAddContact);
 
 	QAction *actHistory = new QAction(this);
 	actHistory->setProperty("icon_id", KittySDK::Icons::I_HISTORY);
-	connect(actHistory, SIGNAL(triggered()), core, SLOT(showHistoryWindow()));
+	connect(actHistory, SIGNAL(triggered()), m_core, SLOT(showHistoryWindow()));
 	insert(KittySDK::Actions::A_HISTORY, actHistory);
 
 	QAction *actChangeProfile = new QAction(this);
-	connect(actChangeProfile, SIGNAL(triggered()), core, SLOT(showProfilesWindow()));
+	connect(actChangeProfile, SIGNAL(triggered()), m_core, SLOT(showProfilesWindow()));
 	insert(KittySDK::Actions::A_CHANGE_PROFILE, actChangeProfile);
 
 	updateIcons();
@@ -99,14 +96,12 @@ void ActionManager::updateIcons()
 {
 	//qDebug() << "Updating icons";
 
-	Core *core = Core::inst();
-
 	QHashIterator<QString, QPointer<QAction> > it(m_actions);
 	while(it.hasNext()) {
 		it.next();
 
 		if(!it.value()->property("icon_id").isNull()) {
-			it.value()->setIcon(core->icon(it.value()->property("icon_id").toString()));
+			it.value()->setIcon(m_core->icon(it.value()->property("icon_id").toString()));
 		}
 	}
 }

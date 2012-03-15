@@ -141,7 +141,7 @@ void DebugWindow::on_refreshActionsButton_clicked()
 {
 	m_ui->actionsWidget->clear();
 
-	QStringList keys = Core::inst()->actionManager()->keys();
+	QStringList keys = m_core->actionManager()->keys();
 	qSort(keys);
 	foreach(QString key, keys) {
 		QString prefix;
@@ -153,7 +153,7 @@ void DebugWindow::on_refreshActionsButton_clicked()
 		QTreeWidgetItem *item = new QTreeWidgetItem();
 
 		item->setText(0, key);
-		item->setIcon(0, Core::inst()->action(key)->icon());
+		item->setIcon(0, m_core->action(key)->icon());
 
 		if(prefix.isEmpty()) {
 			m_ui->actionsWidget->addTopLevelItem(item);
@@ -174,7 +174,7 @@ void DebugWindow::on_refreshIconsButton_clicked()
 {
 	m_ui->iconsWidget->clear();
 
-	QStringList keys = Core::inst()->iconManager()->keys();
+	QStringList keys = m_core->iconManager()->keys();
 	qSort(keys);
 	foreach(QString key, keys) {
 		QString prefix;
@@ -186,7 +186,7 @@ void DebugWindow::on_refreshIconsButton_clicked()
 		QTreeWidgetItem *item = new QTreeWidgetItem();
 
 		item->setText(0, key);
-		item->setIcon(0, Core::inst()->icon(key));
+		item->setIcon(0, m_core->icon(key));
 
 		if(prefix.isEmpty()) {
 			m_ui->iconsWidget->addTopLevelItem(item);
@@ -206,7 +206,7 @@ void DebugWindow::on_refreshIconsButton_clicked()
 void DebugWindow::on_iconsWidget_currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous)
 {
 	if(current) {
-		m_ui->iconPreviewLabel->setPixmap(Core::inst()->icon(current->text(0)));
+		m_ui->iconPreviewLabel->setPixmap(m_core->icon(current->text(0)));
 	} else {
 		m_ui->iconPreviewLabel->setPixmap(QPixmap());
 	}

@@ -40,7 +40,7 @@ void MessageQueue::load(const QString &profile)
 {
 	//qDebug() << "loading queue" << profile;
 
-	QFile file(Core::inst()->profilesDir() + profile + "/queues.json");
+	QFile file(m_core->profilesDir() + profile + "/queues.json");
 	if(file.exists()) {
 		if(file.open(QIODevice::ReadOnly)) {
 			qDebug() << "1";
@@ -53,9 +53,9 @@ void MessageQueue::load(const QString &profile)
 					qDebug() << "3";
 					QVariantMap item = var.toMap();
 
-					if(KittySDK::IAccount *acc = Core::inst()->accountManager()->account(item.value("protocol").toString(), item.value("account").toString())) {
+					if(KittySDK::IAccount *acc = m_core->accountManager()->account(item.value("protocol").toString(), item.value("account").toString())) {
 						qDebug() << "4";
-						if(KittySDK::IContact *from = Core::inst()->contactManager()->contact(acc, item.value("from").toString())) {
+						if(KittySDK::IContact *from = m_core->contactManager()->contact(acc, item.value("from").toString())) {
 							qDebug() << "5";
 							QList<KittySDK::IContact*> to;
 
@@ -68,7 +68,7 @@ void MessageQueue::load(const QString &profile)
 							}
 
 							foreach(const QVariant &uid, item.value("to").toList()) {
-								if(KittySDK::IContact *cnt = Core::inst()->contactManager()->contact(acc, uid.toString())) {
+								if(KittySDK::IContact *cnt = m_core->contactManager()->contact(acc, uid.toString())) {
 									to << cnt;
 								}
 							}
@@ -84,7 +84,7 @@ void MessageQueue::load(const QString &profile)
 								quint32 msgId = item.value("msgId").toUInt();
 
 								m_queue.insert(msgId, msg);
-								Core::inst()->chatManager()->receiveMessage(*msg);
+								m_core->chatManager()->receiveMessage(*msg);
 								emit messageEnqueued(msgId, *msg);
 
 								m_nextId = qMax(m_nextId, msgId);
@@ -131,7 +131,7 @@ void MessageQueue::save(const QString &profile)
 	queueMap.insert("outgoing", outgoing);
 	queueMap.insert("incoming", incoming);
 
-	QFile file(Core::inst()->profilesDir() + profile + "/queues.json");
+	QFile file(m_core->profilesDir() + profile + "/queues.json");
 	if(file.open(QIODevice::ReadWrite)) {
 		file.resize(0);
 		file.write(/*qCompress(*/Json::stringify(queueMap).toAscii()/*)*/);
@@ -271,7 +271,7 @@ void MessageQueue::dequeue(const QString &chatId)
 void MessageQueue::dequeueAndShow(const quint32 &msgId)
 {
 	if(KittySDK::IMessage *msg = m_queue.value(msgId)) {
-		Core::inst()->chatWindow()->showChat(msg->chat());
+		m_core->chatWindow()->showChat(msg->chat());
 	}
 }
 

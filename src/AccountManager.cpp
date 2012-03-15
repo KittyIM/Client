@@ -102,13 +102,13 @@ bool AccountManager::add(KittySDK::IAccount *account)
 			action->setToolTip(action->text());
 		}
 
-		action->setIcon(Core::inst()->icon(account->protocol()->statusIcon(account->status())));
+		action->setIcon(m_core->icon(account->protocol()->statusIcon(account->status())));
 		action->setProperty("protocol", account->protocol()->protoInfo()->protoName());
 		action->setProperty("uid", account->uid());
-		//connect(account, SIGNAL(statusChanged(KittySDK::IProtocol::Status, QString)), Core::inst()->mainWindow(), SLOT(updateAccountStatusIcon()));
-		connect(action, SIGNAL(triggered()), Core::inst()->mainWindow(), SLOT(showAccountStatusMenu()));
+		//connect(account, SIGNAL(statusChanged(KittySDK::IProtocol::Status, QString)), m_core->mainWindow(), SLOT(updateAccountStatusIcon()));
+		connect(action, SIGNAL(triggered()), m_core->mainWindow(), SLOT(showAccountStatusMenu()));
 
-		Core::inst()->mainWindow()->addToolbarAction(KittySDK::Toolbars::TB_NETWORKS, action);
+		m_core->mainWindow()->addToolbarAction(KittySDK::Toolbars::TB_NETWORKS, action);
 	}
 
 	m_accounts.append(account);
@@ -122,7 +122,7 @@ void AccountManager::load(const QString &profile)
 {
 	//qDebug() << "Loading accounts for" << profile;
 
-	QFile file(Core::inst()->profilesDir() + profile + "/accounts.dat");
+	QFile file(m_core->profilesDir() + profile + "/accounts.dat");
 	if(file.exists()) {
 		if(file.open(QIODevice::ReadOnly)) {
 			QVariantMap map = Json::parse(qUncompress(file.readAll())).toMap();
@@ -197,7 +197,7 @@ void AccountManager::save(const QString &profile)
 	QVariantMap map;
 	map.insert("accounts", list);
 
-	QFile file(Core::inst()->profilesDir() + profile + "/accounts.dat");
+	QFile file(m_core->profilesDir() + profile + "/accounts.dat");
 	if(file.open(QIODevice::ReadWrite)) {
 		file.resize(0);
 		file.write(qCompress(Json::stringify(map).toAscii()));

@@ -128,7 +128,7 @@ void ContactManager::load(const QString &profile)
 {
 	//qDebug() << "Loading contacts for" << profile;
 
-	QFile file(Core::inst()->profilesDir() + profile + "/contacts.dat");
+	QFile file(m_core->profilesDir() + profile + "/contacts.dat");
 	if(file.exists()) {
 		if(file.open(QIODevice::ReadOnly)) {
 			QVariantMap map = Json::parse(qUncompress(file.readAll())).toMap();
@@ -138,7 +138,7 @@ void ContactManager::load(const QString &profile)
 					QVariantMap settings = item.toMap();
 
 					if(settings.contains("protocol") && settings.contains("account")) {
-						KittySDK::IAccount *account = Core::inst()->accountManager()->account(settings.value("protocol").toString(), settings.value("account").toString());
+						KittySDK::IAccount *account = m_core->accountManager()->account(settings.value("protocol").toString(), settings.value("account").toString());
 						if(account) {
 							KittySDK::IContact *cnt = account->newContact(settings.value("uid").toString());
 							cnt->setDisplay(settings.value("display").toString());
@@ -192,7 +192,7 @@ void ContactManager::save(const QString &profile)
 	QVariantMap map;
 	map.insert("contacts", list);
 
-	QFile file(Core::inst()->profilesDir() + profile + "/contacts.dat");
+	QFile file(m_core->profilesDir() + profile + "/contacts.dat");
 	if(file.open(QIODevice::ReadWrite)) {
 		file.resize(0);
 		file.write(qCompress(Json::stringify(map).toAscii()));
@@ -229,7 +229,7 @@ void ContactManager::updateStatus(KittySDK::IProtocol::Status status, const QStr
 				}
 
 				//this rule works only for Polish language, sorry
-				if((Core::inst()->setting(KittySDK::Settings::S_LANGUAGE).toString() == "pl") && (firstname.right(1) == "a")) {
+				if((m_core->setting(KittySDK::Settings::S_LANGUAGE).toString() == "pl") && (firstname.right(1) == "a")) {
 					female = true;
 				}
 			}
