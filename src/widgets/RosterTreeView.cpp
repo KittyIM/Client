@@ -106,7 +106,7 @@ void RosterTreeView::sendMessage()
 
 			if(contacts.count()) {
 				Core::inst()->mainWindow()->hideFilterEdit();
-				ChatManager::inst()->startChat(me, contacts);
+				Core::inst()->chatManager()->startChat(me, contacts);
 			}
 		}
 	}

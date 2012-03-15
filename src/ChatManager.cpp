@@ -25,6 +25,17 @@ bool contactCompare(KittySDK::IContact *left, KittySDK::IContact *right)
 namespace Kitty
 {
 
+ChatManager::ChatManager(Core *core):
+	QObject(core),
+	m_core(core)
+{
+}
+
+ChatManager::~ChatManager()
+{
+	qDeleteAll(m_chats);
+}
+
 const QList<KittySDK::IChat*> &ChatManager::chats() const
 {
 	return m_chats;
@@ -194,11 +205,6 @@ void ChatManager::receiveTypingNotify(KittySDK::IContact *contact, bool typing, 
 			tab->setTypingNotify(typing, length);
 		}
 	}
-}
-
-ChatManager::~ChatManager()
-{
-	qDeleteAll(m_chats);
 }
 
 }

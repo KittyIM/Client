@@ -87,10 +87,10 @@ bool AccountManager::add(KittySDK::IAccount *account)
 	}
 
 	connect(account, SIGNAL(statusChanged(KittySDK::IProtocol::Status,QString)), this, SLOT(notifyStatusChange(KittySDK::IProtocol::Status,QString)));
-	connect(account, SIGNAL(messageReceived(KittySDK::IMessage&)), ChatManager::inst(), SLOT(receiveMessage(KittySDK::IMessage&)));
+	connect(account, SIGNAL(messageReceived(KittySDK::IMessage&)), m_core->chatManager(), SLOT(receiveMessage(KittySDK::IMessage&)));
 	connect(account, SIGNAL(messageReceived(KittySDK::IMessage&)), MessageQueue::inst(), SLOT(enqueue(KittySDK::IMessage&)));
 	connect(account, SIGNAL(contactAdded(KittySDK::IContact*)), ContactManager::inst(), SLOT(add(KittySDK::IContact*)));
-	connect(account, SIGNAL(typingNotifyReceived(KittySDK::IContact*,bool,int)), ChatManager::inst(), SLOT(receiveTypingNotify(KittySDK::IContact*,bool,int)));
+	connect(account, SIGNAL(typingNotifyReceived(KittySDK::IContact*,bool,int)), m_core->chatManager(), SLOT(receiveTypingNotify(KittySDK::IContact*,bool,int)));
 
 	if(account->protocol()->abilities() & KittySDK::IProtocol::ChangeStatus) {
 		QAction *action = new QAction(this);

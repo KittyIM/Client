@@ -25,6 +25,7 @@ namespace Kitty
 	class HistoryWindow;
 	class JsonSettings;
 	class AboutWindow;
+	class ChatManager;
 	class ChatWindow;
 	class MainWindow;
 	class Profile;
@@ -63,6 +64,7 @@ namespace Kitty
 			JsonSettings *settings();
 
 			AccountManager *accountManager();
+			ChatManager *chatManager();
 
 			QString avatarPath(KittySDK::IContact *contact) const;
 			QString profileName() const;
@@ -108,6 +110,7 @@ namespace Kitty
 			QPointer<SettingsWindow> m_settingsWindow;
 			QPointer<HistoryWindow> m_historyWindow;
 			QPointer<AboutWindow> m_aboutWindow;
+			QPointer<ChatManager> m_chatManager;
 			QPointer<MainWindow> m_mainWindow;
 			QPointer<ChatWindow> m_chatWindow;
 			QPointer<Profile> m_profile;

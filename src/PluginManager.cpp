@@ -218,7 +218,7 @@ void PluginManager::execAction(const QString &pluginId, const QString &name, con
 		if(name == "openChat") {
 			QString chatId = args.value("chatId").toString();
 			if(!chatId.isEmpty()) {
-				if(KittySDK::IChat *chat = ChatManager::inst()->chat(chatId)) {
+				if(KittySDK::IChat *chat = Core::inst()->chatManager()->chat(chatId)) {
 					Core::inst()->chatWindow()->showChat(chat);
 				}
 			}

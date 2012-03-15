@@ -75,7 +75,7 @@ Core::~Core()
 
 	delete m_profile;
 
-	ChatManager::destr();
+	delete m_chatManager;
 	ContactManager::destr();
 	delete m_accountManager;
 
@@ -309,6 +309,15 @@ AccountManager *Core::accountManager()
 	}
 
 	return m_accountManager;
+}
+
+ChatManager *Core::chatManager()
+{
+	if(!m_chatManager) {
+		m_chatManager = new ChatManager(this);
+	}
+
+	return m_chatManager;
 }
 
 QString Core::avatarPath(KittySDK::IContact *contact) const

@@ -83,7 +83,7 @@ void MessageQueue::load(const QString &profile)
 								quint32 msgId = item.value("msgId").toUInt();
 
 								m_queue.insert(msgId, msg);
-								ChatManager::inst()->receiveMessage(*msg);
+								Core::inst()->chatManager()->receiveMessage(*msg);
 								emit messageEnqueued(msgId, *msg);
 
 								m_nextId = qMax(m_nextId, msgId);

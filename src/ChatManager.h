@@ -1,23 +1,22 @@
 #ifndef CHATMANAGER_H
 #define CHATMANAGER_H
 
-#include "Singleton.h"
-
 #include <IChat.h>
-
-#include <QtCore/QObject>
 
 bool contactCompare(KittySDK::IContact *left, KittySDK::IContact *right);
 
 namespace Kitty
 {
-	class ChatManager: public QObject, public Singleton<ChatManager>
+	class Core;
+
+	class ChatManager: public QObject
 	{
 		Q_OBJECT
 
-		friend class Singleton<ChatManager>;
-
 		public:
+			ChatManager(Core *core);
+			~ChatManager();
+
 			const QList<KittySDK::IChat*> &chats() const;
 			const QList<KittySDK::IChat*> chatsByAccount(KittySDK::IAccount *account) const;
 
@@ -33,10 +32,7 @@ namespace Kitty
 			void receiveTypingNotify(KittySDK::IContact *contact, bool typing, const int &length);
 
 		private:
-			ChatManager(QObject *parent = 0): QObject(parent) { }
-			~ChatManager();
-
-		private:
+			Core *m_core;
 			QList<KittySDK::IChat*> m_chats;
 	};
 }
