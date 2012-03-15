@@ -18,6 +18,7 @@ namespace KittySDK
 
 namespace Kitty
 {
+	class EmoticonManager;
 	class AccountManager;
 	class ContactManager;
 	class ProfilesWindow;
@@ -69,6 +70,7 @@ namespace Kitty
 			ChatManager *chatManager();
 			ActionManager *actionManager();
 			ContactManager *contactManager();
+			EmoticonManager *emoticonManager();
 
 			QString avatarPath(KittySDK::IContact *contact) const;
 			QString profileName() const;
@@ -109,6 +111,7 @@ namespace Kitty
 			bool m_portable;
 			QStringList m_appArguments;
 			QMap<QString, QPointer<ContactWindow> > m_contactWindows;
+			QPointer<EmoticonManager> m_emoticonManager;
 			QPointer<AccountManager> m_accountManager;
 			QPointer<ContactManager> m_contactManager;
 			QPointer<ProfilesWindow> m_profilesWindow;

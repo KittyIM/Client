@@ -9,6 +9,7 @@
 #include "widgets/windows/ChatWindow.h"
 #include "widgets/windows/MainWindow.h"
 #include "../lib/hunspell/hunspell.hxx"
+#include "EmoticonManager.h"
 #include "ProtocolManager.h"
 #include "AccountManager.h"
 #include "ContactManager.h"
@@ -336,6 +337,15 @@ ContactManager *Core::contactManager()
 	}
 
 	return m_contactManager;
+}
+
+EmoticonManager *Core::emoticonManager()
+{
+	if(!m_emoticonManager) {
+		m_emoticonManager = new EmoticonManager(this);
+	}
+
+	return m_emoticonManager;
 }
 
 QString Core::avatarPath(KittySDK::IContact *contact) const

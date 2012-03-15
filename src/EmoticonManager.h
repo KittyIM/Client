@@ -1,13 +1,12 @@
 #ifndef EMOTICONMANAGER_H
 #define EMOTICONMANAGER_H
 
-#include "Singleton.h"
-
 #include <QtCore/QStringList>
 
 namespace Kitty
 {
 	class EmoticonPack;
+	class Core;
 
 	class Emoticon
 	{
@@ -28,13 +27,14 @@ namespace Kitty
 			QStringList m_texts;
 	};
 
-	class EmoticonManager: public QObject, public Singleton<EmoticonManager>
+	class EmoticonManager: public QObject
 	{
 		Q_OBJECT
 
-		friend class Singleton<EmoticonManager>;
-
 		public:
+			EmoticonManager(Core *core);
+			~EmoticonManager();
+
 			QString parse(const QString &text);
 
 		public slots:
@@ -42,12 +42,8 @@ namespace Kitty
 			void applySettings();
 
 		private:
-			EmoticonManager(QObject *parent = 0): QObject(parent) { }
-			~EmoticonManager();
-
-		private:
 			QList<EmoticonPack*> m_packs;
-
+			Core *m_core;
 	};
 }
 

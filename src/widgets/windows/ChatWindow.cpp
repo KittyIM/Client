@@ -66,7 +66,7 @@ bool ChatWindow::isChatActive(KittySDK::IChat *chat)
 
 void ChatWindow::applySettings()
 {
-	EmoticonManager::inst()->load();
+	m_core->emoticonManager()->load();
 
 	if(m_theme) {
 		delete m_theme;

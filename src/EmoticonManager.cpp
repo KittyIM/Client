@@ -8,6 +8,12 @@
 namespace Kitty
 {
 
+EmoticonManager::EmoticonManager(Core *core):
+	QObject(core),
+	m_core(core)
+{
+}
+
 EmoticonManager::~EmoticonManager()
 {
 	qDeleteAll(m_packs);
