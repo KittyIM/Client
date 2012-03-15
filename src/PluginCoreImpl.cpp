@@ -203,7 +203,7 @@ QString PluginCoreImpl::kittyVersion()
 
 quint32 PluginCoreImpl::enqueueMsg(const KittySDK::IMessage &msg)
 {
-	return MessageQueue::inst()->enqueue(msg);
+	return Core::inst()->messageQueue()->enqueue(msg);
 }
 
 void PluginCoreImpl::archiveMsg(const KittySDK::IMessage &msg)

@@ -151,7 +151,7 @@ void ChatManager::receiveMessage(KittySDK::IMessage &msg)
 
 		//only 1 notify per chat
 		if(notify) {
-			if(MessageQueue::inst()->incomingForChat(ch) > 0) {
+			if(m_core->messageQueue()->incomingForChat(ch) > 0) {
 				notify = false;
 			}
 		}

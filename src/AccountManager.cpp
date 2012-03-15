@@ -88,7 +88,7 @@ bool AccountManager::add(KittySDK::IAccount *account)
 
 	connect(account, SIGNAL(statusChanged(KittySDK::IProtocol::Status,QString)), this, SLOT(notifyStatusChange(KittySDK::IProtocol::Status,QString)));
 	connect(account, SIGNAL(messageReceived(KittySDK::IMessage&)), m_core->chatManager(), SLOT(receiveMessage(KittySDK::IMessage&)));
-	connect(account, SIGNAL(messageReceived(KittySDK::IMessage&)), MessageQueue::inst(), SLOT(enqueue(KittySDK::IMessage&)));
+	connect(account, SIGNAL(messageReceived(KittySDK::IMessage&)), m_core->messageQueue(), SLOT(enqueue(KittySDK::IMessage&)));
 	connect(account, SIGNAL(contactAdded(KittySDK::IContact*)), m_core->contactManager(), SLOT(add(KittySDK::IContact*)));
 	connect(account, SIGNAL(typingNotifyReceived(KittySDK::IContact*,bool,int)), m_core->chatManager(), SLOT(receiveTypingNotify(KittySDK::IContact*,bool,int)));
 

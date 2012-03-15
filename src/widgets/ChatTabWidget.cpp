@@ -22,8 +22,8 @@ namespace Kitty
 
 ChatTabWidget::ChatTabWidget(QWidget *parent): QTabWidget(parent)
 {
-	connect(MessageQueue::inst(), SIGNAL(messageEnqueued(quint32,KittySDK::IMessage)), SLOT(setupBlinking(quint32,KittySDK::IMessage)));
-	connect(MessageQueue::inst(), SIGNAL(messageDequeued(quint32)), SLOT(unblinkIcon(quint32)));
+	connect(Core::inst()->messageQueue(), SIGNAL(messageEnqueued(quint32,KittySDK::IMessage)), SLOT(setupBlinking(quint32,KittySDK::IMessage)));
+	connect(Core::inst()->messageQueue(), SIGNAL(messageDequeued(quint32)), SLOT(unblinkIcon(quint32)));
 	connect(this, SIGNAL(currentChanged(int)), SLOT(updateTabFocus(int)));
 
 	m_closedButton = new QToolButton(this);
@@ -303,7 +303,7 @@ void ChatTabWidget::restoreClosedTab()
 void ChatTabWidget::setupBlinking(quint32 msgId, const KittySDK::IMessage &msg)
 {
 	if(msg.direction() == KittySDK::IMessage::Incoming) {
-		if(!MessageQueue::inst()->isFirstForChat(msg.chat())) {
+		if(!Core::inst()->messageQueue()->isFirstForChat(msg.chat())) {
 			return;
 		}
 

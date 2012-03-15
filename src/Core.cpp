@@ -16,6 +16,7 @@
 #include "PluginManager.h"
 #include "ActionManager.h"
 #include "JsonSettings.h"
+#include "MessageQueue.h"
 #include "IconManager.h"
 #include "ChatManager.h"
 #include "IconManager.h"
@@ -355,6 +356,15 @@ IconManager *Core::iconManager()
 	}
 
 	return m_iconManager;
+}
+
+MessageQueue *Core::messageQueue()
+{
+	if(!m_messageQueue) {
+		m_messageQueue = new MessageQueue(this);
+	}
+
+	return m_messageQueue;
 }
 
 QString Core::avatarPath(KittySDK::IContact *contact) const

@@ -10,14 +10,15 @@
 
 namespace Kitty
 {
+	class Core;
 
-	class MessageQueue: public QObject, public Singleton<MessageQueue>
+	class MessageQueue: public QObject
 	{
 		Q_OBJECT
 
-		friend class Singleton<MessageQueue>;
-
 		public:
+			MessageQueue(Core *core);
+
 			void load(const QString &profile);
 			void save(const QString &profile);
 
@@ -46,10 +47,8 @@ namespace Kitty
 			void checkAccountQueue(KittySDK::IAccount *account, KittySDK::IProtocol::Status status);
 
 		private:
-			MessageQueue(QObject *parent = 0);
-
-		private:
 			QMap<quint32, KittySDK::IMessage*> m_queue;
+			Core *m_core;
 			quint32 m_nextId;
 	};
 }

@@ -28,11 +28,12 @@ namespace KittySDK
 namespace Kitty
 {
 
-MessageQueue::MessageQueue(QObject *parent):
-	QObject(parent),
+MessageQueue::MessageQueue(Core *core):
+	QObject(core),
+	m_core(core),
 	m_nextId(0)
 {
-	connect(Core::inst()->accountManager(), SIGNAL(accountStatusChanged(KittySDK::IAccount*,KittySDK::IProtocol::Status,QString)), SLOT(checkAccountQueue(KittySDK::IAccount*,KittySDK::IProtocol::Status)));
+	connect(m_core->accountManager(), SIGNAL(accountStatusChanged(KittySDK::IAccount*,KittySDK::IProtocol::Status,QString)), SLOT(checkAccountQueue(KittySDK::IAccount*,KittySDK::IProtocol::Status)));
 }
 
 void MessageQueue::load(const QString &profile)

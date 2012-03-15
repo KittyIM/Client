@@ -59,7 +59,7 @@ ChatTab::ChatTab(KittySDK::IChat *chat, QWidget *parent):
 	connect(chat->contacts().first(), SIGNAL(statusChanged(KittySDK::IProtocol::Status,QString)), SLOT(changeStatus(KittySDK::IProtocol::Status, QString)));
 	connect(chat->contacts().first(), SIGNAL(dataChanged()), SIGNAL(tabChanged()));
 	connect(&m_cleanTimer, SIGNAL(timeout()), SLOT(clearMessages()));
-	connect(MessageQueue::inst(), SIGNAL(messageEnqueued(quint32,KittySDK::IMessage)), SLOT(checkDequeue(quint32,KittySDK::IMessage)));
+	connect(Core::inst()->messageQueue(), SIGNAL(messageEnqueued(quint32,KittySDK::IMessage)), SLOT(checkDequeue(quint32,KittySDK::IMessage)));
 	connect(m_ui->textEdit, SIGNAL(focusedIn()), SLOT(editFocused()));
 
 	m_toolBar = new QToolBar(this);
@@ -270,7 +270,7 @@ void ChatTab::updateIcons()
 
 void ChatTab::setEditFocus()
 {
-	MessageQueue::inst()->dequeue(m_chat);
+	Core::inst()->messageQueue()->dequeue(m_chat);
 	m_ui->textEdit->setFocus();
 }
 
@@ -594,7 +594,7 @@ void ChatTab::showEvent(QShowEvent *event)
 	QWidget::showEvent(event);
 
 	if(!event->spontaneous()) {
-		MessageQueue::inst()->dequeue(m_chat);
+		Core::inst()->messageQueue()->dequeue(m_chat);
 	}
 }
 
@@ -719,13 +719,13 @@ void ChatTab::showHistoryWindow()
 void ChatTab::checkDequeue(quint32 msgId, const KittySDK::IMessage &msg)
 {
 	if(m_ui->textEdit->hasFocus()) {
-		MessageQueue::inst()->dequeue(msgId);
+		Core::inst()->messageQueue()->dequeue(msgId);
 	}
 }
 
 void ChatTab::editFocused()
 {
-	MessageQueue::inst()->dequeue(m_chat);
+	Core::inst()->messageQueue()->dequeue(m_chat);
 }
 
 }

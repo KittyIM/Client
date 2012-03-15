@@ -46,7 +46,7 @@ Profile::~Profile()
 	if(isLoaded()) {
 		settings()->setValue(KittySDK::Settings::S_DEBUGWINDOW_GEOMETRY, DebugWindow::inst()->saveGeometry());
 
-		MessageQueue::inst()->save(m_name);
+		m_core->messageQueue()->save(m_name);
 		m_core->accountManager()->save(m_name);
 		m_core->contactManager()->save(m_name);
 	}

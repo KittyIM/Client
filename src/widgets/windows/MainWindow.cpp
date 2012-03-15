@@ -49,8 +49,8 @@ MainWindow::MainWindow(Core *core, QWidget *parent):
 
 	connect(m_ui->rosterTreeView, SIGNAL(vCardRequested(KittySDK::IContact*)), m_core, SLOT(showContactWindow(KittySDK::IContact*)));
 	connect(m_ui->rosterTreeView, SIGNAL(historyRequested(KittySDK::IContact*)), this, SLOT(requestHistory(KittySDK::IContact*)));
-	connect(MessageQueue::inst(), SIGNAL(messageEnqueued(quint32,KittySDK::IMessage)), SLOT(maybeSetupBlink(quint32)));
-	connect(MessageQueue::inst(), SIGNAL(messageDequeued(quint32)), SLOT(maybeUnblink(quint32)));
+	connect(m_core->messageQueue(), SIGNAL(messageEnqueued(quint32,KittySDK::IMessage)), SLOT(maybeSetupBlink(quint32)));
+	connect(m_core->messageQueue(), SIGNAL(messageDequeued(quint32)), SLOT(maybeUnblink(quint32)));
 	connect(&m_blinkTimer, SIGNAL(timeout()), SLOT(blinkTrayIcon()));
 
 	m_header = new RosterHeader(this);
@@ -495,7 +495,7 @@ void MainWindow::trayIconActivated(QSystemTrayIcon::ActivationReason reason)
 			m_core->action(KittySDK::Actions::A_SHOW_HIDE)->trigger();
 		} else {
 			if(m_blinkQueue.count()) {
-				MessageQueue::inst()->dequeueAndShow(m_blinkQueue.last());
+				m_core->messageQueue()->dequeueAndShow(m_blinkQueue.last());
 			}
 		}
 	} else if(reason == QSystemTrayIcon::Context) {

@@ -44,8 +44,8 @@ RosterTreeView::RosterTreeView(QWidget *parent):
 
 	connect(this, SIGNAL(expanded(QModelIndex)), SLOT(itemExpanded(QModelIndex)));
 	connect(this, SIGNAL(collapsed(QModelIndex)), SLOT(itemCollapsed(QModelIndex)));
-	connect(MessageQueue::inst(), SIGNAL(messageEnqueued(quint32,KittySDK::IMessage)), SLOT(setupBlinking(quint32,KittySDK::IMessage)));
-	connect(MessageQueue::inst(), SIGNAL(messageDequeued(quint32)), SLOT(unblinkIcon(quint32)));
+	connect(Core::inst()->messageQueue(), SIGNAL(messageEnqueued(quint32,KittySDK::IMessage)), SLOT(setupBlinking(quint32,KittySDK::IMessage)));
+	connect(Core::inst()->messageQueue(), SIGNAL(messageDequeued(quint32)), SLOT(unblinkIcon(quint32)));
 }
 
 void RosterTreeView::fixGroups()
@@ -249,7 +249,7 @@ void RosterTreeView::itemCollapsed(const QModelIndex &index)
 void RosterTreeView::setupBlinking(quint32 msgId, const KittySDK::IMessage &msg)
 {
 	if(msg.direction() == KittySDK::IMessage::Incoming) {
-		if(!MessageQueue::inst()->isFirstForChat(msg.chat())) {
+		if(!Core::inst()->messageQueue()->isFirstForChat(msg.chat())) {
 			return;
 		}
 
