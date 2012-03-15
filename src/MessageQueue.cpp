@@ -32,7 +32,7 @@ MessageQueue::MessageQueue(QObject *parent):
 	QObject(parent),
 	m_nextId(0)
 {
-	connect(AccountManager::inst(), SIGNAL(accountStatusChanged(KittySDK::IAccount*,KittySDK::IProtocol::Status,QString)), SLOT(checkAccountQueue(KittySDK::IAccount*,KittySDK::IProtocol::Status)));
+	connect(Core::inst()->accountManager(), SIGNAL(accountStatusChanged(KittySDK::IAccount*,KittySDK::IProtocol::Status,QString)), SLOT(checkAccountQueue(KittySDK::IAccount*,KittySDK::IProtocol::Status)));
 }
 
 void MessageQueue::load(const QString &profile)
@@ -52,7 +52,7 @@ void MessageQueue::load(const QString &profile)
 					qDebug() << "3";
 					QVariantMap item = var.toMap();
 
-					if(KittySDK::IAccount *acc = AccountManager::inst()->account(item.value("protocol").toString(), item.value("account").toString())) {
+					if(KittySDK::IAccount *acc = Core::inst()->accountManager()->account(item.value("protocol").toString(), item.value("account").toString())) {
 						qDebug() << "4";
 						if(KittySDK::IContact *from = ContactManager::inst()->contact(acc, item.value("from").toString())) {
 							qDebug() << "5";

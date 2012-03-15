@@ -18,7 +18,7 @@ DisplaySettings::DisplaySettings(Core *core, QWidget *parent):
 {
 	m_ui->setupUi(this);
 
-	connect(AccountManager::inst(), SIGNAL(accountAdded()), SLOT(refreshAccounts()));
+	connect(m_core->accountManager(), SIGNAL(accountAdded()), SLOT(refreshAccounts()));
 
 	setIcon(KittySDK::Icons::I_PALETTE);
 	setId(KittySDK::SettingPages::S_DISPLAY);
@@ -68,7 +68,7 @@ void DisplaySettings::refreshAccounts()
 {
 	m_ui->systemTrayAccountComboBox->clear();
 	m_ui->systemTrayAccountComboBox->addItem(m_core->icon(KittySDK::Icons::I_KITTY), tr("None, use Kitty's icon"));
-	foreach(KittySDK::IAccount *acc, AccountManager::inst()->accounts()) {
+	foreach(KittySDK::IAccount *acc, m_core->accountManager()->accounts()) {
 		if(KittySDK::IProtocol *proto = acc->protocol()) {
 			if(KittySDK::IProtocolInfo *info = proto->protoInfo()) {
 					QString text = QString("%1 (%2)").arg(acc->uid()).arg(info->protoName());

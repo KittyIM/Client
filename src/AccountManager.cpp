@@ -23,6 +23,12 @@
 namespace Kitty
 {
 
+AccountManager::AccountManager(Core *core):
+	QObject(core),
+	m_core(core)
+{
+}
+
 AccountManager::~AccountManager()
 {
 	qDeleteAll(m_accounts);

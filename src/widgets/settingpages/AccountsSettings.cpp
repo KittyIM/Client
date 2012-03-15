@@ -23,8 +23,8 @@ AccountsSettings::AccountsSettings(Core *core, QWidget *parent):
 {
 	m_ui->setupUi(this);
 
-	connect(AccountManager::inst(), SIGNAL(accountAdded()), SLOT(refreshAccounts()));
-	connect(AccountManager::inst(), SIGNAL(accountStatusChanged(KittySDK::IAccount*,KittySDK::IProtocol::Status,QString)), SLOT(refreshAccount(KittySDK::IAccount*)));
+	connect(m_core->accountManager(), SIGNAL(accountAdded()), SLOT(refreshAccounts()));
+	connect(m_core->accountManager(), SIGNAL(accountStatusChanged(KittySDK::IAccount*,KittySDK::IProtocol::Status,QString)), SLOT(refreshAccount(KittySDK::IAccount*)));
 
 	setIcon(KittySDK::Icons::I_KEY);
 	setId(KittySDK::SettingPages::S_USER_ACCOUNTS);
@@ -50,7 +50,7 @@ void AccountsSettings::reset()
 
 void AccountsSettings::refreshAccounts()
 {
-	foreach(KittySDK::IAccount *account, AccountManager::inst()->accounts()) {
+	foreach(KittySDK::IAccount *account, m_core->accountManager()->accounts()) {
 		refreshAccount(account);
 	}
 }
@@ -83,7 +83,7 @@ void AccountsSettings::addAccount()
 			if(QDialog *dlg = proto->editDialog()) {
 				dlg->exec();
 
-				AccountManager::inst()->save(m_core->profileName());
+				m_core->accountManager()->save(m_core->profileName());
 			} else {
 				qWarning() << "editDialog() returned 0";
 			}
@@ -122,11 +122,11 @@ void AccountsSettings::on_editButton_clicked()
 	QList<QTreeWidgetItem*> list = m_ui->treeWidget->selectedItems();
 	if(list.size() > 0) {
 		if(KittySDK::IProtocol *proto = ProtocolManager::inst()->protocolByName(list.first()->text(1))) {
-			if(KittySDK::IAccount *acc = AccountManager::inst()->account(proto, list.first()->text(0))) {
+			if(KittySDK::IAccount *acc = m_core->accountManager()->account(proto, list.first()->text(0))) {
 				if(QDialog *dlg = proto->editDialog(acc)) {
 					dlg->exec();
 
-					AccountManager::inst()->save(m_core->profileName());
+					m_core->accountManager()->save(m_core->profileName());
 				} else {
 					qWarning() << "editDialog() returned 0";
 				}

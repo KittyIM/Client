@@ -85,7 +85,7 @@ void ContactWindow::on_buttonBox_accepted()
 				QString protocol = m_ui->accountComboBox->itemData(m_ui->accountComboBox->currentIndex(), Qt::UserRole + 1).toString();
 				QString account = m_ui->accountComboBox->itemData(m_ui->accountComboBox->currentIndex(), Qt::UserRole + 2).toString();
 
-				KittySDK::IAccount *acc = AccountManager::inst()->account(protocol, account);
+				KittySDK::IAccount *acc = m_core->accountManager()->account(protocol, account);
 				if(acc) {
 					m_contact = acc->newContact(m_ui->uidEdit->text());
 					m_contact->setGroup(m_ui->groupComboBox->currentText());
@@ -266,7 +266,7 @@ void ContactWindow::loadData()
 	m_ui->groupComboBox->addItems(groups);
 
 	//add all accounts
-	foreach(KittySDK::IAccount *acc, AccountManager::inst()->accounts()) {
+	foreach(KittySDK::IAccount *acc, m_core->accountManager()->accounts()) {
 		m_ui->accountComboBox->addItem(QString("%1 (%2)").arg(acc->uid()).arg(acc->protocol()->protoInfo()->protoName()));
 		m_ui->accountComboBox->setItemIcon(m_ui->accountComboBox->count() - 1, m_core->icon(acc->protocol()->protoInfo()->protoIcon()));
 		m_ui->accountComboBox->setItemData(m_ui->accountComboBox->count() - 1, acc->protocol()->protoInfo()->protoName(), Qt::UserRole + 1);

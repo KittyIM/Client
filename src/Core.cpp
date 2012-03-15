@@ -77,7 +77,7 @@ Core::~Core()
 
 	ChatManager::destr();
 	ContactManager::destr();
-	AccountManager::destr();
+	delete m_accountManager;
 
 	ProtocolManager::destr();
 	PluginManager::destr();
@@ -300,6 +300,15 @@ Hunspell *Core::hunspell()
 JsonSettings *Core::settings()
 {
 	return profile()->settings();
+}
+
+AccountManager *Core::accountManager()
+{
+	if(!m_accountManager) {
+		m_accountManager = new AccountManager(this);
+	}
+
+	return m_accountManager;
 }
 
 QString Core::avatarPath(KittySDK::IContact *contact) const

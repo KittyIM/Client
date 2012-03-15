@@ -132,7 +132,7 @@ void ContactManager::load(const QString &profile)
 					QVariantMap settings = item.toMap();
 
 					if(settings.contains("protocol") && settings.contains("account")) {
-						KittySDK::IAccount *account = AccountManager::inst()->account(settings.value("protocol").toString(), settings.value("account").toString());
+						KittySDK::IAccount *account = Core::inst()->accountManager()->account(settings.value("protocol").toString(), settings.value("account").toString());
 						if(account) {
 							KittySDK::IContact *cnt = account->newContact(settings.value("uid").toString());
 							cnt->setDisplay(settings.value("display").toString());

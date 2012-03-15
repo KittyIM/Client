@@ -168,7 +168,7 @@ void HistoryWindow::loadData()
 					if(proto) {
 						accountItem->setIcon(m_core->icon(proto->protoInfo()->protoIcon()));
 
-						acc = AccountManager::inst()->account(proto, accountDir);
+						acc = m_core->accountManager()->account(proto, accountDir);
 					} else {
 						accountItem->setIcon(m_core->icon(KittySDK::Icons::I_BULLET));
 					}
@@ -253,7 +253,7 @@ void HistoryWindow::on_chatTree_currentItemChanged(QTreeWidgetItem *current, QTr
 			{
 				QString filePath = m_core->currentProfileDir() + QString("history/%1/%2/%3").arg(index.data(HistoryWindow::ProtocolRole).toString()).arg(index.data(HistoryWindow::AccountRole).toString()).arg(index.data(HistoryWindow::PathNameRole).toString());
 
-				KittySDK::IAccount *acc = AccountManager::inst()->account(index.data(HistoryWindow::ProtocolRole).toString(), index.data(HistoryWindow::AccountRole).toString());
+				KittySDK::IAccount *acc = m_core->accountManager()->account(index.data(HistoryWindow::ProtocolRole).toString(), index.data(HistoryWindow::AccountRole).toString());
 				KittySDK::IContact *contact = 0;
 				if(acc) {
 					contact = acc->contacts().value(QFileInfo(index.data(HistoryWindow::PathNameRole).toString()).completeBaseName());
@@ -411,7 +411,7 @@ void HistoryWindow::loadChats(const QItemSelection &selected, const QItemSelecti
 					db = QSqlDatabase::addDatabase("QSQLITE");
 				}
 
-				KittySDK::IAccount *acc = AccountManager::inst()->account(current.data(HistoryWindow::ProtocolRole).toString(), current.data().toString());
+				KittySDK::IAccount *acc = m_core->accountManager()->account(current.data(HistoryWindow::ProtocolRole).toString(), current.data().toString());
 
 				QDir accountPath = m_core->currentProfileDir() + QString("history/%1/%2/").arg(current.data(HistoryWindow::ProtocolRole).toString()).arg(current.data(HistoryWindow::PathNameRole).toString());
 				if(accountPath.exists()) {
@@ -477,7 +477,7 @@ void HistoryWindow::loadChats(const QItemSelection &selected, const QItemSelecti
 				m_ui->chatTree->headerItem()->setText(0, tr("Message"));
 				m_ui->chatTree->setColumnHidden(1, false);
 
-				KittySDK::IAccount *acc = AccountManager::inst()->account(current.data(HistoryWindow::ProtocolRole).toString(), current.data(HistoryWindow::AccountRole).toString());
+				KittySDK::IAccount *acc = m_core->accountManager()->account(current.data(HistoryWindow::ProtocolRole).toString(), current.data(HistoryWindow::AccountRole).toString());
 
 				if(QFile(filePath).exists()) {
 					QSqlDatabase db = QSqlDatabase::database();

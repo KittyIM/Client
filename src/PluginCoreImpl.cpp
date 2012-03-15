@@ -26,10 +26,10 @@ namespace Kitty
 PluginCoreImpl::PluginCoreImpl(QObject *parent)
 {
 	connect(PluginManager::inst(), SIGNAL(allLoaded()), SIGNAL(allPluginsLoaded()));
-	connect(AccountManager::inst(), SIGNAL(allLoaded()), SIGNAL(allAccountsLoaded()));
+	connect(Core::inst()->accountManager(), SIGNAL(allLoaded()), SIGNAL(allAccountsLoaded()));
 	connect(ContactManager::inst(), SIGNAL(allLoaded()), SIGNAL(allContactsLoaded()));
 
-	connect(AccountManager::inst(), SIGNAL(aboutToSave()), SIGNAL(accountsAboutToSave()));
+	connect(Core::inst()->accountManager(), SIGNAL(aboutToSave()), SIGNAL(accountsAboutToSave()));
 	connect(ContactManager::inst(), SIGNAL(aboutToSave()), SIGNAL(contactsAboutToSave()));
 }
 
@@ -90,7 +90,7 @@ void PluginCoreImpl::addToolbarAction(const QString &tb, QAction *action)
 
 void PluginCoreImpl::addAccount(KittySDK::IAccount *account)
 {
-	AccountManager::inst()->add(account);
+	Core::inst()->accountManager()->add(account);
 }
 
 QAction *PluginCoreImpl::action(const QString &id)
@@ -133,7 +133,7 @@ KittySDK::IContact *PluginCoreImpl::contact(const int &id)
 
 KittySDK::IContact *PluginCoreImpl::contact(const QString &protocol, const QString &account, const QString &uid)
 {
-	if(KittySDK::IAccount *acc = AccountManager::inst()->account(protocol, account)) {
+	if(KittySDK::IAccount *acc = Core::inst()->accountManager()->account(protocol, account)) {
 		return ContactManager::inst()->contact(acc, uid);
 	}
 

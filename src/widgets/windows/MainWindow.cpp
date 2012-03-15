@@ -55,8 +55,8 @@ MainWindow::MainWindow(Core *core, QWidget *parent):
 
 	m_header = new RosterHeader(this);
 	m_ui->headerToolBar->addWidget(m_header);
-	connect(m_header, SIGNAL(descriptionChanged(QString)), AccountManager::inst(), SLOT(changeDescription(QString)));
-	connect(m_header, SIGNAL(statusChanged(KittySDK::IProtocol::Status)), AccountManager::inst(), SLOT(changeStatus(KittySDK::IProtocol::Status)));
+	connect(m_header, SIGNAL(descriptionChanged(QString)), m_core->accountManager(), SLOT(changeDescription(QString)));
+	connect(m_header, SIGNAL(statusChanged(KittySDK::IProtocol::Status)), m_core->accountManager(), SLOT(changeStatus(KittySDK::IProtocol::Status)));
 
 	m_model = new RosterItemModel(m_ui->rosterTreeView);
 	m_proxy = new RosterSortProxy(m_ui->rosterTreeView);
@@ -67,7 +67,7 @@ MainWindow::MainWindow(Core *core, QWidget *parent):
 	m_ui->rosterTreeView->installEventFilter(this);
 	connect(m_ui->filterEdit, SIGNAL(textChanged(QString)), this, SLOT(setFilterText(QString)));
 
-	connect(AccountManager::inst(), SIGNAL(accountStatusChanged(KittySDK::IAccount*,KittySDK::IProtocol::Status,QString)), this, SLOT(updateAccountStatusIcon(KittySDK::IAccount*,KittySDK::IProtocol::Status,QString)));
+	connect(m_core->accountManager(), SIGNAL(accountStatusChanged(KittySDK::IAccount*,KittySDK::IProtocol::Status,QString)), this, SLOT(updateAccountStatusIcon(KittySDK::IAccount*,KittySDK::IProtocol::Status,QString)));
 	connect(ContactManager::inst(), SIGNAL(contactAdded(KittySDK::IContact*)), this, SLOT(addContact(KittySDK::IContact*)));
 
 	m_ui->rosterTreeView->setModel(m_proxy);
@@ -279,7 +279,7 @@ void MainWindow::applySettings()
 void MainWindow::showAccountStatusMenu()
 {
 	if(QAction *action = qobject_cast<QAction*>(sender())) {
-		if(KittySDK::IAccount *account = AccountManager::inst()->account(action->property("protocol").toString(), action->property("uid").toString())) {
+		if(KittySDK::IAccount *account = m_core->accountManager()->account(action->property("protocol").toString(), action->property("uid").toString())) {
 			if(QMenu *menu = account->statusMenu()) {
 				if(QToolButton *button = qobject_cast<QToolButton*>(m_ui->networksToolBar->widgetForAction(action))) {
 					menu->exec(button->mapToGlobal(QPoint(0, button->height() + 1)));
@@ -501,7 +501,7 @@ void MainWindow::trayIconActivated(QSystemTrayIcon::ActivationReason reason)
 	} else if(reason == QSystemTrayIcon::Context) {
 		QMenu menu;
 
-		foreach(KittySDK::IAccount *acc, AccountManager::inst()->accounts()) {
+		foreach(KittySDK::IAccount *acc, m_core->accountManager()->accounts()) {
 			if(QMenu *statusMenu = acc->statusMenu()) {
 				QAction *accAction = menu.addMenu(statusMenu);
 				accAction->setIcon(m_core->icon(acc->protocol()->statusIcon(acc->status())));
@@ -522,7 +522,7 @@ void MainWindow::trayIconActivated(QSystemTrayIcon::ActivationReason reason)
 
 void MainWindow::resetTrayIcon()
 {
-	if(KittySDK::IAccount *acc = AccountManager::inst()->account(m_core->setting(KittySDK::Settings::S_TRAYICON_PROTOCOL).toString(), m_core->setting(KittySDK::Settings::S_TRAYICON_ACCOUNT).toString())) {
+	if(KittySDK::IAccount *acc = m_core->accountManager()->account(m_core->setting(KittySDK::Settings::S_TRAYICON_PROTOCOL).toString(), m_core->setting(KittySDK::Settings::S_TRAYICON_ACCOUNT).toString())) {
 		if(KittySDK::IProtocol *proto = acc->protocol()) {
 			m_trayIcon->setIcon(m_core->icon(proto->statusIcon(acc->status())));
 		}

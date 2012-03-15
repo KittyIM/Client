@@ -47,7 +47,7 @@ Profile::~Profile()
 		settings()->setValue(KittySDK::Settings::S_DEBUGWINDOW_GEOMETRY, DebugWindow::inst()->saveGeometry());
 
 		MessageQueue::inst()->save(m_name);
-		AccountManager::inst()->save(m_name);
+		m_core->accountManager()->save(m_name);
 		ContactManager::inst()->save(m_name);
 	}
 }
@@ -72,7 +72,7 @@ void Profile::load(const QString &name)
 
 	PluginManager::inst()->load();
 
-	AccountManager::inst()->load(name);
+	m_core->accountManager()->load(name);
 
 	ContactManager::inst()->load(name);
 

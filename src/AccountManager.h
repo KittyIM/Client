@@ -1,19 +1,20 @@
 #ifndef ACCOUNTMANAGER_H
 #define ACCOUNTMANAGER_H
 
-#include "Singleton.h"
-
 #include <IAccount.h>
 
 namespace Kitty
 {
-	class AccountManager: public QObject, public Singleton<AccountManager>
+	class Core;
+
+	class AccountManager: public QObject
 	{
 		Q_OBJECT
 
-		friend class Singleton<AccountManager>;
-
 		public:
+			AccountManager(Core *core);
+			~AccountManager();
+
 			const QList<KittySDK::IAccount*> &accounts() const;
 			const QList<KittySDK::IAccount*> accountsByProtocol(KittySDK::IProtocol *protocol) const;
 
@@ -39,11 +40,8 @@ namespace Kitty
 			void notifyStatusChange(KittySDK::IProtocol::Status status, const QString &description);
 
 		private:
-			AccountManager(QObject *parent = 0): QObject(parent) { }
-			~AccountManager();
-
-		private:
 			QList<KittySDK::IAccount*> m_accounts;
+			Core *m_core;
 	};
 }
 

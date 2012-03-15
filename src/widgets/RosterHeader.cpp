@@ -11,13 +11,15 @@
 namespace Kitty
 {
 
-RosterHeader::RosterHeader(QWidget *parent): QWidget(parent), m_ui(new Ui::RosterHeader)
+RosterHeader::RosterHeader(QWidget *parent):
+	QWidget(parent),
+	m_ui(new Ui::RosterHeader)
 {
 	m_ui->setupUi(this);
 
 	connect(m_ui->statusTextEdit, SIGNAL(returnPressed(QString)), this, SIGNAL(descriptionChanged(QString)));
 	connect(m_ui->statusChangeButton, SIGNAL(statusChanged(KittySDK::IProtocol::Status)), this, SIGNAL(statusChanged(KittySDK::IProtocol::Status)));
-	connect(AccountManager::inst(), SIGNAL(accountStatusChanged(KittySDK::IAccount*,KittySDK::IProtocol::Status,QString)), this, SLOT(updateWidgets()));
+	connect(Core::inst()->accountManager(), SIGNAL(accountStatusChanged(KittySDK::IAccount*,KittySDK::IProtocol::Status,QString)), this, SLOT(updateWidgets()));
 }
 
 RosterHeader::~RosterHeader()
@@ -36,7 +38,7 @@ void RosterHeader::applySettings()
 void RosterHeader::updateWidgets()
 {
 	KittySDK::IProtocol::Status status = KittySDK::IProtocol::Offline;
-	foreach(KittySDK::IAccount *acc, AccountManager::inst()->accounts()) {
+	foreach(KittySDK::IAccount *acc, Core::inst()->accountManager()->accounts()) {
 		status = qMin(status, acc->status());
 	}
 
