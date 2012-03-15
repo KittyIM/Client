@@ -79,7 +79,7 @@ void AccountsSettings::refreshAccount(KittySDK::IAccount *account)
 void AccountsSettings::addAccount()
 {
 	if(QAction *action = qobject_cast<QAction*>(sender())) {
-		if(KittySDK::IProtocol *proto = ProtocolManager::inst()->protocolByName(action->text())) {
+		if(KittySDK::IProtocol *proto = m_core->protocolManager()->protocolByName(action->text())) {
 			if(QDialog *dlg = proto->editDialog()) {
 				dlg->exec();
 
@@ -100,7 +100,7 @@ void AccountsSettings::on_addButton_clicked()
 
 	QMenu menu;
 
-	foreach(KittySDK::IProtocol *proto, ProtocolManager::inst()->protocols()) {
+	foreach(KittySDK::IProtocol *proto, m_core->protocolManager()->protocols()) {
 		menu.addAction(m_core->iconManager()->icon(proto->protoInfo()->protoIcon()), proto->protoInfo()->protoName(), this, SLOT(addAccount()));
 	}
 
@@ -121,7 +121,7 @@ void AccountsSettings::on_editButton_clicked()
 {
 	QList<QTreeWidgetItem*> list = m_ui->treeWidget->selectedItems();
 	if(list.size() > 0) {
-		if(KittySDK::IProtocol *proto = ProtocolManager::inst()->protocolByName(list.first()->text(1))) {
+		if(KittySDK::IProtocol *proto = m_core->protocolManager()->protocolByName(list.first()->text(1))) {
 			if(KittySDK::IAccount *acc = m_core->accountManager()->account(proto, list.first()->text(0))) {
 				if(QDialog *dlg = proto->editDialog(acc)) {
 					dlg->exec();

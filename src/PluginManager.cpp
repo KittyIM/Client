@@ -107,7 +107,7 @@ bool Plugin::setup()
 				return false;
 			}
 
-			ProtocolManager::inst()->add(proto);
+			Core::inst()->protocolManager()->add(proto);
 		} else if(m_plugin->type() == KittySDK::IPlugin::Type) {
 			//nothing for now
 		} else {

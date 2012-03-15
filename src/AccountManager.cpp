@@ -65,7 +65,7 @@ KittySDK::IAccount *AccountManager::account(KittySDK::IProtocol *protocol, const
 
 KittySDK::IAccount *AccountManager::account(const QString &protocol, const QString &uid) const
 {
-	if(KittySDK::IProtocol *proto = ProtocolManager::inst()->protocolByName(protocol)) {
+	if(KittySDK::IProtocol *proto = m_core->protocolManager()->protocolByName(protocol)) {
 		foreach(KittySDK::IAccount *account, accountsByProtocol(proto)) {
 			if(account->uid() == uid) {
 				return account;
@@ -132,7 +132,7 @@ void AccountManager::load(const QString &profile)
 					QVariantMap settings = item.toMap();
 
 					if(settings.contains("protocol")) {
-						if(KittySDK::IProtocol *proto = ProtocolManager::inst()->protocolByName(settings.value("protocol").toString())) {
+						if(KittySDK::IProtocol *proto = m_core->protocolManager()->protocolByName(settings.value("protocol").toString())) {
 							Plugin *plug = m_core->pluginManager()->pluginById(proto->info()->id());
 							if(plug->isLoaded()) {
 								if(KittySDK::IAccount *acc = proto->newAccount(settings.value("uid").toString())) {

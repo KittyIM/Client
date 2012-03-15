@@ -8,6 +8,11 @@
 namespace Kitty
 {
 
+ProtocolManager::ProtocolManager(Core *core):
+	m_core(core)
+{
+}
+
 ProtocolManager::~ProtocolManager()
 {
 	qDeleteAll(m_protocols);

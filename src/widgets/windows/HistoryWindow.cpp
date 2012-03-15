@@ -153,7 +153,7 @@ void HistoryWindow::loadData()
 		QDir historyDir(m_core->currentProfileDir() + "history/");
 		if(historyDir.exists()) {
 			foreach(const QString &protoDir, historyDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot)) {
-				KittySDK::IProtocol *proto = ProtocolManager::inst()->protocolByName(protoDir);
+				KittySDK::IProtocol *proto = m_core->protocolManager()->protocolByName(protoDir);
 
 				historyDir.cd(protoDir);
 				foreach(const QString &accountDir, historyDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot)) {
