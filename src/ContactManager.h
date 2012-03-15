@@ -7,13 +7,16 @@
 
 namespace Kitty
 {
-	class ContactManager: public QObject, public Singleton<ContactManager>
+	class Core;
+
+	class ContactManager: public QObject
 	{
 		Q_OBJECT
 
-		friend class Singleton<ContactManager>;
-
 		public:
+			ContactManager(Core *core);
+			~ContactManager();
+
 			KittySDK::IContact *contact(KittySDK::IAccount *acc, const QString &uid) const;
 			const QList<KittySDK::IContact*> &contacts() const;
 			const QList<KittySDK::IContact*> contactsByProtocol(const QString &proto);
@@ -39,11 +42,8 @@ namespace Kitty
 			void updateStatus(KittySDK::IProtocol::Status status, const QString &description);
 
 		private:
-			ContactManager(QObject *parent = 0): QObject(parent) { }
-			~ContactManager();
-
-		private:
 			QList<KittySDK::IContact*> m_contacts;
+			Core *m_core;
 	};
 }
 

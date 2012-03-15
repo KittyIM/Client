@@ -92,7 +92,7 @@ void ContactWindow::on_buttonBox_accepted()
 
 					acc->insertContact(m_ui->uidEdit->text(), m_contact);
 
-					ContactManager::inst()->add(m_contact);
+					m_core->contactManager()->add(m_contact);
 				}
 			} else {
 				return;
@@ -262,7 +262,7 @@ void ContactWindow::loadData()
 	m_ui->groupComboBox->setCurrentIndex(0);
 
 	//add all the other groups
-	QStringList groups = ContactManager::inst()->groups();
+	QStringList groups = m_core->contactManager()->groups();
 	m_ui->groupComboBox->addItems(groups);
 
 	//add all accounts

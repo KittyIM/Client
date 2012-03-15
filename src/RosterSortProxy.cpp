@@ -21,7 +21,7 @@ RosterSortProxy::RosterSortProxy(QObject *parent): QSortFilterProxyModel(parent)
 	setDynamicSortFilter(true);
 	setFilterCaseSensitivity(Qt::CaseInsensitive);
 
-	connect(ContactManager::inst(), SIGNAL(statusUpdated()), SLOT(invalidate()));
+	connect(Core::inst()->contactManager(), SIGNAL(statusUpdated()), SLOT(invalidate()));
 }
 
 bool RosterSortProxy::lessThan(const QModelIndex &left, const QModelIndex &right) const

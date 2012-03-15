@@ -19,6 +19,12 @@
 namespace Kitty
 {
 
+ContactManager::ContactManager(Core *core):
+	QObject(core),
+	m_core(core)
+{
+}
+
 ContactManager::~ContactManager()
 {
 	qDeleteAll(m_contacts);
@@ -320,5 +326,6 @@ void ContactManager::updateStatus(KittySDK::IProtocol::Status status, const QStr
 
 	emit statusUpdated();
 }
+
 
 }

@@ -68,7 +68,7 @@ MainWindow::MainWindow(Core *core, QWidget *parent):
 	connect(m_ui->filterEdit, SIGNAL(textChanged(QString)), this, SLOT(setFilterText(QString)));
 
 	connect(m_core->accountManager(), SIGNAL(accountStatusChanged(KittySDK::IAccount*,KittySDK::IProtocol::Status,QString)), this, SLOT(updateAccountStatusIcon(KittySDK::IAccount*,KittySDK::IProtocol::Status,QString)));
-	connect(ContactManager::inst(), SIGNAL(contactAdded(KittySDK::IContact*)), this, SLOT(addContact(KittySDK::IContact*)));
+	connect(m_core->contactManager(), SIGNAL(contactAdded(KittySDK::IContact*)), this, SLOT(addContact(KittySDK::IContact*)));
 
 	m_ui->rosterTreeView->setModel(m_proxy);
 	m_ui->rosterTreeView->setSortingEnabled(true);

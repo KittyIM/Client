@@ -27,10 +27,10 @@ PluginCoreImpl::PluginCoreImpl(QObject *parent)
 {
 	connect(PluginManager::inst(), SIGNAL(allLoaded()), SIGNAL(allPluginsLoaded()));
 	connect(Core::inst()->accountManager(), SIGNAL(allLoaded()), SIGNAL(allAccountsLoaded()));
-	connect(ContactManager::inst(), SIGNAL(allLoaded()), SIGNAL(allContactsLoaded()));
+	connect(Core::inst()->contactManager(), SIGNAL(allLoaded()), SIGNAL(allContactsLoaded()));
 
 	connect(Core::inst()->accountManager(), SIGNAL(aboutToSave()), SIGNAL(accountsAboutToSave()));
-	connect(ContactManager::inst(), SIGNAL(aboutToSave()), SIGNAL(contactsAboutToSave()));
+	connect(Core::inst()->contactManager(), SIGNAL(aboutToSave()), SIGNAL(contactsAboutToSave()));
 }
 
 QVariant PluginCoreImpl::setting(const QString &key, const QVariant &defaultValue)
@@ -119,13 +119,13 @@ void PluginCoreImpl::addIcon(const QString &id, const QPixmap &pixmap, bool repl
 
 int PluginCoreImpl::contactCount()
 {
-	return ContactManager::inst()->contacts().count();
+	return Core::inst()->contactManager()->contacts().count();
 }
 
 KittySDK::IContact *PluginCoreImpl::contact(const int &id)
 {
 	if((id >= 0) && (id < contactCount())) {
-		return ContactManager::inst()->contacts().at(id);
+		return Core::inst()->contactManager()->contacts().at(id);
 	}
 
 	return 0;
@@ -134,7 +134,7 @@ KittySDK::IContact *PluginCoreImpl::contact(const int &id)
 KittySDK::IContact *PluginCoreImpl::contact(const QString &protocol, const QString &account, const QString &uid)
 {
 	if(KittySDK::IAccount *acc = Core::inst()->accountManager()->account(protocol, account)) {
-		return ContactManager::inst()->contact(acc, uid);
+		return Core::inst()->contactManager()->contact(acc, uid);
 	}
 
 	return 0;
@@ -142,12 +142,12 @@ KittySDK::IContact *PluginCoreImpl::contact(const QString &protocol, const QStri
 
 QList<KittySDK::IContact*> PluginCoreImpl::contacts(const QString &protocol, const QString &account)
 {
-	return ContactManager::inst()->contactsByAccount(account, protocol);
+	return Core::inst()->contactManager()->contactsByAccount(account, protocol);
 }
 
 QList<KittySDK::IContact*> PluginCoreImpl::contacts(const QString &protocol)
 {
-	return ContactManager::inst()->contactsByProtocol(protocol);
+	return Core::inst()->contactManager()->contactsByProtocol(protocol);
 }
 
 QStringList PluginCoreImpl::plugins()

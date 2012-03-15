@@ -48,7 +48,7 @@ Profile::~Profile()
 
 		MessageQueue::inst()->save(m_name);
 		m_core->accountManager()->save(m_name);
-		ContactManager::inst()->save(m_name);
+		m_core->contactManager()->save(m_name);
 	}
 }
 
@@ -73,8 +73,7 @@ void Profile::load(const QString &name)
 	PluginManager::inst()->load();
 
 	m_core->accountManager()->load(name);
-
-	ContactManager::inst()->load(name);
+	m_core->contactManager()->load(name);
 
 	if(!m_core->setting(KittySDK::Settings::S_MAINWINDOW_STARTHIDDEN).toBool()) {
 		m_core->mainWindow()->show();

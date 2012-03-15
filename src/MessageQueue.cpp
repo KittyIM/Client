@@ -54,7 +54,7 @@ void MessageQueue::load(const QString &profile)
 
 					if(KittySDK::IAccount *acc = Core::inst()->accountManager()->account(item.value("protocol").toString(), item.value("account").toString())) {
 						qDebug() << "4";
-						if(KittySDK::IContact *from = ContactManager::inst()->contact(acc, item.value("from").toString())) {
+						if(KittySDK::IContact *from = Core::inst()->contactManager()->contact(acc, item.value("from").toString())) {
 							qDebug() << "5";
 							QList<KittySDK::IContact*> to;
 
@@ -67,7 +67,7 @@ void MessageQueue::load(const QString &profile)
 							}
 
 							foreach(const QVariant &uid, item.value("to").toList()) {
-								if(KittySDK::IContact *cnt = ContactManager::inst()->contact(acc, uid.toString())) {
+								if(KittySDK::IContact *cnt = Core::inst()->contactManager()->contact(acc, uid.toString())) {
 									to << cnt;
 								}
 							}

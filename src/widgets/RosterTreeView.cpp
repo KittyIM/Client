@@ -351,7 +351,7 @@ void RosterTreeView::mousePressEvent(QMouseEvent *event)
 					groupMenu->addSeparator();
 
 					// TODO:
-					QStringList groups = ContactManager::inst()->groups();
+					QStringList groups = Core::inst()->contactManager()->groups();
 					foreach(QString group, groups) {
 						QAction *action = groupMenu->addAction(group, this, SLOT(moveToGroup()));
 						action->setProperty("group", group);
