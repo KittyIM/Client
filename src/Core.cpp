@@ -82,7 +82,7 @@ Core::~Core()
 	delete m_accountManager;
 
 	ProtocolManager::destr();
-	PluginManager::destr();
+	delete m_pluginManager;
 
 	DebugWindow::destr();
 }
@@ -203,7 +203,7 @@ ChatWindow *Core::chatWindow()
 AboutWindow *Core::aboutWindow()
 {
 	if(!m_aboutWindow) {
-		m_aboutWindow = new AboutWindow();
+		m_aboutWindow = new AboutWindow(this);
 	}
 
 	return m_aboutWindow;
@@ -365,6 +365,15 @@ MessageQueue *Core::messageQueue()
 	}
 
 	return m_messageQueue;
+}
+
+PluginManager *Core::pluginManager()
+{
+	if(!m_pluginManager) {
+		m_pluginManager = new PluginManager(this);
+	}
+
+	return m_pluginManager;
 }
 
 QString Core::avatarPath(KittySDK::IContact *contact) const

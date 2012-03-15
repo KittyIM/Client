@@ -363,7 +363,7 @@ void ChatTab::sendMessage()
 		msg.setBody(html.trimmed());
 		msg.setChat(m_chat);
 
-		QList<Plugin*> plugins = PluginManager::inst()->plugins();
+		QList<Plugin*> plugins = Core::inst()->pluginManager()->plugins();
 		foreach(Plugin *plugin, plugins) {
 			if(plugin->isLoaded()) {
 				plugin->iplugin()->processMessage(msg);
@@ -513,7 +513,7 @@ void ChatTab::sendImage(const QString &fileName)
 	msg.setBody(QString("<img src=\"%1\" alt=\"%2\" title=\"%2\">").arg(fileName).arg(Qt::escape(QFileInfo(fileName).fileName())));
 	msg.setChat(m_chat);
 
-	QList<Plugin*> plugins = PluginManager::inst()->plugins();
+	QList<Plugin*> plugins = Core::inst()->pluginManager()->plugins();
 	foreach(Plugin *plugin, plugins) {
 		if(plugin->isLoaded()) {
 			plugin->iplugin()->processMessage(msg);

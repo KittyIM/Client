@@ -175,6 +175,38 @@ const QList<Plugin*> &PluginManager::plugins() const
 	return m_plugins;
 }
 
+
+PluginManager::PluginManager(Core *core):
+	QObject(core),
+	m_core(core)
+{
+	connect(this, SIGNAL(allLoaded()), SLOT(updateLanguages()));
+	connect(Core::inst()->settingsWindow(), SIGNAL(languageChanged()), SLOT(updateLanguages()));
+}
+
+void PluginManager::updateLanguages()
+{
+	QString locale = Core::inst()->setting(KittySDK::Settings::S_LANGUAGE).toString();
+	if(locale.isEmpty()) {
+		locale = QLocale::system().name();
+	}
+
+	foreach(Plugin *plugin, m_plugins) {
+		if(plugin->hasError()) {
+			continue;
+		}
+
+		plugin->changeLocale(locale);
+		plugin->iplugin()->execAction("retranslate", QMap<QString, QVariant>());
+	}
+}
+
+PluginManager::~PluginManager()
+{
+	qDeleteAll(m_plugins);
+}
+
+
 Plugin *PluginManager::pluginById(const QString &id) const
 {
 	foreach(Plugin *plugin, m_plugins) {
@@ -265,35 +297,6 @@ void PluginManager::load()
 	}
 
 	emit allLoaded();
-}
-
-PluginManager::~PluginManager()
-{
-	qDeleteAll(m_plugins);
-}
-
-PluginManager::PluginManager(QObject *parent):
-	QObject(parent)
-{
-	connect(this, SIGNAL(allLoaded()), SLOT(updateLanguages()));
-	connect(Core::inst()->settingsWindow(), SIGNAL(languageChanged()), SLOT(updateLanguages()));
-}
-
-void PluginManager::updateLanguages()
-{
-	QString locale = Core::inst()->setting(KittySDK::Settings::S_LANGUAGE).toString();
-	if(locale.isEmpty()) {
-		locale = QLocale::system().name();
-	}
-
-	foreach(Plugin *plugin, m_plugins) {
-		if(plugin->hasError()) {
-			continue;
-		}
-
-		plugin->changeLocale(locale);
-		plugin->iplugin()->execAction("retranslate", QMap<QString, QVariant>());
-	}
 }
 
 }

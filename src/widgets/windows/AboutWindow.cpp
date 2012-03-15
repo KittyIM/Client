@@ -3,8 +3,10 @@
 
 #include "3rdparty/qtwin/qtwin.h"
 #include "PluginManager.h"
-#include <IPlugin.h>
 #include "constants.h"
+#include "Core.h"
+
+#include <IPlugin.h>
 
 #include <QtCore/QDebug>
 
@@ -14,7 +16,10 @@
 namespace Kitty
 {
 
-AboutWindow::AboutWindow(QWidget *parent): QDialog(parent), m_ui(new Ui::AboutWindow)
+AboutWindow::AboutWindow(Core *core, QWidget *parent):
+	QDialog(parent),
+	m_ui(new Ui::AboutWindow),
+	m_core(core)
 {
 	m_ui->setupUi(this);
 
@@ -66,7 +71,7 @@ void AboutWindow::updateAboutText()
 
 	text.append(QString("<br><b>%1</b><br>").arg(tr("Plugins")));
 
-	foreach(Plugin *plug, PluginManager::inst()->plugins()) {
+	foreach(Plugin *plug, m_core->pluginManager()->plugins()) {
 		if(plug->hasError()) {
 			continue;
 		}

@@ -10,12 +10,14 @@ namespace Ui
 
 namespace Kitty
 {
+	class Core;
+
 	class AboutWindow: public QDialog
 	{
 		Q_OBJECT
 
 		public:
-			explicit AboutWindow(QWidget *parent = 0);
+			AboutWindow(Core *core, QWidget *parent = 0);
 			~AboutWindow();
 
 		protected:
@@ -27,6 +29,7 @@ namespace Kitty
 
 		private:
 			Ui::AboutWindow *m_ui;
+			Core *m_core;
 	};
 }
 

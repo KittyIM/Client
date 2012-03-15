@@ -25,7 +25,7 @@ namespace Kitty
 
 PluginCoreImpl::PluginCoreImpl(QObject *parent)
 {
-	connect(PluginManager::inst(), SIGNAL(allLoaded()), SIGNAL(allPluginsLoaded()));
+	connect(Core::inst()->pluginManager(), SIGNAL(allLoaded()), SIGNAL(allPluginsLoaded()));
 	connect(Core::inst()->accountManager(), SIGNAL(allLoaded()), SIGNAL(allAccountsLoaded()));
 	connect(Core::inst()->contactManager(), SIGNAL(allLoaded()), SIGNAL(allContactsLoaded()));
 
@@ -45,7 +45,7 @@ void PluginCoreImpl::setSetting(const QString &key, const QVariant &value)
 
 void PluginCoreImpl::execPluginAction(const QString &pluginId, const QString &name, const QMap<QString, QVariant> &args)
 {
-	PluginManager::inst()->execAction(pluginId, name, args);
+	Core::inst()->pluginManager()->execAction(pluginId, name, args);
 }
 
 QString PluginCoreImpl::profileName()
@@ -153,7 +153,7 @@ QList<KittySDK::IContact*> PluginCoreImpl::contacts(const QString &protocol)
 QStringList PluginCoreImpl::plugins()
 {
 	QStringList result;
-	QList<Plugin*> plugins = PluginManager::inst()->plugins();
+	QList<Plugin*> plugins = Core::inst()->pluginManager()->plugins();
 
 	foreach(Plugin *plug, plugins) {
 		if(plug->hasError()) {

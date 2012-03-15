@@ -40,7 +40,7 @@ void PluginsSettings::reset()
 	m_ui->pluginInfoGroupBox->hide();
 	m_ui->pluginWidget->clear();
 
-	foreach(Plugin *plugin, PluginManager::inst()->plugins()) {
+	foreach(Plugin *plugin, m_core->pluginManager()->plugins()) {
 		if(plugin->hasError()) {
 			continue;
 		}
@@ -65,7 +65,7 @@ void PluginsSettings::reset()
 void PluginsSettings::on_pluginWidget_currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous)
 {
 	if(current) {
-		Plugin *plug = PluginManager::inst()->pluginByFileName(current->text(2));
+		Plugin *plug = m_core->pluginManager()->pluginByFileName(current->text(2));
 		if(plug) {
 			if(KittySDK::IPluginInfo *info = plug->iplugin()->info()) {
 				if(!info->name().isEmpty()) {
@@ -136,9 +136,9 @@ void PluginsSettings::retranslate()
 
 	for(int i = 0; i < m_ui->pluginWidget->topLevelItemCount(); ++i) {
 		QTreeWidgetItem *item = m_ui->pluginWidget->topLevelItem(i);
-		if(Plugin *plugin = PluginManager::inst()->pluginById(item->text(4))) {
+		if(Plugin *plugin = m_core->pluginManager()->pluginById(item->text(4))) {
 			item->setText(0, plugin->iplugin()->info()->name());
-			item->setText(3, (plugin->isLoaded())?tr("Loaded"):tr("Not loaded"));
+			item->setText(3, plugin->isLoaded() ? tr("Loaded") : tr("Not loaded"));
 		}
 	}
 }

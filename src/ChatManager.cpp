@@ -109,7 +109,7 @@ KittySDK::IChat *ChatManager::createChat(KittySDK::IContact *me, const QList<Kit
 
 void ChatManager::receiveMessage(KittySDK::IMessage &msg)
 {
-	QList<Plugin*> plugins = PluginManager::inst()->plugins();
+	QList<Plugin*> plugins = m_core->pluginManager()->plugins();
 	foreach(Plugin *plugin, plugins) {
 		if(plugin->isLoaded()) {
 			plugin->iplugin()->receiveMessage(msg);
@@ -179,11 +179,11 @@ void ChatManager::receiveMessage(KittySDK::IMessage &msg)
 			QMap<QString, QVariant> notifyArgs;
 			notifyArgs.insert("icon", Core::inst()->icon(KittySDK::Icons::I_MESSAGE));
 			notifyArgs.insert("text", notifyText);
-			PluginManager::inst()->execAction("notify", "addNotify", notifyArgs);
+			m_core->pluginManager()->execAction("notify", "addNotify", notifyArgs);
 		}
 
 		//let the music play!
-		PluginManager::inst()->execAction("sounds", "playSound", soundsArgs);
+		m_core->pluginManager()->execAction("sounds", "playSound", soundsArgs);
 
 		//show the window
 		ChatTab *tab = chatWindow->startChat(ch);

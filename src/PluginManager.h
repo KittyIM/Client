@@ -1,8 +1,6 @@
 #ifndef PLUGINMANAGER_H
 #define PLUGINMANAGER_H
 
-#include "Singleton.h"
-
 #include <IPlugin.h>
 
 #include <QtCore/QDebug>
@@ -11,6 +9,8 @@ class QTranslator;
 
 namespace Kitty
 {
+	class Core;
+
 	class Plugin
 	{
 		public:
@@ -39,13 +39,14 @@ namespace Kitty
 			QTranslator *m_translator;
 	};
 
-	class PluginManager: public QObject, public Singleton<PluginManager>
+	class PluginManager: public QObject
 	{
 		Q_OBJECT
 
-		friend class Singleton<PluginManager>;
-
 		public:
+			PluginManager(Core *core);
+			~PluginManager();
+
 			const QList<Plugin*> &plugins() const;
 			Plugin *pluginById(const QString &id) const;
 			Plugin *pluginByFileName(const QString &fileName) const;
@@ -63,11 +64,8 @@ namespace Kitty
 			void updateLanguages();
 
 		private:
-			explicit PluginManager(QObject *parent = 0);
-			~PluginManager();
-
-		private:
 			QList<Plugin*> m_plugins;
+			Core *m_core;
 	};
 }
 

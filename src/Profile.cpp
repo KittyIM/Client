@@ -70,8 +70,7 @@ void Profile::load(const QString &name)
 
 	connect(m_core->iconManager(), SIGNAL(iconsUpdated()), m_core->actionManager(), SLOT(updateIcons()));
 
-	PluginManager::inst()->load();
-
+	m_core->pluginManager()->load();
 	m_core->accountManager()->load(name);
 	m_core->contactManager()->load(name);
 
@@ -83,8 +82,8 @@ void Profile::load(const QString &name)
 
 	//qDebug() << "Profile " + name + " loaded!";
 
-	if(PluginManager::inst()->hasError()) {
-		PluginErrorWindow dlg;
+	if(m_core->pluginManager()->hasError()) {
+		PluginErrorWindow dlg(m_core);
 		dlg.exec();
 	}
 }

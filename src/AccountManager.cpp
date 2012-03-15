@@ -133,7 +133,7 @@ void AccountManager::load(const QString &profile)
 
 					if(settings.contains("protocol")) {
 						if(KittySDK::IProtocol *proto = ProtocolManager::inst()->protocolByName(settings.value("protocol").toString())) {
-							Plugin *plug = PluginManager::inst()->pluginById(proto->info()->id());
+							Plugin *plug = m_core->pluginManager()->pluginById(proto->info()->id());
 							if(plug->isLoaded()) {
 								if(KittySDK::IAccount *acc = proto->newAccount(settings.value("uid").toString())) {
 									acc->setPassword(settings.value("password").toString());

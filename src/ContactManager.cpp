@@ -209,11 +209,11 @@ void ContactManager::updateStatus(KittySDK::IProtocol::Status status, const QStr
 		if((cnt->status() == KittySDK::IProtocol::Offline) && (status < KittySDK::IProtocol::Offline)) {
 			QMap<QString, QVariant> soundsArgs;
 			soundsArgs.insert("id", Sounds::Sounds::S_CONTACT_AVAIL);
-			PluginManager::inst()->execAction("sounds", "playSound", soundsArgs);
+			m_core->pluginManager()->execAction("sounds", "playSound", soundsArgs);
 		} else if((cnt->status() < KittySDK::IProtocol::Offline) && (status == KittySDK::IProtocol::Offline)) {
 			QMap<QString, QVariant> soundsArgs;
 			soundsArgs.insert("id", Sounds::Sounds::S_CONTACT_UNAVAIL);
-			PluginManager::inst()->execAction("sounds", "playSound", soundsArgs);
+			m_core->pluginManager()->execAction("sounds", "playSound", soundsArgs);
 		}
 
 		if(status_changed || desc_changed) {
@@ -318,7 +318,7 @@ void ContactManager::updateStatus(KittySDK::IProtocol::Status status, const QStr
 					QMap<QString, QVariant> notifyArgs;
 					notifyArgs.insert("icon", core->icon(proto->statusIcon(status)));
 					notifyArgs.insert("text", notifyText);
-					PluginManager::inst()->execAction("notify", "addNotify", notifyArgs);
+					m_core->pluginManager()->execAction("notify", "addNotify", notifyArgs);
 				}
 			}
 		}

@@ -26,6 +26,7 @@ namespace Kitty
 	class ActionManager;
 	class ContactWindow;
 	class HistoryWindow;
+	class PluginManager;
 	class JsonSettings;
 	class MessageQueue;
 	class AboutWindow;
@@ -75,6 +76,7 @@ namespace Kitty
 			EmoticonManager *emoticonManager();
 			IconManager *iconManager();
 			MessageQueue *messageQueue();
+			PluginManager *pluginManager();
 
 			QString avatarPath(KittySDK::IContact *contact) const;
 			QString profileName() const;
@@ -121,6 +123,7 @@ namespace Kitty
 			QPointer<ProfilesWindow> m_profilesWindow;
 			QPointer<SettingsWindow> m_settingsWindow;
 			QPointer<ActionManager> m_actionManager;
+			QPointer<PluginManager> m_pluginManager;
 			QPointer<HistoryWindow> m_historyWindow;
 			QPointer<MessageQueue> m_messageQueue;
 			QPointer<AboutWindow> m_aboutWindow;
