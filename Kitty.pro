@@ -1,3 +1,4 @@
 TEMPLATE = subdirs
-SUBDIRS  = lib src
+SUBDIRS  = lib src \
+    tests
 CONFIG += ordered warn_on
