@@ -21,8 +21,6 @@ QString EmoticonManager::parse(const QString &text)
 void EmoticonManager::load()
 {
 	qDeleteAll(m_packs);
-
-	//Core *core = Core::inst();
 }
 
 void EmoticonManager::applySettings()

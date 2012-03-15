@@ -16,7 +16,10 @@
 namespace Kitty
 {
 
-AccountsSettings::AccountsSettings(QWidget *parent): KittySDK::ISettingsPage(0, parent), m_ui(new Ui::AccountsSettings)
+AccountsSettings::AccountsSettings(Core *core, QWidget *parent):
+	KittySDK::ISettingsPage(0, parent),
+	m_ui(new Ui::AccountsSettings),
+	m_core(core)
 {
 	m_ui->setupUi(this);
 
@@ -40,11 +43,9 @@ void AccountsSettings::apply()
 
 void AccountsSettings::reset()
 {
-	Core *core = Core::inst();
-
-	m_ui->addButton->setIcon(core->icon(KittySDK::Icons::I_ADD));
-	m_ui->editButton->setIcon(core->icon(KittySDK::Icons::I_EDIT));
-	m_ui->deleteButton->setIcon(core->icon(KittySDK::Icons::I_DELETE));
+	m_ui->addButton->setIcon(m_core->icon(KittySDK::Icons::I_ADD));
+	m_ui->editButton->setIcon(m_core->icon(KittySDK::Icons::I_EDIT));
+	m_ui->deleteButton->setIcon(m_core->icon(KittySDK::Icons::I_DELETE));
 }
 
 void AccountsSettings::refreshAccounts()
@@ -67,10 +68,10 @@ void AccountsSettings::refreshAccount(KittySDK::IAccount *account)
 
 	if(KittySDK::IProtocol *proto = account->protocol()) {
 		if(KittySDK::IProtocolInfo *info = proto->protoInfo()) {
-			item->setIcon(0, Core::inst()->icon(info->protoIcon()));
+			item->setIcon(0, m_core->icon(info->protoIcon()));
 			item->setText(0, account->uid());
 			item->setText(1, info->protoName());
-			item->setText(2, Core::inst()->statusToString(account->status()));
+			item->setText(2, m_core->statusToString(account->status()));
 		}
 	}
 }
@@ -82,7 +83,7 @@ void AccountsSettings::addAccount()
 			if(QDialog *dlg = proto->editDialog()) {
 				dlg->exec();
 
-				AccountManager::inst()->save(Core::inst()->profileName());
+				AccountManager::inst()->save(m_core->profileName());
 			} else {
 				qWarning() << "editDialog() returned 0";
 			}
@@ -125,7 +126,7 @@ void AccountsSettings::on_editButton_clicked()
 				if(QDialog *dlg = proto->editDialog(acc)) {
 					dlg->exec();
 
-					AccountManager::inst()->save(Core::inst()->profileName());
+					AccountManager::inst()->save(m_core->profileName());
 				} else {
 					qWarning() << "editDialog() returned 0";
 				}

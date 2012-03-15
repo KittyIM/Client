@@ -12,11 +12,14 @@
 namespace Kitty
 {
 
-PluginsSettings::PluginsSettings(QWidget *parent): KittySDK::ISettingsPage(0, parent), m_ui(new Ui::PluginsSettings)
+PluginsSettings::PluginsSettings(Core *core, QWidget *parent):
+	KittySDK::ISettingsPage(0, parent),
+	m_ui(new Ui::PluginsSettings),
+	m_core(core)
 {
 	m_ui->setupUi(this);
 
-	m_ui->pluginWidget->header()->restoreState(Core::inst()->setting("Kitty.Columns.PluginsSettings", m_ui->pluginWidget->header()->saveState()).toByteArray());
+	m_ui->pluginWidget->header()->restoreState(m_core->setting("Kitty.Columns.PluginsSettings", m_ui->pluginWidget->header()->saveState()).toByteArray());
 
 	setIcon(KittySDK::Icons::I_PLUGIN);
 	setId(KittySDK::SettingPages::S_PLUGINS);
@@ -24,7 +27,7 @@ PluginsSettings::PluginsSettings(QWidget *parent): KittySDK::ISettingsPage(0, pa
 
 PluginsSettings::~PluginsSettings()
 {
-	Core::inst()->setSetting("Kitty.Columns.PluginsSettings", m_ui->pluginWidget->header()->saveState());
+	m_core->setSetting("Kitty.Columns.PluginsSettings", m_ui->pluginWidget->header()->saveState());
 	delete m_ui;
 }
 

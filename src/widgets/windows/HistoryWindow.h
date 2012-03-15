@@ -15,6 +15,8 @@ namespace Ui
 
 namespace Kitty
 {
+	class Core;
+
 	class ContactProxy: public QSortFilterProxyModel
 	{
 		Q_OBJECT
@@ -47,7 +49,7 @@ namespace Kitty
 			};
 
 		public:
-			explicit HistoryWindow(QWidget *parent = 0);
+			explicit HistoryWindow(Kitty::Core *core, QWidget *parent = 0);
 			~HistoryWindow();
 
 		public slots:
@@ -73,6 +75,7 @@ namespace Kitty
 
 		private:
 			Ui::HistoryWindow *m_ui;
+			Core *m_core;
 			class ContactProxy *m_proxy;
 	};
 }

@@ -10,12 +10,14 @@ namespace Ui
 
 namespace Kitty
 {
+	class Core;
+
 	class ChatWindowEditSettings: public KittySDK::ISettingsPage
 	{
 		Q_OBJECT
 
 		public:
-			explicit ChatWindowEditSettings(QWidget *parent = 0);
+			ChatWindowEditSettings(Core *core, QWidget *parent = 0);
 			~ChatWindowEditSettings();
 
 			void retranslate();
@@ -27,6 +29,7 @@ namespace Kitty
 
 		private:
 			Ui::ChatWindowEditSettings *m_ui;
+			Core *m_core;
 	};
 }
 

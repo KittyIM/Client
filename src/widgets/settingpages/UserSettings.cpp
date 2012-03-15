@@ -6,7 +6,10 @@
 namespace Kitty
 {
 
-UserSettings::UserSettings(QWidget *parent): KittySDK::ISettingsPage(0, parent), m_ui(new Ui::UserSettings)
+UserSettings::UserSettings(Core *core, QWidget *parent):
+	KittySDK::ISettingsPage(0, parent),
+	m_ui(new Ui::UserSettings),
+	m_core(core)
 {
 	m_ui->setupUi(this);
 

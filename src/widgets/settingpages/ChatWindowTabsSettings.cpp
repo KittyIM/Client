@@ -8,7 +8,10 @@
 namespace Kitty
 {
 
-ChatWindowTabsSettings::ChatWindowTabsSettings(QWidget *parent): KittySDK::ISettingsPage(0, parent), m_ui(new Ui::ChatWindowTabsSettings)
+ChatWindowTabsSettings::ChatWindowTabsSettings(Core *core, QWidget *parent):
+	KittySDK::ISettingsPage(0, parent),
+	m_ui(new Ui::ChatWindowTabsSettings),
+	m_core(core)
 {
 	m_ui->setupUi(this);
 
@@ -23,22 +26,18 @@ ChatWindowTabsSettings::~ChatWindowTabsSettings()
 
 void ChatWindowTabsSettings::apply()
 {
-	Core *core = Core::inst();
-
-	core->setSetting(KittySDK::Settings::S_CHATWINDOW_TABBAR_CLOSE_WND, m_ui->closeWithWindowCheckBox->isChecked());
-	core->setSetting(KittySDK::Settings::S_CHATWINDOW_TABBAR_HIDE_ONE, m_ui->hideBarWhenOneTabCheckBox->isChecked());
-	core->setSetting(KittySDK::Settings::S_CHATWINDOW_TABBAR_FKEYS, m_ui->fKeysSwitchingCheckBox->isChecked());
-	core->setSetting(KittySDK::Settings::S_CHATWINDOW_TABBAR_POS, m_ui->tabBarPositionComboBox->currentIndex());
+	m_core->setSetting(KittySDK::Settings::S_CHATWINDOW_TABBAR_CLOSE_WND, m_ui->closeWithWindowCheckBox->isChecked());
+	m_core->setSetting(KittySDK::Settings::S_CHATWINDOW_TABBAR_HIDE_ONE, m_ui->hideBarWhenOneTabCheckBox->isChecked());
+	m_core->setSetting(KittySDK::Settings::S_CHATWINDOW_TABBAR_FKEYS, m_ui->fKeysSwitchingCheckBox->isChecked());
+	m_core->setSetting(KittySDK::Settings::S_CHATWINDOW_TABBAR_POS, m_ui->tabBarPositionComboBox->currentIndex());
 }
 
 void ChatWindowTabsSettings::reset()
 {
-	Core *core = Core::inst();
-
-	m_ui->closeWithWindowCheckBox->setChecked(core->setting(KittySDK::Settings::S_CHATWINDOW_TABBAR_CLOSE_WND, false).toBool());
-	m_ui->hideBarWhenOneTabCheckBox->setChecked(core->setting(KittySDK::Settings::S_CHATWINDOW_TABBAR_HIDE_ONE, true).toBool());
-	m_ui->fKeysSwitchingCheckBox->setChecked(core->setting(KittySDK::Settings::S_CHATWINDOW_TABBAR_FKEYS, false).toBool());
-	m_ui->tabBarPositionComboBox->setCurrentIndex(core->setting(KittySDK::Settings::S_CHATWINDOW_TABBAR_POS, 0).toInt());
+	m_ui->closeWithWindowCheckBox->setChecked(m_core->setting(KittySDK::Settings::S_CHATWINDOW_TABBAR_CLOSE_WND, false).toBool());
+	m_ui->hideBarWhenOneTabCheckBox->setChecked(m_core->setting(KittySDK::Settings::S_CHATWINDOW_TABBAR_HIDE_ONE, true).toBool());
+	m_ui->fKeysSwitchingCheckBox->setChecked(m_core->setting(KittySDK::Settings::S_CHATWINDOW_TABBAR_FKEYS, false).toBool());
+	m_ui->tabBarPositionComboBox->setCurrentIndex(m_core->setting(KittySDK::Settings::S_CHATWINDOW_TABBAR_POS, 0).toInt());
 }
 
 void ChatWindowTabsSettings::retranslate()

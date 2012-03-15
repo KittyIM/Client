@@ -10,12 +10,14 @@ namespace Ui
 
 namespace Kitty
 {
+	class Core;
+
 	class MainWindowSettings: public KittySDK::ISettingsPage
 	{
 		Q_OBJECT
 
 		public:
-			explicit MainWindowSettings(QWidget *parent = 0);
+			explicit MainWindowSettings(Core *core, QWidget *parent = 0);
 			~MainWindowSettings();
 
 			void retranslate();
@@ -24,6 +26,7 @@ namespace Kitty
 
 		private:
 			Ui::MainWindowSettings *m_ui;
+			Core *m_core;
 	};
 }
 

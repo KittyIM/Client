@@ -36,9 +36,10 @@
 namespace Kitty
 {
 
-MainWindow::MainWindow(QWidget *parent):
+MainWindow::MainWindow(Core *core, QWidget *parent):
 	QMainWindow(parent),
-	m_ui(new Ui::MainWindow)
+	m_ui(new Ui::MainWindow),
+	m_core(core)
 {
 	m_ui->setupUi(this);
 
@@ -46,7 +47,7 @@ MainWindow::MainWindow(QWidget *parent):
 
 	//qDebug() << "Creating";
 
-	connect(m_ui->rosterTreeView, SIGNAL(vCardRequested(KittySDK::IContact*)), Core::inst(), SLOT(showContactWindow(KittySDK::IContact*)));
+	connect(m_ui->rosterTreeView, SIGNAL(vCardRequested(KittySDK::IContact*)), m_core, SLOT(showContactWindow(KittySDK::IContact*)));
 	connect(m_ui->rosterTreeView, SIGNAL(historyRequested(KittySDK::IContact*)), this, SLOT(requestHistory(KittySDK::IContact*)));
 	connect(MessageQueue::inst(), SIGNAL(messageEnqueued(quint32,KittySDK::IMessage)), SLOT(maybeSetupBlink(quint32)));
 	connect(MessageQueue::inst(), SIGNAL(messageDequeued(quint32)), SLOT(maybeUnblink(quint32)));
@@ -78,9 +79,7 @@ MainWindow::MainWindow(QWidget *parent):
 	m_hideTimer.setSingleShot(true);
 	connect(&m_hideTimer, SIGNAL(timeout()), this, SLOT(hide()));
 
-	Core *core = Core::inst();
-
-	m_trayIcon = new QSystemTrayIcon(core->icon(KittySDK::Icons::I_KITTY), this);
+	m_trayIcon = new QSystemTrayIcon(m_core->icon(KittySDK::Icons::I_KITTY), this);
 	m_trayIcon->setToolTip(QString("KittyIM v%1").arg(Constants::VERSION));
 	connect(m_trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(trayIconActivated(QSystemTrayIcon::ActivationReason)));
 	m_trayIcon->show();
@@ -91,34 +90,32 @@ MainWindow::MainWindow(QWidget *parent):
 	connect(m_ui->networksToolBar, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(showToolbarMenu(QPoint)));
 	connect(m_ui->pluginsToolBar, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(showToolbarMenu(QPoint)));
 
-	restoreState(core->setting(KittySDK::Settings::S_MAINWINDOW_STATE).toByteArray());
-	restoreGeometry(core->setting(KittySDK::Settings::S_MAINWINDOW_GEOMETRY).toByteArray());
+	restoreState(m_core->setting(KittySDK::Settings::S_MAINWINDOW_STATE).toByteArray());
+	restoreGeometry(m_core->setting(KittySDK::Settings::S_MAINWINDOW_GEOMETRY).toByteArray());
 
-	m_ui->mainToolBar->setToolButtonStyle((Qt::ToolButtonStyle)core->setting(QString("%1.%2").arg(KittySDK::Settings::S_MAINWINDOW_TB_STYLES).arg(KittySDK::Toolbars::TB_MAIN), Qt::ToolButtonIconOnly).toInt());
-	m_ui->networksToolBar->setToolButtonStyle((Qt::ToolButtonStyle)core->setting(QString("%1.%2").arg(KittySDK::Settings::S_MAINWINDOW_TB_STYLES).arg(KittySDK::Toolbars::TB_NETWORKS), Qt::ToolButtonIconOnly).toInt());
-	m_ui->pluginsToolBar->setToolButtonStyle((Qt::ToolButtonStyle)core->setting(QString("%1.%2").arg(KittySDK::Settings::S_MAINWINDOW_TB_STYLES).arg(KittySDK::Toolbars::TB_PLUGINS), Qt::ToolButtonIconOnly).toInt());
+	m_ui->mainToolBar->setToolButtonStyle((Qt::ToolButtonStyle)m_core->setting(QString("%1.%2").arg(KittySDK::Settings::S_MAINWINDOW_TB_STYLES).arg(KittySDK::Toolbars::TB_MAIN), Qt::ToolButtonIconOnly).toInt());
+	m_ui->networksToolBar->setToolButtonStyle((Qt::ToolButtonStyle)m_core->setting(QString("%1.%2").arg(KittySDK::Settings::S_MAINWINDOW_TB_STYLES).arg(KittySDK::Toolbars::TB_NETWORKS), Qt::ToolButtonIconOnly).toInt());
+	m_ui->pluginsToolBar->setToolButtonStyle((Qt::ToolButtonStyle)m_core->setting(QString("%1.%2").arg(KittySDK::Settings::S_MAINWINDOW_TB_STYLES).arg(KittySDK::Toolbars::TB_PLUGINS), Qt::ToolButtonIconOnly).toInt());
 
-	m_ui->mainToolBar->setMovable(core->setting(QString("%1.%2").arg(KittySDK::Settings::S_MAINWINDOW_TB_LOCKS).arg(KittySDK::Toolbars::TB_MAIN), true).toBool());
-	m_ui->networksToolBar->setMovable(core->setting(QString("%1.%2").arg(KittySDK::Settings::S_MAINWINDOW_TB_LOCKS).arg(KittySDK::Toolbars::TB_NETWORKS), true).toBool());
-	m_ui->pluginsToolBar->setMovable(core->setting(QString("%1.%2").arg(KittySDK::Settings::S_MAINWINDOW_TB_LOCKS).arg(KittySDK::Toolbars::TB_PLUGINS), true).toBool());
+	m_ui->mainToolBar->setMovable(m_core->setting(QString("%1.%2").arg(KittySDK::Settings::S_MAINWINDOW_TB_LOCKS).arg(KittySDK::Toolbars::TB_MAIN), true).toBool());
+	m_ui->networksToolBar->setMovable(m_core->setting(QString("%1.%2").arg(KittySDK::Settings::S_MAINWINDOW_TB_LOCKS).arg(KittySDK::Toolbars::TB_NETWORKS), true).toBool());
+	m_ui->pluginsToolBar->setMovable(m_core->setting(QString("%1.%2").arg(KittySDK::Settings::S_MAINWINDOW_TB_LOCKS).arg(KittySDK::Toolbars::TB_PLUGINS), true).toBool());
 
 	applySettings();
 }
 
 MainWindow::~MainWindow()
 {
-	Core *core = Core::inst();
+	m_core->setSetting(KittySDK::Settings::S_MAINWINDOW_STATE, saveState());
+	m_core->setSetting(KittySDK::Settings::S_MAINWINDOW_GEOMETRY, saveGeometry());
 
-	core->setSetting(KittySDK::Settings::S_MAINWINDOW_STATE, saveState());
-	core->setSetting(KittySDK::Settings::S_MAINWINDOW_GEOMETRY, saveGeometry());
+	m_core->setSetting(QString("%1.%2").arg(KittySDK::Settings::S_MAINWINDOW_TB_STYLES).arg(KittySDK::Toolbars::TB_MAIN), m_ui->mainToolBar->toolButtonStyle());
+	m_core->setSetting(QString("%1.%2").arg(KittySDK::Settings::S_MAINWINDOW_TB_STYLES).arg(KittySDK::Toolbars::TB_NETWORKS), m_ui->networksToolBar->toolButtonStyle());
+	m_core->setSetting(QString("%1.%2").arg(KittySDK::Settings::S_MAINWINDOW_TB_STYLES).arg(KittySDK::Toolbars::TB_PLUGINS), m_ui->pluginsToolBar->toolButtonStyle());
 
-	core->setSetting(QString("%1.%2").arg(KittySDK::Settings::S_MAINWINDOW_TB_STYLES).arg(KittySDK::Toolbars::TB_MAIN), m_ui->mainToolBar->toolButtonStyle());
-	core->setSetting(QString("%1.%2").arg(KittySDK::Settings::S_MAINWINDOW_TB_STYLES).arg(KittySDK::Toolbars::TB_NETWORKS), m_ui->networksToolBar->toolButtonStyle());
-	core->setSetting(QString("%1.%2").arg(KittySDK::Settings::S_MAINWINDOW_TB_STYLES).arg(KittySDK::Toolbars::TB_PLUGINS), m_ui->pluginsToolBar->toolButtonStyle());
-
-	core->setSetting(QString("%1.%2").arg(KittySDK::Settings::S_MAINWINDOW_TB_LOCKS).arg(KittySDK::Toolbars::TB_MAIN), m_ui->mainToolBar->isMovable());
-	core->setSetting(QString("%1.%2").arg(KittySDK::Settings::S_MAINWINDOW_TB_LOCKS).arg(KittySDK::Toolbars::TB_NETWORKS), m_ui->networksToolBar->isMovable());
-	core->setSetting(QString("%1.%2").arg(KittySDK::Settings::S_MAINWINDOW_TB_LOCKS).arg(KittySDK::Toolbars::TB_PLUGINS), m_ui->pluginsToolBar->isMovable());
+	m_core->setSetting(QString("%1.%2").arg(KittySDK::Settings::S_MAINWINDOW_TB_LOCKS).arg(KittySDK::Toolbars::TB_MAIN), m_ui->mainToolBar->isMovable());
+	m_core->setSetting(QString("%1.%2").arg(KittySDK::Settings::S_MAINWINDOW_TB_LOCKS).arg(KittySDK::Toolbars::TB_NETWORKS), m_ui->networksToolBar->isMovable());
+	m_core->setSetting(QString("%1.%2").arg(KittySDK::Settings::S_MAINWINDOW_TB_LOCKS).arg(KittySDK::Toolbars::TB_PLUGINS), m_ui->pluginsToolBar->isMovable());
 
 	delete m_ui;
 	delete m_trayIcon;
@@ -163,35 +160,33 @@ void MainWindow::initToolbars()
 {
 	//qDebug() << "Initializing toolbars";
 
-	Core *core = Core::inst();
-
 	// Main menu
 	QMenu *mnuMain = new QMenu(this);
-	mnuMain->addAction(core->action(KittySDK::Actions::A_ABOUT));
-	mnuMain->addAction(core->action(KittySDK::Actions::A_DEBUG));
+	mnuMain->addAction(m_core->action(KittySDK::Actions::A_ABOUT));
+	mnuMain->addAction(m_core->action(KittySDK::Actions::A_DEBUG));
 	mnuMain->addSeparator();
-	mnuMain->addAction(core->action(KittySDK::Actions::A_KITTY_FOLDER));
-	mnuMain->addAction(core->action(KittySDK::Actions::A_PROFILE_FOLDER));
+	mnuMain->addAction(m_core->action(KittySDK::Actions::A_KITTY_FOLDER));
+	mnuMain->addAction(m_core->action(KittySDK::Actions::A_PROFILE_FOLDER));
 	mnuMain->addSeparator();
-	mnuMain->addAction(core->action(KittySDK::Actions::A_RESTART));
-	mnuMain->addAction(core->action(KittySDK::Actions::A_QUIT));
+	mnuMain->addAction(m_core->action(KittySDK::Actions::A_RESTART));
+	mnuMain->addAction(m_core->action(KittySDK::Actions::A_QUIT));
 
-	m_ui->mainToolBar->addAction(core->action(KittySDK::Actions::A_ABOUT));
+	m_ui->mainToolBar->addAction(m_core->action(KittySDK::Actions::A_ABOUT));
 
-	if(QToolButton *btnMain = qobject_cast<QToolButton*>(m_ui->mainToolBar->widgetForAction(core->action(KittySDK::Actions::A_ABOUT)))) {
+	if(QToolButton *btnMain = qobject_cast<QToolButton*>(m_ui->mainToolBar->widgetForAction(m_core->action(KittySDK::Actions::A_ABOUT)))) {
 		btnMain->setMenu(mnuMain);
 		btnMain->setPopupMode(QToolButton::MenuButtonPopup);
 	}
 
 	// User menu
 	QMenu *mnuUser = new QMenu(this);
-	mnuUser->addAction(core->action(KittySDK::Actions::A_ADD_CONTACT));
-	mnuUser->addAction(core->action(KittySDK::Actions::A_HISTORY));
-	mnuUser->addAction(core->action(KittySDK::Actions::A_CHANGE_PROFILE));
+	mnuUser->addAction(m_core->action(KittySDK::Actions::A_ADD_CONTACT));
+	mnuUser->addAction(m_core->action(KittySDK::Actions::A_HISTORY));
+	mnuUser->addAction(m_core->action(KittySDK::Actions::A_CHANGE_PROFILE));
 
-	m_ui->mainToolBar->addAction(core->action(KittySDK::Actions::A_ADD_CONTACT));
+	m_ui->mainToolBar->addAction(m_core->action(KittySDK::Actions::A_ADD_CONTACT));
 
-	if(QToolButton *btnUser = qobject_cast<QToolButton*>(m_ui->mainToolBar->widgetForAction(core->action(KittySDK::Actions::A_ADD_CONTACT)))) {
+	if(QToolButton *btnUser = qobject_cast<QToolButton*>(m_ui->mainToolBar->widgetForAction(m_core->action(KittySDK::Actions::A_ADD_CONTACT)))) {
 		btnUser->setMenu(mnuUser);
 		btnUser->setPopupMode(QToolButton::MenuButtonPopup);
 	}
@@ -199,11 +194,11 @@ void MainWindow::initToolbars()
 
 	//Settings menu
 	QMenu *mnuSettings = new QMenu(this);
-	mnuSettings->addAction(core->action(KittySDK::Actions::A_SETTINGS));
+	mnuSettings->addAction(m_core->action(KittySDK::Actions::A_SETTINGS));
 
-	m_ui->mainToolBar->addAction(core->action(KittySDK::Actions::A_SETTINGS));
+	m_ui->mainToolBar->addAction(m_core->action(KittySDK::Actions::A_SETTINGS));
 
-	if(QToolButton *btnSettings = qobject_cast<QToolButton*>(m_ui->mainToolBar->widgetForAction(core->action(KittySDK::Actions::A_SETTINGS)))) {
+	if(QToolButton *btnSettings = qobject_cast<QToolButton*>(m_ui->mainToolBar->widgetForAction(m_core->action(KittySDK::Actions::A_SETTINGS)))) {
 		btnSettings->setMenu(mnuSettings);
 		btnSettings->setPopupMode(QToolButton::MenuButtonPopup);
 	}
@@ -239,19 +234,17 @@ QToolButton * MainWindow::buttonForAction(const QString &tb, QAction *action)
 
 void MainWindow::applySettings()
 {
-	Core *core = Core::inst();
-
 	m_header->applySettings();
 
 	resetTrayIcon();
 
-	if(core->setting(KittySDK::Settings::S_MAINWINDOW_TRANSPARENCY).toBool()) {
-		setWindowOpacity(core->setting(KittySDK::Settings::S_MAINWINDOW_TRANSPARENCY_VALUE, 80).toReal() / 100.0);
+	if(m_core->setting(KittySDK::Settings::S_MAINWINDOW_TRANSPARENCY).toBool()) {
+		setWindowOpacity(m_core->setting(KittySDK::Settings::S_MAINWINDOW_TRANSPARENCY_VALUE, 80).toReal() / 100.0);
 	} else {
 		setWindowOpacity(1.0);
 	}
 
-	if(core->setting(KittySDK::Settings::S_MAINWINDOW_ALWAYS_ON_TOP).toBool()) {
+	if(m_core->setting(KittySDK::Settings::S_MAINWINDOW_ALWAYS_ON_TOP).toBool()) {
 		setWindowFlags(windowFlags() | Qt::WindowStaysOnTopHint);
 		show();
 	} else {
@@ -260,13 +253,13 @@ void MainWindow::applySettings()
 		setVisible(visible);
 	}
 
-	m_hideTimer.setInterval(core->setting(KittySDK::Settings::S_MAINWINDOW_AUTOHIDE_DELAY, 5).toInt() * 1000);
+	m_hideTimer.setInterval(m_core->setting(KittySDK::Settings::S_MAINWINDOW_AUTOHIDE_DELAY, 5).toInt() * 1000);
 
 	QString fileName;
-	if(core->setting(KittySDK::Settings::S_ROSTER_THEME, QString()).toString().isEmpty()) {
+	if(m_core->setting(KittySDK::Settings::S_ROSTER_THEME, QString()).toString().isEmpty()) {
 		fileName = ":/roster/theme.css";
 	} else {
-		fileName = qApp->applicationDirPath() + "/themes/roster/" + core->setting(KittySDK::Settings::S_ROSTER_THEME, QString()).toString() + "/theme.css";
+		fileName = qApp->applicationDirPath() + "/themes/roster/" + m_core->setting(KittySDK::Settings::S_ROSTER_THEME, QString()).toString() + "/theme.css";
 	}
 
 	QFile file(fileName);
@@ -277,9 +270,9 @@ void MainWindow::applySettings()
 
 	m_proxy->invalidate();
 
-	QString title = core->setting(KittySDK::Settings::S_MAINWINDOW_CAPTION, "KittyIM %version% [%profile%]").toString();
+	QString title = m_core->setting(KittySDK::Settings::S_MAINWINDOW_CAPTION, "KittyIM %version% [%profile%]").toString();
 	title.replace("%version%", Constants::VERSION);
-	title.replace("%profile%", core->profileName());
+	title.replace("%profile%", m_core->profileName());
 	setWindowTitle(title);
 }
 
@@ -305,13 +298,11 @@ void MainWindow::hideFilterEdit()
 
 void MainWindow::updateAccountStatusIcon(KittySDK::IAccount *account, KittySDK::IProtocol::Status status, const QString &description)
 {
-	Core *core = Core::inst();
-
 	//tray icon
 	if(KittySDK::IProtocol *proto = account->protocol()) {
 		if(KittySDK::IProtocolInfo *info = proto->protoInfo()) {
-			if((account->uid() == core->setting(KittySDK::Settings::S_TRAYICON_ACCOUNT).toString()) && (info->protoName() == core->setting(KittySDK::Settings::S_TRAYICON_PROTOCOL).toString())) {
-				m_trayIcon->setIcon(core->icon(proto->statusIcon(account->status())));
+			if((account->uid() == m_core->setting(KittySDK::Settings::S_TRAYICON_ACCOUNT).toString()) && (info->protoName() == m_core->setting(KittySDK::Settings::S_TRAYICON_PROTOCOL).toString())) {
+				m_trayIcon->setIcon(m_core->icon(proto->statusIcon(account->status())));
 			}
 		}
 	}
@@ -319,7 +310,7 @@ void MainWindow::updateAccountStatusIcon(KittySDK::IAccount *account, KittySDK::
 	//accounts toolbar
 	foreach(QAction *action, m_ui->networksToolBar->actions()) {
 		if((action->property("protocol").toString() == account->protocol()->protoInfo()->protoName()) && (action->property("uid").toString() == account->uid())) {
-			action->setIcon(Core::inst()->icon(account->protocol()->statusIcon(status)));
+			action->setIcon(m_core->icon(account->protocol()->statusIcon(status)));
 
 			if(description.length() > 0) {
 				action->setToolTip(QString("%1<br>%2").arg(action->text()).arg(description));
@@ -441,14 +432,14 @@ void MainWindow::leaveEvent(QEvent *event)
 {
 	QMainWindow::leaveEvent(event);
 
-	if(Core::inst()->setting(KittySDK::Settings::S_MAINWINDOW_AUTOHIDE, false).toBool()) {
+	if(m_core->setting(KittySDK::Settings::S_MAINWINDOW_AUTOHIDE, false).toBool()) {
 		m_hideTimer.start();
 	}
 }
 
 void MainWindow::addContact(KittySDK::IContact *contact)
 {
-	RosterContact *cnt = new RosterContact(contact, m_model->groupItem(contact->group()));
+	RosterContact *cnt = new RosterContact(contact, m_core, m_model->groupItem(contact->group()));
 
 	m_model->addContact(cnt, m_model->groupItem(contact->group()));
 	m_proxy->invalidate();
@@ -494,16 +485,14 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
 
 void MainWindow::requestHistory(KittySDK::IContact *contact)
 {
-	Core::inst()->historyWindow()->showContact(contact);
+	m_core->historyWindow()->showContact(contact);
 }
 
 void MainWindow::trayIconActivated(QSystemTrayIcon::ActivationReason reason)
 {
-	Core *core = Core::inst();
-
 	if(reason == QSystemTrayIcon::Trigger) {
 		if(!m_blinkTimer.isActive()) {
-			core->action(KittySDK::Actions::A_SHOW_HIDE)->trigger();
+			m_core->action(KittySDK::Actions::A_SHOW_HIDE)->trigger();
 		} else {
 			if(m_blinkQueue.count()) {
 				MessageQueue::inst()->dequeueAndShow(m_blinkQueue.last());
@@ -515,7 +504,7 @@ void MainWindow::trayIconActivated(QSystemTrayIcon::ActivationReason reason)
 		foreach(KittySDK::IAccount *acc, AccountManager::inst()->accounts()) {
 			if(QMenu *statusMenu = acc->statusMenu()) {
 				QAction *accAction = menu.addMenu(statusMenu);
-				accAction->setIcon(Core::inst()->icon(acc->protocol()->statusIcon(acc->status())));
+				accAction->setIcon(m_core->icon(acc->protocol()->statusIcon(acc->status())));
 				accAction->setText(acc->uid());
 			}
 		}
@@ -524,23 +513,21 @@ void MainWindow::trayIconActivated(QSystemTrayIcon::ActivationReason reason)
 			menu.addSeparator();
 		}
 
-		menu.addAction(core->action(KittySDK::Actions::A_SHOW_HIDE));
-		menu.addAction(core->action(KittySDK::Actions::A_SETTINGS));
-		menu.addAction(core->action(KittySDK::Actions::A_QUIT));
+		menu.addAction(m_core->action(KittySDK::Actions::A_SHOW_HIDE));
+		menu.addAction(m_core->action(KittySDK::Actions::A_SETTINGS));
+		menu.addAction(m_core->action(KittySDK::Actions::A_QUIT));
 		menu.exec(QCursor::pos());
 	}
 }
 
 void MainWindow::resetTrayIcon()
 {
-	Core *core = Core::inst();
-
-	if(KittySDK::IAccount *acc = AccountManager::inst()->account(core->setting(KittySDK::Settings::S_TRAYICON_PROTOCOL).toString(), core->setting(KittySDK::Settings::S_TRAYICON_ACCOUNT).toString())) {
+	if(KittySDK::IAccount *acc = AccountManager::inst()->account(m_core->setting(KittySDK::Settings::S_TRAYICON_PROTOCOL).toString(), m_core->setting(KittySDK::Settings::S_TRAYICON_ACCOUNT).toString())) {
 		if(KittySDK::IProtocol *proto = acc->protocol()) {
-			m_trayIcon->setIcon(core->icon(proto->statusIcon(acc->status())));
+			m_trayIcon->setIcon(m_core->icon(proto->statusIcon(acc->status())));
 		}
 	} else {
-		m_trayIcon->setIcon(core->icon(KittySDK::Icons::I_KITTY));
+		m_trayIcon->setIcon(m_core->icon(KittySDK::Icons::I_KITTY));
 	}
 }
 
@@ -548,7 +535,7 @@ void MainWindow::maybeSetupBlink(const quint32 &msgId)
 {
 	if(!m_blinkTimer.isActive()) {
 		m_blinkTimer.setProperty("blink", true);
-		m_blinkTimer.start(Core::inst()->setting(KittySDK::Settings::S_BLINKING_SPEED, 500).toInt());
+		m_blinkTimer.start(m_core->setting(KittySDK::Settings::S_BLINKING_SPEED, 500).toInt());
 	}
 
 	m_blinkQueue << msgId;
@@ -562,7 +549,7 @@ void MainWindow::blinkTrayIcon()
 		if(blink) {
 			resetTrayIcon();
 		} else {
-			m_trayIcon->setIcon(Core::inst()->icon(KittySDK::Icons::I_MESSAGE));
+			m_trayIcon->setIcon(m_core->icon(KittySDK::Icons::I_MESSAGE));
 		}
 
 		timer->setProperty("blink", !blink);

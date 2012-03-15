@@ -17,12 +17,14 @@ namespace KittySDK
 
 namespace Kitty
 {
+	class Core;
+
 	class AccountsSettings: public KittySDK::ISettingsPage
 	{
 		Q_OBJECT
 
 		public:
-			explicit AccountsSettings(QWidget *parent = 0);
+			AccountsSettings(Core *core, QWidget *parent = 0);
 			~AccountsSettings();
 
 			void retranslate();
@@ -39,6 +41,7 @@ namespace Kitty
 
 		private:
 			Ui::AccountsSettings *m_ui;
+			Core *m_core;
 	};
 }
 

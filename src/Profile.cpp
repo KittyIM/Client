@@ -34,7 +34,9 @@
 namespace Kitty
 {
 
-Profile::Profile(QObject *parent): QObject(parent)
+Profile::Profile(Core *core):
+	QObject(core),
+	m_core(core)
 {
 	m_settings = 0;
 }
@@ -52,10 +54,8 @@ Profile::~Profile()
 
 void Profile::load(const QString &name)
 {
-	Core *core = Core::inst();
-
 	m_name = name;
-	m_settings = new JsonSettings(core->profilesDir() + name + "/settings.dat", this);
+	m_settings = new JsonSettings(m_core->profilesDir() + name + "/settings.dat", this);
 
 	if(m_settings->contains(KittySDK::Settings::S_ICON_THEME)) {
 		loadIconTheme(settings()->value(KittySDK::Settings::S_ICON_THEME).toString());
@@ -64,7 +64,7 @@ void Profile::load(const QString &name)
 	dynamic_cast<App*>(qApp)->retranslate();
 	dynamic_cast<App*>(qApp)->applySettings();
 
-	DebugWindow::inst()->restoreGeometry(core->setting(KittySDK::Settings::S_DEBUGWINDOW_GEOMETRY).toByteArray());
+	DebugWindow::inst()->restoreGeometry(m_core->setting(KittySDK::Settings::S_DEBUGWINDOW_GEOMETRY).toByteArray());
 
 	ActionManager::inst()->loadDefaults();
 
@@ -76,8 +76,8 @@ void Profile::load(const QString &name)
 
 	ContactManager::inst()->load(name);
 
-	if(!core->setting(KittySDK::Settings::S_MAINWINDOW_STARTHIDDEN).toBool()) {
-		core->mainWindow()->show();
+	if(!m_core->setting(KittySDK::Settings::S_MAINWINDOW_STARTHIDDEN).toBool()) {
+		m_core->mainWindow()->show();
 	}
 
 	//MessageQueue::inst()->load(name);

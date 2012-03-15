@@ -24,13 +24,14 @@ namespace Kitty
 	class RosterItemModel;
 	class RosterSortProxy;
 	class RosterHeader;
+	class Core;
 
 	class MainWindow: public QMainWindow
 	{
 		Q_OBJECT
 
 		public:
-			explicit MainWindow(QWidget *parent = 0);
+			explicit MainWindow(Core *core, QWidget *parent = 0);
 			~MainWindow();
 
 			bool isObscured();
@@ -69,10 +70,11 @@ namespace Kitty
 			bool eventFilter(QObject *obj, QEvent *event);
 
 		private:
+			Ui::MainWindow *m_ui;
+			Core *m_core;
 			QTimer m_hideTimer;
 			QTimer m_blinkTimer;
 			QList<quint32> m_blinkQueue;
-			Ui::MainWindow *m_ui;
 			QSystemTrayIcon *m_trayIcon;
 			RosterHeader *m_header;
 			RosterItemModel *m_model;

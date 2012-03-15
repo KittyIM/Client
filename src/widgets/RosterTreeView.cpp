@@ -33,7 +33,8 @@
 namespace Kitty
 {
 
-RosterTreeView::RosterTreeView(QWidget *parent): QTreeView(parent)
+RosterTreeView::RosterTreeView(QWidget *parent):
+	QTreeView(parent)
 {
 	setItemDelegate(new RosterItemDelegate(this));
 	//setDragEnabled(true);

@@ -23,14 +23,17 @@
 namespace Kitty
 {
 
-ProfilesWindow::ProfilesWindow(QWidget *parent): QDialog(parent), m_ui(new Ui::ProfilesWindow)
+ProfilesWindow::ProfilesWindow(Core *core, QWidget *parent):
+	QDialog(parent),
+	m_ui(new Ui::ProfilesWindow),
+	m_core(core)
 {
 	m_ui->setupUi(this);
 	m_ui->versionLabel->setText(QString("KittyIM v%1").arg(Constants::VERSION));
 
 	setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
 
-	qDebug() << "Creating";
+	//qDebug() << "Creating";
 
 	if(QtWin::isCompositionEnabled()) {
 		QtWin::extendFrameIntoClientArea(this);
@@ -53,7 +56,7 @@ void ProfilesWindow::showEvent(QShowEvent *event)
 
 	m_ui->profilesWidget->clear();
 
-	QDir dir(Core::inst()->profilesDir());
+	QDir dir(m_core->profilesDir());
 	if(dir.exists()) {
 		QFileInfoList profiles = dir.entryInfoList(QDir::Dirs | QDir::NoDotAndDotDot, QDir::Name | QDir::IgnoreCase);
 		foreach(QFileInfo info, profiles) {
@@ -98,7 +101,7 @@ void ProfilesWindow::keyPressEvent(QKeyEvent *event)
 
 void ProfilesWindow::closeEvent(QCloseEvent *event)
 {
-	if(!Core::inst()->profile()->isLoaded()) {
+	if(!m_core->profile()->isLoaded()) {
 		qApp->quit();
 	}
 
@@ -121,7 +124,7 @@ void ProfilesWindow::on_profilesWidget_currentItemChanged(QTreeWidgetItem* curre
 
 	if(current) {
 		if(current->data(0, Qt::UserRole).toBool() == false) {
-			JsonSettings set(Core::inst()->profilesDir() + current->text(0) + "/settings.dat");
+			JsonSettings set(m_core->profilesDir() + current->text(0) + "/settings.dat");
 			bool hasPassword = !set.value(KittySDK::Settings::S_PROFILE_PASSWORD).toString().isEmpty();
 
 			m_ui->passwordEdit->clear();
@@ -136,26 +139,24 @@ void ProfilesWindow::on_profilesWidget_currentItemChanged(QTreeWidgetItem* curre
 
 void ProfilesWindow::on_profilesWidget_itemDoubleClicked(QTreeWidgetItem *item, int column)
 {
-	Core *core = Core::inst();
-
 	if(item) {
 		if(item->data(0, Qt::UserRole).toBool() == false) {
 			//if there's a profile already loaded
-			if(!core->profileName().isEmpty()) {
+			if(!m_core->profileName().isEmpty()) {
 				//if it's the same profile
-				if(core->profileName() == item->text(0)) {
+				if(m_core->profileName() == item->text(0)) {
 					close();
 					return;
 				} else {
 					//restart with new profile
-					core->changeProfile(item->text(0), m_ui->passwordEdit->text());
+					m_core->changeProfile(item->text(0), m_ui->passwordEdit->text());
 				}
 			} else {
-				JsonSettings set(core->profilesDir() + item->text(0) + "/settings.dat");
+				JsonSettings set(m_core->profilesDir() + item->text(0) + "/settings.dat");
 				bool hasPassword = !set.value(KittySDK::Settings::S_PROFILE_PASSWORD).toString().isEmpty();
 
 				if(!hasPassword || (hasPassword && set.value(KittySDK::Settings::S_PROFILE_PASSWORD).toString() == QCryptographicHash::hash(m_ui->passwordEdit->text().toLocal8Bit(), QCryptographicHash::Sha1).toHex())) {
-					Core::inst()->loadProfile(item->text(0));
+					m_core->loadProfile(item->text(0));
 					close();
 				} else {
 					QMessageBox::information(this, tr("Wrong password"), tr("The password you supplied is wrong."));
@@ -164,7 +165,7 @@ void ProfilesWindow::on_profilesWidget_itemDoubleClicked(QTreeWidgetItem *item, 
 		} else {
 			QString profile = QInputDialog::getText(this, tr("New profile"), tr("Please input a name for the new profile:"));
 			if(!profile.isEmpty()) {
-				QDir dir(Core::inst()->profilesDir());
+				QDir dir(m_core->profilesDir());
 				if(!dir.exists(profile)) {
 					if(dir.mkpath(profile)) {
 						showEvent(new QShowEvent());
@@ -191,7 +192,7 @@ void ProfilesWindow::on_deleteButton_clicked()
 		QString profile = item->text(0);
 
 		if(m_ui->passwordEdit->isVisible()) {
-			JsonSettings set(Core::inst()->profilesDir() + profile + "/settings.dat");
+			JsonSettings set(m_core->profilesDir() + profile + "/settings.dat");
 			if(set.value(KittySDK::Settings::S_PROFILE_PASSWORD).toString() != QCryptographicHash::hash(m_ui->passwordEdit->text().toLocal8Bit(), QCryptographicHash::Sha1).toHex()) {
 				QMessageBox::information(this, tr("Error"), tr("Please enter the password to delete this profile."));
 				return;
@@ -199,7 +200,7 @@ void ProfilesWindow::on_deleteButton_clicked()
 		}
 
 		if(QMessageBox::question(this, tr("Delete profile"), tr("Do you really want to delete this profile?"), QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes) {
-			Core::inst()->removeDir(Core::inst()->profilesDir() + profile);
+			m_core->removeDir(m_core->profilesDir() + profile);
 			showEvent(new QShowEvent());
 		}
 	}

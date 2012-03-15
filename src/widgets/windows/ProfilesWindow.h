@@ -12,12 +12,14 @@ namespace Ui
 
 namespace Kitty
 {
+	class Core;
+
 	class ProfilesWindow: public QDialog
 	{
 		Q_OBJECT
 
 		public:
-			explicit ProfilesWindow(QWidget *parent = 0);
+			ProfilesWindow(Core *core, QWidget *parent = 0);
 			~ProfilesWindow();
 
 		protected:
@@ -35,6 +37,7 @@ namespace Kitty
 
 		private:
 			Ui::ProfilesWindow *m_ui;
+			Core *m_core;
 	};
 }
 

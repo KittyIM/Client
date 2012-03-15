@@ -17,12 +17,14 @@ namespace KittySDK
 
 namespace Kitty
 {
+	class Core;
+
 	class SettingsWindow: public QDialog
 	{
 		Q_OBJECT
 
 		public:
-			explicit SettingsWindow(QWidget *parent = 0);
+			explicit SettingsWindow(Core *core, QWidget *parent = 0);
 			~SettingsWindow();
 
 			QTreeWidgetItem *itemById(const QString &id);
@@ -52,6 +54,7 @@ namespace Kitty
 
 		private:
 			Ui::SettingsWindow *m_ui;
+			Core *m_core;
 			QList<KittySDK::ISettingsPage*> m_pages;
 	};
 }

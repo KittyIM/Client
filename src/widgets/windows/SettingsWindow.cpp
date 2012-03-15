@@ -34,9 +34,10 @@
 namespace Kitty
 {
 
-SettingsWindow::SettingsWindow(QWidget *parent):
+SettingsWindow::SettingsWindow(Core *core, QWidget *parent):
 	QDialog(parent),
-	m_ui(new Ui::SettingsWindow)
+	m_ui(new Ui::SettingsWindow),
+	m_core(core)
 {
 	m_ui->setupUi(this);
 	m_ui->treeWidget->header()->hideSection(1);
@@ -47,14 +48,11 @@ SettingsWindow::SettingsWindow(QWidget *parent):
 	setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
 
 	//qDebug() << "Creating";
-
-	Core *core = Core::inst();
-
 	connect(this, SIGNAL(languageChanged()), dynamic_cast<App*>(qApp), SLOT(retranslate()));
 	connect(this, SIGNAL(settingsApplied()), dynamic_cast<App*>(qApp), SLOT(applySettings()));
-	connect(this, SIGNAL(settingsApplied()), core->mainWindow(), SLOT(applySettings()));
+	connect(this, SIGNAL(settingsApplied()), m_core->mainWindow(), SLOT(applySettings()));
 
-	restoreGeometry(core->setting(KittySDK::Settings::S_SETTINGSWINDOW_GEOMETRY).toByteArray());
+	restoreGeometry(m_core->setting(KittySDK::Settings::S_SETTINGSWINDOW_GEOMETRY).toByteArray());
 
 	addDefaultPages();
 
@@ -63,9 +61,7 @@ SettingsWindow::SettingsWindow(QWidget *parent):
 
 SettingsWindow::~SettingsWindow()
 {
-	Core *core = Core::inst();
-
-	core->setSetting(KittySDK::Settings::S_SETTINGSWINDOW_GEOMETRY, saveGeometry());
+	m_core->setSetting(KittySDK::Settings::S_SETTINGSWINDOW_GEOMETRY, saveGeometry());
 
 	qDeleteAll(m_pages);
 
@@ -124,11 +120,9 @@ void SettingsWindow::addPage(KittySDK::ISettingsPage *page, const QString &paren
 
 void SettingsWindow::updateIcons()
 {
-	Core *core = Core::inst();
-
 	foreach(KittySDK::ISettingsPage *page, m_pages) {
 		if(QTreeWidgetItem *item = itemById(page->id())) {
-			item->setIcon(0, core->icon(page->icon()));
+			item->setIcon(0, m_core->icon(page->icon()));
 		} else {
 			qWarning() << "Page doesn't exist [" << page->id() << "]";
 		}
@@ -151,24 +145,24 @@ void SettingsWindow::addDefaultPages()
 {
 	//qDebug() << "Adding default pages";
 
-	addPage(new MainSettings(this));
-	addPage(new StartupSettings(this), KittySDK::SettingPages::S_SETTINGS);
-	addPage(new ConnectionSettings(this), KittySDK::SettingPages::S_SETTINGS);
+	addPage(new MainSettings(m_core, this));
+	addPage(new StartupSettings(m_core, this), KittySDK::SettingPages::S_SETTINGS);
+	addPage(new ConnectionSettings(m_core, this), KittySDK::SettingPages::S_SETTINGS);
 
-	addPage(new UserSettings(this));
-	addPage(new AccountsSettings(this), KittySDK::SettingPages::S_USER);
+	addPage(new UserSettings(m_core, this));
+	addPage(new AccountsSettings(m_core, this), KittySDK::SettingPages::S_USER);
 
-	addPage(new DisplaySettings(this));
-	addPage(new MainWindowSettings(this), KittySDK::SettingPages::S_DISPLAY);
-	addPage(new ThemesSettings(this), KittySDK::SettingPages::S_DISPLAY);
-	addPage(new RosterSettings(this), KittySDK::SettingPages::S_DISPLAY);
-	addPage(new HistorySettings(this), KittySDK::SettingPages::S_DISPLAY);
-	addPage(new ChatWindowSettings(this), KittySDK::SettingPages::S_DISPLAY);
-	addPage(new ChatWindowEditSettings(this), KittySDK::SettingPages::S_DISPLAY_CHATWINDOW);
-	addPage(new ChatWindowTabsSettings(this), KittySDK::SettingPages::S_DISPLAY_CHATWINDOW);
-	addPage(new SmiliesSettings(this), KittySDK::SettingPages::S_DISPLAY_CHATWINDOW);
+	addPage(new DisplaySettings(m_core, this));
+	addPage(new MainWindowSettings(m_core, this), KittySDK::SettingPages::S_DISPLAY);
+	addPage(new ThemesSettings(m_core, this), KittySDK::SettingPages::S_DISPLAY);
+	addPage(new RosterSettings(m_core, this), KittySDK::SettingPages::S_DISPLAY);
+	addPage(new HistorySettings(m_core, this), KittySDK::SettingPages::S_DISPLAY);
+	addPage(new ChatWindowSettings(m_core, this), KittySDK::SettingPages::S_DISPLAY);
+	addPage(new ChatWindowEditSettings(m_core, this), KittySDK::SettingPages::S_DISPLAY_CHATWINDOW);
+	addPage(new ChatWindowTabsSettings(m_core, this), KittySDK::SettingPages::S_DISPLAY_CHATWINDOW);
+	addPage(new SmiliesSettings(m_core, this), KittySDK::SettingPages::S_DISPLAY_CHATWINDOW);
 
-	addPage(new PluginsSettings(this));
+	addPage(new PluginsSettings(m_core, this));
 }
 
 void SettingsWindow::showEvent(QShowEvent *event)
@@ -222,13 +216,13 @@ void SettingsWindow::applySettings()
 {
 	qDebug() << "Applying all pages [" << m_pages.count() << "]";
 
-	QString lang = Core::inst()->setting(KittySDK::Settings::S_LANGUAGE).toString();
+	QString lang = m_core->setting(KittySDK::Settings::S_LANGUAGE).toString();
 
 	foreach(KittySDK::ISettingsPage *page, m_pages) {
 		page->apply();
 	}
 
-	if(lang != Core::inst()->setting(KittySDK::Settings::S_LANGUAGE).toString()) {
+	if(lang != m_core->setting(KittySDK::Settings::S_LANGUAGE).toString()) {
 		emit languageChanged();
 	}
 

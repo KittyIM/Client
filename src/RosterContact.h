@@ -10,6 +10,8 @@ namespace KittySDK
 
 namespace Kitty
 {
+	class Core;
+
 	class RosterContact: public RosterItem
 	{
 		public:
@@ -19,7 +21,7 @@ namespace Kitty
 			};
 
 		public:
-			explicit RosterContact(KittySDK::IContact *contact, RosterItem *parent = 0);
+			RosterContact(KittySDK::IContact *contact, Core *core, RosterItem *parent = 0);
 
 			KittySDK::IContact *contact() const { return m_contact; }
 
@@ -28,6 +30,7 @@ namespace Kitty
 
 		private:
 			KittySDK::IContact *m_contact;
+			Core *m_core;
 	};
 }
 

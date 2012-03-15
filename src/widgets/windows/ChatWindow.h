@@ -18,13 +18,14 @@ namespace Kitty
 {
 	class ChatTheme;
 	class ChatTab;
+	class Core;
 
 	class ChatWindow: public QWidget
 	{
 		Q_OBJECT
 
 		public:
-			explicit ChatWindow(QWidget *parent = 0);
+			explicit ChatWindow(Core *core, QWidget *parent = 0);
 			~ChatWindow();
 
 			ChatTab *tabByChat(KittySDK::IChat *chat);
@@ -48,6 +49,7 @@ namespace Kitty
 
 		private:
 			Ui::ChatWindow *m_ui;
+			Core *m_core;
 			ChatTheme *m_theme;
 	};
 }

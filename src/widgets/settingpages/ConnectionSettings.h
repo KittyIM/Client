@@ -10,12 +10,14 @@ namespace Ui
 
 namespace Kitty
 {
+	class Core;
+
 	class ConnectionSettings: public KittySDK::ISettingsPage
 	{
 		Q_OBJECT
 
 		public:
-			explicit ConnectionSettings(QWidget *parent = 0);
+			ConnectionSettings(Core *core, QWidget *parent = 0);
 			~ConnectionSettings();
 
 			void retranslate();
@@ -24,6 +26,7 @@ namespace Kitty
 
 		private:
 			Ui::ConnectionSettings *m_ui;
+			Core *m_core;
 	};
 }
 

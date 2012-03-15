@@ -12,6 +12,8 @@ namespace Ui
 
 namespace Kitty
 {
+	class Core;
+
 	class SmiliesDelegate: public QStyledItemDelegate
 	{
 		Q_OBJECT
@@ -28,7 +30,7 @@ namespace Kitty
 		Q_OBJECT
 
 		public:
-			explicit SmiliesSettings(QWidget *parent = 0);
+			SmiliesSettings(Core *core, QWidget *parent = 0);
 			~SmiliesSettings();
 
 			void retranslate();
@@ -37,6 +39,7 @@ namespace Kitty
 
 		private:
 			Ui::SmiliesSettings *m_ui;
+			Core *m_core;
 	};
 }
 

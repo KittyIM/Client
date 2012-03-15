@@ -48,7 +48,10 @@ QSize SmiliesDelegate::sizeHint(const QStyleOptionViewItem &option, const QModel
 	return QSize(option.rect.width(), 45);
 }
 
-SmiliesSettings::SmiliesSettings(QWidget *parent): KittySDK::ISettingsPage(0, parent), m_ui(new Ui::SmiliesSettings)
+SmiliesSettings::SmiliesSettings(Core *core, QWidget *parent):
+	KittySDK::ISettingsPage(0, parent),
+	m_ui(new Ui::SmiliesSettings),
+	m_core(core)
 {
 	m_ui->setupUi(this);
 	m_ui->smiliesWidget->setItemDelegate(new SmiliesDelegate(this));

@@ -15,7 +15,8 @@
 namespace Kitty
 {
 
-RosterItemDelegate::RosterItemDelegate(QObject *parent): QStyledItemDelegate(parent)
+RosterItemDelegate::RosterItemDelegate(QObject *parent):
+	QStyledItemDelegate(parent)
 {
 }
 
@@ -34,8 +35,6 @@ void RosterItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 
 	const QWidget *widget = vopt.widget;
 	QStyle *style = widget ? widget->style() : QApplication::style();
-
-	painter->save();
 
 	QRect iconRect = style->subElementRect(QStyle::SE_ItemViewItemDecoration, &vopt, vopt.widget);
 	QRect textRect = style->subElementRect(QStyle::SE_ItemViewItemText, &vopt, vopt.widget);
@@ -70,9 +69,11 @@ void RosterItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 		painter->setPen(vopt.palette.color(cg, QPalette::Text));
 	}
 
-	QFont normalFont = vopt.font;
-	QFont boldFont = vopt.font;
+	QFont normalFont = painter->font();
+	QFont boldFont = painter->font();
 	boldFont.setBold(true);
+
+	qDebug() << normalFont;
 
 	if(type == RosterItem::Group) {
 		painter->setFont(boldFont);
@@ -118,7 +119,7 @@ void RosterItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 				painter->setFont(normalFont);
 
 				if(width > 0) {
-					QFont font = vopt.font;
+					QFont font = normalFont;
 					font.setPointSize(font.pointSize() - 1);
 					painter->setFont(font);
 
@@ -133,7 +134,7 @@ void RosterItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 				painter->drawText(rect, Qt::TextSingleLine, painter->fontMetrics().elidedText(vopt.text, Qt::ElideRight, textRect.width()));
 				painter->setFont(normalFont);
 
-				QFont descFont = vopt.font;
+				QFont descFont = normalFont;
 				descFont.setPointSize(descFont.pointSize() - 1);
 				painter->setFont(descFont);
 
@@ -156,8 +157,6 @@ void RosterItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 			}
 		}
 	}
-
-	painter->restore();
 }
 
 QSize RosterItemDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const

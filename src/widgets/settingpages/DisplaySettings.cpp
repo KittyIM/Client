@@ -11,9 +11,10 @@
 namespace Kitty
 {
 
-DisplaySettings::DisplaySettings(QWidget *parent):
+DisplaySettings::DisplaySettings(Core *core, QWidget *parent):
 	KittySDK::ISettingsPage(0, parent),
-	m_ui(new Ui::DisplaySettings)
+	m_ui(new Ui::DisplaySettings),
+	m_core(core)
 {
 	m_ui->setupUi(this);
 
@@ -30,58 +31,52 @@ DisplaySettings::~DisplaySettings()
 
 void DisplaySettings::apply()
 {
-	Core *core = Core::inst();
-
 	QString trayProtocol = m_ui->systemTrayAccountComboBox->itemData(m_ui->systemTrayAccountComboBox->currentIndex()).toString();
 	QString trayAccount = m_ui->systemTrayAccountComboBox->itemData(m_ui->systemTrayAccountComboBox->currentIndex(), Qt::UserRole + 1).toString();
 	if(trayProtocol.isEmpty() || trayAccount.isEmpty()) {
-		core->setSetting(KittySDK::Settings::S_TRAYICON_PROTOCOL, QVariant());
-		core->setSetting(KittySDK::Settings::S_TRAYICON_ACCOUNT, QVariant());
+		m_core->setSetting(KittySDK::Settings::S_TRAYICON_PROTOCOL, QVariant());
+		m_core->setSetting(KittySDK::Settings::S_TRAYICON_ACCOUNT, QVariant());
 	} else {
-		core->setSetting(KittySDK::Settings::S_TRAYICON_PROTOCOL, trayProtocol);
-		core->setSetting(KittySDK::Settings::S_TRAYICON_ACCOUNT, trayAccount);
+		m_core->setSetting(KittySDK::Settings::S_TRAYICON_PROTOCOL, trayProtocol);
+		m_core->setSetting(KittySDK::Settings::S_TRAYICON_ACCOUNT, trayAccount);
 	}
 
-	core->setSetting(KittySDK::Settings::S_BLINKING_SPEED, m_ui->blinkingSlider->value());
-	core->setSetting(KittySDK::Settings::S_MAINWINDOW_CAPTION, m_ui->mainWindowCaptionEdit->text());
-	core->setSetting(KittySDK::Settings::S_CHATWINDOW_CAPTION, m_ui->chatWindowCaptionEdit->text());
-	core->setSetting(KittySDK::Settings::S_CHATTAB_CAPTION, m_ui->chatTabCaptionEdit->text());
+	m_core->setSetting(KittySDK::Settings::S_BLINKING_SPEED, m_ui->blinkingSlider->value());
+	m_core->setSetting(KittySDK::Settings::S_MAINWINDOW_CAPTION, m_ui->mainWindowCaptionEdit->text());
+	m_core->setSetting(KittySDK::Settings::S_CHATWINDOW_CAPTION, m_ui->chatWindowCaptionEdit->text());
+	m_core->setSetting(KittySDK::Settings::S_CHATTAB_CAPTION, m_ui->chatTabCaptionEdit->text());
 }
 
 void DisplaySettings::reset()
 {
-	Core *core = Core::inst();
-
 	refreshAccounts();
 
-	m_ui->blinkingSlider->setValue(core->setting(KittySDK::Settings::S_BLINKING_SPEED, 500).toInt());
-	m_ui->mainWindowCaptionEdit->setText(core->setting(KittySDK::Settings::S_MAINWINDOW_CAPTION, "KittyIM %version% [%profile%]").toString());
-	m_ui->chatWindowCaptionEdit->setText(core->setting(KittySDK::Settings::S_CHATWINDOW_CAPTION, "%display% [%status%] %description%").toString());
-	m_ui->chatTabCaptionEdit->setText(core->setting(KittySDK::Settings::S_CHATTAB_CAPTION, "%display%").toString());
+	m_ui->blinkingSlider->setValue(m_core->setting(KittySDK::Settings::S_BLINKING_SPEED, 500).toInt());
+	m_ui->mainWindowCaptionEdit->setText(m_core->setting(KittySDK::Settings::S_MAINWINDOW_CAPTION, "KittyIM %version% [%profile%]").toString());
+	m_ui->chatWindowCaptionEdit->setText(m_core->setting(KittySDK::Settings::S_CHATWINDOW_CAPTION, "%display% [%status%] %description%").toString());
+	m_ui->chatTabCaptionEdit->setText(m_core->setting(KittySDK::Settings::S_CHATTAB_CAPTION, "%display%").toString());
 }
 
 void DisplaySettings::updateIcons()
 {
-	m_ui->mainWindowCaptionHelpButton->setIcon(Core::inst()->icon(KittySDK::Icons::I_INFO));
-	m_ui->chatWindowCaptionHelpButton->setIcon(Core::inst()->icon(KittySDK::Icons::I_INFO));
-	m_ui->chatTabCaptionHelpButton->setIcon(Core::inst()->icon(KittySDK::Icons::I_INFO));
+	m_ui->mainWindowCaptionHelpButton->setIcon(m_core->icon(KittySDK::Icons::I_INFO));
+	m_ui->chatWindowCaptionHelpButton->setIcon(m_core->icon(KittySDK::Icons::I_INFO));
+	m_ui->chatTabCaptionHelpButton->setIcon(m_core->icon(KittySDK::Icons::I_INFO));
 }
 
 void DisplaySettings::refreshAccounts()
 {
-	Core *core = Core::inst();
-
 	m_ui->systemTrayAccountComboBox->clear();
-	m_ui->systemTrayAccountComboBox->addItem(core->icon(KittySDK::Icons::I_KITTY), tr("None, use Kitty's icon"));
+	m_ui->systemTrayAccountComboBox->addItem(m_core->icon(KittySDK::Icons::I_KITTY), tr("None, use Kitty's icon"));
 	foreach(KittySDK::IAccount *acc, AccountManager::inst()->accounts()) {
 		if(KittySDK::IProtocol *proto = acc->protocol()) {
 			if(KittySDK::IProtocolInfo *info = proto->protoInfo()) {
 					QString text = QString("%1 (%2)").arg(acc->uid()).arg(info->protoName());
 
-				m_ui->systemTrayAccountComboBox->addItem(core->icon(info->protoIcon()), text, info->protoName());
+				m_ui->systemTrayAccountComboBox->addItem(m_core->icon(info->protoIcon()), text, info->protoName());
 				m_ui->systemTrayAccountComboBox->setItemData(m_ui->systemTrayAccountComboBox->count() - 1, acc->uid(), Qt::UserRole + 1);
 
-				if((core->setting(KittySDK::Settings::S_TRAYICON_ACCOUNT).toString() == acc->uid() && (core->setting(KittySDK::Settings::S_TRAYICON_PROTOCOL).toString() == info->protoName()))) {
+				if((m_core->setting(KittySDK::Settings::S_TRAYICON_ACCOUNT).toString() == acc->uid() && (m_core->setting(KittySDK::Settings::S_TRAYICON_PROTOCOL).toString() == info->protoName()))) {
 					m_ui->systemTrayAccountComboBox->setCurrentIndex(m_ui->systemTrayAccountComboBox->count() - 1);
 				}
 			}

@@ -183,7 +183,7 @@ void Core::loadProfile(const QString &name)
 MainWindow *Core::mainWindow()
 {
 	if(!m_mainWindow) {
-		m_mainWindow = new MainWindow();
+		m_mainWindow = new MainWindow(this);
 	}
 
 	return m_mainWindow;
@@ -192,7 +192,7 @@ MainWindow *Core::mainWindow()
 ChatWindow *Core::chatWindow()
 {
 	if(!m_chatWindow) {
-		m_chatWindow = new ChatWindow();
+		m_chatWindow = new ChatWindow(this);
 	}
 
 	return m_chatWindow;
@@ -210,7 +210,7 @@ AboutWindow *Core::aboutWindow()
 ProfilesWindow *Core::profilesWindow()
 {
 	if(!m_profilesWindow) {
-		m_profilesWindow = new ProfilesWindow();
+		m_profilesWindow = new ProfilesWindow(this);
 	}
 
 	return m_profilesWindow;
@@ -219,7 +219,7 @@ ProfilesWindow *Core::profilesWindow()
 SettingsWindow *Core::settingsWindow()
 {
 	if(!m_settingsWindow) {
-		m_settingsWindow = new SettingsWindow();
+		m_settingsWindow = new SettingsWindow(this);
 	}
 
 	return m_settingsWindow;
@@ -228,7 +228,7 @@ SettingsWindow *Core::settingsWindow()
 HistoryWindow *Core::historyWindow()
 {
 	if(!m_historyWindow) {
-		m_historyWindow = new HistoryWindow();
+		m_historyWindow = new HistoryWindow(this);
 	}
 
 	return m_historyWindow;
@@ -262,7 +262,7 @@ void Core::showHistoryWindow()
 
 void Core::showAddContactWindow()
 {
-	ContactWindow *wnd = new ContactWindow();
+	ContactWindow *wnd = new ContactWindow(this);
 	wnd->show();
 }
 
@@ -401,7 +401,7 @@ void Core::showContactWindow(KittySDK::IContact *cnt)
 	if(proto && proto->protoInfo()) {
 		ContactWindow *wnd = m_contactWindows.value(proto->protoInfo()->protoName() + cnt->uid());
 		if(!wnd) {
-			wnd = new ContactWindow(cnt);
+			wnd = new ContactWindow(this, cnt);
 			m_contactWindows.insert(proto->protoInfo()->protoName() + cnt->uid(), wnd);
 		}
 

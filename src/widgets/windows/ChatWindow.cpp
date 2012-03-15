@@ -22,19 +22,20 @@
 namespace Kitty
 {
 
-ChatWindow::ChatWindow(QWidget *parent): QWidget(parent), m_ui(new Ui::ChatWindow)
+ChatWindow::ChatWindow(Core *core, QWidget *parent):
+	QWidget(parent),
+	m_ui(new Ui::ChatWindow),
+	m_core(core)
 {
 	m_ui->setupUi(this);
 
 	connect(IconManager::inst(), SIGNAL(iconsUpdated()), m_ui->tabWidget, SLOT(updateIcons()));
-	connect(Core::inst()->settingsWindow(), SIGNAL(settingsApplied()), this, SLOT(applySettings()));
-	connect(Core::inst()->settingsWindow(), SIGNAL(settingsApplied()), m_ui->tabWidget, SLOT(applySettings()));
+	connect(m_core->settingsWindow(), SIGNAL(settingsApplied()), this, SLOT(applySettings()));
+	connect(m_core->settingsWindow(), SIGNAL(settingsApplied()), m_ui->tabWidget, SLOT(applySettings()));
 
 	qDebug() << "Creating";
 
-	Core *core = Core::inst();
-
-	restoreGeometry(core->setting(KittySDK::Settings::S_CHATWINDOW_GEOMETRY).toByteArray());
+	restoreGeometry(m_core->setting(KittySDK::Settings::S_CHATWINDOW_GEOMETRY).toByteArray());
 
 	m_theme = 0;
 
@@ -48,9 +49,7 @@ ChatWindow::ChatWindow(QWidget *parent): QWidget(parent), m_ui(new Ui::ChatWindo
 
 ChatWindow::~ChatWindow()
 {
-	Core *core = Core::inst();
-
-	core->setSetting(KittySDK::Settings::S_CHATWINDOW_GEOMETRY, saveGeometry());
+	m_core->setSetting(KittySDK::Settings::S_CHATWINDOW_GEOMETRY, saveGeometry());
 
 	delete m_ui;
 }
@@ -67,15 +66,13 @@ bool ChatWindow::isChatActive(KittySDK::IChat *chat)
 
 void ChatWindow::applySettings()
 {
-	Core *core = Core::inst();
-
 	EmoticonManager::inst()->load();
 
 	if(m_theme) {
 		delete m_theme;
 	}
 
-	m_theme = new ChatTheme(core->setting(KittySDK::Settings::S_CHAT_THEME).toString(), this);
+	m_theme = new ChatTheme(m_core->setting(KittySDK::Settings::S_CHAT_THEME).toString(), this);
 
 	on_tabWidget_currentChanged(m_ui->tabWidget->currentIndex());
 }
@@ -111,9 +108,7 @@ void ChatWindow::on_tabWidget_tabCloseRequested(int index)
 
 void ChatWindow::keyPressEvent(QKeyEvent *event)
 {
-	Core *core = Core::inst();
-
-	if(core->setting(KittySDK::Settings::S_CHATWINDOW_TABBAR_FKEYS, false).toBool()) {
+	if(m_core->setting(KittySDK::Settings::S_CHATWINDOW_TABBAR_FKEYS, false).toBool()) {
 		if((event->key() >= Qt::Key_F1) && (event->key() <= Qt::Key_F12)) {
 			m_ui->tabWidget->setCurrentIndex(event->key() - (int)Qt::Key_F1);
 		}
@@ -124,10 +119,8 @@ void ChatWindow::keyPressEvent(QKeyEvent *event)
 
 void ChatWindow::closeEvent(QCloseEvent *event)
 {
-	Core *core = Core::inst();
-
 	//Close all tabs
-	if(core->setting(KittySDK::Settings::S_CHATWINDOW_TABBAR_CLOSE_WND, false).toBool()) {
+	if(m_core->setting(KittySDK::Settings::S_CHATWINDOW_TABBAR_CLOSE_WND, false).toBool()) {
 		m_ui->tabWidget->clear();
 	}
 
@@ -139,9 +132,9 @@ void ChatWindow::on_tabWidget_currentChanged(int index)
 	if(ChatTab *tab = qobject_cast<ChatTab*>(m_ui->tabWidget->widget(index))) {
 		if(tab->chat()->contacts().count() == 1) {
 			if(KittySDK::IContact *cnt = tab->chat()->contacts().first()) {
-				QString title = Core::inst()->setting(KittySDK::Settings::S_CHATWINDOW_CAPTION, "%display% [%status%] \"%description%\"").toString();
+				QString title = m_core->setting(KittySDK::Settings::S_CHATWINDOW_CAPTION, "%display% [%status%] \"%description%\"").toString();
 				title.replace("%display%", cnt->display());
-				title.replace("%status%", Core::inst()->statusToString(cnt->status()));
+				title.replace("%status%", m_core->statusToString(cnt->status()));
 
 				if(cnt->description().length() > 0) {
 					title.replace("%description%", QString("\"%1\"").arg(cnt->description()));

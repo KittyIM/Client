@@ -12,7 +12,10 @@
 namespace Kitty
 {
 
-MainSettings::MainSettings(QWidget *parent): KittySDK::ISettingsPage(0, parent), m_ui(new Ui::MainSettings)
+MainSettings::MainSettings(Core *core, QWidget *parent):
+	KittySDK::ISettingsPage(0, parent),
+	m_ui(new Ui::MainSettings),
+	m_core(core)
 {
 	m_ui->setupUi(this);
 
@@ -36,20 +39,16 @@ void MainSettings::retranslate()
 
 void MainSettings::apply()
 {
-	Core *core = Core::inst();
-
-	core->setSetting(KittySDK::Settings::S_LANGUAGE, m_ui->languageComboBox->itemData(m_ui->languageComboBox->currentIndex()).toString());
+	m_core->setSetting(KittySDK::Settings::S_LANGUAGE, m_ui->languageComboBox->itemData(m_ui->languageComboBox->currentIndex()).toString());
 }
 
 void MainSettings::reset()
 {
-	Core *core = Core::inst();
-
 	m_ui->languageComboBox->clear();
 	m_ui->languageComboBox->addItem(tr("System"), QString());
 	m_ui->languageComboBox->addItem("English", "C");
 
-	if(core->setting(KittySDK::Settings::S_LANGUAGE, "C").toString() == "C") {
+	if(m_core->setting(KittySDK::Settings::S_LANGUAGE, "C").toString() == "C") {
 		m_ui->languageComboBox->setCurrentIndex(1);
 	}
 
@@ -59,7 +58,7 @@ void MainSettings::reset()
 		QString locale = file.baseName().replace("kitty_", "");
 		m_ui->languageComboBox->addItem(QLocale::languageToString(QLocale(locale).language()), locale);
 
-		if(locale == core->setting(KittySDK::Settings::S_LANGUAGE, "C").toString()) {
+		if(locale == m_core->setting(KittySDK::Settings::S_LANGUAGE, "C").toString()) {
 			m_ui->languageComboBox->setCurrentIndex(m_ui->languageComboBox->count() - 1);
 		}
 	}

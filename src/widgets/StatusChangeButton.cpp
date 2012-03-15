@@ -13,7 +13,8 @@
 namespace Kitty
 {
 
-StatusChangeButton::StatusChangeButton(QWidget *parent): QToolButton(parent)
+StatusChangeButton::StatusChangeButton(QWidget *parent):
+	QToolButton(parent)
 {
 	Core *core = Core::inst();
 	QMenu *menu = new QMenu(this);

@@ -37,21 +37,34 @@ MessageQueue::MessageQueue(QObject *parent):
 
 void MessageQueue::load(const QString &profile)
 {
-	qDebug() << "loading queue" << profile;
+	//qDebug() << "loading queue" << profile;
 
 	QFile file(Core::inst()->profilesDir() + profile + "/queues.json");
 	if(file.exists()) {
 		if(file.open(QIODevice::ReadOnly)) {
+			qDebug() << "1";
 			QVariantMap map = Json::parse(/*qUncompress(*/file.readAll())/*)*/.toMap();
 
 			if(map.contains("incoming")) {
+				qDebug() << "2";
 				QVariantList incoming = map.value("incoming").toList();
 				foreach(const QVariant &var, incoming) {
+					qDebug() << "3";
 					QVariantMap item = var.toMap();
 
 					if(KittySDK::IAccount *acc = AccountManager::inst()->account(item.value("protocol").toString(), item.value("account").toString())) {
+						qDebug() << "4";
 						if(KittySDK::IContact *from = ContactManager::inst()->contact(acc, item.value("from").toString())) {
+							qDebug() << "5";
 							QList<KittySDK::IContact*> to;
+
+							if(!item.value("to").toList().isEmpty()) {
+								QString uid = item.value("to").toList().first().toString();
+
+								if(uid == item.value("account").toString()) {
+									to << acc->me();
+								}
+							}
 
 							foreach(const QVariant &uid, item.value("to").toList()) {
 								if(KittySDK::IContact *cnt = ContactManager::inst()->contact(acc, uid.toString())) {
@@ -60,6 +73,8 @@ void MessageQueue::load(const QString &profile)
 							}
 
 							if(to.count()) {
+								qDebug() << "6";
+
 								KittySDK::IMessage *msg = new KittySDK::IMessage(from, to);
 								msg->setBody(item.value("body").toString());
 								msg->setTimeStamp(item.value("timeStamp").toDateTime());
@@ -68,7 +83,8 @@ void MessageQueue::load(const QString &profile)
 								quint32 msgId = item.value("msgId").toUInt();
 
 								m_queue.insert(msgId, msg);
-								//emit messageEnqueued(msgId, *msg);
+								ChatManager::inst()->receiveMessage(*msg);
+								emit messageEnqueued(msgId, *msg);
 
 								m_nextId = qMax(m_nextId, msgId);
 							}
@@ -198,7 +214,7 @@ QVariantMap MessageQueue::messageToMap(KittySDK::IMessage *msg)
 
 quint32 MessageQueue::enqueue(KittySDK::IMessage &msg)
 {
-	//dequeue(msg.chat());
+	//qDebug() << "enqueue";
 
 	KittySDK::IMessage *mess = new KittySDK::IMessage(msg.from(), msg.to(), msg.body(), msg.timeStamp(), msg.direction());
 	mess->setChat(msg.chat());
@@ -232,6 +248,8 @@ void MessageQueue::dequeue(const quint32 &msgId)
 
 void MessageQueue::dequeue(const QString &chatId)
 {
+	//qDebug() << "dequeue";
+
 	QMutableMapIterator<quint32, KittySDK::IMessage*> it(m_queue);
 	while(it.hasNext()) {
 		it.next();

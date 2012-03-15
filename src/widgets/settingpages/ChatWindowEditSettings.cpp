@@ -13,9 +13,10 @@
 namespace Kitty
 {
 
-ChatWindowEditSettings::ChatWindowEditSettings(QWidget *parent) :
+ChatWindowEditSettings::ChatWindowEditSettings(Core *core, QWidget *parent):
 	KittySDK::ISettingsPage(0, parent),
-	m_ui(new Ui::ChatWindowEditSettings)
+	m_ui(new Ui::ChatWindowEditSettings),
+	m_core(core)
 {
 	m_ui->setupUi(this);
 
@@ -37,32 +38,28 @@ void ChatWindowEditSettings::retranslate()
 
 void ChatWindowEditSettings::apply()
 {
-	Core *core = Core::inst();
-
-	core->setSetting(KittySDK::Settings::S_CHATWINDOW_SPELLCHECK_ENABLED, m_ui->spellCheckCheckBox->isChecked());
-	core->setSetting(KittySDK::Settings::S_CHATWINDOW_SPELLCHECK_DICT, m_ui->spellCheckDictionaryComboBox->itemData(m_ui->spellCheckDictionaryComboBox->currentIndex()).toString());
-	core->setSetting(KittySDK::Settings::S_CHATWINDOW_SPELLCHECK_SUGGESTIONS, m_ui->spellCheckSuggestionsSpinBox->value());
-	core->setSetting(KittySDK::Settings::S_CHATEDIT_FONT_FAMILY, m_ui->fontFamilyComboBox->currentFont().family());
-	core->setSetting(KittySDK::Settings::S_CHATEDIT_FONT_SIZE, m_ui->fontSizeComboBox->currentText());
-	core->setSetting(KittySDK::Settings::S_CHATEDIT_FONT_ANTIALIASING, m_ui->antialiasingCheckBox->isChecked());
-	core->setSetting(KittySDK::Settings::S_CHATWINDOW_MIN_EDIT_HEIGHT, m_ui->minHeightSpinBox->value());
+	m_core->setSetting(KittySDK::Settings::S_CHATWINDOW_SPELLCHECK_ENABLED, m_ui->spellCheckCheckBox->isChecked());
+	m_core->setSetting(KittySDK::Settings::S_CHATWINDOW_SPELLCHECK_DICT, m_ui->spellCheckDictionaryComboBox->itemData(m_ui->spellCheckDictionaryComboBox->currentIndex()).toString());
+	m_core->setSetting(KittySDK::Settings::S_CHATWINDOW_SPELLCHECK_SUGGESTIONS, m_ui->spellCheckSuggestionsSpinBox->value());
+	m_core->setSetting(KittySDK::Settings::S_CHATEDIT_FONT_FAMILY, m_ui->fontFamilyComboBox->currentFont().family());
+	m_core->setSetting(KittySDK::Settings::S_CHATEDIT_FONT_SIZE, m_ui->fontSizeComboBox->currentText());
+	m_core->setSetting(KittySDK::Settings::S_CHATEDIT_FONT_ANTIALIASING, m_ui->antialiasingCheckBox->isChecked());
+	m_core->setSetting(KittySDK::Settings::S_CHATWINDOW_MIN_EDIT_HEIGHT, m_ui->minHeightSpinBox->value());
 }
 
 void ChatWindowEditSettings::reset()
 {
-	Core *core = Core::inst();
-
 	QFont font = qApp->font();
-	font.setFamily(core->setting(KittySDK::Settings::S_CHATEDIT_FONT_FAMILY, font.family()).toString());
+	font.setFamily(m_core->setting(KittySDK::Settings::S_CHATEDIT_FONT_FAMILY, font.family()).toString());
 	m_ui->fontFamilyComboBox->setCurrentFont(font);
 
 	updateFontSizes();
 
-	m_ui->antialiasingCheckBox->setChecked(core->setting(KittySDK::Settings::S_CHATEDIT_FONT_ANTIALIASING, false).toBool());
-	m_ui->minHeightSpinBox->setValue(core->setting(KittySDK::Settings::S_CHATWINDOW_MIN_EDIT_HEIGHT, 1).toInt());
+	m_ui->antialiasingCheckBox->setChecked(m_core->setting(KittySDK::Settings::S_CHATEDIT_FONT_ANTIALIASING, false).toBool());
+	m_ui->minHeightSpinBox->setValue(m_core->setting(KittySDK::Settings::S_CHATWINDOW_MIN_EDIT_HEIGHT, 1).toInt());
 
-	m_ui->spellCheckCheckBox->setChecked(core->setting(KittySDK::Settings::S_CHATWINDOW_SPELLCHECK_ENABLED, false).toBool());
-	m_ui->spellCheckSuggestionsSpinBox->setValue(core->setting(KittySDK::Settings::S_CHATWINDOW_SPELLCHECK_SUGGESTIONS, 7).toInt());
+	m_ui->spellCheckCheckBox->setChecked(m_core->setting(KittySDK::Settings::S_CHATWINDOW_SPELLCHECK_ENABLED, false).toBool());
+	m_ui->spellCheckSuggestionsSpinBox->setValue(m_core->setting(KittySDK::Settings::S_CHATWINDOW_SPELLCHECK_SUGGESTIONS, 7).toInt());
 
 	m_ui->spellCheckDictionaryComboBox->clear();
 	m_ui->spellCheckDictionaryComboBox->addItem(tr("None"), QString());
@@ -75,7 +72,7 @@ void ChatWindowEditSettings::reset()
 		if(dicDir.exists(lang + ".aff")) {
 			m_ui->spellCheckDictionaryComboBox->addItem(QString("%1 (%2)").arg(QLocale::languageToString(QLocale(lang).language())).arg(lang), lang);
 
-			if(lang == core->setting(KittySDK::Settings::S_CHATWINDOW_SPELLCHECK_DICT).toString()) {
+			if(lang == m_core->setting(KittySDK::Settings::S_CHATWINDOW_SPELLCHECK_DICT).toString()) {
 				m_ui->spellCheckDictionaryComboBox->setCurrentIndex(m_ui->spellCheckDictionaryComboBox->count() - 1);
 			}
 		} else {
@@ -86,7 +83,7 @@ void ChatWindowEditSettings::reset()
 
 void ChatWindowEditSettings::updateFontSizes()
 {
-	int current_size = Core::inst()->setting(KittySDK::Settings::S_CHATEDIT_FONT_SIZE, qApp->font().pointSize()).toInt();
+	int current_size = m_core->setting(KittySDK::Settings::S_CHATEDIT_FONT_SIZE, qApp->font().pointSize()).toInt();
 	QFontDatabase db;
 
 	m_ui->fontSizeComboBox->clear();

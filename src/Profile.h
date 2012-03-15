@@ -7,13 +7,14 @@
 namespace Kitty
 {
 	class JsonSettings;
+	class Core;
 
 	class Profile: public QObject
 	{
 		Q_OBJECT
 
 		public:
-			explicit Profile(QObject *parent = 0);
+			Profile(Core *core);
 			~Profile();
 
 			void load(const QString &name);
@@ -25,6 +26,7 @@ namespace Kitty
 
 		private:
 			QString m_name;
+			Core *m_core;
 			JsonSettings *m_settings;
 	};
 }

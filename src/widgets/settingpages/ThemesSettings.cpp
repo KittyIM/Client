@@ -59,7 +59,10 @@ class KittyProto: public KittySDK::IProtocol
 		QDialog *editDialog(KittySDK::IAccount *) { return 0; }
 };
 
-ThemesSettings::ThemesSettings(QWidget *parent): KittySDK::ISettingsPage(0, parent), m_ui(new Ui::ThemesSettings)
+ThemesSettings::ThemesSettings(Core *core, QWidget *parent):
+	KittySDK::ISettingsPage(0, parent),
+	m_ui(new Ui::ThemesSettings),
+	m_core(core)
 {
 	m_ui->setupUi(this);
 
@@ -77,17 +80,14 @@ ThemesSettings::~ThemesSettings()
 
 void ThemesSettings::apply()
 {
-	Core *core = Core::inst();
-	core->setSetting(KittySDK::Settings::S_ROSTER_THEME, m_ui->rosterThemeComboBox->itemData(m_ui->rosterThemeComboBox->currentIndex()));
-	core->setSetting(KittySDK::Settings::S_CHAT_THEME, m_ui->chatThemeComboBox->itemData(m_ui->chatThemeComboBox->currentIndex()));
-	core->setSetting(KittySDK::Settings::S_CHAT_THEME_VARIANT, m_ui->chatThemeVariantComboBox->itemData(m_ui->chatThemeVariantComboBox->currentIndex()));
-	core->setSetting(KittySDK::Settings::S_ICON_THEME, m_ui->iconThemeComboBox->itemData(m_ui->iconThemeComboBox->currentIndex()));
+	m_core->setSetting(KittySDK::Settings::S_ROSTER_THEME, m_ui->rosterThemeComboBox->itemData(m_ui->rosterThemeComboBox->currentIndex()));
+	m_core->setSetting(KittySDK::Settings::S_CHAT_THEME, m_ui->chatThemeComboBox->itemData(m_ui->chatThemeComboBox->currentIndex()));
+	m_core->setSetting(KittySDK::Settings::S_CHAT_THEME_VARIANT, m_ui->chatThemeVariantComboBox->itemData(m_ui->chatThemeVariantComboBox->currentIndex()));
+	m_core->setSetting(KittySDK::Settings::S_ICON_THEME, m_ui->iconThemeComboBox->itemData(m_ui->iconThemeComboBox->currentIndex()));
 }
 
 void ThemesSettings::reset()
 {
-	Core *core = Core::inst();
-
 	//chat themes
 	disconnect(m_ui->chatThemeComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(updateChatPreview()));
 	disconnect(m_ui->chatThemeVariantComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(updateChatPreview()));
@@ -100,7 +100,7 @@ void ThemesSettings::reset()
 	foreach(QFileInfo dir, chatThemes) {
 		m_ui->chatThemeComboBox->addItem(dir.fileName(), dir.fileName());
 
-		if(dir.fileName() == core->setting(KittySDK::Settings::S_CHAT_THEME, QString()).toString()) {
+		if(dir.fileName() == m_core->setting(KittySDK::Settings::S_CHAT_THEME, QString()).toString()) {
 			m_ui->chatThemeComboBox->setCurrentIndex(m_ui->chatThemeComboBox->count() - 1);
 		}
 	}
@@ -116,7 +116,7 @@ void ThemesSettings::reset()
 	foreach(QFileInfo dir, rosterThemes) {
 		m_ui->rosterThemeComboBox->addItem(dir.fileName(), dir.fileName());
 
-		if(dir.fileName() == core->setting(KittySDK::Settings::S_ROSTER_THEME, QString()).toString()) {
+		if(dir.fileName() == m_core->setting(KittySDK::Settings::S_ROSTER_THEME, QString()).toString()) {
 			m_ui->rosterThemeComboBox->setCurrentIndex(m_ui->rosterThemeComboBox->count() - 1);
 		}
 	}
@@ -140,7 +140,7 @@ void ThemesSettings::reset()
 
 		m_ui->iconThemeComboBox->addItem(name, dir.fileName());
 
-		if(dir.fileName() == core->setting(KittySDK::Settings::S_ICON_THEME, QString()).toString()) {
+		if(dir.fileName() == m_core->setting(KittySDK::Settings::S_ICON_THEME, QString()).toString()) {
 			m_ui->iconThemeComboBox->setCurrentIndex(m_ui->iconThemeComboBox->count() - 1);
 		}
 	}
@@ -193,8 +193,6 @@ void ThemesSettings::updateChatPreview()
 
 void ThemesSettings::updateVariantList()
 {
-	Core *core = Core::inst();
-
 	disconnect(m_ui->chatThemeComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(updateChatPreview()));
 	disconnect(m_ui->chatThemeVariantComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(updateChatPreview()));
 
@@ -210,7 +208,7 @@ void ThemesSettings::updateVariantList()
 	foreach(QFileInfo var, variants) {
 		m_ui->chatThemeVariantComboBox->addItem(var.completeBaseName(), var.fileName());
 
-		if(var.fileName() == core->setting(KittySDK::Settings::S_CHAT_THEME_VARIANT, QString()).toString()) {
+		if(var.fileName() == m_core->setting(KittySDK::Settings::S_CHAT_THEME_VARIANT, QString()).toString()) {
 			m_ui->chatThemeVariantComboBox->setCurrentIndex(m_ui->chatThemeVariantComboBox->count() - 1);
 		}
 	}

@@ -20,7 +20,11 @@
 namespace Kitty
 {
 
-ContactWindow::ContactWindow(KittySDK::IContact *cnt, QWidget *parent): QDialog(parent, Qt::Window), m_ui(new Ui::ContactWindow), m_contact(cnt)
+ContactWindow::ContactWindow(Core *core, KittySDK::IContact *cnt, QWidget *parent):
+	QDialog(parent, Qt::Window),
+	m_ui(new Ui::ContactWindow),
+	m_core(core),
+	m_contact(cnt)
 {
 	m_ui->setupUi(this);
 
@@ -33,7 +37,7 @@ ContactWindow::ContactWindow(KittySDK::IContact *cnt, QWidget *parent): QDialog(
 		setWindowTitle(tr("Add contact"));
 	}
 
-	restoreGeometry(Core::inst()->setting(KittySDK::Settings::S_CONTACTWINDOW_GEOMETRY).toByteArray());
+	restoreGeometry(m_core->setting(KittySDK::Settings::S_CONTACTWINDOW_GEOMETRY).toByteArray());
 
 	applySettings();
 
@@ -42,25 +46,23 @@ ContactWindow::ContactWindow(KittySDK::IContact *cnt, QWidget *parent): QDialog(
 
 ContactWindow::~ContactWindow()
 {
-	Core::inst()->setSetting(KittySDK::Settings::S_CONTACTWINDOW_GEOMETRY, saveGeometry());
+	m_core->setSetting(KittySDK::Settings::S_CONTACTWINDOW_GEOMETRY, saveGeometry());
 
 	delete m_ui;
 }
 
 void ContactWindow::applySettings()
 {
-	Core *core = Core::inst();
-
 	for(int i = 0; i < m_ui->treeWidget->topLevelItemCount(); ++i) {
 		QTreeWidgetItem *item = m_ui->treeWidget->topLevelItem(i);
-		item->setIcon(0, core->icon(KittySDK::Icons::I_BULLET));
+		item->setIcon(0, m_core->icon(KittySDK::Icons::I_BULLET));
 	}
 
-	m_ui->phoneAddButton->setIcon(core->icon(KittySDK::Icons::I_ADD));
-	m_ui->emailAddButton->setIcon(core->icon(KittySDK::Icons::I_ADD));
+	m_ui->phoneAddButton->setIcon(m_core->icon(KittySDK::Icons::I_ADD));
+	m_ui->emailAddButton->setIcon(m_core->icon(KittySDK::Icons::I_ADD));
 
-	m_ui->phoneDeleteButton->setIcon(core->icon(KittySDK::Icons::I_DELETE));
-	m_ui->emailDeleteButton->setIcon(core->icon(KittySDK::Icons::I_DELETE));
+	m_ui->phoneDeleteButton->setIcon(m_core->icon(KittySDK::Icons::I_DELETE));
+	m_ui->emailDeleteButton->setIcon(m_core->icon(KittySDK::Icons::I_DELETE));
 }
 
 void ContactWindow::on_treeWidget_currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous)
@@ -116,7 +118,7 @@ void ContactWindow::on_buttonBox_accepted()
 
 	m_contact->setData(KittySDK::ContactInfos::I_SEX, m_ui->sexComboBox->currentIndex());
 
-	QString fileName = Core::inst()->avatarPath(m_contact);
+	QString fileName = m_core->avatarPath(m_contact);
 	if(m_ui->avatarLabel->pixmap()) {
 		m_ui->avatarLabel->pixmap()->save(fileName);
 	} else {
@@ -245,8 +247,6 @@ void ContactWindow::on_phoneListWidget_currentItemChanged(QListWidgetItem *curre
 
 void ContactWindow::loadData()
 {
-	Core *core = Core::inst();
-
 	if(!m_contact) {
 		//remove summary when adding contact
 		m_ui->stackedWidget->removeWidget(m_ui->stackedWidget->widget(0));
@@ -268,7 +268,7 @@ void ContactWindow::loadData()
 	//add all accounts
 	foreach(KittySDK::IAccount *acc, AccountManager::inst()->accounts()) {
 		m_ui->accountComboBox->addItem(QString("%1 (%2)").arg(acc->uid()).arg(acc->protocol()->protoInfo()->protoName()));
-		m_ui->accountComboBox->setItemIcon(m_ui->accountComboBox->count() - 1, core->icon(acc->protocol()->protoInfo()->protoIcon()));
+		m_ui->accountComboBox->setItemIcon(m_ui->accountComboBox->count() - 1, m_core->icon(acc->protocol()->protoInfo()->protoIcon()));
 		m_ui->accountComboBox->setItemData(m_ui->accountComboBox->count() - 1, acc->protocol()->protoInfo()->protoName(), Qt::UserRole + 1);
 		m_ui->accountComboBox->setItemData(m_ui->accountComboBox->count() - 1, acc->uid(), Qt::UserRole + 2);
 	}
@@ -304,7 +304,7 @@ void ContactWindow::loadData()
 		m_ui->birthdayDateEdit->setDate(m_contact->data(KittySDK::ContactInfos::I_BIRTHDAY).toDate());
 		m_ui->sexComboBox->setCurrentIndex(m_contact->data(KittySDK::ContactInfos::I_SEX).toInt());
 
-		QString fileName = Core::inst()->avatarPath(m_contact);
+		QString fileName = m_core->avatarPath(m_contact);
 		if(QFile::exists(fileName)) {
 			m_ui->avatarLabel->setPixmap(QPixmap(fileName));
 		}
@@ -450,7 +450,7 @@ void ContactWindow::updateSummary()
 		description.prepend(" \"");
 		description.append("\"");
 	}
-	summary += "<b>" + tr("Status") + ":</b> " + Core::inst()->statusToString(m_contact->status()) + Qt::escape(description);
+	summary += "<b>" + tr("Status") + ":</b> " + m_core->statusToString(m_contact->status()) + Qt::escape(description);
 	summary += "<br>";
 
 	if(!m_contact->data(KittySDK::ContactInfos::I_HOMEPAGE).toString().isEmpty()) {
