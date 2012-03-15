@@ -43,7 +43,7 @@ SettingsWindow::SettingsWindow(Core *core, QWidget *parent):
 	m_ui->treeWidget->header()->hideSection(1);
 
 	connect(m_ui->buttonBox->button(QDialogButtonBox::Apply), SIGNAL(clicked()), this, SLOT(applySettings()));
-	connect(IconManager::inst(), SIGNAL(iconsUpdated()), this, SLOT(updateIcons()));
+	connect(m_core->iconManager(), SIGNAL(iconsUpdated()), this, SLOT(updateIcons()));
 
 	setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
 
@@ -99,7 +99,7 @@ void SettingsWindow::addPage(KittySDK::ISettingsPage *page, const QString &paren
 	}
 
 	QTreeWidgetItem *child = new QTreeWidgetItem();
-	child->setIcon(0, IconManager::inst()->icon(page->icon()));
+	child->setIcon(0, m_core->iconManager()->icon(page->icon()));
 	child->setText(0, page->windowTitle());
 	child->setText(1, page->id());
 

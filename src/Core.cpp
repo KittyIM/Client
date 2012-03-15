@@ -16,6 +16,7 @@
 #include "PluginManager.h"
 #include "ActionManager.h"
 #include "JsonSettings.h"
+#include "IconManager.h"
 #include "ChatManager.h"
 #include "IconManager.h"
 #include "constants.h"
@@ -71,8 +72,7 @@ Core::~Core()
 	delete m_profilesWindow;
 	delete m_historyWindow;
 	delete m_actionManager;
-
-	IconManager::destr();
+	delete m_iconManager;
 
 	delete m_profile;
 
@@ -159,9 +159,9 @@ QAction *Core::action(const QString &id)
 	return actionManager()->action(id);
 }
 
-QPixmap Core::icon(const QString &id) const
+QPixmap Core::icon(const QString &id)
 {
-	return IconManager::inst()->icon(id);
+	return iconManager()->icon(id);
 }
 
 QVariant Core::setting(const QString &key, const QVariant &defaultValue)
@@ -346,6 +346,15 @@ EmoticonManager *Core::emoticonManager()
 	}
 
 	return m_emoticonManager;
+}
+
+IconManager *Core::iconManager()
+{
+	if(!m_iconManager) {
+		m_iconManager = new IconManager(this);
+	}
+
+	return m_iconManager;
 }
 
 QString Core::avatarPath(KittySDK::IContact *contact) const

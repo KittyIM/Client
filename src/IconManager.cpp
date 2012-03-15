@@ -1,6 +1,7 @@
 #include "IconManager.h"
 
 #include "IconTheme.h"
+#include "Core.h"
 
 #include <SDKConstants.h>
 
@@ -13,7 +14,9 @@
 namespace Kitty
 {
 
-IconManager::IconManager(QObject *parent): QObject(parent)
+IconManager::IconManager(Core *core):
+	QObject(core),
+	m_core(core)
 {
 	m_updateTimer.setSingleShot(true);
 	m_updateTimer.setInterval(100);
@@ -52,5 +55,6 @@ void IconManager::insert(const QString &id, const QPixmap &pixmap, bool replace)
 
 	m_updateTimer.start();
 }
+
 
 }

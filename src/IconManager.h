@@ -13,13 +13,15 @@ class QPixmap;
 
 namespace Kitty
 {
-	class IconManager: public QObject, public Singleton<IconManager>
+	class Core;
+
+	class IconManager: public QObject
 	{
 		Q_OBJECT
 
-		friend class Singleton<IconManager>;
-
 		public:
+			IconManager(Core *core);
+
 			void loadDefaults();
 			QStringList keys() const { return m_icons.keys(); }
 
@@ -31,11 +33,9 @@ namespace Kitty
 			void iconsUpdated();
 
 		private:
-			explicit IconManager(QObject *parent = 0);
-
-		private:
 			QHash<QString, QPixmap> m_icons;
 			QTimer m_updateTimer;
+			Core *m_core;
 	};
 }
 

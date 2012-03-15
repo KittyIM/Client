@@ -19,7 +19,7 @@ StatusChangeButton::StatusChangeButton(QWidget *parent):
 	Core *core = Core::inst();
 	QMenu *menu = new QMenu(this);
 
-	connect(IconManager::inst(), SIGNAL(iconsUpdated()), this, SLOT(updateIcons()));
+	connect(Core::inst()->iconManager(), SIGNAL(iconsUpdated()), this, SLOT(updateIcons()));
 
 	m_onlineAction = menu->addAction(core->icon(KittySDK::Icons::I_STATUS_ONLINE), tr("Online"), this, SLOT(setStatusOnline()));
 	m_awayAction = menu->addAction(core->icon(KittySDK::Icons::I_STATUS_AWAY), tr("Away"), this, SLOT(setStatusAway()));

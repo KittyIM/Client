@@ -173,7 +173,7 @@ void DebugWindow::on_refreshIconsButton_clicked()
 {
 	m_ui->iconsWidget->clear();
 
-	QStringList keys = IconManager::inst()->keys();
+	QStringList keys = Core::inst()->iconManager()->keys();
 	qSort(keys);
 	foreach(QString key, keys) {
 		QString prefix;

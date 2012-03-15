@@ -68,7 +68,7 @@ void Profile::load(const QString &name)
 
 	m_core->actionManager()->loadDefaults();
 
-	connect(IconManager::inst(), SIGNAL(iconsUpdated()), m_core->actionManager(), SLOT(updateIcons()));
+	connect(m_core->iconManager(), SIGNAL(iconsUpdated()), m_core->actionManager(), SLOT(updateIcons()));
 
 	PluginManager::inst()->load();
 
@@ -98,7 +98,7 @@ void Profile::loadIconTheme(const QString &name)
 	while(i.hasNext()) {
 		i.next();
 
-		IconManager::inst()->insert(i.key(), QPixmap(i.value()));
+		m_core->iconManager()->insert(i.key(), QPixmap(i.value()));
 	}
 }
 

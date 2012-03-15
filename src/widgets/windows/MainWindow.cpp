@@ -74,7 +74,7 @@ MainWindow::MainWindow(Core *core, QWidget *parent):
 	m_ui->rosterTreeView->setSortingEnabled(true);
 
 	connect(m_proxy, SIGNAL(layoutChanged()), m_ui->rosterTreeView, SLOT(fixGroups()));
-	connect(IconManager::inst(), SIGNAL(iconsUpdated()), m_proxy, SLOT(invalidate()));
+	connect(m_core->iconManager(), SIGNAL(iconsUpdated()), m_proxy, SLOT(invalidate()));
 
 	m_hideTimer.setSingleShot(true);
 	connect(&m_hideTimer, SIGNAL(timeout()), this, SLOT(hide()));

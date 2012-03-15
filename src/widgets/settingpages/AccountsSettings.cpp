@@ -101,7 +101,7 @@ void AccountsSettings::on_addButton_clicked()
 	QMenu menu;
 
 	foreach(KittySDK::IProtocol *proto, ProtocolManager::inst()->protocols()) {
-		menu.addAction(IconManager::inst()->icon(proto->protoInfo()->protoIcon()), proto->protoInfo()->protoName(), this, SLOT(addAccount()));
+		menu.addAction(m_core->iconManager()->icon(proto->protoInfo()->protoIcon()), proto->protoInfo()->protoName(), this, SLOT(addAccount()));
 	}
 
 	if(menu.isEmpty()) {

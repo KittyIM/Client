@@ -109,12 +109,12 @@ void PluginCoreImpl::removeAction(const QString &id)
 
 QPixmap PluginCoreImpl::icon(const QString &id)
 {
-	return IconManager::inst()->icon(id);
+	return Core::inst()->iconManager()->icon(id);
 }
 
 void PluginCoreImpl::addIcon(const QString &id, const QPixmap &pixmap, bool replace)
 {
-	IconManager::inst()->insert(id, pixmap, replace);
+	Core::inst()->iconManager()->insert(id, pixmap, replace);
 }
 
 int PluginCoreImpl::contactCount()
@@ -193,7 +193,7 @@ QToolButton *PluginCoreImpl::buttonForAction(const QString &tb, QAction *action)
 
 void PluginCoreImpl::removeIcon(const QString &id)
 {
-	IconManager::inst()->remove(id);
+	Core::inst()->iconManager()->remove(id);
 }
 
 QString PluginCoreImpl::kittyVersion()
