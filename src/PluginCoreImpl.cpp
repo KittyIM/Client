@@ -95,12 +95,12 @@ void PluginCoreImpl::addAccount(KittySDK::IAccount *account)
 
 QAction *PluginCoreImpl::action(const QString &id)
 {
-	return ActionManager::inst()->action(id);
+	return Core::inst()->actionManager()->action(id);
 }
 
 void PluginCoreImpl::addAction(const QString &id, QAction *action)
 {
-	ActionManager::inst()->insert(id, action);
+	Core::inst()->actionManager()->insert(id, action);
 }
 
 void PluginCoreImpl::removeAction(const QString &id)

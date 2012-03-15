@@ -140,7 +140,7 @@ void DebugWindow::on_refreshActionsButton_clicked()
 {
 	m_ui->actionsWidget->clear();
 
-	QStringList keys = ActionManager::inst()->keys();
+	QStringList keys = Core::inst()->actionManager()->keys();
 	qSort(keys);
 	foreach(QString key, keys) {
 		QString prefix;

@@ -1,8 +1,6 @@
 #ifndef ACTIONMANAGER_H
 #define ACTIONMANAGER_H
 
-#include "Singleton.h"
-
 #include <QtCore/QStringList>
 #include <QtCore/QPointer>
 #include <QtCore/QHash>
@@ -10,13 +8,16 @@
 
 namespace Kitty
 {
-	class ActionManager: public QObject, public Singleton<ActionManager>
+	class Core;
+
+	class ActionManager: public QObject
 	{
 		Q_OBJECT
 
-		friend class Singleton<ActionManager>;
-
 		public:
+			ActionManager(Core *core);
+			~ActionManager();
+
 			void loadDefaults();
 			QStringList keys() const { return m_actions.keys(); }
 
@@ -28,10 +29,8 @@ namespace Kitty
 			void retranslate();
 
 		private:
-			ActionManager(): QObject(0) { }
-
-		private:
 			QHash<QString, QPointer<QAction> > m_actions;
+			Core *m_core;
 	};
 }
 #endif // ACTIONMANAGER_H

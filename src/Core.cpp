@@ -69,8 +69,8 @@ Core::~Core()
 
 	delete m_profilesWindow;
 	delete m_historyWindow;
+	delete m_actionManager;
 
-	ActionManager::destr();
 	IconManager::destr();
 
 	delete m_profile;
@@ -153,9 +153,9 @@ QString Core::processEmoticons(const QString &text)
 	return text;
 }
 
-QAction *Core::action(const QString &id) const
+QAction *Core::action(const QString &id)
 {
-	return ActionManager::inst()->action(id);
+	return actionManager()->action(id);
 }
 
 QPixmap Core::icon(const QString &id) const
@@ -318,6 +318,15 @@ ChatManager *Core::chatManager()
 	}
 
 	return m_chatManager;
+}
+
+ActionManager *Core::actionManager()
+{
+	if(!m_actionManager) {
+		m_actionManager = new ActionManager(this);
+	}
+
+	return m_actionManager;
 }
 
 QString Core::avatarPath(KittySDK::IContact *contact) const

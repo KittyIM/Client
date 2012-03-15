@@ -14,6 +14,17 @@
 namespace Kitty
 {
 
+ActionManager::ActionManager(Core *core):
+	QObject(core),
+	m_core(core)
+{
+}
+
+ActionManager::~ActionManager()
+{
+	qDeleteAll(m_actions);
+}
+
 void ActionManager::loadDefaults()
 {
 	//qDebug() << "Loading default actions";

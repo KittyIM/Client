@@ -21,6 +21,7 @@ namespace Kitty
 	class AccountManager;
 	class ProfilesWindow;
 	class SettingsWindow;
+	class ActionManager;
 	class ContactWindow;
 	class HistoryWindow;
 	class JsonSettings;
@@ -46,7 +47,7 @@ namespace Kitty
 			QString processUrls(const QString &text);
 			QString processEmoticons(const QString &text);
 
-			QAction *action(const QString &id) const;
+			QAction *action(const QString &id);
 			QPixmap icon(const QString &id) const;
 			QVariant setting(const QString &key, const QVariant &defaultValue = QVariant());
 
@@ -65,6 +66,7 @@ namespace Kitty
 
 			AccountManager *accountManager();
 			ChatManager *chatManager();
+			ActionManager *actionManager();
 
 			QString avatarPath(KittySDK::IContact *contact) const;
 			QString profileName() const;
@@ -108,6 +110,7 @@ namespace Kitty
 			QPointer<AccountManager> m_accountManager;
 			QPointer<ProfilesWindow> m_profilesWindow;
 			QPointer<SettingsWindow> m_settingsWindow;
+			QPointer<ActionManager> m_actionManager;
 			QPointer<HistoryWindow> m_historyWindow;
 			QPointer<AboutWindow> m_aboutWindow;
 			QPointer<ChatManager> m_chatManager;

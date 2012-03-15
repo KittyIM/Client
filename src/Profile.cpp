@@ -66,9 +66,9 @@ void Profile::load(const QString &name)
 
 	DebugWindow::inst()->restoreGeometry(m_core->setting(KittySDK::Settings::S_DEBUGWINDOW_GEOMETRY).toByteArray());
 
-	ActionManager::inst()->loadDefaults();
+	m_core->actionManager()->loadDefaults();
 
-	connect(IconManager::inst(), SIGNAL(iconsUpdated()), ActionManager::inst(), SLOT(updateIcons()));
+	connect(IconManager::inst(), SIGNAL(iconsUpdated()), m_core->actionManager(), SLOT(updateIcons()));
 
 	PluginManager::inst()->load();
 

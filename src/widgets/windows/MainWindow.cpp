@@ -415,7 +415,7 @@ void MainWindow::changeEvent(QEvent *event)
 	if(event->type() == QEvent::LanguageChange) {
 		m_ui->retranslateUi(this);
 		m_header->retranslate();
-		ActionManager::inst()->retranslate();
+		m_core->actionManager()->retranslate();
 	}
 
 	QMainWindow::changeEvent(event);
