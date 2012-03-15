@@ -44,7 +44,7 @@ Profile::Profile(Core *core):
 Profile::~Profile()
 {
 	if(isLoaded()) {
-		settings()->setValue(KittySDK::Settings::S_DEBUGWINDOW_GEOMETRY, DebugWindow::inst()->saveGeometry());
+		settings()->setValue(KittySDK::Settings::S_DEBUGWINDOW_GEOMETRY, m_core->debugWindow()->saveGeometry());
 
 		m_core->messageQueue()->save(m_name);
 		m_core->accountManager()->save(m_name);
@@ -64,8 +64,7 @@ void Profile::load(const QString &name)
 	dynamic_cast<App*>(qApp)->retranslate();
 	dynamic_cast<App*>(qApp)->applySettings();
 
-	DebugWindow::inst()->restoreGeometry(m_core->setting(KittySDK::Settings::S_DEBUGWINDOW_GEOMETRY).toByteArray());
-
+	m_core->debugWindow()->restoreGeometry(m_core->setting(KittySDK::Settings::S_DEBUGWINDOW_GEOMETRY).toByteArray());
 	m_core->actionManager()->loadDefaults();
 
 	connect(m_core->iconManager(), SIGNAL(iconsUpdated()), m_core->actionManager(), SLOT(updateIcons()));

@@ -16,13 +16,14 @@ namespace Ui
 
 namespace Kitty
 {
-	class DebugWindow: public QWidget, public Singleton<DebugWindow>
+	class Core;
+
+	class DebugWindow: public QWidget
 	{
 		Q_OBJECT
 
-		friend class Singleton<DebugWindow>;
-
 		public:
+			DebugWindow(Core *core, QWidget *parent = 0);
 			~DebugWindow();
 
 			static void addMessage(QtMsgType type, const char *msg);
@@ -39,13 +40,8 @@ namespace Kitty
 			void on_iconsWidget_currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous);
 
 		private:
-			explicit DebugWindow();
-			DebugWindow(const DebugWindow &);
-			void operator=(const DebugWindow &);
-
-		private:
 			Ui::DebugWindow *m_ui;
-			static DebugWindow* m_inst;
+			Core *m_core;
 			QStringList m_history;
 			static QWebView *m_wvLog;
 	};

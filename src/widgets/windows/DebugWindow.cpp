@@ -19,15 +19,15 @@
 #define qDebug() qDebug() << "[DebugWindow]"
 #define qWarning() qWarning() << "[DebugWindow]"
 
-Kitty::DebugWindow *Kitty::DebugWindow::m_inst = 0;
 QWebView *Kitty::DebugWindow::m_wvLog = 0;
 
 namespace Kitty
 {
 
-DebugWindow::DebugWindow():
-	QWidget(),
-	m_ui(new Ui::DebugWindow)
+DebugWindow::DebugWindow(Core *core, QWidget *parent):
+	QWidget(parent),
+	m_ui(new Ui::DebugWindow),
+	m_core(core)
 {
 	m_ui->setupUi(this);
 
@@ -44,6 +44,7 @@ DebugWindow::DebugWindow():
 	connect(m_ui->commandEdit, SIGNAL(returnPressed()), m_ui->execButton, SLOT(click()));
 }
 
+
 DebugWindow::~DebugWindow()
 {
 	qInstallMsgHandler(0);
@@ -55,7 +56,7 @@ DebugWindow::~DebugWindow()
 
 void DebugWindow::addMessage(QtMsgType type, const char *msg)
 {
-	DebugWindow::inst();
+	Core::inst()->debugWindow();
 
 	QString color = "#ffffff";
 	switch(type) {

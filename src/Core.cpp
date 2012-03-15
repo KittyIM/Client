@@ -84,7 +84,7 @@ Core::~Core()
 	delete m_protocolManager;
 	delete m_pluginManager;
 
-	DebugWindow::destr();
+	delete m_debugWindow;
 }
 
 QString Core::statusToString(const int &status)
@@ -383,6 +383,15 @@ ProtocolManager *Core::protocolManager()
 	}
 
 	return m_protocolManager;
+}
+
+DebugWindow *Core::debugWindow()
+{
+	if(!m_debugWindow) {
+		m_debugWindow = new DebugWindow(this);
+	}
+
+	return m_debugWindow;
 }
 
 QString Core::avatarPath(KittySDK::IContact *contact) const

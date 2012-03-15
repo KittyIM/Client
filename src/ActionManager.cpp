@@ -58,7 +58,7 @@ void ActionManager::loadDefaults()
 
 	QAction *actDebug = new QAction(this);
 	actDebug->setProperty("icon_id", KittySDK::Icons::I_CONSOLE);
-	connect(actDebug, SIGNAL(triggered()), DebugWindow::inst(), SLOT(show()));
+	connect(actDebug, SIGNAL(triggered()), m_core->debugWindow(), SLOT(show()));
 	insert(KittySDK::Actions::A_DEBUG, actDebug);
 
 	QAction *actSettings = new QAction(this);

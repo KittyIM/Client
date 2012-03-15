@@ -32,6 +32,7 @@ namespace Kitty
 	class MessageQueue;
 	class AboutWindow;
 	class ChatManager;
+	class DebugWindow;
 	class IconManager;
 	class ChatWindow;
 	class MainWindow;
@@ -79,6 +80,7 @@ namespace Kitty
 			MessageQueue *messageQueue();
 			PluginManager *pluginManager();
 			ProtocolManager *protocolManager();
+			DebugWindow *debugWindow();
 
 			QString avatarPath(KittySDK::IContact *contact) const;
 			QString profileName() const;
@@ -131,6 +133,7 @@ namespace Kitty
 			QPointer<MessageQueue> m_messageQueue;
 			QPointer<AboutWindow> m_aboutWindow;
 			QPointer<ChatManager> m_chatManager;
+			QPointer<DebugWindow> m_debugWindow;
 			QPointer<IconManager> m_iconManager;
 			QPointer<MainWindow> m_mainWindow;
 			QPointer<ChatWindow> m_chatWindow;

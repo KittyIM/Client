@@ -40,7 +40,7 @@ App::App(int &argc, char **argv): QApplication(argc, argv)
 	qInstallMsgHandler(DebugWindow::addMessage);
 	setQuitOnLastWindowClosed(false);
 
-	connect(this, SIGNAL(aboutToQuit()), this, SLOT(cleanUp()));
+	connect(this, SIGNAL(aboutToQuit()), SLOT(cleanUp()));
 
 	qDebug() << "Starting KittyIM";
 	qDebug() << "There are" << (arguments().count() - 1) << "arguments";
@@ -54,7 +54,7 @@ App::App(int &argc, char **argv): QApplication(argc, argv)
 		QString arg = it.next();
 		if(arg == "-debug") {
 			qDebug() << "-debug found, showing debug console";
-			DebugWindow::inst()->show();
+			core->debugWindow()->show();
 		} else if(arg == "-profile") {
 			if(it.hasNext()) {
 				profile = it.next();
