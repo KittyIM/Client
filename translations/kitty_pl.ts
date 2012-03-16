@@ -72,6 +72,76 @@
     </message>
 </context>
 <context>
+    <name>ChatWindowEditSettings</name>
+    <message>
+        <location filename="../src/widgets/settingpages/ChatWindowEditSettings.ui"/>
+        <location filename="../src/ui_ChatEditSettings.h" line="+39"/>
+        <location filename="../src/ui_ChatWindowEditSettings.h" line="+187"/>
+        <source>Message field</source>
+        <translation>Pole wiadomości</translation>
+    </message>
+    <message>
+        <location/>
+        <location filename="../src/ui_ChatWindowEditSettings.h" line="+2"/>
+        <source>Minimum height:</source>
+        <translation>Minimalna wysokość:</translation>
+    </message>
+    <message>
+        <location/>
+        <location filename="../src/ui_ChatWindowEditSettings.h" line="+1"/>
+        <source> rows</source>
+        <translation> wierszy</translation>
+    </message>
+    <message>
+        <location/>
+        <location filename="../src/ui_ChatWindowEditSettings.h" line="+1"/>
+        <source>Font</source>
+        <translation>Czcionka</translation>
+    </message>
+    <message>
+        <location/>
+        <location filename="../src/ui_ChatWindowEditSettings.h" line="+1"/>
+        <source>Antialiasing</source>
+        <translation>Wygładzanie</translation>
+    </message>
+    <message>
+        <location/>
+        <location filename="../src/ui_ChatWindowEditSettings.h" line="+1"/>
+        <source>Family:</source>
+        <translation>Krój:</translation>
+    </message>
+    <message>
+        <location/>
+        <location filename="../src/ui_ChatWindowEditSettings.h" line="+1"/>
+        <source>Size:</source>
+        <translation>Rozmiar:</translation>
+    </message>
+    <message>
+        <location/>
+        <location filename="../src/ui_ChatWindowEditSettings.h" line="+1"/>
+        <source>Spell checker</source>
+        <translation>Sprawdzanie pisowni</translation>
+    </message>
+    <message>
+        <location/>
+        <location filename="../src/ui_ChatWindowEditSettings.h" line="+1"/>
+        <source>Check spelling</source>
+        <translation>Sprawdzaj pisownię</translation>
+    </message>
+    <message>
+        <location/>
+        <location filename="../src/ui_ChatWindowEditSettings.h" line="+1"/>
+        <source>Dictionary:</source>
+        <translation>Słownik:</translation>
+    </message>
+    <message>
+        <location/>
+        <location filename="../src/ui_ChatWindowEditSettings.h" line="+1"/>
+        <source>Suggestion limit (0 - unlimited):</source>
+        <translation>Limit podpowiedzi (0 - bez limitu):</translation>
+    </message>
+</context>
+<context>
     <name>ChatWindowSettings</name>
     <message>
         <location filename="../src/widgets/settingpages/ChatWindowSettings.ui"/>
@@ -357,7 +427,7 @@
     <name>ContactWindow</name>
     <message>
         <location filename="../src/widgets/windows/ContactWindow.ui"/>
-        <location filename="../src/ui_ContactWindow.h" line="+733"/>
+        <location filename="../src/ui_ContactWindow.h" line="+753"/>
         <location filename="../win64/src/ui_ContactWindow.h" line="+733"/>
         <source>Summary</source>
         <translation>Podsumowanie</translation>
@@ -621,6 +691,12 @@
         <source>Delete</source>
         <translation>Usuń</translation>
     </message>
+    <message>
+        <location/>
+        <location filename="../src/ui_ContactWindow.h" line="-45"/>
+        <source>This is a temporary contact, clicking &quot;OK&quot; will add it to roster.</source>
+        <translation>Ten kontakt jest tymczasowy, jeśli klikniesz &quot;OK&quot; zostanie dodany do listy.</translation>
+    </message>
 </context>
 <context>
     <name>DebugWindow</name>
@@ -840,9 +916,126 @@
     </message>
 </context>
 <context>
+    <name>HistoryWindow</name>
+    <message>
+        <location filename="../src/widgets/windows/HistoryWindow.ui"/>
+        <location filename="../src/ui_HistoryWindow.h" line="+260"/>
+        <location filename="../win64/src/ui_HistoryWindow.h" line="+260"/>
+        <source>History</source>
+        <translation>Historia</translation>
+    </message>
+    <message>
+        <location/>
+        <location filename="../src/ui_HistoryWindow.h" line="+1"/>
+        <location filename="../win64/src/ui_HistoryWindow.h" line="+1"/>
+        <source>Refresh</source>
+        <translation>Odśwież</translation>
+    </message>
+    <message>
+        <location/>
+        <location filename="../src/ui_HistoryWindow.h" line="+1"/>
+        <location filename="../win64/src/ui_HistoryWindow.h" line="+1"/>
+        <source>Export</source>
+        <translation>Eksportuj</translation>
+    </message>
+    <message>
+        <location/>
+        <location filename="../src/ui_HistoryWindow.h" line="+1"/>
+        <location filename="../win64/src/ui_HistoryWindow.h" line="+1"/>
+        <source>Import</source>
+        <translation>Importuj</translation>
+    </message>
+    <message>
+        <location/>
+        <location filename="../src/ui_HistoryWindow.h" line="+1"/>
+        <location filename="../win64/src/ui_HistoryWindow.h" line="+1"/>
+        <source>Print</source>
+        <translation>Drukuj</translation>
+    </message>
+    <message>
+        <location/>
+        <location filename="../src/ui_HistoryWindow.h" line="+1"/>
+        <location line="+4"/>
+        <location filename="../win64/src/ui_HistoryWindow.h" line="+1"/>
+        <location line="+4"/>
+        <source>Filters</source>
+        <translation>Filtry</translation>
+    </message>
+    <message>
+        <location/>
+        <location filename="../src/ui_HistoryWindow.h" line="-3"/>
+        <location filename="../win64/src/ui_HistoryWindow.h" line="-3"/>
+        <source>Search</source>
+        <translation>Szukaj</translation>
+    </message>
+    <message>
+        <location/>
+        <location filename="../src/ui_HistoryWindow.h" line="+2"/>
+        <location filename="../win64/src/ui_HistoryWindow.h" line="+2"/>
+        <source>Search contacts</source>
+        <translation>Szukaj kontaktów</translation>
+    </message>
+    <message>
+        <location/>
+        <location filename="../src/ui_HistoryWindow.h" line="+2"/>
+        <location filename="../win64/src/ui_HistoryWindow.h" line="+2"/>
+        <source>From:</source>
+        <translation>Od:</translation>
+    </message>
+    <message>
+        <location/>
+        <location filename="../src/ui_HistoryWindow.h" line="+1"/>
+        <location filename="../win64/src/ui_HistoryWindow.h" line="+1"/>
+        <source>To:</source>
+        <translation>Do:</translation>
+    </message>
+    <message>
+        <location/>
+        <location filename="../src/ui_HistoryWindow.h" line="+3"/>
+        <location filename="../win64/src/ui_HistoryWindow.h" line="+3"/>
+        <source>Both directions</source>
+        <translation>Obie strony</translation>
+    </message>
+    <message>
+        <location/>
+        <location filename="../src/ui_HistoryWindow.h" line="+1"/>
+        <location filename="../win64/src/ui_HistoryWindow.h" line="+1"/>
+        <source>Incoming</source>
+        <translation>Przychodzące</translation>
+    </message>
+    <message>
+        <location/>
+        <location filename="../src/ui_HistoryWindow.h" line="+1"/>
+        <location filename="../win64/src/ui_HistoryWindow.h" line="+1"/>
+        <source>Outgoing</source>
+        <translation>Wychodzące</translation>
+    </message>
+    <message>
+        <location/>
+        <location filename="../src/ui_HistoryWindow.h" line="+4"/>
+        <location filename="../win64/src/ui_HistoryWindow.h" line="+4"/>
+        <source>Duration</source>
+        <translation>Długość</translation>
+    </message>
+    <message>
+        <location/>
+        <location filename="../src/ui_HistoryWindow.h" line="-1"/>
+        <location filename="../win64/src/ui_HistoryWindow.h" line="-1"/>
+        <source>Count</source>
+        <translation>Ilość</translation>
+    </message>
+    <message>
+        <location/>
+        <location filename="../src/ui_HistoryWindow.h" line="-12"/>
+        <location filename="../win64/src/ui_HistoryWindow.h" line="-12"/>
+        <source>Quick search</source>
+        <translation>Szybkie szukanie</translation>
+    </message>
+</context>
+<context>
     <name>Kitty::AboutWindow</name>
     <message>
-        <location filename="../src/widgets/windows/AboutWindow.cpp" line="+58"/>
+        <location filename="../src/widgets/windows/AboutWindow.cpp" line="+63"/>
         <source>Built on %1 at %2.</source>
         <translation>Zbudowany %1 o %2.</translation>
     </message>
@@ -860,7 +1053,7 @@
 <context>
     <name>Kitty::AccountsSettings</name>
     <message>
-        <location filename="../src/widgets/settingpages/AccountsSettings.cpp" line="+107"/>
+        <location filename="../src/widgets/settingpages/AccountsSettings.cpp" line="+108"/>
         <source>No protocols available</source>
         <translation>Brak dostępnych protokołów</translation>
     </message>
@@ -868,7 +1061,7 @@
 <context>
     <name>Kitty::ActionManager</name>
     <message>
-        <location filename="../src/ActionManager.cpp" line="+105"/>
+        <location filename="../src/ActionManager.cpp" line="+111"/>
         <source>Quit</source>
         <translation>Zakończ</translation>
     </message>
@@ -929,6 +1122,27 @@
         <location filename="../src/widgets/ChatColorPicker.cpp" line="+77"/>
         <source>More...</source>
         <translation>Więcej...</translation>
+    </message>
+</context>
+<context>
+    <name>Kitty::ChatEdit</name>
+    <message>
+        <location filename="../src/widgets/ChatEdit.cpp" line="+232"/>
+        <source>Paste formatted</source>
+        <translation>Wklej sformatowane</translation>
+    </message>
+    <message>
+        <location line="-31"/>
+        <source>Add to dictionary</source>
+        <translation>Dodaj do słownika</translation>
+    </message>
+</context>
+<context>
+    <name>Kitty::ChatManager</name>
+    <message>
+        <location filename="../src/ChatManager.cpp" line="+164"/>
+        <source>Message from</source>
+        <translation>Wiadomość od</translation>
     </message>
 </context>
 <context>
@@ -1054,6 +1268,44 @@
     </message>
 </context>
 <context>
+    <name>Kitty::ChatTabWidget</name>
+    <message>
+        <location filename="../src/widgets/ChatTabWidget.cpp" line="+31"/>
+        <location line="+339"/>
+        <source>Recently closed tabs</source>
+        <translation>Ostatnio zamknięte zakładki</translation>
+    </message>
+    <message>
+        <location line="-266"/>
+        <source>Unknown</source>
+        <translation>Nieznane</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Female</source>
+        <translation>Kobieta</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Male</source>
+        <translation>Mężczyzna</translation>
+    </message>
+    <message>
+        <location line="+150"/>
+        <source>Clear recently closed tabs list</source>
+        <translation>Wyczyść listę</translation>
+    </message>
+</context>
+<context>
+    <name>Kitty::ChatTheme</name>
+    <message>
+        <location filename="../src/ChatTheme.cpp" line="+15"/>
+        <location line="+1"/>
+        <source>Default</source>
+        <translation>Domyślny</translation>
+    </message>
+</context>
+<context>
     <name>Kitty::ChatWebView</name>
     <message>
         <location filename="../src/widgets/ChatWebView.cpp" line="+287"/>
@@ -1062,19 +1314,123 @@
     </message>
 </context>
 <context>
+    <name>Kitty::ChatWindow</name>
+    <message>
+        <location filename="../src/widgets/windows/ChatWindow.cpp" line="+152"/>
+        <source>Unknown</source>
+        <translation>Nieznane</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Female</source>
+        <translation>Kobieta</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Male</source>
+        <translation>Mężczyzna</translation>
+    </message>
+</context>
+<context>
+    <name>Kitty::ChatWindowEditSettings</name>
+    <message>
+        <location filename="../src/widgets/settingpages/ChatWindowEditSettings.cpp" line="+65"/>
+        <source>None</source>
+        <translation>Brak</translation>
+    </message>
+</context>
+<context>
+    <name>Kitty::ContactManager</name>
+    <message>
+        <location filename="../src/ContactManager.cpp" line="+242"/>
+        <source>changed hers description</source>
+        <translation>zmieniła opis</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>changed his description</source>
+        <translation>zmienił opis</translation>
+    </message>
+    <message>
+        <location line="+17"/>
+        <source>is online</source>
+        <comment>female</comment>
+        <translation>jest dostępna</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>is online</source>
+        <comment>male</comment>
+        <translation>jest dostępny</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>is away</source>
+        <comment>female</comment>
+        <translation>zaraz wraca</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>is away</source>
+        <comment>male</comment>
+        <translation>zaraz wraca</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>is free for chat</source>
+        <comment>female</comment>
+        <translation>jest chętna do rozmowy</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>is free for chat</source>
+        <comment>male</comment>
+        <translation>jest chętny do rozmowy</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>shouldn&apos;t be disturbed</source>
+        <comment>female</comment>
+        <translation>jest zajęta</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>shouldn&apos;t be disturbed</source>
+        <comment>male</comment>
+        <translation>jest zajęty</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>is offline</source>
+        <comment>female</comment>
+        <translation>jest niedostępna</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>is offline</source>
+        <comment>male</comment>
+        <translation>jest niedostępny</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>is wtf</source>
+        <translation>co do ^#$@</translation>
+    </message>
+</context>
+<context>
     <name>Kitty::ContactWindow</name>
     <message>
-        <location filename="../src/widgets/windows/ContactWindow.cpp" line="+30"/>
+        <location filename="../src/widgets/windows/ContactWindow.cpp" line="+36"/>
         <source>Edit contact</source>
         <translation>Edytuj kontakt</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+6"/>
         <source>Add contact</source>
         <translation>Dodaj kontakt</translation>
     </message>
     <message>
-        <location line="+375"/>
+        <location line="+388"/>
         <source>female</source>
         <translation>kobieta</translation>
     </message>
@@ -1084,12 +1440,12 @@
         <translation>mężczyzna</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+11"/>
         <source>%1 years old</source>
         <translation>lat %1</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+9"/>
         <source>Account</source>
         <translation>Konto</translation>
     </message>
@@ -1142,7 +1498,7 @@
         <translation>w</translation>
     </message>
     <message>
-        <location line="-202"/>
+        <location line="-320"/>
         <source>Email</source>
         <translation>Email</translation>
     </message>
@@ -1175,7 +1531,7 @@
 <context>
     <name>Kitty::Core</name>
     <message>
-        <location filename="../src/Core.cpp" line="+92"/>
+        <location filename="../src/Core.cpp" line="+94"/>
         <source>Online</source>
         <translation>Dostępny</translation>
     </message>
@@ -1213,7 +1569,7 @@
 <context>
     <name>Kitty::DebugWindow</name>
     <message>
-        <location filename="../src/widgets/windows/DebugWindow.cpp" line="+114"/>
+        <location filename="../src/widgets/windows/DebugWindow.cpp" line="+115"/>
         <source>Unknown command, type &lt;i&gt;help&lt;/i&gt; for list of commands.</source>
         <translation>Nieznana komenda, wpisz &lt;i&gt;help&lt;/i&gt; by uzyskać listę komend.</translation>
     </message>
@@ -1224,9 +1580,62 @@
     </message>
 </context>
 <context>
+    <name>Kitty::DesktopFragmentDialog</name>
+    <message>
+        <location filename="../src/widgets/DesktopFragmentDialog.cpp" line="+48"/>
+        <source>Moving/Resizing</source>
+        <translation>Przenoszenie/Zmiana rozmiaru</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Painting</source>
+        <translation>Rysowanie</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Cancel</source>
+        <translation>Anuluj</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Accept</source>
+        <translation>Akceptuj</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Pen</source>
+        <translation>Pędzel</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Painting color</source>
+        <translation>Kolor rysowania</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Eraser</source>
+        <translation>Gumka</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Clear</source>
+        <translation>Wyczyść</translation>
+    </message>
+    <message>
+        <location line="+94"/>
+        <source>Double-click to accept, right-click to select again.</source>
+        <translation>Kliknij dwukrotnie by akceptować, kliknij prawym przyciskiem by wybrać nowy obszar.</translation>
+    </message>
+    <message>
+        <location line="+32"/>
+        <source>Start draging with left mouse button to select or right-click to cancel.</source>
+        <translation>Zacznij przeciąganie by zaznaczyć lub kliknij prawym przyciskiem by anulować.</translation>
+    </message>
+</context>
+<context>
     <name>Kitty::DisplaySettings</name>
     <message>
-        <location filename="../src/widgets/settingpages/DisplaySettings.cpp" line="+75"/>
+        <location filename="../src/widgets/settingpages/DisplaySettings.cpp" line="+70"/>
         <source>None, use Kitty&apos;s icon</source>
         <translation>Żadne, użyj ikonki Kitty</translation>
     </message>
@@ -1315,10 +1724,51 @@
     </message>
 </context>
 <context>
+    <name>Kitty::HistoryWindow</name>
+    <message>
+        <location filename="../src/widgets/windows/HistoryWindow.cpp" line="+149"/>
+        <source>Conversations</source>
+        <translation>Rozmowy</translation>
+    </message>
+    <message>
+        <location line="+251"/>
+        <source>Account</source>
+        <translation>Konto</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Contact</source>
+        <translation>Kontakt</translation>
+    </message>
+    <message numerus="yes">
+        <location line="+55"/>
+        <source>%n chat(s)</source>
+        <translation>
+            <numerusform>%n chat</numerusform>
+            <numerusform>%n chaty</numerusform>
+            <numerusform>%n chatów</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <location line="+0"/>
+        <source>%n message(s)</source>
+        <translation>
+            <numerusform>%n wiadomość</numerusform>
+            <numerusform>%n wiadomości</numerusform>
+            <numerusform>%n wiadomości</numerusform>
+        </translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Message</source>
+        <translation>Wiadomość</translation>
+    </message>
+</context>
+<context>
     <name>Kitty::MainSettings</name>
     <message>
-        <location filename="../src/widgets/settingpages/MainSettings.cpp" line="+33"/>
-        <location line="+16"/>
+        <location filename="../src/widgets/settingpages/MainSettings.cpp" line="+36"/>
+        <location line="+12"/>
         <source>System</source>
         <translation>Język systemu</translation>
     </message>
@@ -1326,7 +1776,7 @@
 <context>
     <name>Kitty::MainWindow</name>
     <message>
-        <location filename="../src/widgets/windows/MainWindow.cpp" line="+338"/>
+        <location filename="../src/widgets/windows/MainWindow.cpp" line="+330"/>
         <source>Lock</source>
         <translation>Zablokuj</translation>
     </message>
@@ -1354,7 +1804,7 @@
 <context>
     <name>Kitty::PluginsSettings</name>
     <message>
-        <location filename="../src/widgets/settingpages/PluginsSettings.cpp" line="+52"/>
+        <location filename="../src/widgets/settingpages/PluginsSettings.cpp" line="+55"/>
         <location line="+1"/>
         <source>Unknown</source>
         <translation>Nieznany</translation>
@@ -1375,12 +1825,12 @@
 <context>
     <name>Kitty::ProfilesWindow</name>
     <message>
-        <location filename="../src/widgets/windows/ProfilesWindow.cpp" line="+71"/>
+        <location filename="../src/widgets/windows/ProfilesWindow.cpp" line="+74"/>
         <source>Add new profile</source>
         <translation>Dodaj nowy profil</translation>
     </message>
     <message>
-        <location line="+90"/>
+        <location line="+88"/>
         <source>Wrong password</source>
         <translation>Błędne hasło</translation>
     </message>
@@ -1439,7 +1889,7 @@
 <context>
     <name>Kitty::RosterTreeView</name>
     <message>
-        <location filename="../src/widgets/RosterTreeView.cpp" line="+173"/>
+        <location filename="../src/widgets/RosterTreeView.cpp" line="+174"/>
         <source>Add new group</source>
         <translation>Dodaj grupę</translation>
     </message>
@@ -1449,7 +1899,7 @@
         <translation>Podaj nazwę nowej grupy:</translation>
     </message>
     <message>
-        <location line="+135"/>
+        <location line="+153"/>
         <source>Send message</source>
         <translation>Wyślij wiadomość</translation>
     </message>
@@ -1459,7 +1909,12 @@
         <translation>Linki</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+7"/>
+        <source>Add to roster</source>
+        <translation>Dodaj do listy</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>History</source>
         <translation>Historia</translation>
     </message>
@@ -1517,7 +1972,7 @@
 <context>
     <name>Kitty::StatusChangeButton</name>
     <message>
-        <location filename="../src/widgets/StatusChangeButton.cpp" line="+23"/>
+        <location filename="../src/widgets/StatusChangeButton.cpp" line="+24"/>
         <location line="+21"/>
         <source>Online</source>
         <translation>Dostępny</translation>
@@ -1591,6 +2046,90 @@
         <location filename="../win64/src/ui_MainSettings.h" line="+2"/>
         <source>Language:</source>
         <translation>Język:</translation>
+    </message>
+</context>
+<context>
+    <name>MainWindowSettings</name>
+    <message>
+        <location filename="../src/widgets/settingpages/MainWindowSettings.ui"/>
+        <location filename="../src/ui_MainWindowSettings.h" line="+173"/>
+        <source>Main Window</source>
+        <translation>Okno główne</translation>
+    </message>
+    <message>
+        <location/>
+        <location filename="../src/ui_MainWindowSettings.h" line="+2"/>
+        <source>Always on top</source>
+        <translation>Zawsze na wierzchu</translation>
+    </message>
+    <message>
+        <location/>
+        <location filename="../src/ui_MainWindowSettings.h" line="+1"/>
+        <source>Transparency:</source>
+        <translation>Przezroczystość:</translation>
+    </message>
+    <message>
+        <location/>
+        <location filename="../src/ui_MainWindowSettings.h" line="+1"/>
+        <source>Autohide after:</source>
+        <translation>Automatycznie chowaj po:</translation>
+    </message>
+    <message>
+        <location/>
+        <location filename="../src/ui_MainWindowSettings.h" line="+1"/>
+        <source>0 sec</source>
+        <translation>0 sek</translation>
+    </message>
+    <message>
+        <location/>
+        <location filename="../src/ui_MainWindowSettings.h" line="+1"/>
+        <source>120 sec</source>
+        <translation>120 sek</translation>
+    </message>
+    <message>
+        <location/>
+        <location filename="../src/ui_MainWindowSettings.h" line="+1"/>
+        <source>Docking</source>
+        <translation>Dokowanie</translation>
+    </message>
+    <message>
+        <location/>
+        <location filename="../src/ui_MainWindowSettings.h" line="+1"/>
+        <source>When closer than:</source>
+        <translation>Gdy bliżej niż:</translation>
+    </message>
+    <message>
+        <location/>
+        <location filename="../src/ui_MainWindowSettings.h" line="+1"/>
+        <source> px</source>
+        <translation> px</translation>
+    </message>
+    <message>
+        <location/>
+        <location filename="../src/ui_MainWindowSettings.h" line="+1"/>
+        <source>Dock to desktop edges</source>
+        <translation>Dokuj do krawędzi pulpitu</translation>
+    </message>
+</context>
+<context>
+    <name>PluginErrorWindow</name>
+    <message>
+        <location filename="../src/widgets/windows/PluginErrorWindow.ui"/>
+        <location filename="../src/ui_PluginErrorWindow.h" line="+74"/>
+        <source>Plugin problems</source>
+        <translation>Problemy z wtyczkami</translation>
+    </message>
+    <message>
+        <location/>
+        <location filename="../src/ui_PluginErrorWindow.h" line="+1"/>
+        <source>The following plugins had problems loading:</source>
+        <translation>Następujące wtyczki miały problemy z załadowaniem:</translation>
+    </message>
+    <message>
+        <location/>
+        <location filename="../src/ui_PluginErrorWindow.h" line="+1"/>
+        <source>More info:</source>
+        <translation>Więcej informacji:</translation>
     </message>
 </context>
 <context>
@@ -1731,7 +2270,7 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/RosterContact.cpp" line="+100"/>
+        <location filename="../src/RosterContact.cpp" line="+103"/>
         <source>Account</source>
         <translation>Konto</translation>
     </message>
@@ -2076,534 +2615,6 @@
         <location filename="../win64/src/ui_UserSettings.h" line="+40"/>
         <source>User</source>
         <translation>Użytkownik</translation>
-    </message>
-</context>
-<context>
-    <name>Kitty::ChatTheme</name>
-    <message>
-        <location filename="../src/ChatTheme.cpp" line="+15"/>
-        <location line="+1"/>
-        <source>Default</source>
-        <translation>Domyślny</translation>
-    </message>
-</context>
-<context>
-    <name>Kitty::ChatTabWidget</name>
-    <message>
-        <location filename="../src/widgets/ChatTabWidget.cpp" line="+31"/>
-        <location line="+339"/>
-        <source>Recently closed tabs</source>
-        <translation>Ostatnio zamknięte zakładki</translation>
-    </message>
-    <message>
-        <location line="-266"/>
-        <source>Unknown</source>
-        <translation>Nieznane</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Female</source>
-        <translation>Kobieta</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Male</source>
-        <translation>Mężczyzna</translation>
-    </message>
-    <message>
-        <location line="+150"/>
-        <source>Clear recently closed tabs list</source>
-        <translation>Wyczyść listę</translation>
-    </message>
-</context>
-<context>
-    <name>Kitty::ChatWindow</name>
-    <message>
-        <location filename="../src/widgets/windows/ChatWindow.cpp" line="+159"/>
-        <source>Unknown</source>
-        <translation>Nieznane</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Female</source>
-        <translation>Kobieta</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>Male</source>
-        <translation>Mężczyzna</translation>
-    </message>
-</context>
-<context>
-    <name>HistoryWindow</name>
-    <message>
-        <location filename="../src/widgets/windows/HistoryWindow.ui"/>
-        <location filename="../src/ui_HistoryWindow.h" line="+260"/>
-        <location filename="../win64/src/ui_HistoryWindow.h" line="+260"/>
-        <source>History</source>
-        <translation>Historia</translation>
-    </message>
-    <message>
-        <location/>
-        <location filename="../src/ui_HistoryWindow.h" line="+1"/>
-        <location filename="../win64/src/ui_HistoryWindow.h" line="+1"/>
-        <source>Refresh</source>
-        <translation>Odśwież</translation>
-    </message>
-    <message>
-        <location/>
-        <location filename="../src/ui_HistoryWindow.h" line="+1"/>
-        <location filename="../win64/src/ui_HistoryWindow.h" line="+1"/>
-        <source>Export</source>
-        <translation>Eksportuj</translation>
-    </message>
-    <message>
-        <location/>
-        <location filename="../src/ui_HistoryWindow.h" line="+1"/>
-        <location filename="../win64/src/ui_HistoryWindow.h" line="+1"/>
-        <source>Import</source>
-        <translation>Importuj</translation>
-    </message>
-    <message>
-        <location/>
-        <location filename="../src/ui_HistoryWindow.h" line="+1"/>
-        <location filename="../win64/src/ui_HistoryWindow.h" line="+1"/>
-        <source>Print</source>
-        <translation>Drukuj</translation>
-    </message>
-    <message>
-        <location/>
-        <location filename="../src/ui_HistoryWindow.h" line="+1"/>
-        <location line="+4"/>
-        <location filename="../win64/src/ui_HistoryWindow.h" line="+1"/>
-        <location line="+4"/>
-        <source>Filters</source>
-        <translation>Filtry</translation>
-    </message>
-    <message>
-        <location/>
-        <location filename="../src/ui_HistoryWindow.h" line="-3"/>
-        <location filename="../win64/src/ui_HistoryWindow.h" line="-3"/>
-        <source>Search</source>
-        <translation>Szukaj</translation>
-    </message>
-    <message>
-        <location/>
-        <location filename="../src/ui_HistoryWindow.h" line="+2"/>
-        <location filename="../win64/src/ui_HistoryWindow.h" line="+2"/>
-        <source>Search contacts</source>
-        <translation>Szukaj kontaktów</translation>
-    </message>
-    <message>
-        <location/>
-        <location filename="../src/ui_HistoryWindow.h" line="+2"/>
-        <location filename="../win64/src/ui_HistoryWindow.h" line="+2"/>
-        <source>From:</source>
-        <translation>Od:</translation>
-    </message>
-    <message>
-        <location/>
-        <location filename="../src/ui_HistoryWindow.h" line="+1"/>
-        <location filename="../win64/src/ui_HistoryWindow.h" line="+1"/>
-        <source>To:</source>
-        <translation>Do:</translation>
-    </message>
-    <message>
-        <location/>
-        <location filename="../src/ui_HistoryWindow.h" line="+3"/>
-        <location filename="../win64/src/ui_HistoryWindow.h" line="+3"/>
-        <source>Both directions</source>
-        <translation>Obie strony</translation>
-    </message>
-    <message>
-        <location/>
-        <location filename="../src/ui_HistoryWindow.h" line="+1"/>
-        <location filename="../win64/src/ui_HistoryWindow.h" line="+1"/>
-        <source>Incoming</source>
-        <translation>Przychodzące</translation>
-    </message>
-    <message>
-        <location/>
-        <location filename="../src/ui_HistoryWindow.h" line="+1"/>
-        <location filename="../win64/src/ui_HistoryWindow.h" line="+1"/>
-        <source>Outgoing</source>
-        <translation>Wychodzące</translation>
-    </message>
-    <message>
-        <location/>
-        <location filename="../src/ui_HistoryWindow.h" line="+4"/>
-        <location filename="../win64/src/ui_HistoryWindow.h" line="+4"/>
-        <source>Duration</source>
-        <translation>Długość</translation>
-    </message>
-    <message>
-        <location/>
-        <location filename="../src/ui_HistoryWindow.h" line="-1"/>
-        <location filename="../win64/src/ui_HistoryWindow.h" line="-1"/>
-        <source>Count</source>
-        <translation>Ilość</translation>
-    </message>
-    <message>
-        <location/>
-        <location filename="../src/ui_HistoryWindow.h" line="-12"/>
-        <location filename="../win64/src/ui_HistoryWindow.h" line="-12"/>
-        <source>Quick search</source>
-        <translation>Szybkie szukanie</translation>
-    </message>
-</context>
-<context>
-    <name>Kitty::ChatEdit</name>
-    <message>
-        <location filename="../src/widgets/ChatEdit.cpp" line="+232"/>
-        <source>Paste formatted</source>
-        <translation>Wklej sformatowane</translation>
-    </message>
-    <message>
-        <location line="-31"/>
-        <source>Add to dictionary</source>
-        <translation>Dodaj do słownika</translation>
-    </message>
-</context>
-<context>
-    <name>Kitty::HistoryWindow</name>
-    <message>
-        <location filename="../src/widgets/windows/HistoryWindow.cpp" line="+152"/>
-        <source>Conversations</source>
-        <translation>Rozmowy</translation>
-    </message>
-    <message>
-        <location line="+257"/>
-        <source>Account</source>
-        <translation>Konto</translation>
-    </message>
-    <message>
-        <location line="+6"/>
-        <source>Contact</source>
-        <translation>Kontakt</translation>
-    </message>
-    <message numerus="yes">
-        <location line="+55"/>
-        <source>%n chat(s)</source>
-        <translation>
-            <numerusform>%n chat</numerusform>
-            <numerusform>%n chaty</numerusform>
-            <numerusform>%n chatów</numerusform>
-        </translation>
-    </message>
-    <message numerus="yes">
-        <location line="+0"/>
-        <source>%n message(s)</source>
-        <translation>
-            <numerusform>%n wiadomość</numerusform>
-            <numerusform>%n wiadomości</numerusform>
-            <numerusform>%n wiadomości</numerusform>
-        </translation>
-    </message>
-    <message>
-        <location line="+16"/>
-        <source>Message</source>
-        <translation>Wiadomość</translation>
-    </message>
-</context>
-<context>
-    <name>Kitty::DesktopFragmentDialog</name>
-    <message>
-        <location filename="../src/widgets/DesktopFragmentDialog.cpp" line="+48"/>
-        <source>Moving/Resizing</source>
-        <translation>Przenoszenie/Zmiana rozmiaru</translation>
-    </message>
-    <message>
-        <location line="+7"/>
-        <source>Painting</source>
-        <translation>Rysowanie</translation>
-    </message>
-    <message>
-        <location line="+6"/>
-        <source>Cancel</source>
-        <translation>Anuluj</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Accept</source>
-        <translation>Akceptuj</translation>
-    </message>
-    <message>
-        <location line="+6"/>
-        <source>Pen</source>
-        <translation>Pędzel</translation>
-    </message>
-    <message>
-        <location line="+12"/>
-        <source>Painting color</source>
-        <translation>Kolor rysowania</translation>
-    </message>
-    <message>
-        <location line="+7"/>
-        <source>Eraser</source>
-        <translation>Gumka</translation>
-    </message>
-    <message>
-        <location line="+6"/>
-        <source>Clear</source>
-        <translation>Wyczyść</translation>
-    </message>
-    <message>
-        <location line="+94"/>
-        <source>Double-click to accept, right-click to select again.</source>
-        <translation>Kliknij dwukrotnie by akceptować, kliknij prawym przyciskiem by wybrać nowy obszar.</translation>
-    </message>
-    <message>
-        <location line="+32"/>
-        <source>Start draging with left mouse button to select or right-click to cancel.</source>
-        <translation>Zacznij przeciąganie by zaznaczyć lub kliknij prawym przyciskiem by anulować.</translation>
-    </message>
-</context>
-<context>
-    <name>MainWindowSettings</name>
-    <message>
-        <location filename="../src/widgets/settingpages/MainWindowSettings.ui"/>
-        <location filename="../src/ui_MainWindowSettings.h" line="+173"/>
-        <source>Main Window</source>
-        <translation>Okno główne</translation>
-    </message>
-    <message>
-        <location/>
-        <location filename="../src/ui_MainWindowSettings.h" line="+2"/>
-        <source>Always on top</source>
-        <translation>Zawsze na wierzchu</translation>
-    </message>
-    <message>
-        <location/>
-        <location filename="../src/ui_MainWindowSettings.h" line="+1"/>
-        <source>Transparency:</source>
-        <translation>Przezroczystość:</translation>
-    </message>
-    <message>
-        <location/>
-        <location filename="../src/ui_MainWindowSettings.h" line="+1"/>
-        <source>Autohide after:</source>
-        <translation>Automatycznie chowaj po:</translation>
-    </message>
-    <message>
-        <location/>
-        <location filename="../src/ui_MainWindowSettings.h" line="+1"/>
-        <source>0 sec</source>
-        <translation>0 sek</translation>
-    </message>
-    <message>
-        <location/>
-        <location filename="../src/ui_MainWindowSettings.h" line="+1"/>
-        <source>120 sec</source>
-        <translation>120 sek</translation>
-    </message>
-    <message>
-        <location/>
-        <location filename="../src/ui_MainWindowSettings.h" line="+1"/>
-        <source>Docking</source>
-        <translation>Dokowanie</translation>
-    </message>
-    <message>
-        <location/>
-        <location filename="../src/ui_MainWindowSettings.h" line="+1"/>
-        <source>When closer than:</source>
-        <translation>Gdy bliżej niż:</translation>
-    </message>
-    <message>
-        <location/>
-        <location filename="../src/ui_MainWindowSettings.h" line="+1"/>
-        <source> px</source>
-        <translation> px</translation>
-    </message>
-    <message>
-        <location/>
-        <location filename="../src/ui_MainWindowSettings.h" line="+1"/>
-        <source>Dock to desktop edges</source>
-        <translation>Dokuj do krawędzi pulpitu</translation>
-    </message>
-</context>
-<context>
-    <name>ChatWindowEditSettings</name>
-    <message>
-        <location filename="../src/widgets/settingpages/ChatWindowEditSettings.ui"/>
-        <location filename="../src/ui_ChatEditSettings.h" line="+39"/>
-        <location filename="../src/ui_ChatWindowEditSettings.h" line="+187"/>
-        <source>Message field</source>
-        <translation>Pole wiadomości</translation>
-    </message>
-    <message>
-        <location/>
-        <location filename="../src/ui_ChatWindowEditSettings.h" line="+2"/>
-        <source>Minimum height:</source>
-        <translation>Minimalna wysokość:</translation>
-    </message>
-    <message>
-        <location/>
-        <location filename="../src/ui_ChatWindowEditSettings.h" line="+1"/>
-        <source> rows</source>
-        <translation> wierszy</translation>
-    </message>
-    <message>
-        <location/>
-        <location filename="../src/ui_ChatWindowEditSettings.h" line="+1"/>
-        <source>Font</source>
-        <translation>Czcionka</translation>
-    </message>
-    <message>
-        <location/>
-        <location filename="../src/ui_ChatWindowEditSettings.h" line="+1"/>
-        <source>Antialiasing</source>
-        <translation>Wygładzanie</translation>
-    </message>
-    <message>
-        <location/>
-        <location filename="../src/ui_ChatWindowEditSettings.h" line="+1"/>
-        <source>Family:</source>
-        <translation>Krój:</translation>
-    </message>
-    <message>
-        <location/>
-        <location filename="../src/ui_ChatWindowEditSettings.h" line="+1"/>
-        <source>Size:</source>
-        <translation>Rozmiar:</translation>
-    </message>
-    <message>
-        <location/>
-        <location filename="../src/ui_ChatWindowEditSettings.h" line="+1"/>
-        <source>Spell checker</source>
-        <translation>Sprawdzanie pisowni</translation>
-    </message>
-    <message>
-        <location/>
-        <location filename="../src/ui_ChatWindowEditSettings.h" line="+1"/>
-        <source>Check spelling</source>
-        <translation>Sprawdzaj pisownię</translation>
-    </message>
-    <message>
-        <location/>
-        <location filename="../src/ui_ChatWindowEditSettings.h" line="+1"/>
-        <source>Dictionary:</source>
-        <translation>Słownik:</translation>
-    </message>
-    <message>
-        <location/>
-        <location filename="../src/ui_ChatWindowEditSettings.h" line="+1"/>
-        <source>Suggestion limit (0 - unlimited):</source>
-        <translation>Limit podpowiedzi (0 - bez limitu):</translation>
-    </message>
-</context>
-<context>
-    <name>Kitty::ChatWindowEditSettings</name>
-    <message>
-        <location filename="../src/widgets/settingpages/ChatWindowEditSettings.cpp" line="+68"/>
-        <source>None</source>
-        <translation>Brak</translation>
-    </message>
-</context>
-<context>
-    <name>Kitty::ContactManager</name>
-    <message>
-        <location filename="../src/ContactManager.cpp" line="+228"/>
-        <source>changed hers description</source>
-        <translation>zmieniła opis</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>changed his description</source>
-        <translation>zmienił opis</translation>
-    </message>
-    <message>
-        <location line="+17"/>
-        <source>is online</source>
-        <comment>female</comment>
-        <translation>jest dostępna</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>is online</source>
-        <comment>male</comment>
-        <translation>jest dostępny</translation>
-    </message>
-    <message>
-        <location line="+8"/>
-        <source>is away</source>
-        <comment>female</comment>
-        <translation>zaraz wraca</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>is away</source>
-        <comment>male</comment>
-        <translation>zaraz wraca</translation>
-    </message>
-    <message>
-        <location line="+8"/>
-        <source>is free for chat</source>
-        <comment>female</comment>
-        <translation>jest chętna do rozmowy</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>is free for chat</source>
-        <comment>male</comment>
-        <translation>jest chętny do rozmowy</translation>
-    </message>
-    <message>
-        <location line="+8"/>
-        <source>shouldn&apos;t be disturbed</source>
-        <comment>female</comment>
-        <translation>jest zajęta</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>shouldn&apos;t be disturbed</source>
-        <comment>male</comment>
-        <translation>jest zajęty</translation>
-    </message>
-    <message>
-        <location line="+8"/>
-        <source>is offline</source>
-        <comment>female</comment>
-        <translation>jest niedostępna</translation>
-    </message>
-    <message>
-        <location line="+2"/>
-        <source>is offline</source>
-        <comment>male</comment>
-        <translation>jest niedostępny</translation>
-    </message>
-    <message>
-        <location line="+6"/>
-        <source>is wtf</source>
-        <translation>co do ^#$@</translation>
-    </message>
-</context>
-<context>
-    <name>PluginErrorWindow</name>
-    <message>
-        <location filename="../src/widgets/windows/PluginErrorWindow.ui"/>
-        <location filename="../src/ui_PluginErrorWindow.h" line="+74"/>
-        <source>Plugin problems</source>
-        <translation>Problemy z wtyczkami</translation>
-    </message>
-    <message>
-        <location/>
-        <location filename="../src/ui_PluginErrorWindow.h" line="+1"/>
-        <source>The following plugins had problems loading:</source>
-        <translation>Następujące wtyczki miały problemy z załadowaniem:</translation>
-    </message>
-    <message>
-        <location/>
-        <location filename="../src/ui_PluginErrorWindow.h" line="+1"/>
-        <source>More info:</source>
-        <translation>Więcej informacji:</translation>
-    </message>
-</context>
-<context>
-    <name>Kitty::ChatManager</name>
-    <message>
-        <location filename="../src/ChatManager.cpp" line="+153"/>
-        <source>Message from</source>
-        <translation>Wiadomość od</translation>
     </message>
 </context>
 </TS>

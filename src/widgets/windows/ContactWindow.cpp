@@ -27,12 +27,17 @@ ContactWindow::ContactWindow(Core *core, KittySDK::IContact *cnt, QWidget *paren
 	m_contact(cnt)
 {
 	m_ui->setupUi(this);
+	m_ui->temporaryLabel->hide();
 
 	setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
 	setAttribute(Qt::WA_DeleteOnClose);
 
 	if(cnt) {
 		setWindowTitle(tr("Edit contact") + ": " + cnt->display());
+
+		if(cnt->data(KittySDK::ContactInfos::I_TEMPORARY).toBool()) {
+			m_ui->temporaryLabel->show();
+		}
 	} else {
 		setWindowTitle(tr("Add contact"));
 	}
@@ -100,6 +105,11 @@ void ContactWindow::on_buttonBox_accepted()
 		} else {
 			return;
 		}
+	}
+
+	//un-temporary
+	if(m_contact->data(KittySDK::ContactInfos::I_TEMPORARY).toBool()) {
+		m_contact->setData(KittySDK::ContactInfos::I_TEMPORARY, false);
 	}
 
 	//general

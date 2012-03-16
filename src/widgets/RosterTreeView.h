@@ -32,6 +32,7 @@ namespace Kitty
 			void copyDescription();
 			void moveToGroup();
 			void showVCard();
+			void addToRoster();
 			void showHistory();
 			void openURL();
 

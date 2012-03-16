@@ -147,4 +147,17 @@ QVariant RosterContact::data(int role) const
 	}
 }
 
+void RosterContact::setData(const QVariant &value, int role)
+{
+	switch(role) {
+		case RosterItem::TemporaryRole:
+			m_contact->setData(KittySDK::ContactInfos::I_TEMPORARY, value);
+		break;
+
+		default:
+			RosterItem::setData(value, role);
+		break;
+	}
+}
+
 }

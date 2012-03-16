@@ -212,6 +212,24 @@ void RosterTreeView::showVCard()
 	}
 }
 
+void RosterTreeView::addToRoster()
+{
+	QModelIndexList list = selectedIndexes();
+
+	if(RosterSortProxy* proxy = dynamic_cast<RosterSortProxy*>(model())) {
+		foreach(QModelIndex index, list) {
+			QModelIndex idx = proxy->mapToSource(index);
+			if(idx.data(RosterItem::TypeRole) == RosterItem::Contact) {
+				if(RosterContact *cnt = static_cast<RosterContact*>(idx.internalPointer())) {
+					if(cnt->data(RosterItem::TemporaryRole).toBool()) {
+						cnt->setData(false, RosterItem::TemporaryRole);
+					}
+				}
+			}
+		}
+	}
+}
+
 void RosterTreeView::showHistory()
 {
 	QModelIndexList list = selectedIndexes();
@@ -330,6 +348,10 @@ void RosterTreeView::mousePressEvent(QMouseEvent *event)
 					}
 
 					menu.addSeparator();
+
+					if(index.data(RosterItem::TemporaryRole).toBool()) {
+						menu.addAction(tr("Add to roster"), this, SLOT(addToRoster()));
+					}
 
 					menu.addAction(Core::inst()->icon(KittySDK::Icons::I_HISTORY), tr("History"), this, SLOT(showHistory()));
 					menu.addAction(Core::inst()->icon(KittySDK::Icons::I_PROFILE), tr("vCard"), this, SLOT(showVCard()));

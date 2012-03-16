@@ -26,7 +26,7 @@ namespace Kitty
 			KittySDK::IContact *contact() const { return m_contact; }
 
 			QVariant data(int role = Qt::UserRole + 1) const;
-
+			void setData(const QVariant &value, int role = Qt::UserRole + 1);
 
 		private:
 			KittySDK::IContact *m_contact;
