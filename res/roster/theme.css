@@ -2,7 +2,6 @@
 QTreeView {
   color: #000000;
   selection-color: #000000;
-  font-family: Tahoma;
 }
 
 QTreeView::item {

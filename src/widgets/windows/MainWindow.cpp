@@ -101,7 +101,8 @@ MainWindow::MainWindow(Core *core, QWidget *parent):
 	m_ui->networksToolBar->setMovable(m_core->setting(QString("%1.%2").arg(KittySDK::Settings::S_MAINWINDOW_TB_LOCKS).arg(KittySDK::Toolbars::TB_NETWORKS), true).toBool());
 	m_ui->pluginsToolBar->setMovable(m_core->setting(QString("%1.%2").arg(KittySDK::Settings::S_MAINWINDOW_TB_LOCKS).arg(KittySDK::Toolbars::TB_PLUGINS), true).toBool());
 
-	applySettings();
+	//styleSheet bug workaround
+	QTimer::singleShot(0, this, SLOT(applySettings()));
 }
 
 MainWindow::~MainWindow()

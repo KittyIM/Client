@@ -30,6 +30,8 @@ void RosterItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 		avatarPos = 0;
 	}
 
+	painter->save();
+
 	QStyleOptionViewItemV4 vopt = option;
 	initStyleOption(&vopt, index);
 
@@ -69,11 +71,9 @@ void RosterItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 		painter->setPen(vopt.palette.color(cg, QPalette::Text));
 	}
 
-	QFont normalFont = painter->font();
-	QFont boldFont = painter->font();
+	QFont normalFont = vopt.font;
+	QFont boldFont = vopt.font;
 	boldFont.setBold(true);
-
-	qDebug() << normalFont;
 
 	if(type == RosterItem::Group) {
 		painter->setFont(boldFont);
@@ -120,7 +120,7 @@ void RosterItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 
 				if(width > 0) {
 					QFont font = normalFont;
-					font.setPointSize(font.pointSize() - 1);
+					font.setPointSize(font.pointSize() - 2);
 					painter->setFont(font);
 
 					painter->drawText(QRect(textRect.x() + (textRect.width() - width), textRect.top(), width - 5, textRect.height()), Qt::AlignVCenter | Qt::AlignRight | Qt::TextSingleLine, painter->fontMetrics().elidedText(description, Qt::ElideRight, width - 5));
@@ -157,6 +157,8 @@ void RosterItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
 			}
 		}
 	}
+
+	painter->restore();
 }
 
 QSize RosterItemDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
