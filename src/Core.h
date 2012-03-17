@@ -113,6 +113,10 @@ namespace Kitty
 			void openProfilesFolder();
 			void showContactWindow(KittySDK::IContact *cnt);
 
+		signals:
+			void settingsApplied();
+			void languageChanged();
+
 		private:
 			Core();
 

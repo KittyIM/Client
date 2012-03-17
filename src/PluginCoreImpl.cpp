@@ -82,7 +82,7 @@ QString PluginCoreImpl::jsonStringify(const QVariant &json, int indent)
 
 void PluginCoreImpl::addSettingPage(KittySDK::ISettingsPage *page, const QString &parent)
 {
-	m_core->settingsWindow()->addPage(page, parent);
+	m_core->pluginManager()->addSettingsPage(page, parent);
 }
 
 void PluginCoreImpl::addToolbarAction(const QString &tb, QAction *action)

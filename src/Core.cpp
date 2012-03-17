@@ -22,6 +22,7 @@
 #include "IconManager.h"
 #include "constants.h"
 #include "Profile.h"
+#include "App.h"
 
 #include <SDKConstants.h>
 #include <IMessage.h>
@@ -60,6 +61,9 @@ Core::Core()
 
 	m_restart = false;
 	m_portable = false;
+
+	connect(this, SIGNAL(languageChanged()), dynamic_cast<App*>(qApp), SLOT(retranslate()));
+	connect(this, SIGNAL(settingsApplied()), dynamic_cast<App*>(qApp), SLOT(applySettings()));
 }
 
 Core::~Core()
@@ -186,6 +190,7 @@ MainWindow *Core::mainWindow()
 {
 	if(!m_mainWindow) {
 		m_mainWindow = new MainWindow(this);
+		connect(this, SIGNAL(settingsApplied()), m_mainWindow, SLOT(applySettings()));
 	}
 
 	return m_mainWindow;
@@ -222,6 +227,8 @@ SettingsWindow *Core::settingsWindow()
 {
 	if(!m_settingsWindow) {
 		m_settingsWindow = new SettingsWindow(this);
+		connect(m_settingsWindow, SIGNAL(settingsApplied()), SIGNAL(settingsApplied()));
+		connect(m_settingsWindow, SIGNAL(languageChanged()), SIGNAL(languageChanged()));
 	}
 
 	return m_settingsWindow;

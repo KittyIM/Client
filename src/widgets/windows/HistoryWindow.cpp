@@ -75,7 +75,7 @@ HistoryWindow::HistoryWindow(Core *core, QWidget *parent):
 	m_ui->contactTree->setModel(m_proxy);
 
 	connect(m_core->iconManager(), SIGNAL(iconsUpdated()), SLOT(updateIcons()));
-	connect(m_core->settingsWindow(), SIGNAL(settingsApplied()), SLOT(applySettings()));
+	connect(m_core, SIGNAL(settingsApplied()), SLOT(applySettings()));
 	connect(m_ui->contactTree->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)), SLOT(loadChats(QItemSelection,QItemSelection)));
 	connect(m_ui->contactSearchEdit, SIGNAL(textChanged(QString)), SLOT(filterContacts(QString)));
 	connect(m_ui->filtersButton, SIGNAL(toggled(bool)), SLOT(toggleFilters(bool)));

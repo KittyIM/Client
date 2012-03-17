@@ -7,6 +7,7 @@
 #include "ChatManager.h"
 #include "Core.h"
 
+#include <ISettingsPage.h>
 #include <SDKConstants.h>
 #include <IProtocol.h>
 
@@ -182,7 +183,7 @@ PluginManager::PluginManager(Core *core):
 	m_pluginCore(0)
 {
 	connect(this, SIGNAL(allLoaded()), SLOT(updateLanguages()));
-	connect(m_core->settingsWindow(), SIGNAL(languageChanged()), SLOT(updateLanguages()));
+	connect(m_core, SIGNAL(languageChanged()), SLOT(updateLanguages()));
 }
 
 void PluginManager::updateLanguages()
@@ -232,6 +233,20 @@ Plugin *PluginManager::pluginByFileName(const QString &fileName) const
 	}
 
 	return 0;
+}
+
+const QMap<KittySDK::ISettingsPage *, QString> &PluginManager::settingsPages() const
+{
+	return m_settingsPages;
+}
+
+void PluginManager::addSettingsPage(KittySDK::ISettingsPage *page, const QString &parent)
+{
+	m_settingsPages.insert(page, parent);
+
+	page->setProperty("plugin", true);
+
+	emit settingsPageAdded(page, parent);
 }
 
 bool PluginManager::hasError() const

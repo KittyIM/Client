@@ -52,6 +52,9 @@ namespace Kitty
 			Plugin *pluginById(const QString &id) const;
 			Plugin *pluginByFileName(const QString &fileName) const;
 
+			const QMap<KittySDK::ISettingsPage*, QString> &settingsPages() const;
+			void addSettingsPage(KittySDK::ISettingsPage *page, const QString &parent);
+
 			bool hasError() const;
 
 			void execAction(const QString &pluginId, const QString &name, const QMap<QString, QVariant> &args);
@@ -60,12 +63,14 @@ namespace Kitty
 
 		signals:
 			void allLoaded();
+			void settingsPageAdded(KittySDK::ISettingsPage *page, const QString &parent);
 
 		private slots:
 			void updateLanguages();
 
 		private:
 			QList<Plugin*> m_plugins;
+			QMap<KittySDK::ISettingsPage*, QString> m_settingsPages;
 			Core *m_core;
 			PluginCoreImpl *m_pluginCore;
 	};

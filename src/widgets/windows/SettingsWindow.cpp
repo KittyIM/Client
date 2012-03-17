@@ -16,6 +16,7 @@
 #include "widgets/settingpages/ThemesSettings.h"
 #include "widgets/settingpages/MainSettings.h"
 #include "widgets/settingpages/UserSettings.h"
+#include "PluginManager.h"
 #include "IconManager.h"
 #include "MainWindow.h"
 #include "Core.h"
@@ -44,26 +45,32 @@ SettingsWindow::SettingsWindow(Core *core, QWidget *parent):
 
 	connect(m_ui->buttonBox->button(QDialogButtonBox::Apply), SIGNAL(clicked()), this, SLOT(applySettings()));
 	connect(m_core->iconManager(), SIGNAL(iconsUpdated()), this, SLOT(updateIcons()));
+	connect(m_core->pluginManager(), SIGNAL(settingsPageAdded(KittySDK::ISettingsPage*,QString)), SLOT(addPage(KittySDK::ISettingsPage*,QString)));
 
 	setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
+	setAttribute(Qt::WA_DeleteOnClose);
 
 	//qDebug() << "Creating";
-	connect(this, SIGNAL(languageChanged()), dynamic_cast<App*>(qApp), SLOT(retranslate()));
-	connect(this, SIGNAL(settingsApplied()), dynamic_cast<App*>(qApp), SLOT(applySettings()));
-	connect(this, SIGNAL(settingsApplied()), m_core->mainWindow(), SLOT(applySettings()));
 
 	restoreGeometry(m_core->setting(KittySDK::Settings::S_SETTINGSWINDOW_GEOMETRY).toByteArray());
 
 	addDefaultPages();
+	addPluginPages();
 
 	updateIcons();
 }
 
 SettingsWindow::~SettingsWindow()
 {
+	//qDebug() << "Destroying";
+
 	m_core->setSetting(KittySDK::Settings::S_SETTINGSWINDOW_GEOMETRY, saveGeometry());
 
-	qDeleteAll(m_pages);
+	foreach(KittySDK::ISettingsPage *page, m_pages) {
+		if(page->property("plugin").toBool()) {
+			page->setParent(0);
+		}
+	}
 
 	delete m_ui;
 }
@@ -135,7 +142,7 @@ void SettingsWindow::updateIcons()
 
 void SettingsWindow::resetSettings()
 {
-	qDebug() << "Resetting all pages [" << m_pages.count() << "]";
+	//qDebug() << "Resetting all pages [" << m_pages.count() << "]";
 	foreach(KittySDK::ISettingsPage *page, m_pages) {
 		page->reset();
 	}
@@ -165,6 +172,16 @@ void SettingsWindow::addDefaultPages()
 	addPage(new PluginsSettings(m_core, this));
 }
 
+void SettingsWindow::addPluginPages()
+{
+	QMapIterator<KittySDK::ISettingsPage*, QString> it(m_core->pluginManager()->settingsPages());
+	while(it.hasNext()) {
+		it.next();
+
+		addPage(it.key(), it.value());
+	}
+}
+
 void SettingsWindow::showEvent(QShowEvent *event)
 {
 	QDialog::showEvent(event);
@@ -175,6 +192,7 @@ void SettingsWindow::showEvent(QShowEvent *event)
 	if(m_ui->treeWidget->topLevelItemCount()) {
 		m_ui->treeWidget->setCurrentItem(m_ui->treeWidget->topLevelItem(0));
 	}
+
 	m_ui->buttonBox->setFocus();
 }
 
@@ -208,13 +226,13 @@ void SettingsWindow::on_treeWidget_currentItemChanged(QTreeWidgetItem *current, 
 			}
 		}
 
-		qDebug() << "Page not found" << current->text(1);
+		//qDebug() << "Page not found" << current->text(1);
 	}
 }
 
 void SettingsWindow::applySettings()
 {
-	qDebug() << "Applying all pages [" << m_pages.count() << "]";
+	//qDebug() << "Applying all pages [" << m_pages.count() << "]";
 
 	QString lang = m_core->setting(KittySDK::Settings::S_LANGUAGE).toString();
 
@@ -233,11 +251,6 @@ void SettingsWindow::on_buttonBox_accepted()
 {
 	applySettings();
 	accept();
-}
-
-void SettingsWindow::on_buttonBox_rejected()
-{
-	reject();
 }
 
 }

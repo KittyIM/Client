@@ -8,6 +8,7 @@
 *object_script.*
 *.exe
 *.dll
+*.moc
 /build.*
 /bin/profiles/*
 /bin/emoticons/*

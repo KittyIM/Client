@@ -30,8 +30,8 @@ ChatWindow::ChatWindow(Core *core, QWidget *parent):
 	m_ui->setupUi(this);
 
 	connect(m_core->iconManager(), SIGNAL(iconsUpdated()), m_ui->tabWidget, SLOT(updateIcons()));
-	connect(m_core->settingsWindow(), SIGNAL(settingsApplied()), SLOT(applySettings()));
-	connect(m_core->settingsWindow(), SIGNAL(settingsApplied()), m_ui->tabWidget, SLOT(applySettings()));
+	connect(m_core, SIGNAL(settingsApplied()), SLOT(applySettings()));
+	connect(m_core, SIGNAL(settingsApplied()), m_ui->tabWidget, SLOT(applySettings()));
 
 	qDebug() << "Creating";
 

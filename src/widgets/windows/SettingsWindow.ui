@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>598</width>
-    <height>517</height>
+    <height>342</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -103,5 +103,22 @@
  <resources>
   <include location="../../../res/res.qrc"/>
  </resources>
- <connections/>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>SettingsWindow</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>389</x>
+     <y>322</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>284</x>
+     <y>311</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>
