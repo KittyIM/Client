@@ -28,7 +28,7 @@ void RosterItem::appendChild(RosterItem *item)
 
 void RosterItem::removeChild(RosterItem *item)
 {
-	m_children.removeAll(item);
+	m_children.removeOne(item);
 }
 
 RosterItem *RosterItem::child(int row)

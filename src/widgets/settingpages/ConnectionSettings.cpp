@@ -26,6 +26,10 @@ ConnectionSettings::~ConnectionSettings()
 
 void ConnectionSettings::apply()
 {
+	m_core->setSetting(KittySDK::Settings::S_RECONNECT, m_ui->reconnectCheckBox->isChecked());
+	m_core->setSetting(KittySDK::Settings::S_WAKEUP_CONNECT, m_ui->wakeUpReconnectCheckBox->isChecked());
+	m_core->setSetting(KittySDK::Settings::S_SLEEP_DISCONNECT, m_ui->sleepDisconnectCheckBox->isChecked());
+
 	m_core->setSetting(KittySDK::Settings::S_PROXY_ENABLED, m_ui->proxyCheckBox->isChecked());
 	m_core->setSetting(KittySDK::Settings::S_PROXY_SERVER, m_ui->serverEdit->text());
 	m_core->setSetting(KittySDK::Settings::S_PROXY_PORT, m_ui->portEdit->value());
@@ -36,6 +40,10 @@ void ConnectionSettings::apply()
 
 void ConnectionSettings::reset()
 {
+	m_ui->reconnectCheckBox->setChecked(m_core->setting(KittySDK::Settings::S_RECONNECT, true).toBool());
+	m_ui->wakeUpReconnectCheckBox->setChecked(m_core->setting(KittySDK::Settings::S_WAKEUP_CONNECT).toBool());
+	m_ui->sleepDisconnectCheckBox->setChecked(m_core->setting(KittySDK::Settings::S_SLEEP_DISCONNECT).toBool());
+
 	m_ui->proxyCheckBox->setChecked(m_core->setting(KittySDK::Settings::S_PROXY_ENABLED).toBool());
 	m_ui->serverEdit->setText(m_core->setting(KittySDK::Settings::S_PROXY_SERVER).toString());
 	m_ui->portEdit->setValue(m_core->setting(KittySDK::Settings::S_PROXY_PORT, 8080).toInt());

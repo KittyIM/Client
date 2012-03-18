@@ -559,7 +559,7 @@ void MainWindow::blinkTrayIcon()
 
 void MainWindow::maybeUnblink(const quint32 &msgId)
 {
-	m_blinkQueue.removeAll(msgId);
+	m_blinkQueue.removeOne(msgId);
 
 	if(!m_blinkQueue.count()) {
 		resetTrayIcon();

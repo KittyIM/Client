@@ -122,7 +122,7 @@ void StatusTextWidget::setText(const QString &text)
 void StatusTextWidget::changeText()
 {
 	if(!text().isEmpty()) {
-		m_history.removeAll(text());
+		m_history.removeOne(text());
 		m_history.prepend(text());
 	}
 

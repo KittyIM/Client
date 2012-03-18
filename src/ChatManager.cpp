@@ -182,8 +182,10 @@ void ChatManager::receiveMessage(KittySDK::IMessage &msg)
 			m_core->pluginManager()->execAction("notify", "addNotify", notifyArgs);
 		}
 
-		//let the music play!
-		m_core->pluginManager()->execAction("sounds", "playSound", soundsArgs);
+		//let the music play! (not for System messages tho)
+		if(msg.direction() == KittySDK::IMessage::Incoming) {
+			m_core->pluginManager()->execAction("sounds", "playSound", soundsArgs);
+		}
 
 		//show the window
 		ChatTab *tab = chatWindow->startChat(ch);

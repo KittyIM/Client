@@ -32,6 +32,9 @@
      <property name="pixmap">
       <pixmap resource="../../../res/res.qrc">:/images/kitty_logo.png</pixmap>
      </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
     </widget>
    </item>
    <item row="1" column="0">

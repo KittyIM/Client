@@ -137,7 +137,7 @@ ChatTab *ChatTabWidget::startChat(KittySDK::IChat *chat)
 	}
 
 	//remove the chat from recently closed tabs
-	m_closedTabs.removeAll(chat);
+	m_closedTabs.removeOne(chat);
 	if(m_closedTabs.count() == 0) {
 		m_closedButton->setEnabled(false);
 	}
@@ -383,14 +383,14 @@ void ChatTabWidget::switchTo(KittySDK::IChat *chat)
 	}
 
 	setCurrentIndex(index);
-	m_closedTabs.removeAll(chat);
+	m_closedTabs.removeOne(chat);
 	m_closedButton->setEnabled(m_closedTabs.count());
 }
 
 void ChatTabWidget::removeTab(int index)
 {
 	if(ChatTab *tab = qobject_cast<ChatTab*>(widget(index))) {
-		m_closedTabs.removeAll(tab->chat());
+		m_closedTabs.removeOne(tab->chat());
 		m_closedTabs.append(tab->chat());
 		m_closedButton->setEnabled(true);
 	}

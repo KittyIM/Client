@@ -22,28 +22,28 @@
      <property name="title">
       <string/>
      </property>
-     <layout class="QFormLayout" name="formLayout">
-      <property name="fieldGrowthPolicy">
-       <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
-      </property>
-      <item row="0" column="0">
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <item>
        <widget class="QCheckBox" name="sleepDisconnectCheckBox">
         <property name="text">
          <string>Disconnect when going to sleep</string>
         </property>
        </widget>
       </item>
-      <item row="1" column="0">
+      <item>
        <widget class="QCheckBox" name="wakeUpReconnectCheckBox">
         <property name="text">
          <string>Reconnect on wake up</string>
         </property>
        </widget>
       </item>
-      <item row="2" column="0">
+      <item>
        <widget class="QCheckBox" name="reconnectCheckBox">
         <property name="text">
          <string>Reconnect after loosing connection</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
