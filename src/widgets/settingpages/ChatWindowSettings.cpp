@@ -50,7 +50,6 @@ void ChatWindowSettings::reset()
 	m_ui->clearMessagesAmountSpinBox->setValue(m_core->setting(KittySDK::Settings::S_CHATWINDOW_CLEAR_MESSAGES).toInt());
 	m_ui->clearMinutesAmountSpinBox->setValue(m_core->setting(KittySDK::Settings::S_CHATWINDOW_CLEAR_INTERVAL).toInt());
 	m_ui->toolbarPositionComboBox->setCurrentIndex(m_core->setting(KittySDK::Settings::S_CHATWINDOW_TOOLBAR_POS, 1).toInt());
-
 }
 
 void ChatWindowSettings::retranslate()

@@ -5,7 +5,7 @@
     <name>AboutWindow</name>
     <message>
         <location filename="../src/widgets/windows/AboutWindow.ui"/>
-        <location filename="../src/ui_AboutWindow.h" line="+73"/>
+        <location filename="../src/ui_AboutWindow.h" line="+74"/>
         <location filename="../win64/src/ui_AboutWindow.h" line="+72"/>
         <source>About</source>
         <translation>O</translation>
@@ -1149,47 +1149,47 @@
     <name>Kitty::ChatTab</name>
     <message>
         <location filename="../src/widgets/ChatTab.cpp" line="+88"/>
-        <location line="+455"/>
+        <location line="+467"/>
         <source>Bold</source>
         <translation>Pogrubienie</translation>
     </message>
     <message>
-        <location line="-448"/>
-        <location line="+452"/>
+        <location line="-460"/>
+        <location line="+464"/>
         <source>Italic</source>
         <translation>Pochylenie</translation>
     </message>
     <message>
-        <location line="-445"/>
-        <location line="+449"/>
+        <location line="-457"/>
+        <location line="+461"/>
         <source>Underline</source>
         <translation>Podkreślenie</translation>
     </message>
     <message>
-        <location line="-442"/>
+        <location line="-454"/>
         <source>Strikethrough</source>
         <translation>Przekreślenie</translation>
     </message>
     <message>
         <location line="+10"/>
-        <location line="+440"/>
+        <location line="+452"/>
         <source>Color</source>
         <translation>Kolor</translation>
     </message>
     <message>
-        <location line="-436"/>
-        <location line="+440"/>
+        <location line="-448"/>
+        <location line="+452"/>
         <source>Smilies</source>
         <translation>Emotikonki</translation>
     </message>
     <message>
-        <location line="-432"/>
-        <location line="+436"/>
+        <location line="-444"/>
+        <location line="+448"/>
         <source>Send image</source>
         <translation>Wyślij obrazek</translation>
     </message>
     <message>
-        <location line="-431"/>
+        <location line="-443"/>
         <source>From file...</source>
         <translation>Z pliku...</translation>
     </message>
@@ -1220,23 +1220,23 @@
     </message>
     <message>
         <location line="+10"/>
-        <location line="+401"/>
+        <location line="+413"/>
         <source>Send file</source>
         <translation>Wyślij plik</translation>
     </message>
     <message>
-        <location line="-393"/>
+        <location line="-405"/>
         <source>vCard</source>
         <translation>Profil</translation>
     </message>
     <message>
         <location line="+3"/>
-        <location line="+398"/>
+        <location line="+410"/>
         <source>History</source>
         <translation>Historia</translation>
     </message>
     <message>
-        <location line="-391"/>
+        <location line="-403"/>
         <location line="+63"/>
         <source>Contact is not typing</source>
         <translation>Kontakt nie pisze</translation>
@@ -1257,7 +1257,12 @@
         <translation>Obrazki</translation>
     </message>
     <message>
-        <location line="+160"/>
+        <location line="+145"/>
+        <source>changes status to</source>
+        <translation>zmienia status na</translation>
+    </message>
+    <message>
+        <location line="+27"/>
         <source>Striketrough</source>
         <translation>Przekreślenie</translation>
     </message>
@@ -1531,7 +1536,7 @@
 <context>
     <name>Kitty::Core</name>
     <message>
-        <location filename="../src/Core.cpp" line="+94"/>
+        <location filename="../src/Core.cpp" line="+98"/>
         <source>Online</source>
         <translation>Dostępny</translation>
     </message>
@@ -2295,7 +2300,7 @@
         <translation>Kontakty</translation>
     </message>
     <message>
-        <location filename="../src/PluginManager.cpp" line="+57"/>
+        <location filename="../src/PluginManager.cpp" line="+58"/>
         <source>Wrong SDK version &quot;%1&quot;, Kitty has &apos;&quot;%2&quot;.</source>
         <translation>Zła wersja SDK &quot;%1&quot;, Kitty posiada &quot;%2&quot;.</translation>
     </message>
@@ -2475,7 +2480,7 @@
     <name>SettingsWindow</name>
     <message>
         <location filename="../src/widgets/windows/SettingsWindow.ui"/>
-        <location filename="../src/ui_SettingsWindow.h" line="+96"/>
+        <location filename="../src/ui_SettingsWindow.h" line="+97"/>
         <location filename="../win64/src/ui_SettingsWindow.h" line="+96"/>
         <source>Settings</source>
         <translation>Ustawienia</translation>

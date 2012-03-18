@@ -531,6 +531,18 @@ void ChatTab::sendImage(const QString &fileName)
 
 void ChatTab::changeStatus(KittySDK::IProtocol::Status status, QString description)
 {
+	if(m_chat->contacts().count() == 1) {
+		if(Core::inst()->setting(KittySDK::Settings::S_CHATWINDOW_STATUS_CHANGES, true).toBool()) {
+			KittySDK::IContact *cnt = m_chat->contacts().first();
+
+			KittySDK::IMessage msg(cnt, m_chat->me());
+			msg.setDirection(KittySDK::IMessage::System);
+			msg.setBody(cnt->display() + " " + tr("changes status to") + " " + Core::inst()->statusToString(status) + (description.length() ? " \"" + description + "\"" : ""));
+
+			m_ui->webView->appendMessage(msg);
+		}
+	}
+
 	emit tabChanged();
 }
 
